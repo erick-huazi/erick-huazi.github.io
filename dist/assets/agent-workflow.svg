@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600" role="img" aria-labelledby="title desc">
+  <title id="title">智能体工作流程示意</title>
+  <desc id="desc">从输入资料、知识检索、任务规划，到工具执行、人工确认与交付结果的六步流程。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M1 1 5.5 3.5 1 6" fill="none" stroke="#173e35" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".65" fill="#173e35" opacity=".1"/></pattern>
+  </defs>
+  <rect width="900" height="600" rx="24" fill="#f6f4eb"/>
+  <rect x="26" y="26" width="848" height="548" rx="16" fill="url(#dots)"/>
+  <g font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif" fill="#173e35">
+    <circle cx="62" cy="56" r="5" fill="#e48c54"/>
+    <text x="78" y="61" font-size="12" letter-spacing="2.2">AGENT WORKFLOW</text>
+    <text x="55" y="111" font-size="31" font-weight="600" letter-spacing="1">从输入，到交付</text>
+    <text x="55" y="140" font-size="13" fill="#62776c">让工具承担重复工作，让人保留关键判断。</text>
+
+    <g fill="none" stroke="#173e35" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)">
+      <path d="M275 243H324"/>
+      <path d="M556 243H605"/>
+      <path d="M727 306V348"/>
+      <path d="M617 423H568"/>
+      <path d="M336 423H287"/>
+    </g>
+
+    <rect x="55" y="180" width="220" height="126" rx="14" fill="#fffef9" stroke="#cbd2c3"/>
+    <text x="77" y="207" font-size="11" font-family="monospace" fill="#728477">01</text>
+    <g fill="none" stroke="#173e35" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M233 199h12l7 7v20h-19zM245 199v8h7M238 213h9M238 218h7"/></g>
+    <text x="77" y="250" font-size="22" font-weight="600">输入资料</text>
+    <text x="77" y="278" font-size="13" fill="#62776c">文档 · 数据 · 需求</text>
+
+    <rect x="336" y="180" width="220" height="126" rx="14" fill="#fffef9" stroke="#cbd2c3"/>
+    <text x="358" y="207" font-size="11" font-family="monospace" fill="#728477">02</text>
+    <g fill="none" stroke="#173e35" stroke-width="1.6" stroke-linecap="round"><circle cx="521" cy="210" r="9"/><path d="m528 217 7 7M517 210h8M521 206v8"/></g>
+    <text x="358" y="250" font-size="22" font-weight="600">知识检索</text>
+    <text x="358" y="278" font-size="13" fill="#62776c">找到相关上下文</text>
+
+    <rect x="617" y="180" width="220" height="126" rx="14" fill="#fffef9" stroke="#cbd2c3"/>
+    <text x="639" y="207" font-size="11" font-family="monospace" fill="#728477">03</text>
+    <g fill="none" stroke="#173e35" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="795" y="199" width="19" height="26" rx="3"/><path d="m799 207 2 2 3-4M807 207h3M799 216h11"/></g>
+    <text x="639" y="250" font-size="22" font-weight="600">任务规划</text>
+    <text x="639" y="278" font-size="13" fill="#62776c">拆解可执行步骤</text>
+
+    <rect x="617" y="360" width="220" height="126" rx="14" fill="#fffef9" stroke="#cbd2c3"/>
+    <text x="639" y="387" font-size="11" font-family="monospace" fill="#728477">04</text>
+    <g fill="none" stroke="#173e35" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m800 384-7 7 7 7M809 384l7 7-7 7M806 381l-4 20"/></g>
+    <text x="639" y="430" font-size="22" font-weight="600">工具执行</text>
+    <text x="639" y="458" font-size="13" fill="#62776c">连接实际业务工具</text>
+
+    <rect x="336" y="360" width="220" height="126" rx="14" fill="#f8e5d6" stroke="#e2b592"/>
+    <text x="358" y="387" font-size="11" font-family="monospace" fill="#906f55">05</text>
+    <g fill="none" stroke="#173e35" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="522" cy="386" r="5"/><path d="M512 403v-3a10 10 0 0 1 20 0v3M530 380l3 3 5-6"/></g>
+    <text x="358" y="430" font-size="22" font-weight="600">人工确认</text>
+    <text x="358" y="458" font-size="13" fill="#796b59">在关键节点保留判断</text>
+
+    <rect x="55" y="360" width="220" height="126" rx="14" fill="#173e35"/>
+    <text x="77" y="387" font-size="11" font-family="monospace" fill="#c8d9bf">06</text>
+    <circle cx="242" cy="391" r="13" fill="#d7e67c"/>
+    <path d="m236 391 4 4 8-8" fill="none" stroke="#173e35" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="77" y="430" font-size="22" font-weight="600" fill="#f6f4eb">交付结果</text>
+    <text x="77" y="458" font-size="13" fill="#d7e4cf">输出可使用的成果</text>
+
+    <path d="M55 533H837" stroke="#cbd2c3"/>
+    <text x="55" y="558" font-size="11" fill="#748274">工作流程示意</text>
+    <text x="837" y="558" text-anchor="end" font-size="11" fill="#748274">具体步骤按业务需求配置</text>
+  </g>
+</svg>

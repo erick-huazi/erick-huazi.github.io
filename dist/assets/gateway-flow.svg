@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600" role="img" aria-labelledby="title desc">
+  <title id="title">统一接口能力结构示意</title>
+  <desc id="desc">应用请求通过统一接口，按任务连接对话模型、知识检索和业务工具等不同能力。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M1 1 5.5 3.5 1 6" fill="none" stroke="#173e35" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".65" fill="#173e35" opacity=".1"/></pattern>
+  </defs>
+  <rect width="900" height="600" rx="24" fill="#f6f4eb"/>
+  <rect x="26" y="26" width="848" height="548" rx="16" fill="url(#dots)"/>
+  <g font-family="'PingFang SC','Microsoft YaHei','Noto Sans CJK SC',sans-serif" fill="#173e35">
+    <circle cx="62" cy="56" r="5" fill="#e48c54"/>
+    <text x="78" y="61" font-size="12" letter-spacing="2.2">ONE INTERFACE · MANY POSSIBILITIES</text>
+    <text x="55" y="111" font-size="31" font-weight="600" letter-spacing="1">一次接入，连接多种能力</text>
+    <text x="55" y="140" font-size="13" fill="#62776c">让应用与能力各司其职，按需求组合。</text>
+
+    <g fill="none" stroke="#173e35" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M235 331H326" marker-end="url(#arrow)"/>
+      <path d="M560 331H611M611 222V440"/>
+      <path d="M611 222H659M611 331H659M611 440H659" marker-end="url(#arrow)"/>
+    </g>
+    <circle cx="611" cy="331" r="5" fill="#d7e67c" stroke="#173e35" stroke-width="1.5"/>
+    <text x="279" y="313" text-anchor="middle" font-size="11" fill="#62776c">发起请求</text>
+
+    <rect x="55" y="267" width="180" height="128" rx="14" fill="#fffef9" stroke="#cbd2c3"/>
+    <g fill="none" stroke="#173e35" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="77" y="286" width="29" height="21" rx="3"/><path d="M88 307v6M83 313h17M81 291h21"/></g>
+    <text x="77" y="345" font-size="22" font-weight="600">应用请求</text>
+    <text x="77" y="373" font-size="12" fill="#62776c">网页 · 系统 · 工作流</text>
+
+    <rect x="340" y="231" width="220" height="200" rx="18" fill="#173e35"/>
+    <rect x="362" y="254" width="39" height="39" rx="10" fill="#d7e67c"/>
+    <g fill="none" stroke="#173e35" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M370 267h23M370 280h23"/><circle cx="378" cy="267" r="3" fill="#d7e67c"/><circle cx="386" cy="280" r="3" fill="#d7e67c"/></g>
+    <text x="362" y="332" font-size="25" font-weight="600" fill="#f6f4eb">统一接口</text>
+    <text x="362" y="359" font-size="12" fill="#d6e1cf">接收请求，协调所需能力</text>
+    <path d="M362 378H538" stroke="#517061"/>
+    <text x="362" y="404" font-size="12" fill="#d7e67c">配置 · 路由 · 连接</text>
+
+    <rect x="673" y="180" width="164" height="84" rx="13" fill="#e8edce" stroke="#bacb91"/>
+    <g fill="none" stroke="#173e35" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M692 202h19v14h-11l-6 4v-4h-2zM697 207h9M697 211h6"/></g>
+    <text x="722" y="216" font-size="18" font-weight="600">对话模型</text>
+    <text x="692" y="244" font-size="12" fill="#62776c">理解、推理与生成</text>
+
+    <rect x="673" y="289" width="164" height="84" rx="13" fill="#fffef9" stroke="#cbd2c3"/>
+    <g fill="none" stroke="#173e35" stroke-width="1.5" stroke-linecap="round"><circle cx="700" cy="319" r="7"/><path d="m706 325 6 6"/></g>
+    <text x="722" y="325" font-size="18" font-weight="600">知识检索</text>
+    <text x="692" y="353" font-size="12" fill="#62776c">连接相关业务资料</text>
+
+    <rect x="673" y="398" width="164" height="84" rx="13" fill="#f8e5d6" stroke="#e2b592"/>
+    <g fill="none" stroke="#173e35" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="692" y="420" width="8" height="8" rx="1.5"/><rect x="704" y="420" width="8" height="8" rx="1.5"/><path d="M696 432v5h12v-5"/></g>
+    <text x="722" y="434" font-size="18" font-weight="600">业务工具</text>
+    <text x="692" y="462" font-size="12" fill="#796b59">执行具体业务动作</text>
+
+    <path d="M55 533H837" stroke="#cbd2c3"/>
+    <text x="55" y="558" font-size="11" fill="#748274">能力结构示意</text>
+    <text x="837" y="558" text-anchor="end" font-size="11" fill="#748274">能力组合按业务需求配置</text>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f3f2e9"/>
+  <g transform="translate(58 45) scale(.82)">
+    <rect width="64" height="64" rx="17" fill="#163b30"/>
+    <path d="M15 17H43V24L28 39H47V47H15V40L30 25H15Z" fill="#f3f2e9"/>
+    <path d="M44 10H54V20Z" fill="#d7ef87"/>
+  </g>
+  <g fill="#163b30" font-family="Microsoft YaHei, sans-serif">
+    <text x="128" y="80" font-size="27" font-weight="600">张建华 / Erick</text>
+    <text x="60" y="227" font-size="72" font-weight="600">让</text>
+    <text x="160" y="228" font-family="Georgia, serif" font-size="91" font-style="italic" fill="#698344">AI</text>
+    <text x="275" y="227" font-size="72">，</text>
+    <text x="58" y="325" font-size="68" font-weight="600" letter-spacing="-2">进入真实业务。</text>
+    <text x="61" y="399" font-size="24">技术出身的 FDE · AI 应用落地</text>
+    <text x="61" y="444" font-size="20" fill="#53634e">7 年互联网与 AI 行业经验 · 美国贝翰文大学 MBA</text>
+    <text x="61" y="574" font-size="16" fill="#53634e">AI 应用 · 智能体 · 自动化</text>
+    <text x="1138" y="574" text-anchor="end" font-size="15" fill="#53634e">微信 ErickX1024 · 176 2198 8864</text>
+  </g>
+  <text x="1138" y="77" text-anchor="end" fill="#627057" font-family="Arial,sans-serif" font-size="12" letter-spacing="2">BUSINESS × TECHNOLOGY</text>
+  <line x1="60" y1="536" x2="1140" y2="536" stroke="#cad3bc"/>
+</svg>

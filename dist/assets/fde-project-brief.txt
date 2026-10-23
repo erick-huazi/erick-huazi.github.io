@@ -1,0 +1,71 @@
+FDE 项目梳理模板 / Erick 张建华
+
+这是本站结合外部学习资料与公开案例整理的讨论模板，可按项目删改。
+
+1. 问题与范围
+使用者是谁：
+当前如何完成任务：
+最希望改善的一件事：
+本次包含 / 不包含：
+
+2. 最小验证
+可使用的数据或资料样例：
+需要连接的工具或系统：
+输入 → 处理 → 输出：
+需要人工确认的步骤：
+
+3. 验收证据
+有代表性的问题与预期结果：
+当前做法的对照基线：
+已知失败样例与适用边界：
+时间、质量与成本如何检查：
+
+4. 使用与交接
+运行说明与负责人：
+异常时如何处理或回退：
+反馈入口与复盘时间：
+下一步迭代依据：
+
+资料来源（更新于 2026-10-23）：
+从 AI 应用，到 FDE 交付
+https://github.com/datawhalechina/ai-learning-roadmap/blob/main/curriculum-v3.0.md#fde-预备路线
+https://github.com/datawhalechina/ai-learning-roadmap
+
+Hello-Agents：让智能体可验证
+https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter12/第十二章%20智能体性能评估.md
+https://github.com/datawhalechina/hello-agents
+
+All-in-RAG：从检索，到有据可查
+https://github.com/datawhalechina/all-in-rag/blob/main/docs/chapter6/19_common_tools.md
+https://github.com/datawhalechina/all-in-rag
+
+让分散的智能体，成为可复用的企业能力
+https://aws.amazon.com/blogs/machine-learning/manage-agents-tools-and-skills-at-scale-with-aws-agent-registry/
+
+把问题处理，接入可验证的支持流程
+https://www.atlassian.com/blog/guides-research/forward-deployed-engineering-playbook
+
+让客服回答，经得起持续验证
+https://claude.com/customers/intercom
+
+让代码助手，进入开发与评审流程
+https://claude.com/customers/rakuten
+
+从维修估价，走向可追踪的 Agent 流程
+https://aws.amazon.com/solutions/case-studies/cox-auto-case-study/
+
+把企业治理，纳入任务分诊的落地
+https://www.atlassian.com/blog/guides-research/forward-deployed-engineering-playbook
+
+从知识治理，切入日常运营
+https://www.atlassian.com/blog/how-we-build/meet-the-forward-deployed-engineer
+
+把领域判断，带进数据智能体
+https://www.amazon.science/publications/encoding-domain-expertise-in-agents-lessons-from-nfl-fantasy-ai
+https://www.aboutamazon.com/news/aws/aws-1-billion-forward-deployed-ai-engineers
+
+让分散数据，形成共同工作视图
+https://www.palantir.com/assets/xrfr7uokpv1b/7uEHPTEM0MkKtBFcx2zh63/9d75da5b76439717ac95135b5012479e/Palantir-Airbus-Partnership_Overview.pdf#page=4
+
+主页：https://erick-huazi.github.io/
+参考库：https://erick-huazi.github.io/references.html

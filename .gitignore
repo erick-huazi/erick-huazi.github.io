@@ -1,0 +1,7 @@
+node_modules/
+.qa/
+.cache/
+*.log
+build-report.json
+.env
+.env.*

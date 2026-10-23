@@ -1,0 +1,107 @@
+/* V15: readable editorial rhythm and a clear, usable contact destination. */
+html{scrollbar-gutter:stable}
+html:has(dialog[open]){overflow:hidden}
+.portfolio-v15 .nav{backdrop-filter:none;-webkit-backdrop-filter:none}
+.portfolio-v15 .nav-links>a:not(.nav-cta){font-size:14px}
+.portfolio-v15 .nav-cta,.portfolio-v15 .hero-contact,.portfolio-v15 .mobile-wechat{text-decoration:none}
+.portfolio-v15 .hero-description{font-size:16px;line-height:1.9;max-width:480px}
+.portfolio-v15 .hero-position{font-size:17px}
+.portfolio-v15 .hero-facts{font-size:12px;color:#4d6248}
+.portfolio-v15 .hero-products>a{min-height:44px}
+.portfolio-v15 .about-statement{max-width:670px;line-height:1.9;text-wrap:pretty}
+.portfolio-v15 .case-image-label{color:#54644c}
+.portfolio-v15 .case-eyebrow,.portfolio-v15 .case-eyebrow .live-badge{font-size:12px}
+.portfolio-v15 .project-filter>button{min-height:44px;font-size:13px}
+.portfolio-v15 .contact-heading{align-items:end}
+.portfolio-v15 .contact-heading h2 em{display:inline-block}
+.portfolio-v15 .contact-channels{
+  display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  grid-template-areas:'wechat phone' 'wechat email';gap:0 48px;margin-bottom:28px;align-items:stretch;
+}
+.portfolio-v15 .contact-channels>.channel-wechat{
+  grid-area:wechat;display:grid;grid-template-columns:minmax(0,1fr) 164px;align-items:center;gap:26px;
+  padding:30px!important;background:#f2f2e5;color:#193d31;border:1px solid #d1dcc2;border-radius:16px;
+}
+.portfolio-v15 .channel-wechat h3{font-size:15px;color:#38533d;margin-bottom:13px;letter-spacing:0}
+.portfolio-v15 .channel-wechat strong{font-size:30px;font-weight:500;color:#193d31;letter-spacing:-.6px;line-height:1.4}
+.portfolio-v15 .channel-wechat .plain-button{color:#365e3b;font-size:14px;min-height:44px;margin-top:12px;text-decoration:none;gap:8px}
+.portfolio-v15 .channel-wechat .plain-button:hover{text-decoration:underline;text-underline-offset:5px}
+.portfolio-v15 .channel-wechat [data-copied='true']{color:#325d31}
+.portfolio-v15 .channel-wechat .wechat-intro{font-size:14px;line-height:1.85;color:#586b4d;margin:12px 0 0;max-width:230px}
+.portfolio-v15 .channel-wechat .wechat-preview{
+  position:static;display:block;width:164px;max-width:100%;padding:7px;border:1px solid #dfe5d7;
+  border-radius:10px;background:#fff;box-shadow:0 6px 20px #1436280c;text-decoration:none;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.portfolio-v15 .channel-wechat .wechat-preview img{width:100%;height:auto;border-radius:4px;aspect-ratio:888/1134}
+.portfolio-v15 .channel-wechat .wechat-preview>span{font-size:11px;line-height:1.7;padding:5px 0;color:#425c3b}
+.portfolio-v15 .channel-wechat .wechat-preview:hover{transform:translateY(-3px);box-shadow:0 10px 24px #14362818}
+.portfolio-v15 .channel-phone{grid-area:phone}
+.portfolio-v15 .channel-email{grid-area:email}
+.portfolio-v15 .contact-channels>.channel-phone,.portfolio-v15 .contact-channels>.channel-email{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:18px;align-content:center;align-items:center;padding:20px 0;
+}
+.portfolio-v15 .channel-phone>h3,.portfolio-v15 .channel-email>h3{grid-column:1/-1;margin:0 0 8px;font-size:14px;color:#d0dfbe}
+.portfolio-v15 .channel-phone>a,.portfolio-v15 .channel-email>a{grid-column:1;min-width:0;font-size:24px;min-height:44px;line-height:1.5;color:#f3f4e8}
+.portfolio-v15 .channel-phone>.plain-button,.portfolio-v15 .channel-email>.plain-button{grid-column:2;font-size:12px;min-height:44px;color:#d1dfbf}
+.portfolio-v15 .channel-phone>p,.portfolio-v15 .channel-email>p{grid-column:1/-1;margin:5px 0 0;font-size:14px;color:#c2d3b0}
+.portfolio-v15 .contact-tools{padding:18px 24px;background:transparent;border-color:#9cb8864d;border-radius:10px}
+.portfolio-v15 .contact-tools-label{font-size:10px;color:#c0d0ad}
+.portfolio-v15 .contact-tools p{font-size:15px}
+.portfolio-v15 .inquiry-details{margin-top:30px;border-color:#94ab7959}
+.portfolio-v15 .inquiry-details>summary{min-height:100px}
+.portfolio-v15 .inquiry-details>summary strong{font-size:21px;font-weight:500}
+.portfolio-v15 .inquiry-details>summary small{font-size:14px;color:#cad8b9;margin-top:8px;line-height:1.8}
+.portfolio-v15 .inquiry-details>.contact-card{margin-top:8px;border-radius:14px}
+.portfolio-v15 .contact-faq summary{min-height:56px;font-size:14px}
+.portfolio-v15 .contact-faq p{font-size:14px;line-height:1.9}
+.portfolio-v15 dialog{max-height:calc(100dvh - 32px);overscroll-behavior:contain}
+.portfolio-v15 .wechat-dialog .qr-dialog-head{align-items:center}
+.portfolio-v15 .wechat-dialog>p{color:#506344}
+.portfolio-v15 .wechat-dialog>p strong{color:inherit}
+.portfolio-v15 .qr-dialog-actions{flex-wrap:wrap}
+.portfolio-v15 :is(.wechat-preview,.nav-cta,.hero-contact,.mobile-wechat):focus-visible{outline:3px solid #b8933f;outline-offset:5px}
+@media(min-width:761px) and (max-width:1100px){
+ .portfolio-v15 .hero-description{font-size:15px}.portfolio-v15 .hero-position{font-size:15px}
+ .portfolio-v15 .contact-channels{column-gap:30px;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+ .portfolio-v15 .contact-channels>.channel-wechat{grid-template-columns:minmax(0,1fr) 122px;gap:18px;padding:24px!important}
+ .portfolio-v15 .channel-wechat strong{font-size:24px}.portfolio-v15 .channel-wechat .wechat-preview{width:122px}
+ .portfolio-v15 .channel-phone>a,.portfolio-v15 .channel-email>a{font-size:21px}
+ .portfolio-v15 .contact-channels>.channel-phone,.portfolio-v15 .contact-channels>.channel-email{grid-template-columns:minmax(0,1fr);padding:14px 0}
+ .portfolio-v15 .channel-phone>.plain-button,.portfolio-v15 .channel-email>.plain-button{grid-column:1;min-height:36px;padding:0;font-size:12px}
+}
+@media(max-width:760px){
+ .portfolio-v15 .hero-description{font-size:15px;line-height:1.85;margin-bottom:23px}
+ .portfolio-v15 .hero-position{font-size:14px}
+ .portfolio-v15 .hero-meta{font-size:9px;letter-spacing:.7px}
+ .portfolio-v15 .hero-products{margin-top:22px;padding-top:15px}
+ .portfolio-v15 .art-stage{max-width:255px;margin:25px auto 0;width:100%}
+ .portfolio-v15 .hero-facts{font-size:12px}
+ .portfolio-v15 .case-eyebrow,.portfolio-v15 .case-eyebrow .live-badge{font-size:11px}
+ .portfolio-v15 .project-filter>button{font-size:12px;min-height:44px;padding:8px 11px}
+ .portfolio-v15 .contact-heading h2{font-size:clamp(34px,9vw,46px)}
+ .portfolio-v15 .contact-channels{grid-template-columns:minmax(0,1fr);grid-template-areas:'wechat' 'phone' 'email';gap:0;margin-bottom:22px}
+ .portfolio-v15 .contact-channels>.channel-wechat{grid-template-columns:minmax(0,1fr) 116px;gap:16px;padding:22px!important;margin-bottom:25px;min-height:215px}
+ .portfolio-v15 .channel-wechat h3{font-size:14px;margin-bottom:10px}.portfolio-v15 .channel-wechat strong{font-size:23px;letter-spacing:-.6px}
+ .portfolio-v15 .channel-wechat .wechat-preview{width:116px;padding:5px}.portfolio-v15 .channel-wechat .wechat-preview>span{font-size:10px;padding:4px 0}
+ .portfolio-v15 .channel-wechat .plain-button{margin-top:8px;font-size:13px}.portfolio-v15 .channel-wechat .wechat-intro{font-size:13px;margin-top:5px}
+ .portfolio-v15 .contact-channels>.channel-phone,.portfolio-v15 .contact-channels>.channel-email{column-gap:10px;padding:23px 0}
+ .portfolio-v15 .channel-phone>a,.portfolio-v15 .channel-email>a{font-size:23px}
+ .portfolio-v15 .channel-phone>.plain-button,.portfolio-v15 .channel-email>.plain-button{font-size:12px}
+ .portfolio-v15 .channel-phone>p,.portfolio-v15 .channel-email>p{font-size:13px}
+ .portfolio-v15 .contact-tools{padding:20px;gap:14px;flex-direction:row;flex-wrap:wrap;align-items:center}
+ .portfolio-v15 .contact-tools p{font-size:14px}.portfolio-v15 .contact-save{font-size:13px;padding:8px 15px;min-height:44px}
+ .portfolio-v15 .inquiry-details{margin-top:24px}.portfolio-v15 .inquiry-details>summary{padding:23px 0;min-height:100px;gap:15px}
+ .portfolio-v15 .inquiry-details>summary strong{font-size:19px}.portfolio-v15 .inquiry-details>summary small{font-size:13px;max-width:285px}
+ .portfolio-v15 .contact-faq summary{font-size:14px}
+}
+@media(max-width:360px){
+ .portfolio-v15 .hero-meta{font-size:8px}.portfolio-v15 .hero-position{font-size:12px}
+ .portfolio-v15 .project-filter>button{font-size:11px;padding:8px 9px}
+ .portfolio-v15 .contact-channels>.channel-wechat{padding:17px!important;gap:12px;grid-template-columns:minmax(0,1fr) 103px}
+ .portfolio-v15 .channel-wechat strong{font-size:20px}.portfolio-v15 .channel-wechat .wechat-preview{width:103px}
+ .portfolio-v15 .channel-phone>a,.portfolio-v15 .channel-email>a{font-size:20px}
+ .portfolio-v15 .channel-phone>.plain-button,.portfolio-v15 .channel-email>.plain-button{font-size:11px;gap:4px}
+}
+@media(prefers-reduced-motion:reduce){.portfolio-v15 .wechat-preview{transition:none!important}.portfolio-v15 .wechat-preview:hover{transform:none}}
+.portfolio-v15.motion-paused .wechat-preview:hover{transform:none}

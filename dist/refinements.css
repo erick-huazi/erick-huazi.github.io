@@ -1,0 +1,54 @@
+/* V13: Lucide icon system and clear action feedback; all behavior remains native. */
+.ui-icon{display:inline-block;width:20px;height:20px;flex:none;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.portfolio-v13 .quick-trigger{gap:9px;min-height:44px}
+.portfolio-v13 .quick-trigger>.ui-icon{width:16px;height:16px}
+.portfolio-v13 .nav-cta>.ui-icon{width:17px;height:17px}
+.portfolio-v13 .menu{align-items:center;justify-content:center;gap:7px}
+.portfolio-v13 .menu>.ui-icon{width:16px;height:16px}
+.portfolio-v13 .hero-actions .btn>.ui-icon,.portfolio-v13 .hero-contact>.ui-icon{width:20px;height:20px;transition:transform .25s ease}
+.portfolio-v13 .hero-actions .btn:hover>.ui-icon,.portfolio-v13 .hero-contact:hover>.ui-icon{transform:translate(3px,-3px)}
+.portfolio-v13 .case-footer .btn>.ui-icon{width:18px;height:18px;transition:transform .25s}
+.portfolio-v13 .case-footer .btn:hover>.ui-icon{transform:translate(3px,-3px)}
+.portfolio-v13 .offer>summary h3{display:flex;align-items:center;gap:15px}
+.portfolio-v13 .offer>summary h3>.ui-icon{width:23px;height:23px;color:#607a48;stroke-width:1.5}
+.portfolio-v13 .contact-channels h3{display:flex;align-items:center;gap:9px}
+.portfolio-v13 .contact-channels h3>.ui-icon{width:16px;height:16px;opacity:.85}
+.portfolio-v13 .plain-button{gap:8px;position:relative;transition:color .2s}
+.portfolio-v13 .plain-button>.ui-icon{width:15px;height:15px;stroke-width:1.7}
+.portfolio-v13 .plain-button[data-copied='true']{color:#e3f4a9;text-decoration:none}
+.portfolio-v13 [data-copied='true']:after{content:'✓';display:inline-block;margin-left:7px;font-size:14px}
+.portfolio-v13 .contact-tools{display:flex;align-items:center;justify-content:space-between;gap:22px;border:1px solid #849f705c;border-radius:10px;background:#244b393d;padding:22px 26px;margin:5px 0 28px}
+.contact-tools-label{display:block;color:#a8be91;font:10px/1.7 Arial,sans-serif;letter-spacing:1.5px;margin-bottom:5px}
+.portfolio-v13 .contact-tools p{font-size:17px;line-height:1.7;color:#e0e9d4;margin:0}
+.contact-save{display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid #9db4878c;border-radius:99px;color:#eef3e2;padding:11px 19px;min-height:48px;flex:none;transition:background .25s,border-color .25s}
+.contact-save>span{font-size:14px}.contact-save>small{font:10px/1.5 Arial,sans-serif;opacity:.65;margin-left:6px}
+.contact-save>.ui-icon{width:18px;height:18px}.contact-save:hover{background:#31513c;border-color:#c0d49f}
+.portfolio-v13 .quick-dialog{border-radius:18px;padding:26px;background:#fafaf2;box-shadow:0 28px 100px #092a2660}
+.portfolio-v13 .quick-head{padding-bottom:13px;border-bottom:1px solid #d7e0cc;margin-bottom:18px}
+.portfolio-v13 .quick-item{padding:13px 15px;min-height:72px;border-radius:9px}
+.portfolio-v13 .quick-item>.ui-icon{grid-column:2;grid-row:1 / span 2;width:18px;height:18px;color:#658349;justify-self:end}
+.portfolio-v13 .quick-item:focus-visible{outline:2px solid #718948;outline-offset:-2px;background:#eaf0df}
+.portfolio-v13 #quick-query{border-radius:10px;background:#fffef9;min-height:50px}
+.portfolio-v13 .quick-help{color:#586d48;font-size:12px}
+.portfolio-v13 dialog :focus-visible{outline:3px solid #a57c3c;outline-offset:3px}
+.portfolio-v13 .art-stage.motion-offscreen .sculpture-float,.portfolio-v13 .discipline-strip.motion-offscreen .discipline-track{animation-play-state:paused}
+.portfolio-v13 .art-stage.motion-offscreen .sculpture-motion{will-change:auto}
+.portfolio-v13 .sculpture-float picture{display:block}
+@media(min-width:761px){.portfolio-v13 .menu{display:none}}
+@media(max-width:760px){
+ .portfolio-v13 .quick-trigger{width:42px;min-width:42px;height:42px;padding:0;border:1px solid #d2dbc4;border-radius:50%;margin-left:auto}
+ .portfolio-v13 .quick-trigger>span,.portfolio-v13 .quick-trigger kbd{display:none}
+ .portfolio-v13 .quick-trigger>.ui-icon{width:17px;height:17px}
+ .portfolio-v13 .menu{display:inline-flex;min-width:61px;padding:8px 11px}
+ .portfolio-v13 .offer>summary h3{gap:10px;font-size:21px}
+ .portfolio-v13 .offer>summary h3>.ui-icon{width:20px;height:20px}
+ .portfolio-v13 .contact-tools{padding:20px;margin-top:0;gap:17px;align-items:flex-start;flex-direction:column}
+ .portfolio-v13 .contact-tools p{font-size:16px}.contact-save{padding:10px 17px;min-height:47px}.contact-save>span{font-size:13px}
+ .portfolio-v13 .quick-dialog{padding:18px;border-radius:14px}.portfolio-v13 .quick-item{padding:12px;min-height:69px}
+ .portfolio-v13 .quick-head{padding-bottom:10px;margin-bottom:15px}
+}
+@media(max-width:360px){
+ .portfolio-v13 .nav-inner{gap:8px}.portfolio-v13 .menu{min-width:44px;padding:8px}.portfolio-v13 .menu>.ui-icon{display:none}
+ .portfolio-v13 .offer>summary h3{font-size:19px;gap:8px}.portfolio-v13 .offer>summary h3>.ui-icon{width:18px;height:18px}
+ .portfolio-v13 .quick-trigger{width:38px;min-width:38px}.portfolio-v13 .quick-dialog{padding:16px}
+}

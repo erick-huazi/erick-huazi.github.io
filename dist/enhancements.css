@@ -1,0 +1,151 @@
+/* Additional sections and interaction states. */
+.fact-education{grid-column:1/-1}
+.phone-contact{margin-top:30px}
+.phone-label{display:block;color:#d5dfc9;font-size:12px;letter-spacing:1px;margin-bottom:7px}
+.direct-phone{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:100%;min-height:48px;padding:6px 0 13px;border-bottom:1px solid #607766;color:var(--paper);font-size:28px;letter-spacing:1px;text-decoration:none}
+.direct-phone>span{color:#ddea9f;font-size:23px}
+.phone-contact+.direct-mail{margin-top:22px}
+@media(max-width:760px){.direct-phone{font-size:26px}.mobile-contact>.mobile-call{flex:none;background:transparent;color:var(--ink);font-size:13px;justify-content:center;padding:10px 12px}.phone-label{font-size:12px}}
+[hidden]{display:none!important}
+
+
+
+.project p,.service-body,.service-name p,.contact-copy,.about-copy>p,.experience,.experience small,.project-details p{font-size:14px}
+.project-details summary,.project-details a,.service-body a,.text-link,.resume-link{font-size:14px}
+.text-link,.resume-link,.service-body a{display:inline-flex;align-items:center;min-height:44px}
+.menu,.plain-button,.share-page{min-height:44px}
+.nav-links a[aria-current="location"]{color:#7a4b2e}
+.nav-links a[aria-current="location"]:after{content:'';position:absolute;left:0;right:0;bottom:-7px;height:2px;background:#a5b77b}
+
+/* Common work scenarios. */
+.scenarios{border-top:1px solid var(--line);background:#f1f2e8}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Case-study outputs and the wide product card. */
+.case-deliverables{list-style:none;display:flex;flex-wrap:wrap;gap:8px 15px;padding:0;margin:18px 0 22px}
+.case-deliverables li{font-size:13px;line-height:1.7;color:#4f634d}
+.case-deliverables li:before{content:'↳';color:#8a9d69;margin-right:6px}
+.project-wide{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:36px;padding-top:40px;margin-top:40px;border-top:1px solid #cdd6c3}
+.sea-art{min-width:0;min-height:325px;border:1px solid #cad7cd;border-radius:8px;padding:28px;background:#dce7df;overflow:hidden}
+.sea-logo{font:600 32px/1.3 var(--sans);letter-spacing:-1.2px;margin:21px 0 26px;display:flex;align-items:baseline;flex-wrap:wrap}
+.sea-logo>span{font-weight:400}
+.sea-logo>b{font-size:22px;font-weight:400;color:#6a8976;margin-left:auto;padding-left:10px}
+.sea-route{display:flex;align-items:center;gap:14px}
+.sea-route>span{flex:1;min-width:0;border:1px solid #afc5b6;background:#f5f8ef;border-radius:6px;padding:13px 10px;font-size:14px;text-align:center}
+.sea-route>i{font-style:normal;font-size:20px;color:#66846c}
+.sea-fields{display:flex;gap:8px;margin-top:14px}
+.sea-fields>span{flex:1;min-width:0;text-align:center;font-size:11px;padding:6px 4px;border:1px solid #bdcfc0;border-radius:20px}
+.sea-art>p{font-size:12px;color:#5c7664;margin:25px 0 0;border-top:1px solid #bfcec2;padding-top:14px}
+.sea-copy{min-width:0}
+.sea-copy .project-title{margin-top:0;align-items:flex-start}
+.sea-copy .project-title h3{font-size:24px;overflow-wrap:anywhere}
+.project-index{line-height:1.6;flex:none}
+
+/* A compact, tangible collaboration process. */
+.process{background:#eeeee3;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+
+
+
+
+
+
+/* Answers remain native, keyboard-accessible disclosures. */
+
+
+
+
+
+
+
+
+
+
+
+
+/* Consultation form and generated text. */
+.contact-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:65px;align-items:start}
+.contact-layout>div{min-width:0}
+.contact-card{padding:29px}
+.contact-card-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:22px}
+.contact-card-heading h3{margin:0;font-size:20px}
+.contact-card-heading>span{color:var(--muted);font-size:11px;white-space:nowrap}
+.direct-mail{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:340px;min-height:60px;font-size:clamp(19px,2vw,25px);line-height:1.6;margin:24px 0 0;padding:12px 0;border-bottom:1px solid #ffffff4a;overflow-wrap:anywhere}
+.direct-mail span{flex:none;color:var(--lime)}
+.plain-button{display:block;background:none;border:0;color:#dce7cb;padding:7px 0;font-size:13px;text-decoration:underline;text-underline-offset:4px;text-align:left}
+.contact-card .field-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.contact-card label{font-size:13px;margin-bottom:17px;min-width:0}
+.contact-card input,.contact-card select,.contact-card textarea{font-size:14px;padding:10px 12px;min-height:44px;line-height:1.6;margin-top:7px}
+.contact-card textarea{min-height:142px;line-height:1.8}
+.contact-card input::placeholder,.contact-card textarea::placeholder{color:#82907f;opacity:1}
+.contact-card input:focus,.contact-card select:focus,.contact-card textarea:focus{border-color:#809865;background:#fffefb}
+.optional{font-size:11px;color:#7c8778;margin-left:4px}
+.need-meta{display:flex;justify-content:space-between;gap:14px;margin:-8px 0 19px;font-size:10px;line-height:1.7;color:#74816d}
+#need-count{white-space:nowrap;flex:none}
+.contact-card .btn{font-size:14px;min-height:48px}
+.contact-card .btn:disabled{opacity:.55}
+.form-note{font-size:11px;line-height:1.8}
+.form-status{font-size:12px;line-height:1.8;color:#58734b;margin:15px 0 0}
+.form-status:empty{display:none}
+.summary-output{padding:19px;margin-top:20px;background:#edf1e3;border-color:#c8d4bb}
+.summary-output h4{font-size:17px;font-weight:500;line-height:1.7;margin:0 0 16px;scroll-margin-top:105px}
+.summary-output label{font-size:12px;margin-bottom:13px}
+.summary-output textarea{min-height:200px;font-size:13px;background:#fffef9}
+.summary-output p{font-size:12px;line-height:1.85}
+.summary-actions{gap:9px}
+.summary-actions .btn{padding:10px 12px;min-width:0;font-size:13px;gap:5px}
+.download-brief{min-height:44px;background:none;border:0;color:var(--ink);padding:12px 0 3px;text-decoration:underline;text-underline-offset:4px;font-size:12px}
+.share-page{background:none;border:1px solid #66806c;border-radius:4px;color:#dbe5d1;padding:7px 13px;font-size:11px}
+.share-page:hover{background:#2c5147}
+
+/* Clipboard fallback and mobile contact shortcut. */
+#copy-dialog{width:min(520px,calc(100vw - 36px));max-height:calc(100dvh - 48px);padding:27px;border:1px solid #d0dac3;border-radius:10px;background:var(--paper);color:var(--ink);box-shadow:0 24px 100px #102e3555;overflow:auto}
+#copy-dialog::backdrop{background:#152a26a8;backdrop-filter:blur(3px)}
+#copy-dialog h2{font-size:23px;font-weight:500;margin:0 0 10px}
+#copy-dialog p{font-size:14px;line-height:1.8;color:var(--muted);margin:0 0 17px}
+#copy-value{display:block;width:100%;min-height:170px;max-height:45dvh;resize:vertical;border:1px solid #c5d0b9;border-radius:5px;background:var(--white);color:var(--ink);font-size:16px;line-height:1.8;padding:12px;margin-bottom:20px}
+#copy-dialog .btn{min-height:44px;min-width:100px}
+.mobile-contact{display:none}
+
+@media(max-width:1050px){
+
+  .project-wide{gap:28px}.sea-art{padding:24px}.sea-logo{font-size:28px}.sea-copy .project-title{flex-wrap:wrap;gap:7px}
+
+  .contact-layout{gap:36px}.contact-card{padding:23px}.contact-card-heading{gap:8px}.contact-card-heading h3{font-size:18px}
+}
+@media(max-width:760px){
+  html{scroll-padding-top:90px}
+  .nav-links a{display:flex;align-items:center;min-height:44px}.nav-cta{justify-content:center}.nav-links a[aria-current="location"]:after{bottom:2px;width:26px;right:auto}
+  html:not(.js) .menu{display:none}html:not(.js) .nav{height:auto;position:relative}html:not(.js) .nav-inner{flex-wrap:wrap;gap:10px;padding-top:14px;padding-bottom:14px}html:not(.js) .nav-links{position:static;display:flex;flex-direction:row;flex-wrap:wrap;gap:6px 16px;width:100%;padding:0;border:0;background:none;font-size:12px}html:not(.js) .nav-cta{padding:0;border:0}
+
+
+  .project-wide{grid-template-columns:minmax(0,1fr);gap:25px;margin-top:35px;padding-top:35px}.sea-art{min-height:300px;padding:24px}.sea-copy .project-title{flex-wrap:nowrap;gap:12px}.sea-copy .project-title h3{font-size:22px}.project-index{font-size:11px}.project p{font-size:14px}.case-deliverables{gap:7px 14px;margin:15px 0 20px}.case-deliverables li{font-size:13px}
+
+
+  .contact-layout{grid-template-columns:minmax(0,1fr);gap:31px}.contact-card{padding:24px}.contact-card .field-row{grid-template-columns:minmax(0,1fr);gap:0}.contact-card label{font-size:14px;margin-bottom:18px}.contact-card input,.contact-card select,.contact-card textarea{font-size:16px;min-height:48px;padding:11px 12px}.contact-card textarea{min-height:158px}.contact-card-heading{margin-bottom:23px}.contact-card-heading h3{font-size:20px}.contact-card-heading>span{font-size:11px}.contact-copy{font-size:14px}.direct-mail{font-size:24px;max-width:100%;margin-top:24px}.plain-button{font-size:14px}.need-meta{font-size:11px;gap:12px}.need-meta>span:first-child{flex:1}.form-note{font-size:12px}.form-status{font-size:13px}.summary-output{padding:17px}.summary-output textarea{font-size:16px;min-height:220px}.summary-output h4{font-size:17px}.summary-actions{flex-wrap:wrap}.summary-actions .btn{font-size:13px;padding:10px 11px;min-width:100px}.download-brief{font-size:13px}
+  .mobile-contact{display:flex;align-items:center;gap:12px;position:fixed;z-index:40;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));background:#f9faeff5;border:1px solid #c6d3ba;box-shadow:0 5px 28px #193d3424;backdrop-filter:blur(16px);border-radius:9px;padding:8px}.mobile-contact>a{display:flex;align-items:center;justify-content:space-between;flex:1;min-width:0;min-height:46px;padding:10px 16px;background:var(--ink);color:var(--paper);border-radius:5px;font-size:14px}.mobile-contact>button{min-height:46px;padding:10px 12px;background:transparent;border:0;color:var(--ink);font-size:13px;white-space:nowrap}
+  .toast{bottom:calc(92px + env(safe-area-inset-bottom));width:max-content;max-width:calc(100vw - 32px);padding:12px 18px;font-size:13px}.footer{padding-bottom:35px}.footer-inner{gap:14px}.footer-inner>div{display:flex;flex-wrap:wrap}.footer a{display:inline-flex;align-items:center;min-height:44px;font-size:12px}.share-page{font-size:12px}.experience{gap:13px}.experience span{width:75px}.experience p{min-width:0}
+}
+@media(max-width:380px){
+
+  .contact-card{padding:19px}.contact-card-heading{gap:6px}.contact-card-heading h3{font-size:18px}.contact-card-heading>span{font-size:10px}.direct-mail{font-size:21px}.summary-output{padding:13px}.summary-actions{flex-direction:column}.summary-actions .btn{width:100%;flex:auto}.need-meta{font-size:10px;gap:8px}.project-title{gap:10px;flex-wrap:wrap}.sea-copy .project-title{flex-wrap:wrap}.sea-logo{font-size:27px}.sea-art{padding:20px}.sea-fields{gap:5px}.sea-fields>span{font-size:10px}.about-facts{grid-template-columns:minmax(0,1fr);gap:17px}.mobile-contact{gap:4px}.mobile-contact>a{padding:10px 12px;font-size:13px}.mobile-contact>button{padding:10px;font-size:12px}.board-flow{width:78%}.board-engine{padding-left:7px;padding-right:7px}.board-engine strong{font-size:12px}.board-engine small{font-size:8px}
+}

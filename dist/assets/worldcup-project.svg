@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">World Cup project illustration</title>
+  <desc id="desc">An abstract football pitch and match analysis drawing, with no real scores or predictions.</desc>
+  <defs>
+    <pattern id="grain" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill="#dce8bc" opacity=".1"/></pattern>
+    <linearGradient id="field" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#245746"/><stop offset="1" stop-color="#173e35"/></linearGradient>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d7e67c" stop-opacity=".25"/><stop offset="1" stop-color="#d7e67c" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="960" height="560" fill="#173e35"/>
+  <rect width="960" height="560" fill="url(#grain)"/>
+  <circle cx="972" cy="36" r="274" fill="none" stroke="#456c4e" stroke-width="1"/>
+  <circle cx="972" cy="36" r="218" fill="none" stroke="#456c4e" stroke-width="1" opacity=".5"/>
+  <g font-family="Arial,Helvetica,sans-serif">
+    <text x="54" y="53" fill="#bac9ac" font-size="12" letter-spacing="3.5">MATCH DATA · A FIELD OF POSSIBILITIES</text>
+    <text x="54" y="127" fill="#f6f4eb" font-size="53" font-weight="500" letter-spacing="-2">Read the game.</text>
+    <text x="56" y="161" fill="#a5bfa2" font-size="14" letter-spacing=".5">Patterns. Perspective. The next question.</text>
+    <g transform="translate(58 222) rotate(-7 230 130)">
+      <rect x="8" y="9" width="462" height="264" rx="5" fill="#102f29" opacity=".45"/>
+      <rect width="462" height="264" rx="5" fill="url(#field)" stroke="#7d9c72" stroke-width="1.4"/>
+      <g fill="none" stroke="#adbf96" stroke-width="1.2" opacity=".8">
+        <path d="M18 18H444V246H18ZM231 18V246"/>
+        <circle cx="231" cy="132" r="42"/>
+        <path d="M18 66H87V198H18M444 66H375V198H444M18 101H45V163H18M444 101H417V163H444"/>
+        <path d="M87 101a43 43 0 0 1 0 62M375 101a43 43 0 0 0 0 62"/>
+      </g>
+      <circle cx="231" cy="132" r="3" fill="#c8d8a9"/>
+      <path d="M66 160 144 184 208 119 289 87 354 133 399 77" fill="none" stroke="#d7e67c" stroke-width="2" stroke-dasharray="5 6" opacity=".65"/>
+      <g fill="#d7e67c" stroke="#214d3d" stroke-width="4"><circle cx="66" cy="160" r="7"/><circle cx="144" cy="184" r="7"/><circle cx="208" cy="119" r="7"/><circle cx="289" cy="87" r="7"/><circle cx="354" cy="133" r="7"/><circle cx="399" cy="77" r="7"/></g>
+      <g fill="#e48c54"><circle cx="137" cy="78" r="5"/><circle cx="266" cy="190" r="5"/><circle cx="323" cy="160" r="5"/></g>
+      <circle cx="208" cy="119" r="19" fill="none" stroke="#d7e67c" opacity=".5"/>
+    </g>
+    <g transform="translate(578 213)">
+      <text x="0" y="0" fill="#d7e67c" font-size="11" letter-spacing="3">FORECAST / REVIEW</text>
+      <path d="M0 61H318M0 109H318M0 157H318" fill="none" stroke="#537657" stroke-width="1" opacity=".45"/>
+      <path d="M0 151C33 141 46 154 72 124S121 139 143 99 187 103 213 76 263 94 318 42V179H0Z" fill="url(#area)"/>
+      <path d="M0 151C33 141 46 154 72 124S121 139 143 99 187 103 213 76 263 94 318 42" fill="none" stroke="#d7e67c" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="318" cy="42" r="5" fill="#e48c54"/>
+      <circle cx="318" cy="42" r="13" fill="none" stroke="#e48c54" opacity=".35"/>
+      <path d="M0 211H318" stroke="#547451"/>
+      <g fill="#77986b"><rect x="0" y="241" width="15" height="23" rx="2"/><rect x="25" y="230" width="15" height="34" rx="2"/><rect x="50" y="220" width="15" height="44" rx="2"/><rect x="75" y="231" width="15" height="33" rx="2"/><rect x="100" y="222" width="15" height="42" rx="2"/><rect x="125" y="212" width="15" height="52" rx="2"/><rect x="150" y="221" width="15" height="43" rx="2"/><rect x="175" y="234" width="15" height="30" rx="2"/><rect x="200" y="242" width="15" height="22" rx="2"/><rect x="225" y="251" width="15" height="13" rx="2"/></g>
+      <rect x="125" y="212" width="15" height="52" rx="2" fill="#d7e67c"/>
+      <text x="318" y="264" text-anchor="end" fill="#a1b89a" font-size="10" letter-spacing="2">EXPLORE</text>
+    </g>
+    <path d="M54 520H906" stroke="#63805d" opacity=".55"/>
+    <text x="54" y="542" fill="#a5b79a" font-size="10" letter-spacing="2">FOOTBALL × ANALYSIS</text>
+    <text x="906" y="542" fill="#a5b79a" font-size="10" letter-spacing="1" text-anchor="end">CONCEPT ILLUSTRATION</text>
+  </g>
+</svg>

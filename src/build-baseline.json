@@ -1,0 +1,31 @@
+{
+  "version": 15,
+  "label": "Published v15 frozen resource baseline",
+  "css": {
+    "requests": 1,
+    "outputBytes": 167886,
+    "outputGzipBytes": 29951
+  },
+  "shareCard": {
+    "path": "assets/share-card.png",
+    "bytes": 256299,
+    "width": 1200,
+    "height": 630
+  },
+  "sculpture": {
+    "variants": [
+      {
+        "width": 640,
+        "bytes": 82544
+      },
+      {
+        "width": 1280,
+        "bytes": 179620
+      }
+    ]
+  },
+  "optionalSearch": {
+    "bytes": 19308
+  },
+  "note": "Frozen from v15 build-report.json and on-disk share-card.png before v16. This file is not rewritten by the build."
+}

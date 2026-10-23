@@ -1,0 +1,125 @@
+/* V14: product stories. Appended after the existing design system at build time. */
+.portfolio-v14 .case-list{gap:42px;align-items:start}
+.portfolio-v14 .case-row.case-showcase{gap:27px;min-width:0}
+.portfolio-v14 .case-row.case-showcase:nth-child(even){padding-top:72px}
+.portfolio-v14 .case-showcase .case-media{min-width:0}
+.portfolio-v14 .case-media>a.case-product-preview{
+  display:flex;flex-direction:column;gap:24px;aspect-ratio:auto;
+  padding:25px 25px 29px;border:1px solid #2d574347;border-radius:20px;
+  background:radial-gradient(ellipse at 0 0,#527b554d,transparent 70%),linear-gradient(145deg,#244f3f,#142e28);
+  box-shadow:0 12px 35px -24px #193a3970,inset 0 1px #ffffff12;
+  outline:0;isolation:isolate;text-decoration:none;overflow:hidden;
+  transition:box-shadow .35s ease,border-color .35s ease;
+}
+.portfolio-v14 #project-astrrot .case-media>a.case-product-preview{
+  background:radial-gradient(ellipse at 90% 0,#e4dbf2,transparent 75%),linear-gradient(140deg,#e7e4e8,#d4d4df);
+  border-color:#bcb8cb7a;box-shadow:0 12px 35px -24px #59516d66,inset 0 1px #ffffff91;
+}
+.portfolio-v14 .case-preview-top{display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:1;min-width:0}
+.portfolio-v14 .case-product-label{font:500 10px/1.6 Arial,sans-serif;letter-spacing:1.8px;color:#dce8bd;overflow-wrap:anywhere}
+.portfolio-v14 .case-product-number{font:italic 18px/1 Georgia,serif;color:#bed3b2;flex:none}
+.portfolio-v14 #project-astrrot .case-product-label{color:#5f5570}
+.portfolio-v14 #project-astrrot .case-product-number{color:#776d85}
+.portfolio-v14 .case-artwork{
+  display:block;position:relative;min-width:0;aspect-ratio:12/7;overflow:hidden;
+  border-radius:11px;border:1px solid #c2d3b02b;background:#173d32;
+  box-shadow:0 13px 24px -16px #051c1ad1;
+  transform:translateY(0);transition:transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .55s ease;
+}
+.portfolio-v14 #project-astrrot .case-artwork{border-color:#fff9;background:#f3efe8;box-shadow:0 13px 24px -16px #5d506796}
+.portfolio-v14 .case-artwork>img{display:block;width:100%;height:100%;object-fit:contain;transform:none;transition:none;border-radius:0}
+.portfolio-v14 .case-media>a.case-product-preview:after{content:none}
+.portfolio-v14 .case-media>a.case-product-preview:hover img{transform:none}
+.portfolio-v14 .case-image-label{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;margin-top:12px;font-size:11px;line-height:1.7;color:#66715e;letter-spacing:0;overflow-wrap:anywhere}
+.portfolio-v14 .case-image-label>span:last-child{font-family:Arial,sans-serif;font-size:10px;color:#6e7d61}
+.portfolio-v14 .case-copy{padding:0 4px;min-width:0}
+.portfolio-v14 .case-eyebrow{gap:9px 14px;margin-bottom:17px;font-size:11px;letter-spacing:.15px;color:#577048}
+.portfolio-v14 .case-eyebrow .live-badge{background:transparent;border:0;padding:0;font-size:11px;color:#67755c}
+.portfolio-v14 .case-copy h3{font-size:clamp(27px,2.65vw,35px);line-height:1.25;letter-spacing:-1px;font-weight:500;margin:0 0 13px;overflow-wrap:normal;word-break:normal}
+.portfolio-v14 .case-deck{font-size:17px;line-height:1.8;color:#475e3f;margin:0 0 24px}
+.portfolio-v14 .case-details{border-top:1px solid #cbd5bf;border-bottom:1px solid #cbd5bf;min-width:0;background:transparent}
+.portfolio-v14 .case-details>summary{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:62px;padding:13px 0;cursor:pointer;list-style:none;color:#36533d;font-size:14px;line-height:1.7;transition:color .2s ease}
+.portfolio-v14 .case-details>summary::-webkit-details-marker{display:none}
+.portfolio-v14 .case-details>summary::marker{content:''}
+.portfolio-v14 .case-details-label{display:block;min-width:0}
+.portfolio-v14 .case-details-open{display:none}
+.portfolio-v14 .case-details[open] .case-details-closed{display:none}
+.portfolio-v14 .case-details[open] .case-details-open{display:inline}
+.portfolio-v14 .case-details-symbol{display:block;position:relative;width:31px;height:31px;flex:none;border:1px solid #c3ceb6;border-radius:50%;background:#edf1e5;transition:background .2s ease,transform .3s ease}
+.portfolio-v14 .case-details-symbol:before,.portfolio-v14 .case-details-symbol:after{content:'';position:absolute;left:9px;right:9px;top:14px;height:1px;background:#47623c}
+.portfolio-v14 .case-details-symbol:after{transform:rotate(90deg);transition:transform .3s ease}
+.portfolio-v14 .case-details[open] .case-details-symbol{background:#e0e8ce}
+.portfolio-v14 .case-details[open] .case-details-symbol:after{transform:rotate(0)}
+.portfolio-v14 .case-details-content{padding:0 0 22px;min-width:0}
+.portfolio-v14 .case-facts{margin:0;padding:0;min-width:0}
+.portfolio-v14 .case-facts>div{display:grid;grid-template-columns:68px minmax(0,1fr);gap:17px;padding:15px 0;border-top:1px solid #dce3d2}
+.portfolio-v14 .case-facts>div:first-child{padding-top:7px;border-top:0}
+.portfolio-v14 .case-facts>div:last-child{padding-bottom:0}
+.portfolio-v14 .case-facts dt{font-size:12px;line-height:1.9;color:#6e7d60;padding-top:2px;font-weight:400}
+.portfolio-v14 .case-facts dd{margin:0;font-size:15px;line-height:1.85;color:#475c40;min-width:0;overflow-wrap:anywhere}
+.portfolio-v14 .case-facts .case-description{font-size:15px;line-height:1.85;color:inherit;margin:0;max-width:none}
+.portfolio-v14 .case-showcase .case-footer{border:0;padding:19px 0 0;gap:0;align-items:flex-start;flex-direction:row}
+.portfolio-v14 .case-footer .btn{font-size:14px;font-weight:500;min-height:47px;padding:6px 0;border-bottom:1px solid #7b9168;gap:22px;line-height:1.7;background:transparent;color:#274d35;border-radius:0}
+.portfolio-v14 .case-footer .btn>.ui-icon{width:18px;height:18px}
+.portfolio-v14 .case-product-preview:focus-visible,.portfolio-v14 .case-details>summary:focus-visible,.portfolio-v14 .case-footer .btn:focus-visible{outline:3px solid #8f9f4a;outline-offset:5px}
+@media(hover:hover){
+  .portfolio-v14 .case-media>a.case-product-preview:hover{box-shadow:0 18px 38px -22px #17382e80;border-color:#5d8056}
+  .portfolio-v14 #project-astrrot .case-media>a.case-product-preview:hover{box-shadow:0 18px 38px -22px #65557170;border-color:#aea1be}
+  .portfolio-v14 .case-product-preview:hover .case-artwork{transform:translateY(-4px);box-shadow:0 18px 27px -16px #051c1ad1}
+  .portfolio-v14 #project-astrrot .case-product-preview:hover .case-artwork{box-shadow:0 18px 27px -16px #5d506796}
+  .portfolio-v14 .case-details>summary:hover{color:#708743}
+  .portfolio-v14 .case-details>summary:hover .case-details-symbol{background:#e0e8ce}
+}
+/* Opacity-only entrance keeps native details sizing and keyboard behavior intact. */
+@media(prefers-reduced-motion:no-preference){
+  .portfolio-v14:not(.motion-paused) .case-details[open] .case-details-content{animation:project-details-in .28s ease both}
+}
+@keyframes project-details-in{from{opacity:0}to{opacity:1}}
+@media(min-width:761px) and (max-width:1100px){
+  .portfolio-v14 .case-list{gap:30px}
+  .portfolio-v14 .case-row.case-showcase:nth-child(even){padding-top:57px}
+  .portfolio-v14 .case-media>a.case-product-preview{padding:21px 20px 24px;gap:20px;border-radius:17px}
+  .portfolio-v14 .case-copy h3{font-size:28px}
+  .portfolio-v14 .case-deck{font-size:16px}
+  .portfolio-v14 .case-facts>div{grid-template-columns:62px minmax(0,1fr);gap:13px}
+}
+@media(max-width:760px){
+  .portfolio-v14 .case-list{grid-template-columns:minmax(0,1fr);gap:47px}
+  .portfolio-v14 .case-row.case-showcase,.portfolio-v14 .case-row.case-showcase:nth-child(even){padding-top:0;gap:23px}
+  .portfolio-v14 .case-media>a.case-product-preview{gap:20px;padding:21px 19px 23px;border-radius:17px;aspect-ratio:auto}
+  .portfolio-v14 .case-product-label{font-size:9px;letter-spacing:1.45px}
+  .portfolio-v14 .case-product-number{font-size:17px}
+  .portfolio-v14 .case-artwork{border-radius:9px}
+  .portfolio-v14 .case-image-label{font-size:10px;margin-top:10px;gap:3px 9px}
+  .portfolio-v14 .case-image-label>span:last-child{font-size:10px}
+  .portfolio-v14 .case-copy{padding:0 2px}
+  .portfolio-v14 .case-eyebrow{font-size:10px;gap:7px 12px;margin-bottom:14px}
+  .portfolio-v14 .case-eyebrow .live-badge{font-size:10px}
+  .portfolio-v14 .case-copy h3{font-size:clamp(26px,7.2vw,33px);letter-spacing:-.7px;line-height:1.28;margin-bottom:11px}
+  .portfolio-v14 .case-deck{font-size:16px;margin-bottom:21px;line-height:1.85}
+  .portfolio-v14 .case-details>summary{min-height:59px;font-size:14px;padding:12px 0}
+  .portfolio-v14 .case-details-content{padding-bottom:21px}
+  .portfolio-v14 .case-facts>div{grid-template-columns:62px minmax(0,1fr);gap:14px;padding:13px 0}
+  .portfolio-v14 .case-facts dt{font-size:12px}
+  .portfolio-v14 .case-facts dd,.portfolio-v14 .case-facts .case-description{font-size:15px;line-height:1.85}
+  .portfolio-v14 .case-showcase .case-footer{padding-top:17px}
+  .portfolio-v14 .case-footer .btn{font-size:14px;min-height:47px;gap:20px}
+}
+@media(max-width:360px){
+  .portfolio-v14 .case-media>a.case-product-preview{padding:18px 15px 20px;gap:17px;border-radius:15px}
+  .portfolio-v14 .case-product-label{font-size:8px;letter-spacing:1.15px}
+  .portfolio-v14 .case-product-number{font-size:16px}
+  .portfolio-v14 .case-image-label{font-size:9px;gap:3px 7px}
+  .portfolio-v14 .case-image-label>span:last-child{font-size:9px}
+  .portfolio-v14 .case-copy h3{font-size:26px;letter-spacing:-.7px}
+  .portfolio-v14 .case-eyebrow{gap:6px 9px;font-size:9px}
+  .portfolio-v14 .case-eyebrow .live-badge{font-size:9px}
+  .portfolio-v14 .case-deck{font-size:15px}
+  .portfolio-v14 .case-facts>div{grid-template-columns:58px minmax(0,1fr);gap:11px}
+}
+.portfolio-v14.motion-paused .case-product-preview,.portfolio-v14.motion-paused .case-artwork,.portfolio-v14.motion-paused .case-details>summary,.portfolio-v14.motion-paused .case-details-symbol,.portfolio-v14.motion-paused .case-details-symbol:after,.portfolio-v14.motion-paused .case-footer .ui-icon{transition:none!important;animation:none!important}
+.portfolio-v14.motion-paused .case-product-preview:hover .case-artwork,.portfolio-v14.motion-paused .case-footer .btn:hover>.ui-icon{transform:none}
+@media(prefers-reduced-motion:reduce){
+  .portfolio-v14 .case-product-preview,.portfolio-v14 .case-artwork,.portfolio-v14 .case-details>summary,.portfolio-v14 .case-details-symbol,.portfolio-v14 .case-details-symbol:after,.portfolio-v14 .case-details-content{transition:none!important;animation:none!important}
+  .portfolio-v14 .case-product-preview:hover .case-artwork{transform:none}
+}

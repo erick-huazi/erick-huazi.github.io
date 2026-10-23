@@ -1,0 +1,423 @@
+{
+  "reviewedAt": "2026-10-23",
+  "learning": [
+    {
+      "id": "datawhale-fde",
+      "provider": "DATAWHALE / ROADMAP",
+      "type": "学习路线",
+      "title": "从 AI 应用，到 FDE 交付",
+      "description": "AI Learning Roadmap 将 FDE 定位为应用开发之后的进阶路线，连接客户问题、系统集成与实际使用。",
+      "facts": [
+        [
+          "重点阅读",
+          "FDE 预备路线：需求发现、范围界定、原型、集成、上线与用户采用。"
+        ],
+        [
+          "可借鉴",
+          "给项目补齐问题记录、范围说明、验收依据和运行交接材料。"
+        ],
+        [
+          "资料性质",
+          "培养方案与学习导航；其中的故事示例不作为真实客户案例。"
+        ]
+      ],
+      "links": [
+        [
+          "阅读 FDE 路线",
+          "https://github.com/datawhalechina/ai-learning-roadmap/blob/main/curriculum-v3.0.md#fde-预备路线"
+        ],
+        [
+          "项目仓库",
+          "https://github.com/datawhalechina/ai-learning-roadmap"
+        ]
+      ],
+      "license": "Apache-2.0; repository license checked 2026-10-22"
+    },
+    {
+      "id": "hello-agents",
+      "provider": "DATAWHALE / AGENTS",
+      "type": "开源教程",
+      "title": "Hello-Agents：让智能体可验证",
+      "description": "从智能体基础、工具调用与记忆，到评估和应用实战，理解 Agent 如何组织任务并完成交互。",
+      "facts": [
+        [
+          "重点阅读",
+          "智能体评估与旅行助手等教学实战，观察任务如何分解和验证。"
+        ],
+        [
+          "可借鉴",
+          "为工作流补上测试问题、工具调用记录和失败样例，再比较改动前后的表现。"
+        ],
+        [
+          "资料性质",
+          "教学实现与练习；不能直接等同于生产环境可靠性或客户交付。"
+        ]
+      ],
+      "links": [
+        [
+          "阅读评估章节",
+          "https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter12/第十二章%20智能体性能评估.md"
+        ],
+        [
+          "阅读官方教程",
+          "https://github.com/datawhalechina/hello-agents"
+        ]
+      ],
+      "license": "CC BY-NC-SA 4.0; repository license checked 2026-10-22; no code incorporated"
+    },
+    {
+      "id": "all-in-rag",
+      "provider": "DATAWHALE / KNOWLEDGE",
+      "type": "开源教程",
+      "title": "All-in-RAG：从检索，到有据可查",
+      "description": "围绕检索增强生成，串联知识处理、检索、生成与评估，包含端到端系统的教学实践。",
+      "facts": [
+        [
+          "重点阅读",
+          "评估与查询路由相关章节，理解答案质量需要如何逐项检查。"
+        ],
+        [
+          "可借鉴",
+          "先准备代表性问题和正确依据，分别检查检索结果与最终回答。"
+        ],
+        [
+          "资料性质",
+          "RAG 教程与示例系统；实际接入业务仍需验证数据、权限与部署约束。"
+        ]
+      ],
+      "links": [
+        [
+          "阅读评估工具章节",
+          "https://github.com/datawhalechina/all-in-rag/blob/main/docs/chapter6/19_common_tools.md"
+        ],
+        [
+          "阅读官方教程",
+          "https://github.com/datawhalechina/all-in-rag"
+        ]
+      ],
+      "license": "CC BY-NC-SA 4.0; repository license checked 2026-10-22; no code incorporated"
+    }
+  ],
+  "cases": [
+    {
+      "id": "southwest",
+      "provider": "AWS × SOUTHWEST AIRLINES",
+      "type": "公开 AI 治理案例",
+      "title": "让分散的智能体，成为可复用的企业能力",
+      "description": "Southwest Airlines 在 AWS 官方材料中介绍：用统一目录管理跨团队的智能体与工具，帮助开发者发现已批准的能力。",
+      "topics": [
+        "engineering",
+        "operations"
+      ],
+      "facts": [
+        [
+          "业务问题",
+          "智能体与工具分散在不同技术团队，缺少统一清单，已有能力难以发现和复用。"
+        ],
+        [
+          "工程做法",
+          "建立受治理的统一目录，记录部署、负责人和审核状态，通过语义搜索发现已批准的能力。"
+        ],
+        [
+          "借鉴到项目",
+          "给可复用能力补齐用途、负责人和审核状态，让团队先查找已有实现，再决定是否新建。"
+        ]
+      ],
+      "note": "AWS 官方客户实践自述；本篇未明确该 Registry 项目的 FDE 分工，也未公开客户权限配置或完整集成清单。",
+      "links": [
+        [
+          "阅读 AWS 客户实践",
+          "https://aws.amazon.com/blogs/machine-learning/manage-agents-tools-and-skills-at-scale-with-aws-agent-registry/"
+        ]
+      ],
+      "reviewedAt": "2026-10-23"
+    },
+    {
+      "id": "technology-support",
+      "provider": "ATLASSIAN / 科技企业",
+      "type": "FDE 公开案例 · 客户未具名",
+      "title": "把问题处理，接入可验证的支持流程",
+      "description": "Atlassian 的 FDE Playbook 介绍一家未具名科技企业：FDE 部署 AI 处理一级、二级支持问题，并兼顾处理速度与客户满意度。",
+      "topics": [
+        "support",
+        "operations"
+      ],
+      "facts": [
+        [
+          "业务问题",
+          "一级、二级支持问题的处理周期需要缩短，同时保持客户满意度。"
+        ],
+        [
+          "已披露做法",
+          "FDE 部署能够自主解决一级、二级问题的 AI，并观察解决用时与客户满意度。"
+        ],
+        [
+          "借鉴到项目",
+          "先界定可自动处理的问题类型，再同时检查解决速度和服务质量，避免只看自动化比例。"
+        ]
+      ],
+      "note": "官方未披露客户身份、模型、系统接口与人工升级规则。与同篇半导体案例分别列示；本站不推断其具体技术栈。",
+      "links": [
+        [
+          "阅读官方 Playbook",
+          "https://www.atlassian.com/blog/guides-research/forward-deployed-engineering-playbook"
+        ]
+      ],
+      "reviewedAt": "2026-10-23"
+    },
+    {
+      "id": "intercom",
+      "provider": "ANTHROPIC × INTERCOM",
+      "type": "公开 AI 应用案例",
+      "title": "让客服回答，经得起持续验证",
+      "description": "Intercom 在 Fin 客服智能体中使用 Claude，结合企业知识库与沟通规则处理常见问题，将复杂请求留给人工团队。",
+      "topics": [
+        "support",
+        "knowledge"
+      ],
+      "facts": [
+        [
+          "业务问题",
+          "客服需要反复寻找权威答案，业务增长让响应速度与服务质量更难兼顾。"
+        ],
+        [
+          "工程做法",
+          "接入知识库并调整沟通方式，将变更与生产基线比较，持续检查回答质量与问题解决情况。"
+        ],
+        [
+          "借鉴到项目",
+          "先整理常见问题和可靠依据，再明确自动回答与人工处理的边界；每次调整都保留对照结果。"
+        ]
+      ],
+      "note": "官方应用案例自述，未明确披露 FDE 参与。完整检索、模型路由及评测样本未公开。",
+      "links": [
+        [
+          "阅读官方案例",
+          "https://claude.com/customers/intercom"
+        ]
+      ],
+      "reviewedAt": "2026-10-23"
+    },
+    {
+      "id": "rakuten",
+      "provider": "ANTHROPIC × RAKUTEN",
+      "type": "公开 AI 应用案例",
+      "title": "让代码助手，进入开发与评审流程",
+      "description": "Rakuten 将 Claude Code 用于测试、缺陷修复、组件开发、文档和代码理解，围绕实际工程任务调整协作方式。",
+      "topics": [
+        "engineering"
+      ],
+      "facts": [
+        [
+          "业务问题",
+          "在复杂代码库中推进任务，同时兼顾开发效率和交付质量。"
+        ],
+        [
+          "工程做法",
+          "将代码助手接入工程流程，结合单元测试、代码评审与并行任务使用。"
+        ],
+        [
+          "借鉴到项目",
+          "先选边界清楚的任务，保留验收测试、修改记录和人工评审依据，再扩大使用范围。"
+        ]
+      ],
+      "note": "本卡仅整理 Claude Code 部分；不与同页 Managed Agents 内容混算。官方未明确披露 FDE 参与，也未公开完整评测集。",
+      "links": [
+        [
+          "阅读官方案例",
+          "https://claude.com/customers/rakuten"
+        ]
+      ],
+      "reviewedAt": "2026-10-23"
+    },
+    {
+      "id": "cox",
+      "provider": "AWS × COX AUTOMOTIVE",
+      "type": "AI 工程交付参考",
+      "title": "从维修估价，走向可追踪的 Agent 流程",
+      "description": "Cox Automotive 的 FleetMate 用 AI 支持车队维修估价，并为多步骤任务建立运行环境、日志与权限控制。",
+      "topics": [
+        "operations"
+      ],
+      "facts": [
+        [
+          "业务问题",
+          "维修估价涉及多个信息和判断环节，复杂任务需要较长处理时间。"
+        ],
+        [
+          "工程做法",
+          "使用 Bedrock、AgentCore 与 Strands Agents，加入交互记录、角色权限和跨会话上下文。"
+        ],
+        [
+          "借鉴到项目",
+          "围绕一个具体业务环节先验证价值，同时准备错误定位与权限边界，再考虑相邻任务。"
+        ]
+      ],
+      "note": "AWS 官方自述；该个案未明确说明 FDE 职责，部分后续驾驶员服务仍为试点。",
+      "links": [
+        [
+          "阅读 AWS 案例",
+          "https://aws.amazon.com/solutions/case-studies/cox-auto-case-study/"
+        ]
+      ],
+      "reviewedAt": "2026-10-23"
+    },
+    {
+      "id": "semiconductor",
+      "provider": "ATLASSIAN / 半导体企业",
+      "type": "FDE 公开案例 · 客户未具名",
+      "title": "把企业治理，纳入任务分诊的落地",
+      "description": "Atlassian 的 FDE Playbook 介绍了一家未具名半导体企业：团队在企业治理要求下构建定制分诊 Agent，推进生产落地。",
+      "topics": [
+        "support",
+        "operations"
+      ],
+      "facts": [
+        [
+          "业务问题",
+          "任务分诊需要提效，同时必须满足复杂的企业治理要求。"
+        ],
+        [
+          "已披露做法",
+          "官方明确提到 FDE 构建定制分诊 Agent，并处理治理要求对上线的限制。"
+        ],
+        [
+          "借鉴到项目",
+          "在原型阶段就确认责任人、权限与人工接管方式，避免到上线前才补齐协作约束。"
+        ]
+      ],
+      "note": "客户身份、具体系统、分诊算法与权限实现未披露。借鉴方法是本站归纳，不代表该客户采用了相同设计。",
+      "links": [
+        [
+          "阅读官方 Playbook",
+          "https://www.atlassian.com/blog/guides-research/forward-deployed-engineering-playbook"
+        ]
+      ],
+      "reviewedAt": "2026-10-23"
+    },
+    {
+      "id": "expedia",
+      "provider": "ATLASSIAN × EXPEDIA",
+      "type": "FDE 公开案例",
+      "title": "从知识治理，切入日常运营",
+      "description": "Atlassian 的 FDE 官方介绍以 Expedia 为例，说明 AI 如何参与大规模 Confluence 内容运营。",
+      "facts": [
+        [
+          "业务问题",
+          "已有知识内容量大，持续整理与维护消耗运营时间。"
+        ],
+        [
+          "工程做法",
+          "FDE 与客户协作，把 AI 内容运营接进现有工作环境。"
+        ],
+        [
+          "借鉴到项目",
+          "从一个高频任务起步，记录人工基线，再检验实际节省的时间与质量变化。"
+        ]
+      ],
+      "note": "品牌官方自述；未公开的算法与权限实现不作推断。",
+      "links": [
+        [
+          "阅读 Atlassian 原文",
+          "https://www.atlassian.com/blog/how-we-build/meet-the-forward-deployed-engineer"
+        ]
+      ],
+      "topics": [
+        "knowledge",
+        "operations"
+      ],
+      "reviewedAt": "2026-10-22"
+    },
+    {
+      "id": "nfl",
+      "provider": "AWS × NFL",
+      "type": "FDE 相关实践",
+      "title": "把领域判断，带进数据智能体",
+      "description": "NFL Fantasy AI 技术论文介绍了领域专家与工程团队如何协作，将分析经验融入体育数据智能体。",
+      "facts": [
+        [
+          "业务问题",
+          "拥有统计数据，并不意味着模型掌握了分析师的判断方式。"
+        ],
+        [
+          "工程做法",
+          "结合专家推理方式、语义数据字典与工具接口，并通过分析师评估持续迭代。"
+        ],
+        [
+          "借鉴到项目",
+          "世界杯产品后续可参考：先定义代表性分析问题，再检验数据依据、分析过程与输出。"
+        ]
+      ],
+      "note": "Amazon 官方将 NFL 合作列为 FDE 实践；论文中的回答认可率不等于赛事预测准确率。",
+      "links": [
+        [
+          "阅读技术论文",
+          "https://www.amazon.science/publications/encoding-domain-expertise-in-agents-lessons-from-nfl-fantasy-ai"
+        ],
+        [
+          "查看 FDE 背景",
+          "https://www.aboutamazon.com/news/aws/aws-1-billion-forward-deployed-ai-engineers"
+        ]
+      ],
+      "topics": [
+        "data"
+      ],
+      "reviewedAt": "2026-10-22"
+    },
+    {
+      "id": "airbus",
+      "provider": "PALANTIR × AIRBUS",
+      "type": "工程派驻交付参考",
+      "title": "让分散数据，形成共同工作视图",
+      "description": "Palantir 的 Airbus 合作材料介绍了 A350 生产场景：工程师整合多团队数据，支持规划与排障。",
+      "facts": [
+        [
+          "业务问题",
+          "排程、班次、零件与缺陷信息分散，团队难以共同判断剩余工作及其优先级。"
+        ],
+        [
+          "工程做法",
+          "将相关数据接入 Foundry，以统一界面帮助现场团队协同。"
+        ],
+        [
+          "借鉴到项目",
+          "先围绕一个业务瓶颈理清数据口径与协作环节，再扩展界面和流程。"
+        ]
+      ],
+      "note": "官方合作材料，第 4 页。属于工程派驻与数据协同参考，并非生成式 AI 案例。",
+      "links": [
+        [
+          "查看官方 PDF · 第 4 页",
+          "https://www.palantir.com/assets/xrfr7uokpv1b/7uEHPTEM0MkKtBFcx2zh63/9d75da5b76439717ac95135b5012479e/Palantir-Airbus-Partnership_Overview.pdf#page=4"
+        ]
+      ],
+      "topics": [
+        "operations",
+        "data"
+      ],
+      "reviewedAt": "2026-10-22"
+    }
+  ],
+  "topics": [
+    [
+      "knowledge",
+      "知识与内容"
+    ],
+    [
+      "support",
+      "客户支持"
+    ],
+    [
+      "engineering",
+      "工程研发"
+    ],
+    [
+      "operations",
+      "业务流程"
+    ],
+    [
+      "data",
+      "数据分析"
+    ]
+  ]
+}

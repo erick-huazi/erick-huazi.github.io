@@ -1,0 +1,241 @@
+THIRD-PARTY DESIGN REFERENCES AND LICENSE NOTICES
+第三方设计参考与许可证声明
+
+ROUND 4 / 2026-10-22 — actual use, evaluated alternatives
+Scores are our fit assessment for this portfolio, not GitHub ratings or popularity.
+Fuse.js 7.5.0 — 86/100 — https://github.com/krisk/Fuse (Apache-2.0)
+Actual unchanged Basic distribution: assets/vendor/fuse.basic.min.mjs.
+Full license: assets/vendor/Fuse-LICENSE.txt. Commit 45bac9fe2e71fe8c680c861a35a8b226c4ae6d5a.
+Loaded locally on first search open; input remains in the browser and is not sent to a search service.
+axe-core 4.14.0 — 89/100 — https://github.com/dequelabs/axe-core (MPL-2.0)
+Development-only accessibility checks. Not shipped in dist; source includes a local QA preparation script.
+AutoAnimate 0.10.0 — 77/100 — https://github.com/formkit/auto-animate (MIT)
+Reference only: brief state transitions. The site uses native CSS and its existing motion controls, not AutoAnimate code.
+PhotoSwipe 5.4.4 — 70/100 — https://github.com/dimsemenov/PhotoSwipe (MIT)
+Embla Carousel 8.6.0 — 61/100 — https://github.com/davidjerleke/embla-carousel (MIT)
+Both evaluated but not included: current two main projects remain directly visible, with native expandable project descriptions.
+Round 4 weights: user value 30, interaction 20, accessibility 20, performance fit 15, maintenance 15.
+
+ROUND 3 / 2026-10-22 — implementation and design references
+以下分数为本站适配判断，不是 GitHub 官方评级或星数。
+Lucide 93/100: https://github.com/lucide-icons/lucide
+Actual asset use: 11 local SVG symbols, fixed commit 20aef31db93fe4d9f398dbb15b120d99c48eef95.
+Full ISC and Feather-origin MIT notices: assets/lucide-LICENSE.txt.
+No icon JavaScript runtime or CDN is shipped.
+
+Astro Nano 90/100: https://github.com/markhorn-dev/astro-nano (MIT)
+Reference only: static-first delivery, clear contact actions, structured metadata. Astro/Tailwind source and runtime are not included.
+Motion 88/100: https://github.com/motiondivision/motion (MIT)
+Reference only: controlled native animation, visibility-aware pause and reduced-motion handling. Implemented with browser WAAPI/CSS; Motion is not installed.
+Radix Primitives 84/100: https://github.com/radix-ui/primitives (MIT)
+Reference only: named dialogs, focus return, keyboard navigation and controlled interaction state. Implemented using native dialog/details/button; React/Radix are not installed.
+
+Lightning CSS 91/100: https://github.com/parcel-bundler/lightningcss (MPL-2.0)
+Actual build-time tool, version 1.33.0: merges and conservatively minifies the existing CSS cascade into site.css.
+Sharp 90/100: https://github.com/lovell/sharp (Apache-2.0)
+Actual build-time tool, version 0.35.5: renders the original code-native sculpture into transparent responsive WebP assets and generates the share image.
+Build tools and native binaries are not served to website visitors. See package-lock.json in the source repository.
+SVGO 81/100: https://github.com/svg/svgo (MIT)
+Evaluated but not used: syntax optimization would not remove the thousands of vector faces. The original SVG remains editable and serves as a fallback.
+
+No upstream author is represented as participating in or endorsing this website.
+
+
+本网站参考以下开源项目的信息组织、卡片布局与微交互思路，以原生 HTML、CSS 和 JavaScript 实现。
+本次融合不安装或打包这些项目使用的 React、Next.js、Tailwind CSS、Motion 等框架依赖。
+以下为来源与许可证存档；不表示原作者参与本站开发或为本站背书。
+核验日期：2026-10-19。
+
+========================================================================
+CV
+Repository: https://github.com/BartoszJarocki/cv
+Reviewed commit: https://github.com/BartoszJarocki/cv/commit/1ab0b9b6d026c64603269bc5c483369001764f44
+License source: https://github.com/BartoszJarocki/cv/blob/1ab0b9b6d026c64603269bc5c483369001764f44/LICENSE
+Design reference: 信息骨架
+
+MIT License
+
+Copyright (c) 2023 Bartosz Jarocki
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+========================================================================
+Magic UI
+Repository: https://github.com/magicuidesign/magicui
+Reviewed commit: https://github.com/magicuidesign/magicui/commit/efe76fc5755eca1142dd4f74c1d6f0ace2887e3c
+License source: https://github.com/magicuidesign/magicui/blob/efe76fc5755eca1142dd4f74c1d6f0ace2887e3c/LICENSE.md
+Design reference: 项目卡片
+
+MIT License
+
+Copyright (c) Magic UI
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+========================================================================
+Motion Primitives
+Repository: https://github.com/ibelick/motion-primitives
+Reviewed commit: https://github.com/ibelick/motion-primitives/commit/120f64f6ca60348e251f929e9c81f11ccbe45eda
+License source: https://github.com/ibelick/motion-primitives/blob/120f64f6ca60348e251f929e9c81f11ccbe45eda/LICENCE.md
+Design reference: 轻量交互
+
+MIT License
+
+Copyright (c) 2024 ibelick
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+app/page.tsx
+
+========================================================================
+ROUND 2 — DESIGN AND INTERACTION REFERENCES
+第二轮设计与交互参考
+
+本轮保留 v6 页面设计基础，借鉴交错图文案例、项目分类索引及命令菜单交互。
+实际实现使用原生 HTML、CSS 与 JavaScript；不安装 Astro、React、Next.js、Tailwind 或 cmdk 运行依赖。
+项目分类提供精选 / 历史 / 全部；快速导航采用原生 dialog、本地过滤及 Ctrl / Command + K、方向键、Enter、Escape 操作。
+以下为来源及完整许可证存档，不表示上游作者参与本网站开发或为本网站背书。
+核验日期：2026-10-19。
+
+========================================================================
+AstroWind
+Repository: https://github.com/arthelokyo/astrowind
+Former repository URL: https://github.com/onwidget/astrowind
+Reviewed commit: https://github.com/arthelokyo/astrowind/commit/14e1a691f80548dcc36370847b1a02c0d0b12821
+License source: https://github.com/arthelokyo/astrowind/blob/14e1a691f80548dcc36370847b1a02c0d0b12821/LICENSE.md
+Design reference: 案例布局
+Native implementation plan: 从 v6 的并列卡片，转为每个项目有独立阅读节奏的案例段落。
+
+MIT License
+
+Copyright (c) 2023 onWidget
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+========================================================================
+Tailwind Nextjs Starter Blog
+Repository: https://github.com/timlrx/tailwind-nextjs-starter-blog
+Reviewed commit: https://github.com/timlrx/tailwind-nextjs-starter-blog/commit/b45bef66b40c63b6f57c15ee8cd090682238df4c
+License source: https://github.com/timlrx/tailwind-nextjs-starter-blog/blob/b45bef66b40c63b6f57c15ee8cd090682238df4c/LICENSE
+Design reference: 项目索引
+Native implementation plan: 从主要依靠折叠区发现旧项目，转为可见、可操作的项目分类入口。
+
+MIT License
+
+Copyright (c) 2021-2025 Timothy Lin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+========================================================================
+cmdk
+Repository: https://github.com/dip/cmdk
+Former repository URL: https://github.com/pacocoursey/cmdk
+Reviewed commit: https://github.com/dip/cmdk/commit/dd2250ed608443e8f32bafc5fa2d1d07a3746aa3
+License source: https://github.com/dip/cmdk/blob/dd2250ed608443e8f32bafc5fa2d1d07a3746aa3/LICENSE.md
+Design reference: 快捷导航
+Native implementation plan: 增加 Ctrl / ⌘ K 快捷入口，方向键选择，Enter 前往，Escape 关闭并返回原焦点。
+
+MIT License
+
+Copyright (c) 2022 Paco Coursey
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+

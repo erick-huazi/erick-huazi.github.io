@@ -1,0 +1,261 @@
+/* FDE portfolio: calm typography, complete project cards, compact identity. */
+:root{--paper:#f8f7f1;--white:#fffefb;--ink:#173e35;--muted:#617168;--line:#dce1d5;--lime:#e0ecae;--card-radius:22px}
+body{font-size:16px;line-height:1.8;background:var(--paper)}
+[hidden]{display:none!important}
+.wrap{max-width:1248px;padding-right:48px;padding-left:48px}
+.section{padding:64px 0}
+.section-heading{gap:32px;margin-bottom:30px}
+.section-heading h2{font-size:35px;font-weight:600;line-height:1.4;letter-spacing:-1px;margin-top:12px}
+.section-heading p,.services-intro p,.about-copy>p,.contact-copy,.service-body,.service-name p{font-size:15px;line-height:1.85}
+.section-number{font-size:11px;letter-spacing:1.8px;color:#71816d}
+.btn{min-height:50px;border-radius:12px;padding:12px 22px;font-size:15px;font-weight:500;gap:22px;box-shadow:0 3px 0 #0c2d2510}
+.btn:hover{transform:translateY(-2px);background:#285448;box-shadow:0 6px 18px #193d3414}
+.text-link,.resume-link,.service-body a{font-size:15px;min-height:44px}
+:focus-visible{outline:3px solid #a96b38;outline-offset:5px}
+.tag{font-size:12px;padding:4px 11px;border-color:#d2dac9;background:#f3f5ea}
+
+/* Header and first impression. */
+.nav{height:76px;background:#f8f7f1ed;border-bottom-color:#e1e5d9}
+.nav-inner{gap:24px}
+.brand{font-size:21px;letter-spacing:-.5px;gap:10px;white-space:nowrap}
+.brand-mark{width:33px;height:33px;background:var(--ink);color:var(--paper);border-color:var(--ink);font-size:25px;transform:none}
+.brand small{font-size:10px;letter-spacing:1.3px}
+.nav-links{font-size:14px;gap:25px}
+.nav-links a{min-height:44px;display:inline-flex;align-items:center}
+.nav-cta{background:var(--ink);color:var(--paper);border:0;padding:10px 18px;border-radius:12px;gap:14px}
+.nav-links .nav-cta:hover,.nav-links .nav-cta[aria-current="location"]{background:#2b5548;color:var(--paper)}
+.nav-links .nav-cta[aria-current="location"]:after{display:none}
+.menu{min-width:64px;min-height:44px;border-radius:10px;border-color:#cdd7c4;font-size:14px}
+.hero.wrap{padding-top:54px;padding-bottom:60px}
+
+.hero-copy{min-width:0}
+.hero .eyebrow{font-size:12px;line-height:1.7;letter-spacing:1.5px;gap:9px;color:#5e735c}
+.hero h1{font-size:clamp(46px,5vw,64px);font-weight:600;line-height:1.2;letter-spacing:-2.4px;margin:23px 0 20px}
+.hero h1 em{font-family:inherit;font-weight:600;white-space:normal;background:linear-gradient(transparent 72%,#e0ecae 72%,#e0ecae 94%,transparent 94%);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero h1 em:after{display:none}
+
+
+
+.actions{gap:14px 22px;align-items:center}
+.hero .actions>.text-link{border:0;color:#556c50;font-size:14px;min-height:50px;padding:0}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* The work is the primary proof. */
+.work-section{background:#eff2e8;border-top:1px solid #e0e6d7;border-bottom:1px solid #e0e6d7}
+
+
+
+
+
+
+
+
+.live-badge{padding:4px 9px;background:#f0f5e5;border-color:#d4dfc5;font-size:10px;line-height:1.6}
+
+
+
+
+
+
+
+
+
+
+
+.archive-projects{margin-top:28px;border:1px solid #d5dfc9;border-radius:18px;background:#f7f8ef;overflow:clip}
+.archive-projects>summary,.archive-projects>details>summary{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:90px;padding:22px 26px;cursor:pointer;list-style:none}
+.archive-projects>summary::-webkit-details-marker,.archive-projects>details>summary::-webkit-details-marker{display:none}
+.archive-heading{min-width:0}
+.archive-heading strong{display:block;font-size:19px;font-weight:500;line-height:1.6}
+.archive-heading span{display:block;font-size:13px;line-height:1.7;color:#74816b;margin-top:3px}
+.archive-count{display:inline-flex;gap:12px;align-items:center;flex:none;font-size:12px;color:#66795a}
+.archive-count>span[aria-hidden="true"]{display:none}
+.archive-count:after{content:'+';font-size:23px;font-weight:400;line-height:1}
+.archive-projects[open] .archive-count:after,.archive-projects>details[open] .archive-count:after{content:'−'}
+.archive-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid #dce3d3;padding:8px 0}
+.archive-item{display:grid;grid-template-columns:24px minmax(0,1fr);align-content:start;gap:12px;padding:22px 24px}
+.archive-item+.archive-item{border-left:1px solid #dce3d3}
+.archive-index{font:italic 15px/1.7 var(--serif);color:#8b9d74;padding-top:2px}
+.archive-body{min-width:0}
+.archive-body .project-title{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:0 0 12px}
+.archive-body .project-title h3{margin:0}
+.archive-body .project-index{font:11px/1.6 var(--sans);color:#7a896e}
+.archive-body .case-deliverables{gap:7px 12px;margin:14px 0 18px}
+.archive-body .case-deliverables li{font-size:12px;line-height:1.7}
+.archive-body .project-details summary{font-size:13px;min-height:44px;gap:10px}
+.archive-body .project-details a{font-size:12px;line-height:1.8;display:inline-flex;align-items:center;min-height:44px}
+.archive-body h3{font-size:19px;line-height:1.5;font-weight:500;margin:0 0 10px;letter-spacing:-.4px;overflow-wrap:anywhere}
+.archive-body p{font-size:14px;line-height:1.85;color:var(--muted);margin:0 0 13px}
+.archive-body .tags{margin:13px 0 7px;gap:5px}
+.archive-body .tag{font-size:10px;background:transparent;padding:3px 8px}
+.archive-body .text-link{font-size:12px;min-height:44px;border:0;text-decoration:underline;text-underline-offset:4px;line-height:1.6}
+.work-foot{margin-top:25px;font-size:13px;align-items:center;gap:12px 22px}
+.work-foot .text-link{font-size:14px}
+
+/* Secondary sections stay useful and compact. */
+.services-layout,.about-grid{grid-template-columns:minmax(0,.83fr) minmax(0,1.45fr);gap:65px}
+.services-intro h2{font-size:33px;font-weight:500;line-height:1.45;margin:16px 0 18px}
+.handwritten{font-size:29px;line-height:1.2;margin-top:25px;color:#93a278}
+.service summary{padding:21px 0;gap:20px;min-height:83px}
+.service-name{min-width:0}
+.service-name h3{font-size:21px;line-height:1.5;font-weight:500}
+.service-name p{font-size:14px;margin-top:4px}
+.service-num{font-size:13px}
+.service-body{padding:0 13px 23px 35px}
+.service-body ul{margin:12px 0;line-height:1.95}
+.service-body a{font-size:14px;margin-top:5px}
+.scenarios{background:#f2f4eb}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.process{background:#eeefe5}
+.process .section-heading{margin-bottom:26px}
+
+
+
+
+
+
+.about{padding-top:60px;border-top-color:#e3e7dc}
+.about h2{font-size:30px;margin:13px 0}
+.about h2 small{font:15px/1.7 var(--sans);color:#7b8870;margin-top:10px}
+.about-copy .big-copy{font-size:24px;line-height:1.7;letter-spacing:-.5px;margin:3px 0 20px}
+.about-facts{gap:15px 22px;margin:24px 0}
+.fact{padding-top:11px}
+.fact small{font-size:10px;letter-spacing:.4px}
+.fact strong{font-size:15px;line-height:1.7;display:block;margin-top:5px}
+.experience{font-size:14px;padding:14px 0;gap:18px}
+.experience span{width:80px}
+.experience p{font-size:15px;line-height:1.8;min-width:0}
+.experience small{font-size:13px;line-height:1.8}
+.resume-link{font-size:13px;margin-top:12px}
+
+
+
+
+/* Contact details and a complete, uncropped WeChat code. */
+.contact{padding:64px 0 50px;margin:0}
+.contact-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:58px;align-items:start}
+.contact h2{font-size:39px;line-height:1.4;letter-spacing:-1px;margin:18px 0 20px}
+.contact-copy{max-width:440px;color:#c2d0bd;margin:15px 0}
+.contact-options{margin-top:22px;gap:9px}
+.contact-option{border-radius:20px;font-size:12px;padding:7px 12px;border-color:#afc59a44}
+.phone-contact{margin-top:25px}
+.phone-label{font-size:11px;line-height:1.7;letter-spacing:1px;color:#b9cdae}
+.direct-phone{font-size:28px;line-height:1.5;padding:4px 0 10px;letter-spacing:.6px;max-width:100%}
+.direct-mail{font-size:23px;line-height:1.5;max-width:100%;margin-top:16px;min-height:54px;border-color:#82997b66}
+.plain-button{font-size:13px;line-height:1.7;min-height:44px;color:#d6e2ca}
+.wechat-contact{display:grid;grid-template-columns:minmax(0,1fr) 126px;gap:22px;align-items:center;background:#234b3f;border:1px solid #71946655;border-radius:20px;padding:19px;margin:22px 0 24px;min-width:0}
+.wechat-info{min-width:0}
+.wechat-info>strong{display:block;font-size:20px;line-height:1.5;font-weight:500;color:#f1f4e8;overflow-wrap:anywhere;letter-spacing:.3px}
+.wechat-info>p{font-size:13px;line-height:1.7;color:#b6cba9;margin:8px 0}
+.wechat-info .plain-button{padding:7px 0;font-size:12px;min-height:40px}
+.qr-save{display:inline-flex;align-items:center;min-height:44px;font-size:12px;line-height:1.6;text-decoration:underline;text-underline-offset:4px;color:#dce7c7}
+.wechat-preview{display:block;min-width:0;width:100%;border:0;border-radius:11px;background:#fff;padding:6px;overflow:hidden;cursor:zoom-in;box-shadow:0 4px 16px #082b2824}
+.wechat-preview button{display:block;width:100%;border:0;padding:0;background:transparent;cursor:zoom-in}
+.wechat-preview img{display:block;width:100%;height:auto;max-height:none;object-fit:contain;border-radius:6px;aspect-ratio:888/1134}
+.wechat-preview span,.wechat-preview small{display:block;text-align:center;color:#60715e;font-size:10px;line-height:1.5;padding:5px 0 1px}
+.contact-card{padding:28px;border-radius:22px;background:#fbfaf4;box-shadow:0 12px 40px #102f2520;border:1px solid #e4e9d9}
+.contact-card-heading{margin-bottom:23px;gap:10px}
+.contact-card-heading h3{font-size:21px;font-weight:500;line-height:1.5}
+.contact-card-heading>span{font-size:11px}
+.contact-card label{font-size:13px;line-height:1.7;margin-bottom:17px}
+.contact-card input,.contact-card select,.contact-card textarea{border-radius:10px;font-size:15px;background:#fffefa;padding:11px 12px;min-height:46px;border-color:#d1dbc6}
+.contact-card textarea{min-height:147px}
+.contact-card .btn{font-size:14px;min-height:49px;border-radius:11px}
+.contact-card .field-row{gap:13px}
+.need-meta{font-size:10px;line-height:1.8;margin-bottom:20px}
+.form-note{font-size:11px;line-height:1.9;margin-top:12px}
+.summary-output{border-radius:13px;background:#eff3e5;padding:18px}
+.summary-output h4{font-size:17px;line-height:1.7}
+.summary-output p{font-size:13px}
+.summary-output textarea{font-size:15px;min-height:210px}
+.summary-actions .btn{font-size:13px}
+.download-brief{font-size:13px;min-height:44px}
+.footer{padding-top:22px;padding-bottom:26px}
+.footer-inner{font-size:11px;gap:20px}
+.footer a{min-height:44px;display:inline-flex;align-items:center}
+.share-page{border-radius:10px;font-size:12px}
+
+.wechat-dialog{width:400px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);border:1px solid #d2dcc7;border-radius:20px;background:#faf9f2;color:var(--ink);padding:21px;box-shadow:0 24px 100px #092c264d;overflow:auto}
+.wechat-dialog::backdrop{background:#102f28b5;backdrop-filter:blur(5px)}
+.qr-dialog-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:13px}
+.qr-dialog-head h2{font-size:21px;font-weight:500;line-height:1.5;margin:0}
+.qr-dialog-head button{flex:none;min-height:44px;min-width:44px;border:1px solid #d5dfca;border-radius:11px;background:#f0f3e5;color:var(--ink);font-size:17px;cursor:pointer}
+.wechat-dialog>img{display:block;width:100%;height:auto;max-height:none;object-fit:contain;border-radius:10px;border:1px solid #e1e6d9;background:#fff;aspect-ratio:888/1134}
+.wechat-dialog>p{font-size:13px;line-height:1.8;color:#6a7a61;margin:15px 0 12px}
+.wechat-dialog .plain-button{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--paper);border:0;border-radius:10px;padding:10px 15px;text-decoration:none;margin-right:10px;font-size:13px}
+.wechat-dialog .qr-save{color:var(--ink);font-size:13px;min-height:44px}
+.qr-dialog-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px}
+.qr-dialog-actions .btn{font-size:14px;min-height:46px;padding:10px 17px}
+.qr-dialog-actions .text-link{font-size:14px;min-height:46px}
+#copy-dialog{border-radius:20px}
+#copy-value{border-radius:10px}
+.toast{border-radius:12px;font-size:14px}
+
+@media(max-width:1050px){
+  .wrap{padding-left:32px;padding-right:32px}.hero h1{font-size:50px;letter-spacing:-2px}
+  .nav-links{gap:18px;font-size:13px}.nav-cta{padding:10px 14px}.brand small{font-size:9px}
+  .archive-grid{grid-template-columns:minmax(0,1fr)}.archive-item{padding:22px 26px;grid-template-columns:30px minmax(0,1fr)}.archive-item+.archive-item{border-left:0;border-top:1px solid #dce3d3}.archive-body p{font-size:15px}.archive-body .tags{display:inline-flex;margin:6px 20px 6px 0}.archive-body .text-link{display:inline-flex}
+  .services-layout,.about-grid{gap:40px}.services-intro h2{font-size:29px}.service-name h3{font-size:19px}
+  .contact-layout{gap:33px;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}.contact h2{font-size:34px}.contact-card{padding:23px}.contact-card-heading h3{font-size:19px}.wechat-contact{grid-template-columns:minmax(0,1fr) 105px;padding:16px;gap:15px}.wechat-info>strong{font-size:18px}.direct-mail{font-size:21px}.direct-phone{font-size:25px}
+}
+@media(max-width:760px){
+  html{scroll-padding-top:88px}.wrap{padding-left:22px;padding-right:22px}.section{padding:44px 0}.section-heading{margin-bottom:25px;gap:18px}.section-heading h2{font-size:29px;line-height:1.4;letter-spacing:-.8px;margin-bottom:13px}.section-heading p{font-size:15px;max-width:100%}.section-number{font-size:10px;letter-spacing:1.5px}
+  .nav{height:68px}.nav-inner{gap:12px}.brand{font-size:19px;gap:8px}.brand-mark{width:30px;height:30px;font-size:23px}.brand small{font-size:9px;letter-spacing:.8px}.menu{font-size:13px;min-width:59px;padding:7px 11px}.nav-links{top:68px;padding:14px 22px 19px;gap:7px;background:#f8f7f1fa;border-bottom:1px solid var(--line);box-shadow:0 18px 20px #193d3405}.nav-links a{font-size:15px;min-height:46px}.nav-cta{margin-top:3px;border-radius:11px}.nav-links a[aria-current="location"]:after{bottom:4px}.nav-links .nav-cta:after{display:none}
+  html:not(.js) .nav{height:auto}html:not(.js) .nav-links{box-shadow:none}html:not(.js) .nav-cta{padding:0 12px;color:var(--paper)}
+  .hero.wrap{padding-top:35px;padding-bottom:42px}.hero .eyebrow{font-size:11px;letter-spacing:1px}.hero h1{font-size:46px;line-height:1.21;letter-spacing:-1.9px;margin:19px 0 18px}.actions{gap:10px 19px}.hero .btn{min-height:48px;padding:11px 18px;font-size:14px;gap:18px}.hero .actions>.text-link{font-size:13px;min-height:48px}
+
+  .live-badge{font-size:10px;padding:4px 8px}
+  .archive-projects{margin-top:23px;border-radius:17px}.archive-projects>summary,.archive-projects>details>summary{padding:19px;gap:14px;min-height:92px}.archive-heading strong{font-size:18px}.archive-heading span{font-size:12px;line-height:1.7}.archive-count{font-size:11px;gap:8px}.archive-item{padding:21px 19px;grid-template-columns:22px minmax(0,1fr);gap:11px}.archive-body h3{font-size:20px}.archive-body p{font-size:15px}.archive-body .tags{display:flex;margin:12px 0 4px}.archive-body .text-link{font-size:12px}.work-foot{align-items:flex-start;gap:8px;margin-top:20px;font-size:13px}.work-foot .text-link{font-size:14px}
+  .services-layout,.about-grid{grid-template-columns:minmax(0,1fr);gap:24px}.services-intro h2{font-size:29px;line-height:1.45;margin-bottom:13px}.services-intro p{font-size:15px;max-width:100%}.service summary{padding:19px 0;gap:14px;min-height:80px}.service-num{font-size:12px}.service-name h3{font-size:19px}.service-name p{font-size:14px}.service-body{font-size:15px;padding-left:28px;padding-right:0;padding-bottom:21px}.service-body a{font-size:14px}.service summary:after{font-size:21px}
+
+
+  .about{padding-top:44px}.about-grid{gap:12px}.about h2{font-size:28px}.about h2 small{font-size:14px;display:block;margin:7px 0 0}.about .tags{margin-bottom:8px}.about-copy .big-copy{font-size:23px;margin:5px 0 18px;line-height:1.65}.about-copy>p{font-size:15px}.about-facts{gap:17px;margin:22px 0}.fact strong{font-size:14px;line-height:1.8}.experience{gap:12px;padding:13px 0}.experience span{width:70px;font-size:13px}.experience p{font-size:14px}.experience small{font-size:12px;line-height:1.85}.resume-link{font-size:13px}
+
+  .contact{padding:44px 0 32px}.contact-layout{grid-template-columns:minmax(0,1fr);gap:28px}.contact h2{font-size:33px;line-height:1.4;margin:17px 0}.contact-copy{font-size:15px;line-height:1.85;max-width:100%}.contact-options{margin-top:19px;gap:8px}.contact-option{font-size:11px;padding:7px 11px}.phone-contact{margin-top:24px}.phone-label{font-size:11px}.direct-phone{font-size:28px}.direct-mail{font-size:23px;min-height:54px;margin-top:15px}.plain-button{font-size:13px;min-height:44px}.wechat-contact{grid-template-columns:minmax(0,1fr) 112px;gap:18px;padding:18px;margin:20px 0 23px;border-radius:19px}.wechat-info>strong{font-size:19px}.wechat-info>p{font-size:12px}.wechat-preview{padding:5px}.wechat-info .plain-button{font-size:12px;min-height:44px}.qr-save{font-size:12px}.contact-card{padding:24px 22px;border-radius:20px}.contact-card-heading{margin-bottom:23px;gap:9px}.contact-card-heading h3{font-size:20px}.contact-card-heading>span{font-size:10px}.contact-card .field-row{grid-template-columns:minmax(0,1fr);gap:0}.contact-card label{font-size:14px;margin-bottom:18px}.contact-card input,.contact-card select,.contact-card textarea{font-size:16px;min-height:48px;padding:11px 12px;border-radius:10px}.contact-card textarea{min-height:156px}.contact-card .btn{font-size:14px;min-height:49px}.need-meta{font-size:10px;gap:12px;line-height:1.8}.form-note{font-size:11px;line-height:1.9}.summary-output{padding:16px;border-radius:12px}.summary-output h4{font-size:17px}.summary-output textarea{font-size:16px;min-height:220px}.summary-actions .btn{font-size:13px}.download-brief{font-size:13px}.footer{padding-top:18px;padding-bottom:26px}.footer-inner{gap:11px;font-size:10px}.footer a{font-size:12px}.share-page{font-size:11px;min-height:44px}
+  .mobile-contact{border-radius:15px;padding:7px;left:11px;right:11px;gap:8px;background:#fcfcf2f5;border-color:#cbd8bf}.mobile-contact>a{border-radius:10px;min-height:46px;font-size:14px}.mobile-contact>.mobile-call{border-radius:10px;min-height:46px;font-size:13px;background:#edf2e3;color:var(--ink);padding:10px 13px;flex:none}.toast{font-size:13px;border-radius:12px}.wechat-dialog{padding:18px;border-radius:18px}.qr-dialog-head h2{font-size:20px}.wechat-dialog>p{font-size:13px}.wechat-dialog .plain-button{min-height:44px;font-size:13px}
+}
+@media(max-width:360px){
+  .wrap{padding-left:18px;padding-right:18px}.brand{font-size:18px}.brand small{display:none}.hero h1{font-size:40px;letter-spacing:-1.6px}.actions{gap:7px 16px}.hero .btn{padding:11px 16px;font-size:13px;gap:14px}.hero .actions>.text-link{font-size:12px}
+  .section-heading h2{font-size:27px}.live-badge{font-size:9px;padding:4px 7px}.archive-projects>summary,.archive-projects>details>summary{padding:18px 16px;gap:10px}.archive-heading strong{font-size:17px}.archive-heading span{font-size:12px}.archive-count{font-size:10px;gap:6px}.archive-item{padding:20px 16px;grid-template-columns:20px minmax(0,1fr);gap:9px}
+  .service-name h3{font-size:18px}.service-name p{font-size:13px}.service summary{gap:11px}.service-body{padding-left:25px}.about-facts{grid-template-columns:minmax(0,1fr)}.experience{gap:10px}.experience span{width:65px;font-size:12px}.experience p{font-size:14px}.contact h2{font-size:30px}.contact-card{padding:22px 18px}.contact-card-heading h3{font-size:18px}.contact-card-heading>span{font-size:10px}.wechat-contact{grid-template-columns:minmax(0,1fr) 94px;padding:15px;gap:12px}.wechat-info>strong{font-size:17px}.wechat-info>p{font-size:11px}.wechat-info .phone-label{font-size:10px}.wechat-info .plain-button,.wechat-info .qr-save{font-size:11px}.direct-phone{font-size:25px}.direct-mail{font-size:21px}.summary-output{padding:13px}.summary-actions{flex-direction:column}.summary-actions .btn{width:100%;flex:auto}.need-meta{font-size:10px;gap:7px}.mobile-contact>a{font-size:13px;padding:10px 12px}.mobile-contact>.mobile-call{font-size:12px;padding:10px 10px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}.btn{transition:none}.btn:hover{transform:none}
+}

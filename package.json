@@ -1,0 +1,19 @@
+{
+  "name": "erick-fde-portfolio",
+  "version": "19.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Static personal portfolio with optional local fuzzy search and development accessibility checks",
+  "scripts": {
+    "build": "node scripts/build-assets.mjs",
+    "check:search": "node scripts/check-search.mjs",
+    "qa:prepare": "node scripts/prepare-a11y.mjs",
+    "build:references": "node scripts/build-references.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.14.0",
+    "fuse.js": "7.5.0",
+    "lightningcss": "1.33.0",
+    "sharp": "0.35.5"
+  }
+}

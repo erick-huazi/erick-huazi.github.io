@@ -1,0 +1,104 @@
+/* V19: two-case comparison, with a native dialog and a compact selection tray. */
+.reference-page.ref-v19.ref-compare-active{padding-bottom:160px}
+.reference-page.ref-v19 [hidden]{display:none!important}
+.reference-page.ref-v19 .ref-select,.reference-page.ref-v19 #ref-selected-items button,.reference-page.ref-v19 .ref-compare-actions button,.reference-page.ref-v19 #ref-compare-close,.reference-page.ref-v19 #ref-compare-download{box-sizing:border-box;appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;margin:0;border:1px solid #b8c7ac;border-radius:9px;font:500 14px/1.7 'Segoe UI','Microsoft YaHei',system-ui,sans-serif;background:#fcfcf5;color:#31553c;cursor:pointer;touch-action:manipulation;text-align:center;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.reference-page.ref-v19 .ref-select{width:100%;padding:10px 16px;margin-top:16px;min-height:46px;border-color:#b9b0c8;background:#faf8fc;color:#435c47}
+.reference-page.ref-v19 .ref-select[aria-pressed='true']{background:#193d34;border-color:#193d34;color:#f8f7f1}
+.reference-page.ref-v19 .ref-select:disabled,.reference-page.ref-v19 #ref-compare-open:disabled{background:#e9ece3;border-color:#cdd5c4;color:#65705f;cursor:not-allowed;opacity:1}
+.reference-page.ref-v19 .ref-compare-tray{box-sizing:border-box;position:fixed;z-index:40;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;justify-content:space-between;gap:24px;width:min(1110px,calc(100% - 40px));max-height:calc(100dvh - 40px);overflow-y:auto;overscroll-behavior:contain;padding:17px 22px;border:1px solid #bac7ad;border-radius:16px;background:#fbfcf4;box-shadow:0 8px 40px #183b3426,0 1px 4px #183b340d}
+.reference-page.ref-v19 .ref-compare-selection{min-width:0;flex:1}
+.reference-page.ref-v19 #ref-selection-status{margin:0 0 8px;font-size:14px;font-weight:500;line-height:1.7;color:#35523b;overflow-wrap:anywhere}
+.reference-page.ref-v19 #ref-selected-items{display:flex;align-items:center;flex-wrap:wrap;gap:7px;min-width:0}
+.reference-page.ref-v19 #ref-selected-items button{display:block;min-width:0;max-width:270px;min-height:44px;padding:8px 13px;border:1px solid #d1c7db;border-radius:8px;background:#efebf4;color:#63526e;font-size:14px;font-weight:400;line-height:1.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reference-page.ref-v19 .ref-compare-actions{display:flex;align-items:center;gap:9px;flex:none}
+.reference-page.ref-v19 .ref-compare-actions button{min-height:46px;padding:10px 17px;white-space:nowrap}
+.reference-page.ref-v19 #ref-compare-open{background:#193d34;border-color:#193d34;color:#f8f7f1}
+.reference-page.ref-v19 #ref-compare-clear{background:transparent;border-color:#c4cdb9;color:#506549}
+.reference-page.ref-v19 .ref-compare-dialog{box-sizing:border-box;position:fixed;inset:0;width:1080px;max-width:calc(100vw - 48px);height:fit-content;max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);margin:auto;padding:27px 29px 24px;border:1px solid #b8c7ad;border-radius:20px;background:#f8f7f1;color:#193d34;box-shadow:0 24px 90px #0e2b2560;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.reference-page.ref-v19 .ref-compare-dialog::backdrop{background:#102e29ad}
+.reference-page.ref-v19 .ref-compare-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:25px;padding-bottom:18px;border-bottom:1px solid #d8dfce}
+.reference-page.ref-v19 .ref-compare-heading>div{min-width:0}
+.reference-page.ref-v19 .ref-compare-heading .ref-kicker{font-size:12px;line-height:1.8;letter-spacing:1.1px;color:#627653;margin:0 0 7px}
+.reference-page.ref-v19 #ref-compare-title{font-size:29px;line-height:1.4;font-weight:500;letter-spacing:-.8px;color:#193d34;margin:0;overflow-wrap:anywhere}
+.reference-page.ref-v19 #ref-compare-close{flex:none;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border:1px solid #c7cfbc;border-radius:50%;background:#f0f2e6;color:#47613d;font:400 26px/1 Arial,sans-serif}
+.reference-page.ref-v19 .ref-compare-intro{font-size:15px;line-height:1.9;color:#586c50;max-width:850px;margin:17px 0 23px;overflow-wrap:anywhere}
+.reference-page.ref-v19 #ref-comparison-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:21px;align-items:start;min-width:0}
+.reference-page.ref-v19 .ref-comparison-case{display:flex;flex-direction:column;min-width:0;padding:23px 24px 18px;border:1px solid #d9d0e1;border-radius:14px;background:#f1edf5}
+.reference-page.ref-v19 .ref-comparison-case>.ref-kicker{font-size:14px;line-height:1.7;font-weight:500;letter-spacing:.2px;color:#70607c;margin:0 0 12px;overflow-wrap:anywhere}
+.reference-page.ref-v19 .ref-comparison-case h3{font-size:23px;line-height:1.45;font-weight:500;letter-spacing:-.5px;color:#193d34;margin:0 0 14px;overflow-wrap:anywhere}
+.reference-page.ref-v19 .ref-comparison-case>p{font-size:15px;line-height:1.85;color:#536453;margin:0 0 19px;overflow-wrap:anywhere}
+.reference-page.ref-v19 .ref-comparison-case>.ref-type{align-self:flex-start;max-width:100%;font-size:13px;line-height:1.7;color:#63536e;background:#e7e1ed;border:1px solid #d2c6dc;border-radius:6px;padding:4px 9px;margin:0 0 15px}
+.reference-page.ref-v19 .ref-comparison-case .ref-facts{margin:0 0 18px;min-width:0}
+.reference-page.ref-v19 .ref-comparison-case .ref-facts>div{padding:13px 0;border-top:1px solid #dcd3e3;min-width:0}
+.reference-page.ref-v19 .ref-comparison-case .ref-facts dt{font-size:14px;line-height:1.7;font-weight:500;color:#6c5b78;margin:0 0 6px}
+.reference-page.ref-v19 .ref-comparison-case .ref-facts dd{font-size:15px;line-height:1.85;color:#3f5747;margin:0;overflow-wrap:anywhere}
+.reference-page.ref-v19 .ref-comparison-case .ref-facts dd p{margin:0;font-size:15px;line-height:1.85}
+.reference-page.ref-v19 .ref-comparison-case>.ref-note{font-size:14px;line-height:1.85;color:#61546a;padding:12px 14px;margin:0 0 19px;border-radius:8px;background:#e8e1ee}
+.reference-page.ref-v19 .ref-comparison-case .ref-links{margin-top:auto;padding-top:12px;border-top:1px solid #d8cfe0;gap:3px 18px}
+.reference-page.ref-v19 .ref-comparison-case .ref-links a{min-height:44px;font-size:14px;color:#35543e;text-decoration-color:#9dad94;overflow-wrap:anywhere}
+.reference-page.ref-v19 .ref-comparison-case time{font-size:14px;line-height:1.8;color:#53644b;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.reference-page.ref-v19 .ref-compare-footer{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-top:23px;padding-top:20px;border-top:1px solid #d6dfc9}
+.reference-page.ref-v19 .ref-compare-footer>p{min-width:0;max-width:720px;margin:0;color:#627255;font-size:14px;line-height:1.85;overflow-wrap:anywhere}
+.reference-page.ref-v19 #ref-compare-download{flex:none;min-height:48px;padding:11px 20px;border-color:#193d34;border-radius:99px;background:#193d34;color:#f8f7f1;font-size:14px;white-space:nowrap}
+.reference-page.ref-v19 .ref-select:focus-visible,.reference-page.ref-v19 #ref-selected-items button:focus-visible,.reference-page.ref-v19 .ref-compare-actions button:focus-visible,.reference-page.ref-v19 #ref-compare-close:focus-visible,.reference-page.ref-v19 #ref-compare-download:focus-visible,.reference-page.ref-v19 .ref-compare-dialog a:focus-visible{outline:3px solid #8974a1;outline-offset:4px}
+@media(hover:hover){
+  .reference-page.ref-v19 .ref-select:not(:disabled):not([aria-pressed='true']):hover{background:#e9e3f0;border-color:#9f91ae}
+  .reference-page.ref-v19 .ref-select[aria-pressed='true']:hover,.reference-page.ref-v19 #ref-compare-open:not(:disabled):hover,.reference-page.ref-v19 #ref-compare-download:hover{background:#315646;border-color:#315646}
+  .reference-page.ref-v19 #ref-selected-items button:hover{background:#e4dceb;border-color:#afa0bc}
+  .reference-page.ref-v19 #ref-compare-clear:hover,.reference-page.ref-v19 #ref-compare-close:hover{background:#e5ecd9;border-color:#a5b88d}
+}
+@media(max-width:900px){
+  .reference-page.ref-v19.ref-compare-active{padding-bottom:204px}
+  .reference-page.ref-v19 .ref-compare-tray{gap:15px;padding:16px 18px;width:calc(100% - 32px)}
+  .reference-page.ref-v19 #ref-selected-items button{max-width:210px}
+  .reference-page.ref-v19 .ref-compare-actions button{padding-left:14px;padding-right:14px}
+  .reference-page.ref-v19 .ref-compare-dialog{padding:24px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);border-radius:17px}
+  .reference-page.ref-v19 #ref-comparison-content{gap:18px}
+  .reference-page.ref-v19 .ref-comparison-case{padding:21px 20px 17px}
+  .reference-page.ref-v19 .ref-comparison-case h3{font-size:21px}
+}
+@media(max-width:700px){
+  .reference-page.ref-v19.ref-compare-active{padding-bottom:calc(218px + env(safe-area-inset-bottom))}
+  .reference-page.ref-v19 .ref-compare-tray{left:12px;bottom:max(10px,env(safe-area-inset-bottom));transform:none;display:block;width:calc(100% - 24px);max-height:calc(100dvh - 28px);padding:12px 13px;border-radius:13px}
+  .reference-page.ref-v19 #ref-selection-status{font-size:14px;line-height:1.7;margin-bottom:7px}
+  .reference-page.ref-v19 #ref-selected-items{flex-wrap:nowrap;gap:7px}
+  .reference-page.ref-v19 #ref-selected-items button{flex:0 1 auto;max-width:calc(50% - 4px);min-height:44px;font-size:13px;padding:8px 10px;border-radius:7px}
+  .reference-page.ref-v19 .ref-compare-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:10px}
+  .reference-page.ref-v19 .ref-compare-actions button{min-height:44px;padding:9px 14px;font-size:14px;border-radius:8px}
+  .reference-page.ref-v19 #ref-compare-clear{min-width:71px}
+  .reference-page.ref-v19 .ref-compare-dialog{width:calc(100vw - 20px);max-width:calc(100vw - 20px);max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px);padding:20px 18px 19px;border-radius:15px;scrollbar-gutter:auto}
+  .reference-page.ref-v19 .ref-compare-heading{gap:15px;padding-bottom:15px}
+  .reference-page.ref-v19 .ref-compare-heading .ref-kicker{font-size:12px;letter-spacing:.6px;margin-bottom:6px}
+  .reference-page.ref-v19 #ref-compare-title{font-size:25px;line-height:1.4;letter-spacing:-.6px}
+  .reference-page.ref-v19 #ref-compare-close{width:44px;height:44px;min-width:44px;border-radius:50%;font-size:25px}
+  .reference-page.ref-v19 .ref-compare-intro{font-size:14px;line-height:1.85;margin:15px 0 19px}
+  .reference-page.ref-v19 #ref-comparison-content{grid-template-columns:minmax(0,1fr);gap:17px}
+  .reference-page.ref-v19 .ref-comparison-case{padding:21px 19px 17px;border-radius:12px}
+  .reference-page.ref-v19 .ref-comparison-case h3{font-size:22px;line-height:1.45;margin-bottom:13px}
+  .reference-page.ref-v19 .ref-comparison-case>p{font-size:15px;line-height:1.85;margin-bottom:17px}
+  .reference-page.ref-v19 .ref-comparison-case>.ref-kicker{font-size:14px;margin-bottom:11px}
+  .reference-page.ref-v19 .ref-comparison-case>.ref-type{font-size:13px;margin-bottom:14px}
+  .reference-page.ref-v19 .ref-comparison-case>.ref-note{font-size:14px;line-height:1.85;padding:11px 12px}
+  .reference-page.ref-v19 .ref-comparison-case .ref-facts{margin-bottom:16px}
+  .reference-page.ref-v19 .ref-comparison-case .ref-facts>div{padding:12px 0}
+  .reference-page.ref-v19 .ref-compare-footer{align-items:stretch;flex-direction:column;gap:17px;margin-top:19px;padding-top:18px}
+  .reference-page.ref-v19 .ref-compare-footer>p{font-size:14px;line-height:1.85}
+  .reference-page.ref-v19 #ref-compare-download{align-self:flex-start;min-height:46px;font-size:14px;padding:10px 18px}
+}
+@media(max-width:360px){
+  .reference-page.ref-v19 .ref-compare-tray{left:9px;width:calc(100% - 18px);padding:11px 12px}
+  .reference-page.ref-v19 #ref-selection-status{font-size:13px}
+  .reference-page.ref-v19 .ref-compare-dialog{padding:18px 15px 17px}
+  .reference-page.ref-v19 .ref-compare-heading{gap:10px}
+  .reference-page.ref-v19 #ref-compare-title{font-size:23px}
+  .reference-page.ref-v19 .ref-comparison-case{padding:19px 16px 15px}
+  .reference-page.ref-v19 .ref-comparison-case h3{font-size:21px}
+}
+@media(prefers-reduced-motion:reduce){
+  .reference-page.ref-v19 .ref-select,.reference-page.ref-v19 #ref-selected-items button,.reference-page.ref-v19 .ref-compare-actions button,.reference-page.ref-v19 #ref-compare-close,.reference-page.ref-v19 #ref-compare-download{transition:none;animation:none}
+}
+
+.reference-page.ref-v19.ref-dialog-open{overflow:hidden}
+.reference-page.ref-v19 .ref-compare-heading{position:sticky;top:-27px;z-index:1;background:#f8f7f1;padding-top:10px}
+@media(max-width:900px){.reference-page.ref-v19 .ref-compare-heading{top:-24px}}
+@media(max-width:700px){.reference-page.ref-v19 .ref-compare-heading{top:-20px}}
