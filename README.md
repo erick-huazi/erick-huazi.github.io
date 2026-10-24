@@ -34,6 +34,7 @@ python scripts/check-static.py
 - `dist/reference-editorial.css`：参考库的目录式阅读布局。
 - `dist/reference-reading.css`、`reference-reading.js`：v23 章节导航、阅读位置与案例定位入口。
 - `dist/navigation-editorial.css`、`contact-editorial.css`：v22 手机导航、搜索与联系区域。
+- `dist/about-editorial.css`：v24 个人简介与经验、教育、沟通方式的分层排版。
 - `dist/project-viewer.css`、`main.js` 中作品查看器：站内实屏放大，原始图片链接作为无脚本退路。
 - `scripts/build-assets.mjs`：生成 `site.css` 与优化图片，避免直接编辑生成文件。
 
@@ -42,6 +43,8 @@ v21 首屏展示真实作品界面，使用 700/1400 两档 WebP；旧抽象圆�
 作品查看器修改后，检查打开/关闭、Esc、遮罩、返回焦点和窄屏滚动；Ctrl/Meta/Shift 点击必须继续使用原始链接。联系区改动需检查填写需求、生成内容、手机输入框及完整联系方式。
 
 参考库章节导航保留原生锚点，无脚本时也可使用。修改后检查 320px 小屏、页头换行、筛选和详情展开后的当前章节；直达案例的标题不应被固定导航遮挡。案例链接指向已有稳定 ID，来源核验日期只在重新核验资料后更新。
+
+首页响应式规则统一使用 `body.portfolio-v21` 作用域，包括逗号分隔选择器的每一项，避免桌面规则因优先级更高压住手机规则。移动端检查不仅看横向溢出，还要确认两个独立项目都为单列、图片在文字之前、服务标题和交付内容有完整阅读宽度，并检查 760/761px 断点两侧。
 
 ## 部署
 
