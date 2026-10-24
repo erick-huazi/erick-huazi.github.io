@@ -27,9 +27,12 @@ python scripts/check-static.py
 - `src/reference-library.json`：参考案例、分类与官方来源。
 - `scripts/build-references.mjs`：生成参考页和项目模板。
 - `dist/reference-library.*`：筛选与阅读界面。
+- `dist/reference-teaser.css`：主页参考库入口样式，单独打包，避免主页加载整页参考库样式。
 - `dist/reference-compare.*`：双案例对照与本地笔记下载。
 - `dist/index.html`、`main.js`、各样式源文件：个人主页。
 - `scripts/build-assets.mjs`：生成 `site.css` 与优化图片，避免直接编辑生成文件。
+
+首屏图片提供 320/640/960/1280 四档，浏览器按展示尺寸选择。修改快速导航后，检查键盘选中项始终可见、关闭重开回到首项，以及跨页入口是否正确。参考库筛选会清除当前结果链接的旧锚点；需回归浏览器前进/后退的位置恢复、带筛选参数的首次访问和案例深链接。
 
 ## 部署
 

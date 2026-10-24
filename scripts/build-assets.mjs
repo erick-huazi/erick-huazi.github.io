@@ -18,7 +18,7 @@ const targets = { chrome: 110 << 16, safari: (16 << 16) | (4 << 8), firefox: 115
 const cssFiles = [
   'styles.css', 'enhancements.css', 'projects.css', 'ui-refresh.css',
   'portfolio.css', 'atelier.css', 'refinements.css', 'experience.css',
-  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-library.css'
+  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css'
 ];
 const captures = [
   { id: 'worldcup', source: 'src/project-captures/worldcup.png' }
@@ -143,7 +143,7 @@ for (const [id, source, output] of [
 
 const sharpTool = { versions: sharp.versions, platform: process.platform, arch: process.arch };
 const sculptureVariants = [];
-for (const width of [640, 1280]) {
+for (const width of [320, 640, 960, 1280]) {
   const options = { density: 192, width, height: width, webp: { quality: 88, alphaQuality: 100, effort: 6 } };
   const task = await resource({
     id: 'sculpture-' + width, kind: 'image', output: 'dist/assets/field-sculpture-' + width + '.webp',
@@ -191,7 +191,7 @@ const shareCard = await resource({
 });
 const cssGzipBytes = gzipSync(css.data).length;
 const report = {
-  version: 19,
+  version: 20,
   baseline: { source: baselineInput.path, ...baseline },
   css: {
     sourceFiles: cssFiles, sourceFileCount: cssFiles.length,

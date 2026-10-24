@@ -11,7 +11,7 @@ class Document(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if attrs.get('id'): self.ids.append(attrs['id'])
-        for name in ['href','src']:
+        for name in ['href','src','data-quick-href']:
             if attrs.get(name): self.refs.append(attrs[name])
         for item in attrs.get('srcset','').split(','):
             if item.strip(): self.refs.append(item.strip().split()[0])

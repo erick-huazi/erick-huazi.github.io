@@ -33,7 +33,7 @@
 .reference-page .ref-section-heading h2{font-size:clamp(28px,3vw,37px);font-weight:500;line-height:1.4;letter-spacing:-1px;margin:0 0 13px;overflow-wrap:anywhere;text-wrap:balance}
 .reference-page .ref-section-heading p{max-width:800px;margin:0;font-size:16px;line-height:1.9;color:#62715a;overflow-wrap:anywhere}
 .reference-page .ref-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:23px;align-items:stretch}
-.reference-page .ref-card{display:flex;flex-direction:column;position:relative;min-width:0;padding:25px 25px 21px;border:1px solid #d5decb;border-radius:17px;background:#fffef9;box-shadow:0 8px 22px -21px #29423066;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.reference-page .ref-card{display:flex;flex-direction:column;position:relative;min-width:0;padding:25px 25px 21px;border:1px solid #d5decb;border-radius:17px;background:#fffef9;box-shadow:0 8px 22px -21px #29423066;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;scroll-margin-top:104px}
 .reference-page .ref-card-top{display:flex;align-items:center;justify-content:space-between;gap:17px;min-width:0;margin-bottom:22px;color:#5e724f;font-size:13px;line-height:1.7}
 .reference-page .ref-card-top>span{min-width:0;overflow-wrap:anywhere}
 .reference-page .ref-card-top .ref-card-number,.reference-page .ref-card-number{flex:none;font:italic 21px/1.3 Georgia,serif;color:#687653}
@@ -109,7 +109,7 @@
   .reference-page .ref-section-heading h2{font-size:28px;line-height:1.4;letter-spacing:-.7px;margin-bottom:11px}
   .reference-page .ref-section-heading p{font-size:15px;line-height:1.85}
   .reference-page .ref-grid{grid-template-columns:minmax(0,1fr);gap:19px}
-  .reference-page .ref-card{padding:23px 22px 19px;border-radius:15px}
+  .reference-page .ref-card{padding:23px 22px 19px;border-radius:15px;scroll-margin-top:24px}
   .reference-page .ref-card-top{font-size:13px;margin-bottom:18px}
   .reference-page .ref-card h3{font-size:23px;margin-bottom:12px}
   .reference-page .ref-description{font-size:15px;line-height:1.9;margin-bottom:21px}

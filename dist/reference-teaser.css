@@ -1,0 +1,32 @@
+/* Homepage reference-library entry; kept separate from standalone reference page styles. */
+.portfolio-v17 .reference-teaser{padding:49px 0;border-top:1px solid #d7dece;border-bottom:1px solid #e0dce7;background:linear-gradient(110deg,#eef0e5,#f1eef4)}
+.portfolio-v17 .reference-teaser-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:35px}
+.portfolio-v17 .reference-teaser-copy{min-width:0}
+.portfolio-v17 .reference-teaser-label{display:block;font-size:13px;line-height:1.8;font-weight:500;color:#786982;letter-spacing:1px;margin:0 0 10px}
+.portfolio-v17 .reference-teaser-copy h2,.portfolio-v17 .reference-teaser-copy h3{font-size:29px;line-height:1.5;font-weight:500;letter-spacing:-.8px;color:#193d34;margin:0 0 11px;overflow-wrap:anywhere}
+.portfolio-v17 .reference-teaser-copy p{font-size:15px;line-height:1.9;color:#5d6a58;max-width:770px;margin:0;overflow-wrap:anywhere}
+.portfolio-v17 .reference-teaser-link{display:inline-flex;align-items:center;justify-content:center;gap:22px;min-height:50px;max-width:100%;padding:12px 21px;border:1px solid #193d34;border-radius:99px;background:#193d34;color:#f8f7f1;font-size:14px;line-height:1.7;text-decoration:none;white-space:nowrap;transition:background .2s ease,border-color .2s ease}
+.portfolio-v17 .reference-teaser-link:focus-visible{outline:3px solid #8873a0;outline-offset:5px}
+@media(hover:hover){
+.portfolio-v17 .reference-teaser-link:hover{background:#355547;border-color:#355547}
+}
+@media(max-width:900px){
+.portfolio-v17 .reference-teaser-inner{grid-template-columns:minmax(0,1fr);gap:23px}
+.portfolio-v17 .reference-teaser-link{justify-self:start}
+}
+@media(max-width:760px){
+.portfolio-v17 .reference-teaser{padding:35px 0}
+.portfolio-v17 .reference-teaser-inner{gap:21px}
+.portfolio-v17 .reference-teaser-label{font-size:12px;letter-spacing:.6px;margin-bottom:9px}
+.portfolio-v17 .reference-teaser-copy h2,.portfolio-v17 .reference-teaser-copy h3{font-size:25px;line-height:1.5;letter-spacing:-.5px;margin-bottom:10px}
+.portfolio-v17 .reference-teaser-copy p{font-size:15px;line-height:1.9}
+.portfolio-v17 .reference-teaser-link{font-size:14px;min-height:49px;gap:20px;white-space:normal;padding:11px 20px}
+}
+@media(max-width:360px){
+.portfolio-v17 .reference-teaser-copy h2,.portfolio-v17 .reference-teaser-copy h3{font-size:23px}
+}
+.portfolio-v17.motion-paused .reference-teaser-link{transition:none}
+@media(prefers-reduced-motion:reduce){
+.portfolio-v17 .reference-teaser-link{transition:none}
+}
+.portfolio-v17 .reference-teaser-copy p.reference-teaser-label{font-size:12px;letter-spacing:1px;color:#6c5a76;margin-bottom:10px}

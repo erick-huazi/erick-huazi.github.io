@@ -205,7 +205,12 @@ function setQuickActive(index, scroll = false) {
   const selected = quickVisible[quickActive];
   if (selected) {
     quickInput.setAttribute('aria-activedescendant', selected.id);
-    if (scroll) selected.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    if (scroll && quickDialog.open) {
+      const list = $('#quick-results');
+      const itemRect = selected.getBoundingClientRect(), listRect = list.getBoundingClientRect();
+      if (itemRect.top < listRect.top) list.scrollTop += itemRect.top - listRect.top;
+      else if (itemRect.bottom > listRect.bottom) list.scrollTop += itemRect.bottom - listRect.bottom;
+    }
   } else quickInput.removeAttribute('aria-activedescendant');
 }
 function filterQuickItems(keepActive = false) {
@@ -227,7 +232,7 @@ function filterQuickItems(keepActive = false) {
   $('#quick-clear').hidden = !quickInput.value;
   $('#quick-count').textContent = `${quickVisible.length} 个结果${matches.some(item => item.approximate) ? '，含拼写近似结果' : ''}`;
   const previousIndex = quickVisible.findIndex(item => item.id === previousId);
-  setQuickActive(previousIndex < 0 ? 0 : previousIndex);
+  setQuickActive(previousIndex < 0 ? 0 : previousIndex, true);
 }
 function loadQuickSearch() {
   if (!searchLoading) searchLoading = Promise.all([import('./assets/vendor/fuse.basic.min.mjs'), import('./assets/quick-search.mjs')])
@@ -245,6 +250,7 @@ function openQuick() {
   quickInput.value = '';
   filterQuickItems();
   quickDialog.showModal();
+  $('#quick-results').scrollTop = 0;
   quickInput.setAttribute('aria-expanded', 'true');
   quickInput.focus();
   loadQuickSearch();
@@ -274,10 +280,12 @@ quickInput.addEventListener('keydown', event => {
 });
 quickItems.forEach(item => item.addEventListener('pointermove', () => { const index = quickVisible.indexOf(item); if (index >= 0) setQuickActive(index); }));
 quickItems.forEach(item => item.addEventListener('click', () => {
+  const href = item.dataset.quickHref;
   const id = item.dataset.quickTarget;
   restoreQuickFocus = false;
   quickDialog.close();
-  navigateToSection(id, true);
+  if (href) location.assign(href);
+  else navigateToSection(id, true);
 }));
 document.addEventListener('keydown', event => {
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k' && !event.isComposing) { event.preventDefault(); if (quickDialog.open) quickDialog.close(); else openQuick(); }
