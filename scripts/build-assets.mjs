@@ -18,7 +18,7 @@ const targets = { chrome: 110 << 16, safari: (16 << 16) | (4 << 8), firefox: 115
 const cssFiles = [
   'styles.css', 'enhancements.css', 'projects.css', 'ui-refresh.css',
   'portfolio.css', 'atelier.css', 'refinements.css', 'experience.css',
-  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css', 'editorial.css', 'editorial-motion.css'
+  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css', 'editorial.css', 'editorial-motion.css', 'navigation-editorial.css', 'contact-editorial.css', 'project-viewer.css'
 ];
 const captures = [
   { id: 'worldcup', source: 'src/project-captures/worldcup.png' }
@@ -178,7 +178,7 @@ const shareCard = await resource({
 });
 const cssGzipBytes = gzipSync(css.data).length;
 const report = {
-  version: 21,
+  version: 22,
   baseline: { source: baselineInput.path, ...baseline },
   css: {
     sourceFiles: cssFiles, sourceFileCount: cssFiles.length,

@@ -48,6 +48,55 @@ $$('[data-open-wechat]').forEach(button => button.addEventListener('click', even
 $('#close-wechat').addEventListener('click', () => wechatDialog.close());
 wechatDialog.addEventListener('close', () => wechatOrigin?.focus());
 wechatDialog.addEventListener('click', event => { if (event.target === wechatDialog) { const r = wechatDialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) wechatDialog.close(); } });
+// The original image link remains usable without dialog support or with modified clicks.
+const projectViewer = $('#project-viewer');
+if (projectViewer && typeof projectViewer.showModal === 'function') {
+  const viewerImage = projectViewer.querySelector('[data-viewer-src]');
+  const viewerFrame = $('#project-viewer-frame');
+  const viewerZoom = $('#project-viewer-zoom');
+  let viewerOrigin;
+  function resetProjectView() {
+    projectViewer.classList.remove('is-zoomed');
+    viewerZoom.setAttribute('aria-pressed', 'false');
+    viewerZoom.textContent = '放大细节';
+    $('#project-viewer-hint').textContent = '可放大查看界面细节';
+    viewerFrame.scrollTop = 0;
+    viewerFrame.scrollLeft = 0;
+  }
+  $$('[data-open-project-viewer]').forEach(link => {
+    link.setAttribute('aria-haspopup', 'dialog');
+    link.setAttribute('aria-controls', 'project-viewer');
+    link.setAttribute('aria-label', '查看世界杯项目实屏大图');
+    link.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      if (projectViewer.open) return;
+      resetProjectView();
+      if (!viewerImage.hasAttribute('src')) viewerImage.src = viewerImage.dataset.viewerSrc;
+      try { projectViewer.showModal(); } catch { return; }
+      event.preventDefault();
+      viewerOrigin = link;
+    });
+  });
+  $('#close-project-viewer').addEventListener('click', () => projectViewer.close());
+  viewerZoom.addEventListener('click', () => {
+    const zoomed = projectViewer.classList.toggle('is-zoomed');
+    viewerZoom.setAttribute('aria-pressed', String(zoomed));
+    viewerZoom.textContent = zoomed ? '适应窗口' : '放大细节';
+    $('#project-viewer-hint').textContent = zoomed ? '滑动或使用方向键查看，点击“适应窗口”还原' : '可放大查看界面细节';
+    viewerFrame.scrollTop = 0;
+    viewerFrame.scrollLeft = 0;
+    if (zoomed) viewerFrame.focus({ preventScroll: true });
+  });
+  projectViewer.addEventListener('close', () => {
+    resetProjectView();
+    if (viewerOrigin?.isConnected) viewerOrigin.focus({ preventScroll: true });
+  });
+  projectViewer.addEventListener('click', event => {
+    if (event.target !== projectViewer) return;
+    const bounds = projectViewer.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) projectViewer.close();
+  });
+}
 $('#share-page').addEventListener('click', () => copyText(siteUrl));
 const form = $('#inquiry-form');
 const inquiryDetails = $('#inquiry-details');

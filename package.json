@@ -1,6 +1,6 @@
 {
   "name": "erick-fde-portfolio",
-  "version": "21.0.0",
+  "version": "22.0.0",
   "private": true,
   "type": "module",
   "description": "Static personal portfolio with optional local fuzzy search and development accessibility checks",
