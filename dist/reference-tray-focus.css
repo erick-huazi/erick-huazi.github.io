@@ -1,0 +1,8 @@
+/* Keep native keyboard scrolling clear of the measured comparison tray. */
+html:has(body.reference-page.ref-v23.ref-compare-active),
+body.reference-page.ref-v23.ref-compare-active {
+  scroll-padding-bottom:calc(var(--ref-tray-height, 0px) + max(36px, calc(env(safe-area-inset-bottom) + 20px)));
+}
+body.reference-page.ref-v23.ref-compare-active {
+  padding-bottom:calc(var(--ref-tray-height, 0px) + max(36px, calc(env(safe-area-inset-bottom) + 20px)));
+}

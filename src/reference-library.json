@@ -5,7 +5,7 @@
       "id": "datawhale-fde",
       "provider": "DATAWHALE / ROADMAP",
       "type": "学习路线",
-      "title": "从 AI 应用，到 FDE 交付",
+      "title": "FDE 项目交付路线",
       "description": "AI Learning Roadmap 将 FDE 定位为应用开发之后的进阶路线，连接客户问题、系统集成与实际使用。",
       "facts": [
         [
@@ -37,7 +37,7 @@
       "id": "hello-agents",
       "provider": "DATAWHALE / AGENTS",
       "type": "开源教程",
-      "title": "Hello-Agents：让智能体可验证",
+      "title": "Hello-Agents：开发与评估",
       "description": "从智能体基础、工具调用与记忆，到评估和应用实战，理解 Agent 如何组织任务并完成交互。",
       "facts": [
         [
@@ -69,7 +69,7 @@
       "id": "all-in-rag",
       "provider": "DATAWHALE / KNOWLEDGE",
       "type": "开源教程",
-      "title": "All-in-RAG：从检索，到有据可查",
+      "title": "All-in-RAG：检索增强应用",
       "description": "围绕检索增强生成，串联知识处理、检索、生成与评估，包含端到端系统的教学实践。",
       "facts": [
         [
@@ -103,7 +103,7 @@
       "id": "southwest",
       "provider": "AWS × SOUTHWEST AIRLINES",
       "type": "公开 AI 治理案例",
-      "title": "让分散的智能体，成为可复用的企业能力",
+      "title": "企业智能体与工具目录",
       "description": "Southwest Airlines 在 AWS 官方材料中介绍：用统一目录管理跨团队的智能体与工具，帮助开发者发现已批准的能力。",
       "topics": [
         "engineering",
@@ -136,7 +136,7 @@
       "id": "technology-support",
       "provider": "ATLASSIAN / 科技企业",
       "type": "FDE 公开案例 · 客户未具名",
-      "title": "把问题处理，接入可验证的支持流程",
+      "title": "一级、二级客户支持自动化",
       "description": "Atlassian 的 FDE Playbook 介绍一家未具名科技企业：FDE 部署 AI 处理一级、二级支持问题，并兼顾处理速度与客户满意度。",
       "topics": [
         "support",
@@ -169,7 +169,7 @@
       "id": "intercom",
       "provider": "ANTHROPIC × INTERCOM",
       "type": "公开 AI 应用案例",
-      "title": "让客服回答，经得起持续验证",
+      "title": "Fin 客服智能体与质量评估",
       "description": "Intercom 在 Fin 客服智能体中使用 Claude，结合企业知识库与沟通规则处理常见问题，将复杂请求留给人工团队。",
       "topics": [
         "support",
@@ -202,7 +202,7 @@
       "id": "rakuten",
       "provider": "ANTHROPIC × RAKUTEN",
       "type": "公开 AI 应用案例",
-      "title": "让代码助手，进入开发与评审流程",
+      "title": "Claude Code 工程协作",
       "description": "Rakuten 将 Claude Code 用于测试、缺陷修复、组件开发、文档和代码理解，围绕实际工程任务调整协作方式。",
       "topics": [
         "engineering"
@@ -234,7 +234,7 @@
       "id": "cox",
       "provider": "AWS × COX AUTOMOTIVE",
       "type": "AI 工程交付参考",
-      "title": "从维修估价，走向可追踪的 Agent 流程",
+      "title": "FleetMate 维修估价助手",
       "description": "Cox Automotive 的 FleetMate 用 AI 支持车队维修估价，并为多步骤任务建立运行环境、日志与权限控制。",
       "topics": [
         "operations"
@@ -266,7 +266,7 @@
       "id": "semiconductor",
       "provider": "ATLASSIAN / 半导体企业",
       "type": "FDE 公开案例 · 客户未具名",
-      "title": "把企业治理，纳入任务分诊的落地",
+      "title": "企业任务分诊与治理",
       "description": "Atlassian 的 FDE Playbook 介绍了一家未具名半导体企业：团队在企业治理要求下构建定制分诊 Agent，推进生产落地。",
       "topics": [
         "support",
@@ -299,7 +299,7 @@
       "id": "expedia",
       "provider": "ATLASSIAN × EXPEDIA",
       "type": "FDE 公开案例",
-      "title": "从知识治理，切入日常运营",
+      "title": "Confluence 内容运营",
       "description": "Atlassian 的 FDE 官方介绍以 Expedia 为例，说明 AI 如何参与大规模 Confluence 内容运营。",
       "facts": [
         [
@@ -332,7 +332,7 @@
       "id": "nfl",
       "provider": "AWS × NFL",
       "type": "FDE 相关实践",
-      "title": "把领域判断，带进数据智能体",
+      "title": "NFL Fantasy AI 数据分析",
       "description": "NFL Fantasy AI 技术论文介绍了领域专家与工程团队如何协作，将分析经验融入体育数据智能体。",
       "facts": [
         [
@@ -368,7 +368,7 @@
       "id": "airbus",
       "provider": "PALANTIR × AIRBUS",
       "type": "工程派驻交付参考",
-      "title": "让分散数据，形成共同工作视图",
+      "title": "A350 生产数据协同",
       "description": "Palantir 的 Airbus 合作材料介绍了 A350 生产场景：工程师整合多团队数据，支持规划与排障。",
       "facts": [
         [

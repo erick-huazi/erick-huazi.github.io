@@ -27,44 +27,44 @@ FDE 项目梳理模板 / Erick 张建华
 下一步迭代依据：
 
 资料来源（更新于 2026-10-23）：
-从 AI 应用，到 FDE 交付
+FDE 项目交付路线
 https://github.com/datawhalechina/ai-learning-roadmap/blob/main/curriculum-v3.0.md#fde-预备路线
 https://github.com/datawhalechina/ai-learning-roadmap
 
-Hello-Agents：让智能体可验证
+Hello-Agents：开发与评估
 https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter12/第十二章%20智能体性能评估.md
 https://github.com/datawhalechina/hello-agents
 
-All-in-RAG：从检索，到有据可查
+All-in-RAG：检索增强应用
 https://github.com/datawhalechina/all-in-rag/blob/main/docs/chapter6/19_common_tools.md
 https://github.com/datawhalechina/all-in-rag
 
-让分散的智能体，成为可复用的企业能力
+企业智能体与工具目录
 https://aws.amazon.com/blogs/machine-learning/manage-agents-tools-and-skills-at-scale-with-aws-agent-registry/
 
-把问题处理，接入可验证的支持流程
+一级、二级客户支持自动化
 https://www.atlassian.com/blog/guides-research/forward-deployed-engineering-playbook
 
-让客服回答，经得起持续验证
+Fin 客服智能体与质量评估
 https://claude.com/customers/intercom
 
-让代码助手，进入开发与评审流程
+Claude Code 工程协作
 https://claude.com/customers/rakuten
 
-从维修估价，走向可追踪的 Agent 流程
+FleetMate 维修估价助手
 https://aws.amazon.com/solutions/case-studies/cox-auto-case-study/
 
-把企业治理，纳入任务分诊的落地
+企业任务分诊与治理
 https://www.atlassian.com/blog/guides-research/forward-deployed-engineering-playbook
 
-从知识治理，切入日常运营
+Confluence 内容运营
 https://www.atlassian.com/blog/how-we-build/meet-the-forward-deployed-engineer
 
-把领域判断，带进数据智能体
+NFL Fantasy AI 数据分析
 https://www.amazon.science/publications/encoding-domain-expertise-in-agents-lessons-from-nfl-fantasy-ai
 https://www.aboutamazon.com/news/aws/aws-1-billion-forward-deployed-ai-engineers
 
-让分散数据，形成共同工作视图
+A350 生产数据协同
 https://www.palantir.com/assets/xrfr7uokpv1b/7uEHPTEM0MkKtBFcx2zh63/9d75da5b76439717ac95135b5012479e/Palantir-Airbus-Partnership_Overview.pdf#page=4
 
 主页：https://erick-huazi.github.io/

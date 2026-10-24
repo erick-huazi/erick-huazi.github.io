@@ -9,6 +9,18 @@
   const openButton = document.querySelector('#ref-compare-open');
   const content = document.querySelector('#ref-comparison-content');
   const selected = new Set();
+  const tracksTrayHeight = document.body.classList.contains('ref-v23');
+  function syncTrayHeight() {
+    if (!tracksTrayHeight) return;
+    const value = `${tray.hidden ? 0 : Math.ceil(tray.getBoundingClientRect().height)}px`;
+    const rootStyle = document.documentElement.style;
+    if (rootStyle.getPropertyValue('--ref-tray-height') !== value) rootStyle.setProperty('--ref-tray-height', value);
+  }
+  if (tracksTrayHeight) {
+    syncTrayHeight();
+    if (typeof ResizeObserver === 'function') new ResizeObserver(syncTrayHeight).observe(tray);
+    else window.addEventListener('resize', syncTrayHeight);
+  }
   const records = new Map(choices.map(button => {
     const card = button.closest('article');
     return [card.id, {
@@ -55,6 +67,7 @@
       });
       selectedItems.append(remove);
     });
+    syncTrayHeight();
   }
   choices.forEach(button => {
     button.hidden = false;
