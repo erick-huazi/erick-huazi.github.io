@@ -18,7 +18,7 @@ const targets = { chrome: 110 << 16, safari: (16 << 16) | (4 << 8), firefox: 115
 const cssFiles = [
   'styles.css', 'enhancements.css', 'projects.css', 'ui-refresh.css',
   'portfolio.css', 'atelier.css', 'refinements.css', 'experience.css',
-  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css'
+  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css', 'editorial.css', 'editorial-motion.css'
 ];
 const captures = [
   { id: 'worldcup', source: 'src/project-captures/worldcup.png' }
@@ -170,28 +170,15 @@ for (const [index, capture] of captures.entries()) {
   screenshotVariants.push({ project: capture.id, source: source.path, sourceBytes: source.data.length, variants });
 }
 
-const shareOptions = {
-  sculpture: { density: 144, width: 485, height: 485, left: 660, top: 97 },
-  png: { compressionLevel: 9, adaptiveFiltering: true, palette: false },
-  removeAlphaOnlyIfOpaque: true
-};
+const shareOptions = { png: { compressionLevel: 9, adaptiveFiltering: true, palette: false } };
 const shareCard = await resource({
-  id: 'share-card', kind: 'image', output: 'dist/assets/share-card.png', inputs: [card, vector],
-  recipe: 'lossless-share-card-v1', options: shareOptions, tool: sharpTool,
-  generate: async () => {
-    const overlay = await sharp(vector.data, { density: 144 }).resize(485, 485).png().toBuffer();
-    const { data, info } = await sharp(card.data).composite([{ input: overlay, left: 660, top: 97 }])
-      .ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-    let opaque = info.channels === 4;
-    for (let index = 3; opaque && index < data.length; index += 4) if (data[index] !== 255) opaque = false;
-    let encoder = sharp(data, { raw: { width: info.width, height: info.height, channels: info.channels } });
-    if (opaque) encoder = encoder.removeAlpha();
-    return encoder.png(shareOptions.png).toBuffer();
-  }
+  id: 'share-card', kind: 'image', output: 'dist/assets/share-card.png', inputs: [card],
+  recipe: 'editorial-share-card-v21', options: shareOptions, tool: sharpTool,
+  generate: () => sharp(card.data).png(shareOptions.png).toBuffer()
 });
 const cssGzipBytes = gzipSync(css.data).length;
 const report = {
-  version: 20,
+  version: 21,
   baseline: { source: baselineInput.path, ...baseline },
   css: {
     sourceFiles: cssFiles, sourceFileCount: cssFiles.length,
