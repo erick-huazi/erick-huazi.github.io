@@ -159,9 +159,9 @@
 .reference-page.editorial-reference .ref-case-grid{grid-template-columns:minmax(0,1fr);gap:0}
 .reference-page.editorial-reference .ref-case-grid>.ref-card{display:grid;grid-template-columns:minmax(185px,.34fr) minmax(0,1fr) auto;column-gap:40px;row-gap:0;align-items:start;padding:30px 0 32px;border-top:1px solid var(--ref-line)}
 .reference-page.editorial-reference .ref-case-grid>.ref-card:last-child{border-bottom:1px solid var(--ref-line)}
-.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-card-top{grid-column:1;grid-row:1;display:grid;grid-template-columns:39px minmax(0,1fr);column-gap:13px;align-items:start;margin:2px 0 0;font-size:12px;line-height:1.75;font-weight:500}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-card-top{grid-column:1;grid-row:1;display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:13px;align-items:start;margin:2px 0 0;font-size:12px;line-height:1.75;font-weight:500}
 .reference-page.editorial-reference .ref-case-grid .ref-card-top>span:first-child{grid-column:2;grid-row:1;padding-top:2px}
-.reference-page.editorial-reference .ref-case-grid .ref-card-top>.ref-card-number{grid-column:1;grid-row:1;font:italic 34px/1 Georgia,serif;letter-spacing:-1px}
+.reference-page.editorial-reference .ref-case-grid .ref-card-top>.ref-card-number{grid-column:1;grid-row:1;font:italic 34px/1 Georgia,serif;letter-spacing:-1px;white-space:nowrap}
 .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-type{grid-column:1;grid-row:2;align-self:start;margin:7px 0 0;font-size:11px;line-height:1.8;max-width:22em}
 .reference-page.editorial-reference .ref-case-grid>.ref-card>h3{grid-column:2/-1;grid-row:1;margin:0 0 14px;font-size:clamp(27px,2.5vw,33px);line-height:1.35;letter-spacing:-.8px}
 .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-description{grid-column:2/-1;grid-row:2;max-width:72ch;margin:0 0 18px;font-size:15px;line-height:1.85}
@@ -188,7 +188,7 @@
 }
 @media(max-width:760px){
   .reference-page.editorial-reference .ref-case-grid>.ref-card{display:flex;flex-direction:column;gap:0;padding:25px 0 28px}
-  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-card-top{width:100%;grid-template-columns:32px minmax(0,1fr);column-gap:13px;margin:0;font-size:12px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-card-top{width:100%;grid-template-columns:38px minmax(0,1fr);column-gap:13px;margin:0;font-size:12px}
   .reference-page.editorial-reference .ref-case-grid .ref-card-top>.ref-card-number{font-size:29px}
   .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-type{margin:12px 0 13px;font-size:11px;max-width:none}
   .reference-page.editorial-reference .ref-case-grid>.ref-card>h3{margin:0 0 14px;font-size:26px;line-height:1.4;letter-spacing:-.6px}

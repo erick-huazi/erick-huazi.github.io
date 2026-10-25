@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">FDE 参考库 — Field notes.</title>
+  <desc id="desc">Erick 张建华整理的 {{CASE_COUNT}} 个公开案例、{{LEARNING_COUNT}} 条 Datawhale 学习路径与 {{TOPIC_COUNT}} 类业务场景。外部公开资料，不代表个人项目经历。</desc>
+  <rect width="1200" height="630" fill="#f4f2eb"/>
+  <g font-family="Arial, sans-serif" font-size="12" letter-spacing="2.2">
+    <text x="64" y="69" fill="#183b32">ERICK ZHANG / READING INDEX</text>
+    <text x="1136" y="69" text-anchor="end" fill="#b24a33">CASE STUDIES / LEARN / BUILD</text>
+  </g>
+  <line x1="64" y1="106" x2="1136" y2="106" stroke="#c9cec5"/>
+  <g fill="#183b32">
+    <text x="60" y="252" font-family="Microsoft YaHei, sans-serif" font-size="88" font-weight="500" letter-spacing="-3">FDE 参考库</text>
+    <text x="61" y="375" font-family="Georgia, serif" font-size="111" font-style="italic" letter-spacing="-4">Field notes<tspan fill="#b24a33">.</tspan></text>
+    <text x="66" y="442" font-family="Microsoft YaHei, sans-serif" font-size="20" fill="#5e6861">公开案例 · 学习路线 · 项目方法</text>
+  </g>
+  <line x1="778" y1="154" x2="778" y2="450" stroke="#c9cec5"/>
+  <g font-family="Georgia, serif" font-size="66" fill="#b24a33">
+    <text x="821" y="221">{{CASE_COUNT}}</text>
+    <text x="821" y="331">{{LEARNING_COUNT}}</text>
+    <text x="821" y="441">{{TOPIC_COUNT}}</text>
+  </g>
+  <g font-family="Microsoft YaHei, sans-serif" fill="#183b32">
+    <text x="922" y="207" font-size="22">公开案例</text>
+    <text x="922" y="302" font-family="Arial, sans-serif" font-size="19">Datawhale</text>
+    <text x="922" y="334" font-size="21">学习路径</text>
+    <text x="922" y="428" font-size="22">业务场景</text>
+  </g>
+  <g stroke="#c9cec5">
+    <line x1="821" y1="245" x2="1136" y2="245"/>
+    <line x1="821" y1="355" x2="1136" y2="355"/>
+  </g>
+  <line x1="64" y1="500" x2="1136" y2="500" stroke="#183b32"/>
+  <text x="64" y="555" fill="#183b32" font-family="Microsoft YaHei, sans-serif" font-size="21">Erick 张建华</text>
+  <text x="1136" y="555" text-anchor="end" fill="#183b32" font-family="Arial, sans-serif" font-size="19">erick-huazi.github.io</text>
+  <text x="64" y="592" fill="#5e6861" font-family="Microsoft YaHei, sans-serif" font-size="12">外部公开资料 · 阅读与实践参考</text>
+</svg>

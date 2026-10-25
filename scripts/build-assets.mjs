@@ -6,6 +6,7 @@ import { performance } from 'node:perf_hooks';
 import { gzipSync } from 'node:zlib';
 import { transform } from 'lightningcss';
 import sharp from 'sharp';
+import { auditRetiredStyles } from './check-retired-styles.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const startedAt = performance.now();
@@ -59,7 +60,7 @@ async function writeChanged(path, data) {
 }
 
 // Validate every required input before touching generated assets.
-const [styles, vector, card, captureInputs, fuse, fuseLicense, quickSearch, baselineInput, lightningInput] = await Promise.all([
+const [styles, vector, card, captureInputs, fuse, fuseLicense, quickSearch, baselineInput, lightningInput, retiredStyles, referenceCardTemplate, referenceDataInput] = await Promise.all([
   Promise.all(cssFiles.map(name => input('dist/' + name))),
   input('dist/assets/field-sculpture.svg'),
   input('src/share-card.svg'),
@@ -68,12 +69,28 @@ const [styles, vector, card, captureInputs, fuse, fuseLicense, quickSearch, base
   input('node_modules/fuse.js/LICENSE'),
   input('src/quick-search.mjs'),
   input('src/build-baseline.json'),
-  input('node_modules/lightningcss/package.json')
+  input('node_modules/lightningcss/package.json'),
+  auditRetiredStyles(root),
+  input('src/reference-share-card.svg'),
+  input('src/reference-library.json')
 ]);
 const baseline = JSON.parse(baselineInput.data.toString('utf8'));
 if (baseline.version !== 15 || !Number.isFinite(baseline.css?.outputBytes) || !Number.isFinite(baseline.css?.outputGzipBytes)) {
   throw new Error('Expected a frozen v15 CSS baseline in src/build-baseline.json');
 }
+const referenceData = JSON.parse(referenceDataInput.data.toString('utf8'));
+if (!['cases', 'learning', 'topics'].every(key => Array.isArray(referenceData[key]))) {
+  throw new Error('Reference share card needs cases, learning and topics arrays');
+}
+const referenceCounts = { cases: referenceData.cases.length, learning: referenceData.learning.length, topics: referenceData.topics.length };
+let referenceCardSource = referenceCardTemplate.data.toString('utf8');
+for (const [token, count] of Object.entries({ CASE_COUNT: referenceCounts.cases, LEARNING_COUNT: referenceCounts.learning, TOPIC_COUNT: referenceCounts.topics })) {
+  const placeholder = '{{' + token + '}}';
+  if (!referenceCardSource.includes(placeholder)) throw new Error('Missing reference share card placeholder: ' + token);
+  referenceCardSource = referenceCardSource.replaceAll(placeholder, String(count));
+}
+if (/\{\{[^}]+\}\}/.test(referenceCardSource)) throw new Error('Unresolved reference share card placeholder');
+const referenceCardSvg = Buffer.from(referenceCardSource);
 const lightningVersion = JSON.parse(lightningInput.data.toString('utf8')).version;
 let previousCache = { schema: cacheSchema, tasks: {} };
 const cachedBytes = await optionalRead(cachePath);
@@ -121,13 +138,14 @@ async function resource({ id, output, inputs, recipe, options, tool, kind = 'ass
 }
 
 const cssSource = Buffer.concat(styles.flatMap(style => [style.data, Buffer.from('\n')]));
+const cssInputs = [...styles, ...retiredStyles.inputs.map(source => ({ ...source, sha256: sha256(source.data) }))];
 const css = await resource({
-  id: 'site-css', kind: 'css', output: 'dist/site.css', inputs: styles,
-  recipe: 'ordered-css-v1', options: { minify: true, targets },
+  id: 'site-css', kind: 'css', output: 'dist/site.css', inputs: cssInputs,
+  recipe: 'ordered-css-reviewed-pruning-v2', options: { minify: true, targets, unusedSymbols: retiredStyles.unusedSymbols },
   tool: { lightningcss: lightningVersion },
   generate: async () => {
-    // Preserve the existing cascade and interactive states.
-    const { code, warnings } = transform({ filename: 'site.css', code: cssSource, minify: true, targets });
+    // Preserve the cascade and every runtime state; prune only the reviewed retired classes.
+    const { code, warnings } = transform({ filename: 'site.css', code: cssSource, minify: true, targets, unusedSymbols: retiredStyles.unusedSymbols });
     if (warnings.length) console.warn(warnings);
     return code;
   }
@@ -176,15 +194,22 @@ const shareCard = await resource({
   recipe: 'editorial-share-card-v21', options: shareOptions, tool: sharpTool,
   generate: () => sharp(card.data).png(shareOptions.png).toBuffer()
 });
+const referenceShareOptions = { width: 1200, height: 630, png: shareOptions.png };
+const referenceShareCard = await resource({
+  id: 'reference-share-card', kind: 'image', output: 'dist/assets/reference-share-card.png',
+  inputs: [referenceCardTemplate, referenceDataInput], recipe: 'reference-share-card-v1', options: referenceShareOptions, tool: sharpTool,
+  generate: () => sharp(referenceCardSvg).resize(referenceShareOptions.width, referenceShareOptions.height).png(referenceShareOptions.png).toBuffer()
+});
 const cssGzipBytes = gzipSync(css.data).length;
 const report = {
-  version: 31,
+  version: 32,
   baseline: { source: baselineInput.path, ...baseline },
   css: {
     sourceFiles: cssFiles, sourceFileCount: cssFiles.length,
     sourceBytes: styles.reduce((bytes, source) => bytes + source.data.length, 0),
     concatenatedSourceBytes: cssSource.length, concatenatedSourceGzipBytes: gzipSync(cssSource).length,
     requests: 1, outputBytes: css.data.length, outputGzipBytes: cssGzipBytes,
+    retiredStyles: retiredStyles.report,
     baselineVersion: baseline.version,
     deltaBytes: css.data.length - baseline.css.outputBytes,
     deltaGzipBytes: cssGzipBytes - baseline.css.outputGzipBytes
@@ -194,6 +219,8 @@ const report = {
   projectScreenshotFallbacks: [{ project: 'astrrot', status: 'labelled-illustration-retained', reason: 'No verified screenshot supplied for this release.' }],
   shareCard: { ...shareCard.result.image, bytes: shareCard.result.bytes, baselineBytes: baseline.shareCard.bytes,
     deltaBytes: shareCard.result.bytes - baseline.shareCard.bytes, losslessEncoding: true },
+  referenceShareCard: { ...referenceShareCard.result.image, path: referenceShareCard.result.output, bytes: referenceShareCard.result.bytes,
+    counts: referenceCounts, template: referenceCardTemplate.path, source: referenceDataInput.path, losslessEncoding: true },
   optionalSearch: { bytes: fuse.data.length, loading: 'on first search open; exact matching works without this module' },
   build: {
     forced: force, elapsedMs: elapsed(startedAt),
@@ -201,7 +228,7 @@ const report = {
     skipped: taskResults.filter(task => task.status === 'skipped').length
   },
   tasks: taskResults,
-  note: 'Byte counts and local build timings only, not measured network speed or LCP. CSS comparison uses the frozen published v15 baseline and all ordered source files. Screenshot filenames show requested widths; use reported actual dimensions for srcset. Cache stays outside dist and verifies output SHA-256 before skipping.'
+  note: 'Byte counts and local build timings only, not measured network speed or LCP. CSS comparison uses the frozen published v15 baseline and all ordered source files, with only the explicitly retired and runtime-checked class names pruned. The retirement manifest, checker and runtime sources participate in the CSS cache fingerprint. Screenshot filenames show requested widths; use reported actual dimensions for srcset. Cache stays outside dist and verifies output SHA-256 before skipping.'
 };
 await writeChanged(resolve(root, 'build-report.json'), Buffer.from(JSON.stringify(report, null, 2) + '\n'));
 // A failed build never updates the cache manifest.

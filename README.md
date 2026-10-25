@@ -58,6 +58,26 @@ v30 学习内容由独立 `learningCard()` 生成，保留原条目 ID、全部�
 
 v31 需求整理使用 `.inquiry-workspace`：桌面表单与来信并排，平板/手机依次展示。沟通偏好是原生可选折叠，字段继续保留在 form 内；生成结果动作在全文之前。`#summary-placeholder` 与结果交替显示，返回修改仅聚焦需求框，输入后才使旧结果失效。保持场景模板不覆盖手写需求、长邮件降级、复制回退与完整文本下载。
 
+## v32 维护说明
+
+快捷搜索覆盖13个真实入口，需求入口会先展开工具；结果区独立滚动，短屏压缩非必要说明。空结果时收起listbox并同步aria-expanded，清空后恢复。联系复制与主页复制按钮在监听绑定后显示；需求工具保留静态未就绪提示，成功初始化后隐藏。不要移除这些脚本缺失时的退路。
+
+案例对照按问题、做法、借鉴、资料边界逐项配对，手机在每个维度内先后阅读A/B。弹窗内章节定位保持页面URL与浏览历史不变；关闭返回对照入口，重新打开滚动归零。核验700/701px、短屏、下载状态撑高粘性标题、筛选后保留选择和空结果时移除最后一项的返焦。目录编号保持nowrap并预留两位数字宽度。
+
+样式剪裁只使用 `src/retired-style-symbols.json` 中明确列出的 43 个退役类：20 个旧雕塑首屏类、23 个旧项目示意类。19 份源 CSS 及其顺序保留，构建时交给 LightningCSS 的 `unusedSymbols` 处理，不自动猜测“未使用”样式。不要按版本号直接删除旧层或 body 类；它们仍承载弹窗、筛选、表单和动态状态的基础规则。
+
+```sh
+node scripts/check-retired-styles.mjs
+```
+
+这条命令只读核查运行来源，执行 HTML 与 `classList` 复用检测，并在内存中报告剪裁前后的 CSS / gzip 字节数。`npm run build` 也会先运行退役名单核查：首页内外脚本及按需搜索模块中的字面量复用会使构建失败；外部脚本和无法核验的计算式 `import()` 也不会静默跳过。恢复旧界面时先从名单移除对应类；新增脚本加载方式时同步检查覆盖范围。该检查不代替动态交互和响应式回归。
+
+CSS 缓存指纹包含源样式、退役名单、检查器以及实际读取的运行来源，缓存命中还会核验生成文件 SHA-256。`build-report.json` 的 `css.retiredStyles` 记录本次名单和来源；`src/build-baseline.json` 保持发布版 v15 的冻结基线，不随优化重写。
+
+参考库分享图使用 `src/reference-share-card.svg`，由 `src/reference-library.json` 的 `cases`、`learning`、`topics` 数组长度填充三个计数，输出 `dist/assets/reference-share-card.png`（1200×630）。SVG 模板和 JSON 都参与图片缓存指纹；构建报告使用独立的 `referenceShareCard` 字段，原主页 `shareCard` 与其基线含义不变。修改参考库数据后运行 `npm run build`，使页面、分享图和项目模板同步；单独运行 `npm run build:references` 不会重绘 PNG。分享元数据和结构化数据仍在 `scripts/build-references.mjs` 中维护。
+
+`dist/404.html` 提供静态返回入口，不自动重定向未知地址。`dist/references/index.html` 是 `/references/` 兼容入口，脚本可用时跳转到规范地址 `/references.html` 并保留查询参数及锚点，无脚本时保留手动链接。两页直接维护，当前不由参考页生成器覆盖。回归包含 `/references/?topic=knowledge#cases`、无脚本入口及未命中地址；Python 本地服务器可直接预览 `/404.html` 的版式，但真正的 404 路由和 `/references` 到目录入口的行为应在部署后核验。若迁移到域名子路径，需同步调整这两页使用的根路径链接。
+
 ## 部署
 
 GitHub Pages 使用 GitHub Actions 发布已提交的 `dist/`。提交前执行构建并一并提交生成文件；推送 main 后自动部署。运行时不依赖 ChatGPT、外部 CDN、数据库或登录。

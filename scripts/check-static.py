@@ -15,7 +15,7 @@ class Document(HTMLParser):
             if attrs.get(name): self.refs.append(attrs[name])
         for item in attrs.get('srcset','').split(','):
             if item.strip(): self.refs.append(item.strip().split()[0])
-for name in ['index.html','references.html']:
+for name in ['index.html','references.html','404.html','references/index.html']:
     source=(dist/name).read_text(encoding='utf-8')
     assert 'huazi-ai-studio.erickzhang09.chatgpt.site' not in source
     page=Document();page.feed(source)
@@ -23,7 +23,10 @@ for name in ['index.html','references.html']:
     for ref in page.refs:
         url=urlsplit(ref)
         if url.scheme or url.netloc or not url.path: continue
-        assert (dist/unquote(url.path)).is_file(), 'Missing local asset: '+ref
+        target = dist/unquote(url.path).lstrip('/') if url.path.startswith('/') else (dist/name).parent/unquote(url.path)
+        if target.is_dir(): target = target/'index.html'
+        assert target.resolve().is_relative_to(dist.resolve()), 'Local asset leaves dist: '+ref
+        assert target.is_file(), 'Missing local asset: '+ref
 data=json.loads((root/'src/reference-library.json').read_text(encoding='utf-8'))
 assert len(data['cases'])==9 and len(data['learning'])==3
 template=(dist/'assets/fde-project-brief.txt').read_text(encoding='utf-8')

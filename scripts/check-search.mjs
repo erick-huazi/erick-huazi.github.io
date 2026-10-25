@@ -1,22 +1,49 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import Fuse from 'fuse.js/basic';
 import { createQuickSearch } from '../src/quick-search.mjs';
-const search = createQuickSearch([
-  {id:'worldcup',title:'World Cup AI Forecast',description:'AI 赛事数据产品',aliases:'世界杯 足球 赛事 预测 worldcup forecast'},
-  {id:'astrrot',title:'Astrrot 星萝塔罗',description:'AI 陪伴产品',aliases:'星萝 塔罗 情绪 日记 tarot'},
-  {id:'contact',title:'微信、电话与邮箱',description:'ErickX1024 联系合作',aliases:'联系方式 手机 邮件 17621988864 email'},
-  {id:'service',title:'合作方向',description:'AI 应用 自动化 运营',aliases:'智能体 agent workflow 工作流 FDE 咨询'}
-], Fuse);
-assert.deepEqual(search('世界杯').map(x=>x.id), ['worldcup']);
-assert.deepEqual(search('电话').map(x=>x.id), ['contact']);
-assert.deepEqual(search(' ＡＩ  赛事 ').map(x=>x.id), ['worldcup']);
-assert.equal(search('worlcup')[0].id, 'worldcup');
+// Read the shipped navigation entries, so aliases and destinations cannot drift
+// away from a separate test fixture. This parser is scoped to our static buttons.
+const html = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
+const referenceHtml = await readFile(new URL('../dist/references.html', import.meta.url), 'utf8');
+const dialog = html.match(/<dialog\b[^>]*\bid="quick-dialog"[^>]*>([\s\S]*?)<\/dialog>/)?.[1];
+assert.ok(dialog, 'The homepage must include its quick-navigation dialog.');
+const text = value => value.replace(/<[^>]*>/g, '').replaceAll('&amp;', '&').replaceAll('&nbsp;', ' ').trim();
+const records = [...dialog.matchAll(/<button\b([^>]*\bclass="quick-item"[^>]*)>([\s\S]*?)<\/button>/g)].map(([, rawAttributes, content]) => {
+  const attributes = Object.fromEntries([...rawAttributes.matchAll(/([\w-]+)="([^"]*)"/g)].map(([, name, value]) => [name, value]));
+  const label = content.match(/<span\b[^>]*>([\s\S]*?)<small\b[^>]*>([\s\S]*?)<\/small>/);
+  assert.ok(label, 'Each result needs a visible title and description.');
+  const target = attributes['data-quick-target'];
+  const href = attributes['data-quick-href'];
+  assert.ok(Boolean(target) !== Boolean(href), 'Each result needs exactly one destination.');
+  if (target) assert.ok(html.includes(`id="${target}"`), `Missing homepage destination: ${target}`);
+  else {
+    assert.ok(href.startsWith('references.html#'), `Unexpected local destination: ${href}`);
+    assert.ok(referenceHtml.includes(`id="${href.split('#')[1]}"`), `Missing reference destination: ${href}`);
+  }
+  return { id: target || href, title: text(label[1]), description: text(label[2]), aliases: attributes['data-search-alias'] || '' };
+});
+assert.equal(records.length, 13, 'Keep all existing results plus the inquiry and three learning paths.');
+assert.equal(new Set(records.map(record => record.id)).size, records.length, 'Quick destinations must be unique.');
+const search = createQuickSearch(records, Fuse);
+const ids = query => search(query).map(result => result.id);
+assert.deepEqual(ids('世界杯'), ['project-worldcup']);
+assert.deepEqual(ids('电话'), ['contact']);
+assert.deepEqual(ids(' ＡＩ  赛事 '), ['project-worldcup']);
+assert.equal(search('worlcup')[0].id, 'project-worldcup');
 assert.equal(search('worlcup')[0].approximate, true);
-assert.equal(search('astrrt')[0].id, 'astrrot');
-assert.equal(search('workflw')[0].id, 'service');
+assert.equal(search('astrrt')[0].id, 'project-astrrot');
+assert.equal(search('workflw')[0].id, 'services');
 assert.equal(search('没有这个项目').length, 0);
 assert.equal(search('xyzq').length, 0);
 assert.equal(search('世').length, 1);
-assert.equal(search('')[0].id, 'worldcup');
-assert.deepEqual(search('AI').map(x=>x.id), ['worldcup','astrrot','service']);
-console.log('12 search assertions passed: Chinese, fullwidth, multiword, Latin typo, irrelevant query and stable order.');
+assert.equal(search('')[0].id, 'project-worldcup');
+assert.deepEqual(ids('AI'), ['project-worldcup','project-astrrot','project-aimegapro','services']);
+assert.deepEqual(ids('需求'), ['inquiry-details']);
+assert.deepEqual(ids('整理'), ['inquiry-details']);
+for (const query of ['email', 'phone', 'wechat', 'contact']) assert.deepEqual(ids(query), ['contact'], `Actual contact aliases: ${query}`);
+assert.deepEqual(ids('FDE 路线'), ['references.html#datawhale-fde']);
+assert.deepEqual(ids('hello agents'), ['references.html#hello-agents']);
+assert.deepEqual(ids('all-in-rag'), ['references.html#all-in-rag']);
+for (const id of ['datawhale-fde', 'hello-agents', 'all-in-rag']) assert.ok(ids('Datawhale').includes(`references.html#${id}`));
+console.log(`Search checks passed against ${records.length} actual homepage entries: destinations, Chinese, fullwidth, multiword, typo, inquiry, contact aliases and learning paths.`);

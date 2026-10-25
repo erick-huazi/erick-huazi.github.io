@@ -41,9 +41,12 @@ async function copyText(text, origin = document.activeElement) {
 }
 $('#close-copy').addEventListener('click', () => $('#copy-dialog').close());
 $('#copy-dialog').addEventListener('close', () => copyOrigin?.focus());
-$$('[data-copy-email]').forEach(button => button.addEventListener('click', () => copyText(contactEmail, button)));
-$$('[data-copy-phone]').forEach(button => button.addEventListener('click', () => copyText(contactPhone, button)));
-$$('[data-copy-wechat]').forEach(button => button.addEventListener('click', async () => { const copied = await copyText(contactWechat, button); if (copied && button.closest('#wechat-dialog')) $('#wechat-copy-status').textContent = '微信号已复制，可切换到微信添加好友。'; }));
+$$('[data-copy-email]').forEach(button => { button.addEventListener('click', () => copyText(contactEmail, button)); button.hidden = false; });
+$$('[data-copy-phone]').forEach(button => { button.addEventListener('click', () => copyText(contactPhone, button)); button.hidden = false; });
+$$('[data-copy-wechat]').forEach(button => {
+  button.addEventListener('click', async () => { const copied = await copyText(contactWechat, button); if (copied && button.closest('#wechat-dialog')) $('#wechat-copy-status').textContent = '微信号已复制，可切换到微信添加好友。'; });
+  button.hidden = false;
+});
 const wechatDialog = $('#wechat-dialog');
 let wechatOrigin;
 $$('[data-open-wechat]').forEach(button => button.addEventListener('click', event => {
@@ -109,6 +112,7 @@ if (projectViewer && typeof projectViewer.showModal === 'function') {
   });
 }
 $('#share-page').addEventListener('click', () => copyText(siteUrl));
+$('#share-page').hidden = false;
 const form = $('#inquiry-form');
 const inquiryDetails = $('#inquiry-details');
 const output = $('#summary-output');
@@ -194,6 +198,7 @@ $('#download-inquiry').addEventListener('click', () => {
   notify('已生成需求文本，尚未发送。');
 });
 $('#generate-inquiry').disabled = false;
+$('#inquiry-unavailable').hidden = true;
 // Project index: native buttons remain keyboard accessible; all content exists without JS.
 const projectFilters = $$('[data-project-filter]');
 const archivedProjects = $('#project-archive');
@@ -298,6 +303,8 @@ function filterQuickItems(keepActive = false) {
     $('#quick-results').appendChild(item);
     return item;
   });
+  $('#quick-results').hidden = quickVisible.length === 0;
+  quickInput.setAttribute('aria-expanded', String(quickDialog.open && quickVisible.length > 0));
   $('#quick-empty').hidden = quickVisible.length > 0;
   $('#quick-clear').hidden = !quickInput.value;
   $('#quick-count').textContent = `${quickVisible.length} 个结果${matches.some(item => item.approximate) ? '，含拼写近似结果' : ''}`;
@@ -321,7 +328,7 @@ function openQuick() {
   filterQuickItems();
   quickDialog.showModal();
   $('#quick-results').scrollTop = 0;
-  quickInput.setAttribute('aria-expanded', 'true');
+  quickInput.setAttribute('aria-expanded', String(quickVisible.length > 0));
   quickInput.focus();
   loadQuickSearch();
 }
@@ -355,7 +362,10 @@ quickItems.forEach(item => item.addEventListener('click', () => {
   restoreQuickFocus = false;
   quickDialog.close();
   if (href) location.assign(href);
-  else navigateToSection(id, true);
+  else {
+    if (id === 'inquiry-details') inquiryDetails.open = true;
+    navigateToSection(id, true);
+  }
 }));
 document.addEventListener('keydown', event => {
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k' && !event.isComposing) { event.preventDefault(); if (quickDialog.open) quickDialog.close(); else openQuick(); }

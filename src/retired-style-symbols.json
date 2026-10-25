@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "description": "Explicitly retired hero sculpture and illustrative project mockups. Keep their source CSS; prune only these reviewed class names from the generated homepage stylesheet.",
+  "entrypoints": ["dist/index.html"],
+  "sourceAliases": {
+    "dist/assets/quick-search.mjs": "src/quick-search.mjs",
+    "dist/assets/vendor/fuse.basic.min.mjs": "node_modules/fuse.js/dist/fuse.basic.min.mjs"
+  },
+  "groups": [
+    {
+      "id": "retired-sculpture-hero",
+      "reason": "The current editorial hero uses the project sheet; the old sculpture, annotation and ticker elements are absent from the runtime markup and scripts.",
+      "symbols": [
+        "art-stage", "art-cross", "cross-one", "cross-two",
+        "sculpture-float", "sculpture-halo", "sculpture-motion", "sculpture-shadow",
+        "stage-axis", "stage-caption", "stage-note", "note-star",
+        "kinetic-layout", "hero-meta", "hero-name", "hero-products", "hero-products-label",
+        "discipline-strip", "discipline-track", "motion-offscreen"
+      ]
+    },
+    {
+      "id": "retired-project-mockups",
+      "reason": "The current project archive uses text entries and the featured work uses a verified screenshot or explicitly labelled illustration; the former CSS mockup structures are absent.",
+      "symbols": [
+        "board-bottom", "board-engine", "board-flow", "board-title", "board-top", "engine-spark",
+        "coupon-art", "coupon-logo", "aimega-art", "aimega-logo", "tools-grid", "art-kicker", "art-caption",
+        "mini-pipeline", "paper-notes", "practice-panel",
+        "sea-art", "sea-copy", "sea-fields", "sea-logo", "sea-route", "project-art", "project-wide"
+      ]
+    }
+  ]
+}
