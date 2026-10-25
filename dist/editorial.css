@@ -60,7 +60,6 @@ body.portfolio-v21 .case-row.case-showcase:nth-child(even){grid-template-areas:'
 body.portfolio-v21 .case-showcase .case-heading{grid-area:heading;min-width:0}
 body.portfolio-v21 .case-showcase .case-media{grid-area:media}
 body.portfolio-v21 .case-showcase .case-copy{grid-area:copy}
-
 body.portfolio-v21 .case-media>a.case-product-preview,body.portfolio-v21 .case-media>a.case-product-preview.real-preview{padding:28px;gap:24px;border-radius:0;background:#dce3d8;border:0;box-shadow:none}
 body.portfolio-v21 #project-astrrot .case-media>a.case-product-preview{background:#e8e1de}
 body.portfolio-v21 .case-artwork,body.portfolio-v21 .real-preview .case-artwork{border-radius:0;transform:none;box-shadow:none;border:0}
@@ -127,12 +126,6 @@ body.portfolio-v21 .delivery-strip>ol>li:not(:last-child):after{content:none}
 body.portfolio-v21 .delivery-step h4{font-size:18px;font-weight:500;color:var(--ink);margin-bottom:9px}
 body.portfolio-v21 .delivery-step p{font-size:13px;line-height:1.85;color:#61695e}
 body.portfolio-v21 .delivery-strip>.delivery-note{font-size:12px;border:0;margin:25px 0 0;padding:0;color:#67725f}
-body.portfolio-v21 .reference-teaser{background:#e8e5dc;border-block:1px solid #cfcec3;padding:66px 0}
-body.portfolio-v21 .reference-teaser-inner{border-left:2px solid var(--accent);padding-left:30px}
-body.portfolio-v21 .reference-teaser-label{color:var(--accent)!important;font-size:11px!important;letter-spacing:1.4px}
-body.portfolio-v21 .reference-teaser-copy h2{font-size:40px;font-weight:400;letter-spacing:-1.5px}
-body.portfolio-v21 .reference-teaser-copy p{font-size:14px;color:#61695f}
-body.portfolio-v21 .reference-teaser-link{background:transparent;color:var(--ink);border-radius:0;border:0;border-bottom:1px solid #849080;padding:12px 0;gap:28px}
 body.portfolio-v21 #about{background:#faf9f5;padding:100px 0;border:0}
 body.portfolio-v21 .about-statement{font-size:22px;line-height:1.95;font-weight:400;color:#3f5143}
 body.portfolio-v21 .background-details{margin-top:30px;border-color:var(--line)}
@@ -213,7 +206,6 @@ body.portfolio-v21 .quick-dialog,body.portfolio-v21 .wechat-dialog{border-radius
  body.portfolio-v21 .case-eyebrow{border-top:0;padding-top:0}
  body.portfolio-v21 .case-deck{font-size:17px}body.portfolio-v21 .case-summary{font-size:14px}body.portfolio-v21 .case-image-label{font-size:10px}
  body.portfolio-v21 .offer>summary .offer-lead{font-size:13px;min-height:0;margin-bottom:6px;line-height:1.9}
- body.portfolio-v21 .reference-teaser{padding:42px 0}body.portfolio-v21 .reference-teaser-inner{padding-left:20px}body.portfolio-v21 .reference-teaser-copy h2{font-size:30px}body.portfolio-v21 .reference-teaser-copy p{font-size:13px}
  body.portfolio-v21 .about-statement{font-size:18px;line-height:1.95}body.portfolio-v21 .about-compact{gap:15px}
  body.portfolio-v21 .footer-wordmark{font-size:clamp(48px,11vw,80px);letter-spacing:-3px;padding-top:30px;padding-bottom:27px}
 }

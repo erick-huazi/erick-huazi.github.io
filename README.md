@@ -27,11 +27,11 @@ python scripts/check-static.py
 - `src/reference-library.json`：参考案例、分类与官方来源。
 - `scripts/build-references.mjs`：生成参考页和项目模板。
 - `dist/reference-library.*`：筛选与阅读界面。
-- `dist/reference-teaser.css`：主页参考库入口样式，单独打包，避免主页加载整页参考库样式。
+- `dist/reference-teaser.css`：v27 首页参考书架，三条原生链接直达 Agent、RAG 与企业案例；组件样式集中于此，已移除 editorial.css 的旧覆盖。
 - `dist/reference-compare.*`：双案例对照与本地笔记下载。
 - `dist/index.html`、`main.js`：个人主页及业务交互。
 - `dist/editorial.css`、`editorial-motion.css`、`motion.js`：v25 项目展板、作品编排与可关闭动效。
-- `dist/reference-editorial.css`：参考库的目录式阅读布局。
+- `dist/reference-editorial.css`：v27 参考库案例目录：桌面按机构与正文分栏，手机沿 DOM 单列，学习卡片保持独立网格。
 - `dist/reference-reading.css`、`reference-reading.js`：v23 章节导航、阅读位置与案例定位入口。
 - `dist/navigation-editorial.css`、`contact-editorial.css`：v22 手机导航、搜索与联系区域。
 - `dist/about-editorial.css`：v25 人物介绍、经验事实和签名的编辑式排版。

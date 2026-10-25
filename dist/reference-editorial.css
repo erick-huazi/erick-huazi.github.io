@@ -1,4 +1,4 @@
-/* V21: an editorial reading index. Content and navigation remain fully native. */
+/* Editorial reading index and V27 case entries. Content and navigation remain native. */
 .reference-page.editorial-reference{--ref-paper:#f4f2eb;--ref-ink:#183b32;--ref-muted:#5c645c;--ref-line:#cbcfc3;--ref-accent:#b24a33;background:var(--ref-paper);color:var(--ref-ink)}
 .reference-page.editorial-reference ::selection{background:#dfdbca;color:var(--ref-ink)}
 .reference-page.editorial-reference :focus-visible{outline-color:#b24a33}
@@ -151,6 +151,62 @@
   .reference-page.editorial-reference .ref-stats>span+span{padding-left:16px}
   .reference-page.editorial-reference .ref-filters{column-gap:16px}
   .reference-page.editorial-reference .ref-card h3,.reference-page.editorial-reference .ref-case-grid .ref-card h3{font-size:22px}
+}
+/* Case entries share one reading column; the learning cards retain their own grid. */
+.reference-page.editorial-reference .ref-case-grid{grid-template-columns:minmax(0,1fr);gap:0}
+.reference-page.editorial-reference .ref-case-grid>.ref-card{display:grid;grid-template-columns:minmax(185px,.34fr) minmax(0,1fr) auto;column-gap:40px;row-gap:0;align-items:start;padding:30px 0 32px;border-top:1px solid var(--ref-line)}
+.reference-page.editorial-reference .ref-case-grid>.ref-card:last-child{border-bottom:1px solid var(--ref-line)}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-card-top{grid-column:1;grid-row:1;display:grid;grid-template-columns:39px minmax(0,1fr);column-gap:13px;align-items:start;margin:2px 0 0;font-size:12px;line-height:1.75;font-weight:500}
+.reference-page.editorial-reference .ref-case-grid .ref-card-top>span:first-child{grid-column:2;grid-row:1;padding-top:2px}
+.reference-page.editorial-reference .ref-case-grid .ref-card-top>.ref-card-number{grid-column:1;grid-row:1;font:italic 34px/1 Georgia,serif;letter-spacing:-1px}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-type{grid-column:1;grid-row:2;align-self:start;margin:7px 0 0;font-size:11px;line-height:1.8;max-width:22em}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>h3{grid-column:2/-1;grid-row:1;margin:0 0 14px;font-size:clamp(27px,2.5vw,33px);line-height:1.35;letter-spacing:-.8px}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-description{grid-column:2/-1;grid-row:2;max-width:72ch;margin:0 0 18px;font-size:15px;line-height:1.85}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-tags{grid-column:1;grid-row:3;align-self:start;gap:6px 13px;margin:11px 0 0}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-tags>span{font-size:11px;line-height:1.8}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-case-detail{grid-column:2/-1;grid-row:3;min-width:0;align-self:start}
+.reference-page.editorial-reference .ref-case-grid .ref-case-detail>summary{min-height:48px;padding:11px 0;font-size:13px}
+.reference-page.editorial-reference .ref-case-grid .ref-case-detail .ref-facts>div{display:grid;grid-template-columns:94px minmax(0,1fr);gap:18px;padding:14px 0}
+.reference-page.editorial-reference .ref-case-grid .ref-case-detail .ref-facts dt{margin:0;font-size:12px;line-height:1.85}
+.reference-page.editorial-reference .ref-case-grid .ref-case-detail .ref-facts dd{font-size:14px;line-height:1.85}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-links{grid-column:2;grid-row:4;align-self:start;min-width:0;gap:0 20px;margin:12px 0 0;padding:0;border:0}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-links a{font-size:12px;line-height:1.8;min-height:44px;font-weight:400}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-reviewed{grid-column:2;grid-row:5;margin:1px 0 0;font-size:11px;line-height:1.8}
+.reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-case-actions{grid-column:3;grid-row:4/6;display:flex;align-items:center;justify-content:flex-end;flex-wrap:nowrap;gap:17px;margin:12px 0 0;min-width:0}
+.reference-page.editorial-reference .ref-case-grid .ref-case-actions>.ref-select{width:auto;flex:none;min-height:44px;padding:8px 14px;font-size:12px;white-space:nowrap}
+.reference-page.editorial-reference .ref-case-grid .ref-case-actions>.ref-permalink{margin:0;font-size:12px;white-space:nowrap}
+@media(max-width:1050px){
+  .reference-page.editorial-reference .ref-case-grid>.ref-card{grid-template-columns:170px minmax(0,1fr) auto;column-gap:28px;padding:27px 0 29px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>h3{font-size:29px}
+}
+@media(max-width:900px){
+  .reference-page.editorial-reference .ref-case-grid>.ref-card{grid-template-columns:150px minmax(0,1fr);column-gap:28px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-case-actions{grid-column:2;grid-row:6;justify-content:flex-start;gap:20px;margin-top:17px}
+}
+@media(max-width:760px){
+  .reference-page.editorial-reference .ref-case-grid>.ref-card{display:flex;flex-direction:column;gap:0;padding:25px 0 28px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-card-top{width:100%;grid-template-columns:32px minmax(0,1fr);column-gap:13px;margin:0;font-size:12px}
+  .reference-page.editorial-reference .ref-case-grid .ref-card-top>.ref-card-number{font-size:29px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-type{margin:12px 0 13px;font-size:11px;max-width:none}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>h3{margin:0 0 14px;font-size:26px;line-height:1.4;letter-spacing:-.6px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-description{margin:0 0 16px;font-size:15px;line-height:1.9}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-tags{gap:6px 15px;margin:0 0 17px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-tags>span{font-size:12px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-case-detail{width:100%}
+  .reference-page.editorial-reference .ref-case-grid .ref-case-detail>summary{font-size:14px;min-height:50px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-links{width:100%;margin:10px 0 0;gap:1px 18px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-links a{font-size:13px}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-reviewed{margin-top:0}
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>.ref-case-actions{width:100%;justify-content:space-between;flex-wrap:wrap;gap:9px 17px;margin-top:18px}
+  .reference-page.editorial-reference .ref-case-grid .ref-case-actions>.ref-select,.reference-page.editorial-reference .ref-case-grid .ref-case-actions>.ref-permalink{font-size:13px}
+}
+@media(max-width:480px){
+  .reference-page.editorial-reference .ref-case-grid .ref-case-detail .ref-facts>div{display:block;padding:13px 0}
+  .reference-page.editorial-reference .ref-case-grid .ref-case-detail .ref-facts dt{margin-bottom:6px}
+  .reference-page.editorial-reference .ref-case-grid .ref-case-detail .ref-facts dd{font-size:15px}
+}
+@media(max-width:360px){
+  .reference-page.editorial-reference .ref-case-grid>.ref-card>h3{font-size:24px}
 }
 @media(prefers-reduced-motion:reduce){
   .reference-page.editorial-reference *, .reference-page.editorial-reference *:before,.reference-page.editorial-reference *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}

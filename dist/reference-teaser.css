@@ -1,32 +1,62 @@
-/* Homepage reference-library entry; kept separate from standalone reference page styles. */
-.portfolio-v17 .reference-teaser{padding:49px 0;border-top:1px solid #d7dece;border-bottom:1px solid #e0dce7;background:linear-gradient(110deg,#eef0e5,#f1eef4)}
-.portfolio-v17 .reference-teaser-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:35px}
-.portfolio-v17 .reference-teaser-copy{min-width:0}
-.portfolio-v17 .reference-teaser-label{display:block;font-size:13px;line-height:1.8;font-weight:500;color:#786982;letter-spacing:1px;margin:0 0 10px}
-.portfolio-v17 .reference-teaser-copy h2,.portfolio-v17 .reference-teaser-copy h3{font-size:29px;line-height:1.5;font-weight:500;letter-spacing:-.8px;color:#193d34;margin:0 0 11px;overflow-wrap:anywhere}
-.portfolio-v17 .reference-teaser-copy p{font-size:15px;line-height:1.9;color:#5d6a58;max-width:770px;margin:0;overflow-wrap:anywhere}
-.portfolio-v17 .reference-teaser-link{display:inline-flex;align-items:center;justify-content:center;gap:22px;min-height:50px;max-width:100%;padding:12px 21px;border:1px solid #193d34;border-radius:99px;background:#193d34;color:#f8f7f1;font-size:14px;line-height:1.7;text-decoration:none;white-space:nowrap;transition:background .2s ease,border-color .2s ease}
-.portfolio-v17 .reference-teaser-link:focus-visible{outline:3px solid #8873a0;outline-offset:5px}
-@media(hover:hover){
-.portfolio-v17 .reference-teaser-link:hover{background:#355547;border-color:#355547}
+/* V27: three reading entrances, styled as a small, annotated bookshelf. */
+body.portfolio-v21 .reference-teaser{padding:76px 0 48px;border-block:1px solid #cccdbf;background:#e8e5dc;color:#183b32}
+body.portfolio-v21 .reference-teaser-inner{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:37px}
+body.portfolio-v21 .reference-teaser-copy{min-width:0}
+body.portfolio-v21 .reference-teaser-copy p.reference-teaser-label{font-size:10px;line-height:1.8;letter-spacing:1.6px;color:#98472f;margin:0 0 17px}
+body.portfolio-v21 .reference-teaser-copy h2{font-size:44px;font-weight:500;line-height:1.3;letter-spacing:-1.8px;margin:0 0 18px;color:#183b32}
+body.portfolio-v21 .reference-teaser-copy p{font-size:14px;line-height:1.95;color:#5c665b;margin:0}
+body.portfolio-v21 .reference-teaser-link{display:inline-flex;align-items:center;gap:30px;flex:none;min-height:48px;padding:10px 0;border:0;border-bottom:1px solid #87927f;background:none;border-radius:0;color:#183b32;font-size:13px;text-decoration:none}
+body.portfolio-v21 .reference-shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;list-style:none;margin:0;padding:0}
+body.portfolio-v21 .reference-shelf>li{min-width:0}
+body.portfolio-v21 .shelf-entry{--shelf-ink:#183b32;--shelf-muted:#5c6959;--shelf-line:#b7c0ae;display:flex;flex-direction:column;min-height:330px;height:100%;padding:24px 26px 19px;border:1px solid #c3c6b7;border-left:4px solid #9da98e;background:#f4f2eb;color:var(--shelf-ink);text-decoration:none;box-shadow:0 7px 0 -4px #d0cfc2;transition:transform .3s ease,box-shadow .3s ease}
+body.portfolio-v21 .shelf-agents{--shelf-ink:#f4f2eb;--shelf-muted:#d1d8c8;--shelf-line:#6b8172;background:#23483b;border-color:#23483b;border-left-color:#91a17e}
+body.portfolio-v21 .shelf-practice{--shelf-ink:#593c30;--shelf-muted:#745b4d;--shelf-line:#c4b4a4;background:#e6dbcd;border-color:#cbbdac;border-left-color:#9d614a}
+body.portfolio-v21 .shelf-meta{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:9px;line-height:1.8;letter-spacing:.7px;color:var(--shelf-muted)}
+body.portfolio-v21 .shelf-meta>span:last-child{white-space:nowrap;letter-spacing:.3px}
+body.portfolio-v21 .shelf-entry h3{margin:31px 0 17px;line-height:1.4;font-weight:400;color:var(--shelf-ink)}
+body.portfolio-v21 .shelf-wordmark{display:block;font:italic 400 clamp(30px,3.1vw,45px)/1.1 Georgia,'Times New Roman',serif;letter-spacing:-1.7px;white-space:nowrap;margin-bottom:16px}
+body.portfolio-v21 .shelf-title{display:block;font-size:16px;font-weight:500;letter-spacing:-.2px}
+body.portfolio-v21 .shelf-entry p{margin:0 0 26px;font-size:13px;line-height:1.9;color:var(--shelf-muted);max-width:27em}
+body.portfolio-v21 .shelf-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--shelf-line);padding-top:14px;margin-top:auto;color:var(--shelf-ink);font-size:11px;line-height:1.8}
+body.portfolio-v21 .shelf-bottom>span:last-child{font:22px/1 Georgia,serif;transition:transform .3s ease}
+body.portfolio-v21 .shelf-footnote{display:flex;justify-content:space-between;gap:12px 30px;margin-top:27px;font-size:10px;line-height:1.9;color:#646e60}
+body.portfolio-v21 .shelf-entry:focus-visible,body.portfolio-v21 .reference-teaser-link:focus-visible{outline:2px solid #a14c33;outline-offset:5px}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ body.portfolio-v21:not(.motion-paused) .shelf-entry:hover{transform:translateY(-4px);box-shadow:0 13px 0 -7px #c9c8ba}
+ body.portfolio-v21:not(.motion-paused) .shelf-entry:hover .shelf-bottom>span:last-child{transform:translate(2px,-2px)}
+ body.portfolio-v21 .reference-teaser-link:hover{border-color:#98472f;color:#98472f}
 }
-@media(max-width:900px){
-.portfolio-v17 .reference-teaser-inner{grid-template-columns:minmax(0,1fr);gap:23px}
-.portfolio-v17 .reference-teaser-link{justify-self:start}
+@media(max-width:1100px){
+ body.portfolio-v21 .reference-shelf{gap:15px}
+ body.portfolio-v21 .shelf-entry{padding:20px 19px 17px;min-height:320px}
+ body.portfolio-v21 .shelf-wordmark{font-size:34px;letter-spacing:-1.6px}
+ body.portfolio-v21 .shelf-meta{display:block;font-size:9px}
+ body.portfolio-v21 .shelf-meta>span:last-child{display:block;margin-top:4px}
+ body.portfolio-v21 .shelf-entry h3{margin-top:25px}
 }
 @media(max-width:760px){
-.portfolio-v17 .reference-teaser{padding:35px 0}
-.portfolio-v17 .reference-teaser-inner{gap:21px}
-.portfolio-v17 .reference-teaser-label{font-size:12px;letter-spacing:.6px;margin-bottom:9px}
-.portfolio-v17 .reference-teaser-copy h2,.portfolio-v17 .reference-teaser-copy h3{font-size:25px;line-height:1.5;letter-spacing:-.5px;margin-bottom:10px}
-.portfolio-v17 .reference-teaser-copy p{font-size:15px;line-height:1.9}
-.portfolio-v17 .reference-teaser-link{font-size:14px;min-height:49px;gap:20px;white-space:normal;padding:11px 20px}
+ body.portfolio-v21 .reference-teaser{padding:51px 0 34px}
+ body.portfolio-v21 .reference-teaser-inner{display:block;margin-bottom:27px}
+ body.portfolio-v21 .reference-teaser-copy h2{font-size:34px;letter-spacing:-1px;margin-bottom:17px}
+ body.portfolio-v21 .reference-teaser-copy p{font-size:13px}
+ body.portfolio-v21 .reference-teaser-copy p.reference-teaser-label{font-size:9px;letter-spacing:1px;margin-bottom:14px}
+ body.portfolio-v21 .reference-teaser-link{margin-top:18px;font-size:12px;min-height:44px}
+ body.portfolio-v21 .reference-shelf{grid-template-columns:minmax(0,1fr);gap:17px}
+ body.portfolio-v21 .shelf-entry{min-height:0;padding:19px 21px 17px;box-shadow:0 5px 0 -3px #d0cfc2}
+ body.portfolio-v21 .shelf-meta{display:flex;font-size:9px;letter-spacing:.5px}
+ body.portfolio-v21 .shelf-meta>span:last-child{display:inline;margin:0}
+ body.portfolio-v21 .shelf-entry h3{margin:17px 0 10px}
+ body.portfolio-v21 .shelf-wordmark{display:none}
+ body.portfolio-v21 .shelf-title{font-size:21px;line-height:1.4;letter-spacing:-.5px}
+ body.portfolio-v21 .shelf-entry p{font-size:13px;line-height:1.8;margin-bottom:20px}
+ body.portfolio-v21 .shelf-bottom{padding-top:12px}
+ body.portfolio-v21 .shelf-footnote{display:block;margin-top:23px;font-size:10px}
+ body.portfolio-v21 .shelf-footnote>span{display:block;margin-top:4px}
 }
 @media(max-width:360px){
-.portfolio-v17 .reference-teaser-copy h2,.portfolio-v17 .reference-teaser-copy h3{font-size:23px}
+ body.portfolio-v21 .shelf-entry{padding-inline:17px}
+ body.portfolio-v21 .reference-teaser-copy h2{font-size:30px}
+ body.portfolio-v21 .shelf-title{font-size:20px}
 }
-.portfolio-v17.motion-paused .reference-teaser-link{transition:none}
-@media(prefers-reduced-motion:reduce){
-.portfolio-v17 .reference-teaser-link{transition:none}
-}
-.portfolio-v17 .reference-teaser-copy p.reference-teaser-label{font-size:12px;letter-spacing:1px;color:#6c5a76;margin-bottom:10px}
+body.portfolio-v21.motion-paused .shelf-entry,body.portfolio-v21.motion-paused .shelf-bottom>span:last-child{transition:none;transform:none}
+@media(prefers-reduced-motion:reduce){body.portfolio-v21 .shelf-entry,body.portfolio-v21 .shelf-bottom>span:last-child{transition:none;transform:none}}
