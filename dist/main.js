@@ -27,7 +27,17 @@ function markCopied(origin) {
 }
 async function copyText(text, origin = document.activeElement) {
   try { await navigator.clipboard.writeText(text); markCopied(origin); notify('已复制，可以粘贴使用。'); return true; }
-  catch { const dialog = $('#copy-dialog'); copyOrigin = origin; $('#copy-value').value = text; dialog.showModal(); $('#copy-value').focus(); $('#copy-value').select(); return false; }
+  catch {
+    const dialog = $('#copy-dialog'), value = $('#copy-value');
+    copyOrigin = origin;
+    value.value = text;
+    const short = text.length <= 120 && !text.includes('\n');
+    dialog.dataset.copySize = short ? 'short' : 'long';
+    value.rows = short ? 3 : 9;
+    dialog.showModal();
+    value.focus(); value.select();
+    return false;
+  }
 }
 $('#close-copy').addEventListener('click', () => $('#copy-dialog').close());
 $('#copy-dialog').addEventListener('close', () => copyOrigin?.focus());
@@ -40,7 +50,7 @@ $$('[data-open-wechat]').forEach(button => button.addEventListener('click', even
   if (typeof wechatDialog.showModal !== 'function' || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
   event.preventDefault();
   wechatOrigin = button.closest('#nav-links') && matchMedia('(max-width:760px)').matches ? menu : button;
-  closeMenu(); $('#wechat-copy-status').textContent = '';
+  closeMenu(); $('#wechat-copy-status').textContent = '复制微信号，在微信中搜索添加。';
   const qr = wechatDialog.querySelector('[data-qr-src]');
   if (!qr.hasAttribute('src')) qr.src = qr.dataset.qrSrc;
   wechatDialog.showModal();

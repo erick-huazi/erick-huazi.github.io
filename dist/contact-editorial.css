@@ -26,7 +26,12 @@ body.portfolio-v22 #contact .contact-channels>.channel-wechat{
 body.portfolio-v22 #contact .channel-wechat>div{min-width:0}
 body.portfolio-v22 #contact .channel-wechat h3{font-size:13px;font-weight:400;letter-spacing:.5px;line-height:1.8;color:#5f6a5e;margin:0 0 12px}
 body.portfolio-v22 #contact .channel-wechat strong{font:400 clamp(25px,2.4vw,32px)/1.3 Georgia,'Segoe UI',sans-serif;letter-spacing:-.7px;color:var(--contact-ink);overflow-wrap:anywhere}
-body.portfolio-v22 #contact .channel-wechat .plain-button{font-size:13px;line-height:1.7;min-height:44px;margin:16px 0 0;padding:8px 0;color:#365441;text-decoration:underline;text-underline-offset:5px;text-decoration-color:#9aa492;gap:8px}
+body.portfolio-v22 #contact .channel-wechat .plain-button{
+  font-size:13px;line-height:1.7;min-height:44px;width:max-content;max-width:100%;margin:16px 0 0;padding:9px 12px;
+  color:var(--contact-paper);background:var(--contact-ink);border:1px solid var(--contact-ink);border-radius:2px;
+  text-decoration:none;white-space:nowrap;gap:7px;justify-content:center;transition:background-color .18s ease,border-color .18s ease,color .18s ease;
+}
+body.portfolio-v22 #contact .contact-channels .plain-button>.ui-icon{width:16px;height:16px;flex:0 0 16px}
 body.portfolio-v22 #contact .channel-wechat .wechat-intro{font-size:13px;line-height:1.8;color:#61695e;margin:5px 0 0;max-width:210px}
 body.portfolio-v22 #contact .channel-wechat .wechat-preview{
   position:static;display:block;width:170px;max-width:100%;padding:7px;border:1px solid #d7dacf;
@@ -44,8 +49,9 @@ body.portfolio-v22 #contact .channel-phone>h3,
 body.portfolio-v22 #contact .channel-email>h3{grid-column:1;grid-row:1;font-size:12px;line-height:1.8;letter-spacing:.8px;color:var(--contact-soft);margin:0;min-width:0}
 body.portfolio-v22 #contact .channel-phone>.plain-button,
 body.portfolio-v22 #contact .channel-email>.plain-button{
-  grid-column:2;grid-row:1;font-size:12px;line-height:1.7;min-height:44px;margin:0;padding:7px 0;
-  color:#dce2d9;text-decoration:none;gap:7px;white-space:nowrap;
+  grid-column:2;grid-row:1;font-size:12px;line-height:1.7;min-height:44px;margin:0;padding:9px 11px;
+  color:var(--contact-paper);background:transparent;border:1px solid #829486;border-radius:2px;text-decoration:none;gap:7px;white-space:nowrap;
+  justify-content:center;transition:background-color .18s ease,border-color .18s ease,color .18s ease;
 }
 body.portfolio-v22 #contact .channel-phone>a,
 body.portfolio-v22 #contact .channel-email>a{
@@ -54,8 +60,8 @@ body.portfolio-v22 #contact .channel-email>a{
 }
 body.portfolio-v22 #contact .channel-phone>p,
 body.portfolio-v22 #contact .channel-email>p{grid-column:1/-1;grid-row:3;font-size:13px;line-height:1.8;color:#c2ccc1;margin:5px 0 0}
-body.portfolio-v22 #contact .plain-button[data-copied='true']{color:#fff;text-decoration:none}
-body.portfolio-v22 #contact .channel-wechat .plain-button[data-copied='true']{color:#183b32}
+body.portfolio-v22 #contact .plain-button[data-copied='true']{color:var(--contact-ink);background:var(--contact-paper);border-color:var(--contact-paper);text-decoration:none}
+body.portfolio-v22 #contact .channel-wechat .plain-button[data-copied='true']{color:var(--contact-paper);background:#315747;border-color:#315747}
 body.portfolio-v22 #contact .contact-tools{
   display:flex;align-items:center;justify-content:space-between;gap:22px;padding:22px 0;margin:0;
   border:0;border-top:1px solid var(--contact-rule);border-radius:0;background:none;
@@ -122,6 +128,8 @@ body.portfolio-v22 #contact :is(a,button,summary):focus-visible{outline:2px soli
 body.portfolio-v22 #contact :is(.channel-wechat,.contact-card) :is(a,button,summary):focus-visible,
 body.portfolio-v22 #contact .summary-output h4:focus-visible{outline:2px solid #a35438;outline-offset:5px}
 @media(hover:hover){
+  body.portfolio-v22 #contact .channel-wechat .plain-button:hover{background:#2d5140;border-color:#2d5140;text-decoration:none}
+  body.portfolio-v22 #contact :is(.channel-phone,.channel-email)>.plain-button:not([data-copied='true']):hover{background:#244b3e;border-color:#c5cebd;text-decoration:none}
   body.portfolio-v22 #contact .channel-phone>a:hover,body.portfolio-v22 #contact .channel-email>a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:7px;text-decoration-color:#b1bfac}
   body.portfolio-v22 #contact .contact-save:hover{background:#244b3e;border-color:#c5cebd}
   body.portfolio-v22 #contact .wechat-preview:hover{border-color:#7f9372;box-shadow:none;transform:none}
@@ -138,7 +146,7 @@ body.portfolio-v22 #contact .summary-output h4:focus-visible{outline:2px solid #
   body.portfolio-v22 #contact .channel-wechat strong{font-size:24px}.portfolio-v22 #contact .channel-wechat .wechat-preview{width:116px;padding:5px}
   body.portfolio-v22 #contact .channel-wechat .wechat-preview>span{font-size:10px}
   body.portfolio-v22 #contact .channel-phone>a,body.portfolio-v22 #contact .channel-email>a{font-size:25px;letter-spacing:-.5px}
-  body.portfolio-v22 #contact .channel-phone>.plain-button,body.portfolio-v22 #contact .channel-email>.plain-button{font-size:11px;gap:5px}
+  body.portfolio-v22 #contact .channel-phone>.plain-button,body.portfolio-v22 #contact .channel-email>.plain-button{font-size:12px;gap:6px}
   body.portfolio-v22 #contact .inquiry-details>.contact-card{padding:30px}
 }
 @media(max-width:760px){
@@ -152,14 +160,14 @@ body.portfolio-v22 #contact .summary-output h4:focus-visible{outline:2px solid #
   body.portfolio-v22 #contact .contact-channels>.channel-wechat{grid-template-columns:minmax(0,1fr) 120px;gap:18px;padding:23px!important;margin-bottom:27px;min-height:0}
   body.portfolio-v22 #contact .channel-wechat h3{font-size:12px;margin-bottom:10px}
   body.portfolio-v22 #contact .channel-wechat strong{font-size:25px;letter-spacing:-.8px}
-  body.portfolio-v22 #contact .channel-wechat .plain-button{font-size:12px;margin-top:9px;min-height:44px}
+  body.portfolio-v22 #contact .channel-wechat .plain-button{font-size:12px;margin-top:9px;min-height:44px;padding-inline:10px;gap:6px}
   body.portfolio-v22 #contact .channel-wechat .wechat-intro{font-size:12px;margin-top:1px}
   body.portfolio-v22 #contact .channel-wechat .wechat-preview{width:120px;padding:5px}
   body.portfolio-v22 #contact .wechat-preview>span{font-size:10px;padding-top:5px}
   body.portfolio-v22 #contact .contact-channels>.channel-phone,body.portfolio-v22 #contact .contact-channels>.channel-email{padding:15px 0 22px;gap:0 12px}
   body.portfolio-v22 #contact .channel-phone>h3,body.portfolio-v22 #contact .channel-email>h3{font-size:12px}
   body.portfolio-v22 #contact .channel-phone>a,body.portfolio-v22 #contact .channel-email>a{font-size:29px;line-height:1.6;min-height:45px;letter-spacing:-.4px}
-  body.portfolio-v22 #contact .channel-phone>.plain-button,body.portfolio-v22 #contact .channel-email>.plain-button{font-size:11px;min-height:44px;gap:6px}
+  body.portfolio-v22 #contact .channel-phone>.plain-button,body.portfolio-v22 #contact .channel-email>.plain-button{font-size:12px;min-height:44px;gap:6px}
   body.portfolio-v22 #contact .channel-phone>p,body.portfolio-v22 #contact .channel-email>p{font-size:12px;margin-top:4px}
   body.portfolio-v22 #contact .contact-tools{padding:19px 0;gap:14px;flex-direction:row;flex-wrap:wrap;align-items:center}
   body.portfolio-v22 #contact .contact-tools p{font-size:14px}.portfolio-v22 #contact .contact-tools-label{font-size:9px}
@@ -193,12 +201,12 @@ body.portfolio-v22 #contact .summary-output h4:focus-visible{outline:2px solid #
   body.portfolio-v22 #contact .contact-faq p{font-size:13px;line-height:1.9;margin-bottom:17px}
 }
 @media(max-width:360px){
-  body.portfolio-v22 #contact .contact-channels>.channel-wechat{grid-template-columns:minmax(0,1fr) 102px;gap:12px;padding:18px!important}
+  body.portfolio-v22 #contact .contact-channels>.channel-wechat{grid-template-columns:minmax(0,1fr) 96px;gap:10px;padding:16px!important}
   body.portfolio-v22 #contact .channel-wechat strong{font-size:22px;letter-spacing:-.8px}
-  body.portfolio-v22 #contact .channel-wechat .wechat-preview{width:102px;padding:4px}.portfolio-v22 #contact .wechat-preview>span{font-size:9px}
-  body.portfolio-v22 #contact .channel-wechat .plain-button{font-size:11px;gap:5px}
+  body.portfolio-v22 #contact .channel-wechat .wechat-preview{width:96px;padding:4px}.portfolio-v22 #contact .wechat-preview>span{font-size:9px}
+  body.portfolio-v22 #contact .channel-wechat .plain-button{font-size:12px;gap:6px}
   body.portfolio-v22 #contact .channel-phone>a,body.portfolio-v22 #contact .channel-email>a{font-size:26px}
-  body.portfolio-v22 #contact .channel-phone>.plain-button,body.portfolio-v22 #contact .channel-email>.plain-button{font-size:10px;gap:4px}
+  body.portfolio-v22 #contact .channel-phone>.plain-button,body.portfolio-v22 #contact .channel-email>.plain-button{font-size:12px;gap:6px}
   body.portfolio-v22 #contact .contact-tools{align-items:flex-start;gap:15px}
   body.portfolio-v22 #contact .inquiry-details>.contact-card{padding:22px 17px}
   body.portfolio-v22 #contact .inquiry-details .contact-card-heading h3{font-size:19px}
@@ -211,3 +219,115 @@ body.portfolio-v22.motion-paused #contact :is(.wechat-preview,.contact-save,.pla
 @media(prefers-reduced-motion:reduce){
   body.portfolio-v22 #contact :is(.wechat-preview,.contact-save,.plain-button,.btn){transition:none;animation:none}
 }
+
+/* V28: a contact card, with useful actions before the complete original QR image. */
+body.portfolio-v28 .wechat-dialog{
+  width:760px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);padding:0;
+  border:1px solid #aeb7a6;border-radius:2px;background:#f4f2eb;color:#183b32;
+  box-shadow:0 24px 90px #102c2445;overflow:auto;overscroll-behavior:contain;
+}
+body.portfolio-v28 .wechat-dialog::backdrop,
+body.portfolio-v28 #copy-dialog::backdrop{background:#102e28b0;backdrop-filter:blur(4px)}
+body.portfolio-v28 .wechat-dialog .qr-dialog-head{
+  position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;
+  gap:24px;padding:23px 30px 20px;margin:0;background:#f4f2eb;border-bottom:1px solid #c7cbbf;
+}
+body.portfolio-v28 .qr-dialog-head>div{min-width:0}
+body.portfolio-v28 .qr-dialog-head p,
+body.portfolio-v28 #copy-dialog .copy-dialog-heading>p{font-size:10px;line-height:1.7;letter-spacing:1.4px;color:#9c4934;margin:0 0 6px}
+body.portfolio-v28 .qr-dialog-head h2{font-size:22px;font-weight:400;line-height:1.5;letter-spacing:-.4px;margin:0;color:#183b32}
+body.portfolio-v28 .qr-dialog-head button{
+  width:44px;height:44px;flex:none;padding:0;border:1px solid #adb8a4;border-radius:0;
+  background:none;color:#183b32;font:400 25px/1 Georgia,serif;display:grid;place-items:center;
+}
+body.portfolio-v28 .qr-dialog-body{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,280px);gap:40px;
+  align-items:center;padding:28px 30px 30px;
+}
+body.portfolio-v28 .qr-contact-info{min-width:0}
+body.portfolio-v28 .qr-person{font-size:29px;line-height:1.5;letter-spacing:-.6px;color:#183b32;margin:0 0 7px}
+body.portfolio-v28 .qr-person em{font:italic 400 32px/1.3 Georgia,serif;margin-left:8px}
+body.portfolio-v28 .qr-context{font-size:12px;line-height:1.8;color:#66705e;margin:0 0 29px}
+body.portfolio-v28 .qr-account{margin:0 0 22px;padding-top:20px;border-top:1px solid #c5cabd}
+body.portfolio-v28 .qr-account>span{display:block;font-size:11px;line-height:1.7;color:#64705d;margin-bottom:6px}
+body.portfolio-v28 .qr-account>strong{display:block;font:400 34px/1.3 Georgia,'Segoe UI',sans-serif;letter-spacing:-.7px;color:#183b32;overflow-wrap:anywhere}
+body.portfolio-v28 .qr-dialog-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px}
+body.portfolio-v28 .qr-dialog-actions .btn{
+  width:100%;min-height:48px;justify-content:center;gap:10px;padding:12px 18px;font-size:14px;
+  border:1px solid #183b32;border-radius:0;background:#183b32;color:#f4f2eb;box-shadow:none;transform:none;
+}
+body.portfolio-v28 .qr-dialog-actions .btn[data-copied='true']{background:#31533f;border-color:#31533f;color:#fff}
+body.portfolio-v28 .qr-dialog-actions .text-link{
+  display:inline-flex;align-items:center;gap:20px;min-height:44px;margin:0;padding:8px 0;
+  border:0;font-size:12px;line-height:1.7;color:#40543b;text-decoration:underline;text-underline-offset:5px;
+  text-decoration-color:#a3b098;
+}
+body.portfolio-v28 .wechat-copy-status{
+  min-height:3.6em;font-size:12px;line-height:1.8;color:#596a4f;margin:7px 0 0;
+}
+body.portfolio-v28 .wechat-copy-status:empty{display:block}
+body.portfolio-v28 .qr-figure{width:100%;margin:0;align-self:center}
+body.portfolio-v28 .qr-figure img{
+  display:block;width:100%;height:auto;max-height:none;aspect-ratio:888/1134;object-fit:contain;
+  border:1px solid #d4d8cb;border-radius:0;background:#fff;
+}
+body.portfolio-v28 .qr-figure figcaption{font-size:11px;line-height:1.7;color:#58654f;text-align:center;margin-top:9px}
+body.portfolio-v28 .wechat-dialog :is(a,button):focus-visible,
+body.portfolio-v28 #copy-dialog :is(textarea,button):focus-visible{outline:2px solid #a35438;outline-offset:4px}
+body.portfolio-v28 #copy-dialog{
+  width:520px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);padding:29px 30px;
+  border:1px solid #aeb7a6;border-radius:2px;background:#f4f2eb;box-shadow:0 24px 90px #102c2445;color:#183b32;
+}
+body.portfolio-v28 #copy-dialog h2{font-size:26px;font-weight:400;line-height:1.5;letter-spacing:-.5px;margin:0 0 16px}
+body.portfolio-v28 #copy-dialog #copy-help{font-size:13px;line-height:1.85;color:#5f6b55;margin:0 0 18px}
+body.portfolio-v28 #copy-dialog #copy-value{
+  min-height:0;height:auto;max-height:42dvh;padding:13px 14px;margin:0 0 20px;
+  border:1px solid #aebba2;border-radius:0;background:#fdfcf8;color:#183b32;font:400 16px/1.8 'Segoe UI','Microsoft YaHei',sans-serif;
+}
+body.portfolio-v28 #copy-dialog[data-copy-size='short'] #copy-value{font-size:18px;line-height:1.6}
+body.portfolio-v28 #copy-dialog .btn{min-height:46px;border-radius:0;padding:10px 24px;background:#183b32;color:#f4f2eb;border-color:#183b32;box-shadow:none;transform:none}
+@media(hover:hover){
+  body.portfolio-v28 .qr-dialog-head button:hover{background:#e7e9dd;border-color:#7f9473}
+  body.portfolio-v28 .qr-dialog-actions .btn:hover,
+  body.portfolio-v28 #copy-dialog .btn:hover{background:#2d5140;transform:none}
+  body.portfolio-v28 .qr-dialog-actions .text-link:hover{color:#a24b34;text-decoration-color:currentColor}
+}
+@media(max-width:620px){
+  body.portfolio-v28 .wechat-dialog{max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px)}
+  body.portfolio-v28 .wechat-dialog .qr-dialog-head{padding:16px 20px 15px;gap:14px}
+  body.portfolio-v28 .qr-dialog-head p{font-size:9px;letter-spacing:1px;margin-bottom:4px}
+  body.portfolio-v28 .qr-dialog-head h2{font-size:20px}
+  body.portfolio-v28 .qr-dialog-body{grid-template-columns:minmax(0,1fr);gap:18px;padding:22px 20px 24px}
+  body.portfolio-v28 .qr-person{font-size:25px;margin-bottom:4px}
+  body.portfolio-v28 .qr-person em{font-size:28px}
+  body.portfolio-v28 .qr-context{font-size:11px;margin-bottom:17px}
+  body.portfolio-v28 .qr-account{padding-top:16px;margin-bottom:16px}
+  body.portfolio-v28 .qr-account>strong{font-size:31px}
+  body.portfolio-v28 .qr-dialog-actions{gap:6px 16px}
+  body.portfolio-v28 .qr-dialog-actions .btn{flex:1 1 140px;width:auto;font-size:13px;padding:10px 13px;min-height:46px}
+  body.portfolio-v28 .qr-dialog-actions .text-link{flex:0 1 auto;font-size:12px;gap:8px}
+  body.portfolio-v28 .wechat-copy-status{min-height:1.8em;margin-top:9px;font-size:11px}
+  body.portfolio-v28 .qr-figure{max-width:280px;justify-self:center}
+  body.portfolio-v28 #copy-dialog{padding:24px 21px;max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px)}
+  body.portfolio-v28 #copy-dialog h2{font-size:23px}
+}
+@media(max-width:360px){
+  body.portfolio-v28 .wechat-dialog .qr-dialog-head{padding-inline:18px}
+  body.portfolio-v28 .qr-dialog-body{padding-inline:18px}
+  body.portfolio-v28 .qr-dialog-actions{display:grid;grid-template-columns:minmax(0,1fr)}
+  body.portfolio-v28 .qr-dialog-actions .text-link{justify-self:start}
+}
+@media(min-width:621px) and (max-height:520px){
+  body.portfolio-v28 .wechat-dialog .qr-dialog-head{padding-block:12px}
+  body.portfolio-v28 .qr-dialog-body{padding-block:20px;align-items:start}
+  body.portfolio-v28 .qr-context{margin-bottom:14px}
+  body.portfolio-v28 .qr-account{padding-top:12px;margin-bottom:14px}
+  body.portfolio-v28 .qr-account>strong{font-size:30px}
+  body.portfolio-v28 .qr-dialog-actions .btn{width:auto}
+  body.portfolio-v28 .qr-figure{max-width:205px;justify-self:center;align-self:start}
+}
+@media(prefers-reduced-motion:no-preference){
+  body.portfolio-v28:not(.motion-paused) :is(.wechat-dialog,#copy-dialog)[open]{animation:contact-card-in .22s cubic-bezier(.22,1,.36,1)}
+}
+@keyframes contact-card-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+body.portfolio-v28.motion-paused :is(.wechat-dialog,#copy-dialog){animation:none;transition:none}

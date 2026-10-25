@@ -33,7 +33,7 @@ python scripts/check-static.py
 - `dist/editorial.css`、`editorial-motion.css`、`motion.js`：v25 项目展板、作品编排与可关闭动效。
 - `dist/reference-editorial.css`：v27 参考库案例目录：桌面按机构与正文分栏，手机沿 DOM 单列，学习卡片保持独立网格。
 - `dist/reference-reading.css`、`reference-reading.js`：v23 章节导航、阅读位置与案例定位入口。
-- `dist/navigation-editorial.css`、`contact-editorial.css`：v22 手机导航、搜索与联系区域。
+- `dist/navigation-editorial.css`、`contact-editorial.css`：手机导航、搜索与 v28 联系区域、名片式微信弹窗。
 - `dist/about-editorial.css`：v25 人物介绍、经验事实和签名的编辑式排版。
 - `dist/project-viewer.css`、`main.js` 中作品查看器：站内实屏放大，原始图片链接作为无脚本退路。
 - `scripts/build-assets.mjs`：生成 `site.css` 与优化图片，避免直接编辑生成文件。
@@ -43,6 +43,8 @@ v21 首屏展示真实作品界面，使用 700/1400 两档 WebP；旧抽象圆�
 v25 作品标题位于 `.case-heading`，画面与说明使用具名网格分区；手机按 DOM 顺序展示。真实画面首次进入视野时有短展开动效，暂停与键盘聚焦会立即恢复完整画面；筛选恢复不重播。
 
 v26 合作区使用 `.service-layout`：大屏左侧说明、右侧服务手册，<=1100px 分为上下层；展开交付列表始终单列，覆盖历史平板三列规则。合作流程为大屏4列、平板2列、手机1列。`#inquiry-details` 使用 `tabindex=-1` 支持原生锚点聚焦，键盘可继续进入表单；不要改成自动聚焦输入框。
+
+v28 微信弹窗将身份、微信号与复制入口放在图片之前；桌面两列、手机单列，关闭栏在短屏滚动时保持可见。保留完整原二维码与原图下载。手动复制回退按短联系方式 / 长需求文本使用不同高度，仍保持只读、自动全选与关闭后焦点返回。弹窗入场动效遵循站内暂停与系统减少动态设置。
 
 作品查看器修改后，检查打开/关闭、Esc、遮罩、返回焦点和窄屏滚动；Ctrl/Meta/Shift 点击必须继续使用原始链接。联系区改动需检查填写需求、生成内容、手机输入框及完整联系方式。
 
