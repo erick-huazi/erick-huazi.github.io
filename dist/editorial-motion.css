@@ -1,7 +1,6 @@
 /* V21: one-time entrances are progressive JS; static content never starts hidden. */
 .portfolio-v21 .discipline-track,
 .portfolio-v21 .sculpture-float{animation:none!important}
-.portfolio-v21 .hero-project-sheet{transform-origin:50% 70%}
 .portfolio-v21 :is(.hero-contact,.case-inquiry,.case-image-label a,.footer-inner a){
   text-decoration-thickness:1px;text-underline-offset:5px;
 }
@@ -16,6 +15,14 @@ body.portfolio-v21 .case-media>a.case-product-preview:hover .case-artwork{
 .portfolio-v21 :is(.hero-actions,.case-footer) .ui-icon{
   transition:transform .3s cubic-bezier(.22,1,.36,1);
 }
+/* V25: the project board stays level; only its image and small arrow react. */
+.portfolio-v25 .sheet-image img{
+  transform:none;transform-origin:center;transition:transform .7s cubic-bezier(.22,1,.36,1);
+}
+.portfolio-v25 :is(.sheet-arrow,.sheet-next>span:last-child){
+  transition:transform .3s cubic-bezier(.22,1,.36,1);
+}
+.portfolio-v25 .sheet-next>span:last-child{display:inline-block}
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
   .portfolio-v21[data-motion-ready="true"]:not(.motion-paused) :is(.hero-contact,.case-inquiry,.case-image-label a,.footer-inner a){
     background-image:linear-gradient(currentColor,currentColor);
@@ -31,6 +38,13 @@ body.portfolio-v21 .case-media>a.case-product-preview:hover .case-artwork{
   .portfolio-v21[data-motion-ready="true"]:not(.motion-paused) :is(.hero-actions,.case-footer) a:hover .ui-icon{
     transform:translate(2px,-2px);
   }
+  .portfolio-v25[data-motion-ready="true"]:not(.motion-paused) .sheet-project:hover .sheet-image img{
+    transform:scale(1.015);
+  }
+  .portfolio-v25[data-motion-ready="true"]:not(.motion-paused) .sheet-project:hover .sheet-arrow,
+  .portfolio-v25[data-motion-ready="true"]:not(.motion-paused) .sheet-next:hover>span:last-child{
+    transform:translate(2px,-2px);
+  }
 }
 @media(min-width:761px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
   .portfolio-v21[data-motion-ready="true"]:not(.motion-paused) [data-editorial-parallax]{
@@ -40,8 +54,14 @@ body.portfolio-v21 .case-media>a.case-product-preview:hover .case-artwork{
 .portfolio-v21.motion-paused :is([data-editorial-parallax],.case-artwork img,.hero-actions .ui-icon,.case-footer .ui-icon){
   translate:none!important;transform:none!important;transition:none!important;
 }
+.portfolio-v25.motion-paused :is(.sheet-image img,.sheet-arrow,.sheet-next>span:last-child){
+  transform:none!important;transition:none!important;
+}
 @media(prefers-reduced-motion:reduce){
   .portfolio-v21 :is([data-editorial-parallax],.case-artwork img,.hero-actions .ui-icon,.case-footer .ui-icon){
     translate:none!important;transform:none!important;transition:none!important;
+  }
+  .portfolio-v25 :is(.sheet-image img,.sheet-arrow,.sheet-next>span:last-child){
+    transform:none!important;transition:none!important;
   }
 }

@@ -77,22 +77,28 @@
       else requestMediaUpdate();
     }
 
-    function enter(element, delay = 0, paper = false) {
+    function enter(element, delay = 0, kind = 'text') {
       if (!active || !element.isConnected || typeof element.animate !== 'function'
         || element.closest('[hidden]') || !element.getClientRects().length
-        || element.contains(document.activeElement)) return;
-      if (!paper && (element.matches(controls) || element.querySelector(controls))) return;
+        || element.contains(document.activeElement)
+        || element.closest(controls) === document.activeElement) return;
+      if (kind !== 'surface' && (element.matches(controls) || element.querySelector(controls))) return;
       const bounds = element.getBoundingClientRect();
       if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return;
       try {
-        const baseline = window.getComputedStyle(element).transform;
+        const computed = window.getComputedStyle(element);
+        const baseline = computed.transform;
         const transform = baseline === 'none' ? '' : ` ${baseline}`;
-        const frames = paper
-          ? [{ transform: `translate3d(0, 18px, 0)${transform}` }, { transform: baseline }]
-          : [{ opacity: 0, transform: `translate3d(0, 16px, 0)${transform}` }, { opacity: 1, transform: baseline }];
+        const frames = kind === 'image'
+          // Only the image surface is cropped; the enclosing link and its text stay visible.
+          ? [{ clipPath: 'inset(0 0 10% 0)', transform: `translate3d(0, 8px, 0)${transform}` },
+            { clipPath: computed.clipPath === 'none' ? 'inset(0 0 0 0)' : computed.clipPath, transform: baseline }]
+          : kind === 'surface'
+            ? [{ transform: `translate3d(0, 12px, 0)${transform}` }, { transform: baseline }]
+            : [{ opacity: 0, transform: `translate3d(0, 16px, 0)${transform}` }, { opacity: 1, transform: baseline }];
         // No persistent hidden styles: canceling or failing restores the readable CSS baseline.
         const animation = element.animate(frames, {
-          duration: paper ? 1000 : 760, delay,
+          duration: kind === 'image' ? 620 : kind === 'surface' ? 800 : 760, delay,
           easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards'
         });
         animations.add(animation);
@@ -100,6 +106,15 @@
         animation.addEventListener('cancel', cleanup, { once: true });
         animation.addEventListener('finish', () => { cleanup(); animation.cancel(); }, { once: true });
       } catch { /* Animation API support must never affect content or navigation. */ }
+    }
+
+    function reveal(element) {
+      if (!element.matches('.sheet-image,.real-preview .case-artwork')) { enter(element); return; }
+      const image = element.querySelector('img');
+      if (!image) return;
+      // Lazy images reveal only after loading. An offscreen or failed load stays static.
+      if (!image.complete) image.addEventListener('load', () => enter(element, 0, 'image'), { once: true });
+      else if (image.naturalWidth) enter(element, 0, 'image');
     }
 
     toggle?.addEventListener('click', () => {
@@ -122,7 +137,8 @@
     window.addEventListener('resize', requestMediaUpdate, { passive: true });
     document.addEventListener('focusin', event => {
       for (const animation of [...animations]) {
-        if (animation.effect?.target?.contains(event.target)) animation.cancel();
+        const target = animation.effect?.target;
+        if (target?.contains(event.target) || target?.closest(controls) === event.target) animation.cancel();
       }
       for (const item of visibleMedia) if (item.element.contains(event.target)) resetMedia(item);
     });
@@ -139,17 +155,17 @@
       revealed.add(element);
       enter(element, Math.min(index, 5) * 85);
     });
-    document.querySelectorAll('.hero-project-sheet').forEach(element => enter(element, 140, true));
+    document.querySelectorAll('.hero-project-sheet').forEach(element => enter(element, 100, 'surface'));
 
     if (typeof window.IntersectionObserver === 'function') {
       const observer = new window.IntersectionObserver(entries => {
         for (const entry of entries) {
           if (!entry.isIntersecting || entry.target.closest('[hidden]')) continue;
-          if (!revealed.has(entry.target)) { revealed.add(entry.target); enter(entry.target); }
+          if (!revealed.has(entry.target)) { revealed.add(entry.target); reveal(entry.target); }
           observer.unobserve(entry.target);
         }
       }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
-      document.querySelectorAll('[data-reveal]').forEach(element => {
+      document.querySelectorAll('[data-reveal],.portfolio-v25 .sheet-image,.portfolio-v25 .real-preview .case-artwork').forEach(element => {
         if (!revealed.has(element)) observer.observe(element);
       });
 

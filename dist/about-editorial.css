@@ -1,31 +1,55 @@
-/* V24: a short introduction, followed by clearly separated personal facts. */
-body.portfolio-v24 #about .about-role{margin:0 0 19px;color:#9f4934;font-size:11px;line-height:1.8;letter-spacing:.8px}
-body.portfolio-v24 #about .about-statement{max-width:670px;margin:0 0 30px;color:#304b3f;font-size:22px;line-height:1.85;font-weight:400;letter-spacing:-.2px;overflow-wrap:anywhere}
-body.portfolio-v24 #about .about-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin:0;padding:0}
-body.portfolio-v24 #about .about-facts>div{min-width:0;padding-top:16px;border-top:1px solid var(--line)}
-body.portfolio-v24 #about .about-facts dt{margin:0 0 9px;color:#626b60;font-size:11px;line-height:1.7;font-weight:400;letter-spacing:.5px}
+/* V25: an open editorial spread, with a chapter rail and an authored sign-off. */
+body.portfolio-v24 #about{background:#faf9f5;padding-block:112px}
+body.portfolio-v24 #about .about-compact{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(54px,6vw,92px);align-items:start}
+body.portfolio-v24 #about .about-compact>div:first-child{position:relative;min-width:0;padding-left:27px;border-left:1px solid #c4cbbf}
+body.portfolio-v24 #about .about-compact>div:first-child:before{content:'';position:absolute;left:-1px;top:0;width:3px;height:43px;background:#b24a33}
+body.portfolio-v24 #about .section-number{display:block;padding-top:3px;font-size:10px;line-height:1.8;letter-spacing:1.7px;color:#716d61}
+body.portfolio-v24 #about .about-compact h2{font-size:clamp(54px,5.15vw,74px);line-height:1.25;font-weight:500;letter-spacing:-3.5px;margin:30px 0 10px;color:#183b32}
+body.portfolio-v24 #about .about-role{margin:4px 0 22px;color:#9f4934;font-size:11px;line-height:1.8;letter-spacing:1px}
+body.portfolio-v24 #about .about-statement{max-width:670px;margin:0 0 34px;color:#304b3f;font-size:clamp(22px,1.85vw,27px);line-height:1.8;font-weight:400;letter-spacing:-.3px;overflow-wrap:anywhere}
+body.portfolio-v24 #about .about-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;padding:20px 0 0;border-top:1px solid #bfc7b8}
+body.portfolio-v24 #about .about-facts>div{min-width:0;padding:0 17px 0 0;border:0}
+body.portfolio-v24 #about .about-facts>div+div{padding-left:19px;border-left:1px solid #d2d5ca}
+body.portfolio-v24 #about .about-facts>div:last-child{padding-right:0}
+body.portfolio-v24 #about .about-facts dt{margin:0 0 10px;color:#6a7165;font-size:10px;line-height:1.7;font-weight:400;letter-spacing:.9px}
 body.portfolio-v24 #about .about-facts dd{margin:0;color:var(--ink);font-size:15px;line-height:1.8;overflow-wrap:anywhere}
-body.portfolio-v24 #about .erick-signature{width:140px;height:auto;margin:26px 0 18px;opacity:.85}
-body.portfolio-v24 #about .background-details{margin-top:20px;border-color:var(--line)}
-body.portfolio-v24 #about .background-details>summary{min-height:58px;padding:15px 0;font-size:13px;color:var(--ink)}
-body.portfolio-v24 #about .background-details>summary:after{color:#9f4934}
-body.portfolio-v24 #about .background-details .experience{border-color:var(--line)}
-body.portfolio-v24 #about .background-details .resume-link{color:var(--ink);text-underline-offset:5px}
+body.portfolio-v24 #about .erick-signature{width:165px;max-width:48%;height:auto;margin:29px 0 23px;opacity:.9}
+body.portfolio-v24 #about .background-details{margin-top:0;border-color:#bfc7b8}
+body.portfolio-v24 #about .background-details>summary{min-height:62px;padding:16px 0;font-size:13px;letter-spacing:.1px;color:var(--ink)}
+body.portfolio-v24 #about .background-details>summary:after{color:#9f4934;font-size:22px;font-weight:400}
+body.portfolio-v24 #about .background-details .experience{border-color:var(--line);padding-block:17px}
+body.portfolio-v24 #about .background-details .experience>span{color:#64705f;font-size:12px}
+body.portfolio-v24 #about .background-details .experience p{color:#304b3f;font-size:14px;line-height:1.8}
+body.portfolio-v24 #about .background-details .experience small{color:#6a7165;font-size:12px;line-height:1.8;margin-top:5px}
+body.portfolio-v24 #about .background-details .resume-link{color:var(--ink);text-underline-offset:5px;min-height:44px;margin-top:5px}
 @media(max-width:1100px){
- body.portfolio-v24 #about .about-facts{grid-template-columns:minmax(0,1fr);gap:0}
- body.portfolio-v24 #about .about-facts>div{display:grid;grid-template-columns:82px minmax(0,1fr);gap:16px;padding:13px 0}
+ body.portfolio-v24 #about .about-compact{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:44px}
+ body.portfolio-v24 #about .about-compact>div:first-child{padding-left:21px}
+ body.portfolio-v24 #about .about-compact h2{font-size:54px;letter-spacing:-2.6px}
+ body.portfolio-v24 #about .about-facts{grid-template-columns:minmax(0,1fr);gap:0;padding-top:0}
+ body.portfolio-v24 #about .about-facts>div,body.portfolio-v24 #about .about-facts>div+div{display:grid;grid-template-columns:82px minmax(0,1fr);gap:16px;padding:13px 0;border:0}
+ body.portfolio-v24 #about .about-facts>div+div{border-top:1px solid #dedfd5}
  body.portfolio-v24 #about .about-facts dt{margin:2px 0 0}
  body.portfolio-v24 #about .about-facts dd{font-size:14px}
 }
 @media(max-width:760px){
- body.portfolio-v24 #about .about-compact{gap:24px}
- body.portfolio-v24 #about .about-role{margin-bottom:14px;font-size:10px;letter-spacing:.5px}
- body.portfolio-v24 #about .about-statement{font-size:18px;line-height:1.9;margin-bottom:25px;letter-spacing:0}
- body.portfolio-v24 #about .about-facts>div{grid-template-columns:72px minmax(0,1fr);gap:15px;padding:13px 0}
- body.portfolio-v24 #about .erick-signature{width:125px;margin-top:20px;margin-bottom:13px}
- body.portfolio-v24 #about .background-details{margin-top:18px}
+ body.portfolio-v24 #about{padding-block:68px}
+ body.portfolio-v24 #about .about-compact{grid-template-columns:minmax(0,1fr);gap:31px}
+ body.portfolio-v24 #about .about-compact>div:first-child{padding-left:20px}
+ body.portfolio-v24 #about .about-compact>div:first-child:before{height:33px}
+ body.portfolio-v24 #about .section-number{font-size:9px;letter-spacing:1.3px}
+ body.portfolio-v24 #about .about-compact h2{font-size:clamp(44px,12vw,58px);line-height:1.22;letter-spacing:-2.4px;margin:21px 0 2px}
+ body.portfolio-v24 #about .about-role{margin:0 0 14px;font-size:10px;letter-spacing:.5px}
+ body.portfolio-v24 #about .about-statement{font-size:19px;line-height:1.85;margin-bottom:28px;letter-spacing:0}
+ body.portfolio-v24 #about .about-facts>div,body.portfolio-v24 #about .about-facts>div+div{grid-template-columns:72px minmax(0,1fr);gap:15px;padding:14px 0}
+ body.portfolio-v24 #about .about-facts dt{font-size:10px;letter-spacing:.5px}
+ body.portfolio-v24 #about .erick-signature{width:143px;margin:23px 0 19px}
+ body.portfolio-v24 #about .background-details>summary{min-height:60px;font-size:13px}
+ body.portfolio-v24 #about .background-details .experience{padding-block:15px}
 }
 @media(max-width:360px){
- body.portfolio-v24 #about .about-facts>div{grid-template-columns:64px minmax(0,1fr);gap:12px}
+ body.portfolio-v24 #about .about-compact{gap:27px}
+ body.portfolio-v24 #about .about-statement{font-size:18px}
+ body.portfolio-v24 #about .about-facts>div,body.portfolio-v24 #about .about-facts>div+div{grid-template-columns:64px minmax(0,1fr);gap:12px}
  body.portfolio-v24 #about .about-facts dd{font-size:13px}
 }
