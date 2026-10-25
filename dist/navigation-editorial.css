@@ -2,7 +2,7 @@
 body.portfolio-v22 .nav-links a:not(.nav-cta)[aria-current="location"]{color:#b24a33}
 body.portfolio-v22 .nav-links a:not(.nav-cta)[aria-current="location"]::after{background:#b24a33;height:1px;bottom:-8px}
 body.portfolio-v22 .quick-trigger{min-width:44px;min-height:44px}
-body.portfolio-v22 .quick-dialog{max-height:calc(100dvh - 32px);padding:27px 30px 22px;border:1px solid #b5baac;border-radius:2px;background:#f4f2eb;box-shadow:0 26px 90px #102c2450;overflow:hidden}
+body.portfolio-v22 .quick-dialog{--quick-top:clamp(24px,8dvh,72px);position:fixed;inset:var(--quick-top) 0 auto;margin:0 auto;max-height:calc(100dvh - var(--quick-top) - 16px);padding:27px 30px 22px;border:1px solid #b5baac;border-radius:2px;background:#f4f2eb;box-shadow:0 26px 90px #102c2450;overflow:hidden}
 body.portfolio-v22 .quick-dialog[open]{display:flex;flex-direction:column}
 body.portfolio-v22 .quick-dialog :is(.quick-head,.quick-search-field,.quick-suggestions,.quick-help,.quick-count){flex:none}
 body.portfolio-v22 .quick-title-stack small{color:#9f4934;font-size:10px;letter-spacing:1.6px}
@@ -42,7 +42,7 @@ body.portfolio-v22:has(.menu[aria-expanded="true"]) .mobile-contact{display:none
  html.js body.portfolio-v22 .nav-links>a[aria-current="location"]::after{content:none}
  html.js body.portfolio-v22 .nav-links>.nav-cta{width:100%;min-height:58px;margin-top:12px;padding:12px 15px;border:1px solid #183b32;background:#183b32;color:#f4f2eb;font-size:16px;letter-spacing:0}
  html.js body.portfolio-v22 .nav-links>.nav-cta>.ui-icon{width:22px;height:22px}
- body.portfolio-v22 .quick-dialog{width:calc(100vw - 24px);max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);padding:21px 19px 16px}
+ body.portfolio-v22 .quick-dialog{--quick-top:12px;width:calc(100vw - 24px);max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);padding:21px 19px 16px}
  body.portfolio-v22 .quick-head{padding-bottom:15px;margin-bottom:17px}.portfolio-v22 .quick-title-stack label{font-size:23px}
  body.portfolio-v22 .quick-item{padding:12px 11px;min-height:67px}.portfolio-v22 .quick-item>span:first-child{font-size:15px}
  body.portfolio-v22 .quick-help{font-size:10px;gap:5px 10px}.portfolio-v22 .quick-suggestions{gap:4px 12px}
@@ -55,7 +55,7 @@ body.portfolio-v22:has(.menu[aria-expanded="true"]) .mobile-contact{display:none
  body.portfolio-v22 .quick-item>span:first-child{font-size:14px}.portfolio-v22 .quick-suggestions{gap:4px 11px}
 }
 @media(max-height:560px){
- body.portfolio-v22 .quick-dialog{max-height:calc(100dvh - 24px);padding:12px 18px}
+ body.portfolio-v22 .quick-dialog{--quick-top:12px;max-height:calc(100dvh - 24px);padding:12px 18px}
  body.portfolio-v22 .quick-head{min-height:44px;padding-bottom:8px;margin-bottom:10px}
  body.portfolio-v22 .quick-title-stack label{font-size:21px;line-height:1.5}
  body.portfolio-v22 .quick-dialog :is(.quick-title-stack small,.quick-suggestions,.quick-help){display:none}
