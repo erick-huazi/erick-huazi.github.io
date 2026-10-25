@@ -19,7 +19,7 @@ body.portfolio-v21 .shelf-title{display:block;font-size:16px;font-weight:500;let
 body.portfolio-v21 .shelf-entry p{margin:0 0 26px;font-size:13px;line-height:1.9;color:var(--shelf-muted);max-width:27em}
 body.portfolio-v21 .shelf-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--shelf-line);padding-top:14px;margin-top:auto;color:var(--shelf-ink);font-size:11px;line-height:1.8}
 body.portfolio-v21 .shelf-bottom>span:last-child{font:22px/1 Georgia,serif;transition:transform .3s ease}
-body.portfolio-v21 .shelf-footnote{display:flex;justify-content:space-between;gap:12px 30px;margin-top:27px;font-size:10px;line-height:1.9;color:#646e60}
+body.portfolio-v21 .shelf-footnote{display:flex;justify-content:space-between;gap:12px 30px;margin-top:27px;font-size:10px;line-height:1.9;color:#515e4f}
 body.portfolio-v21 .shelf-entry:focus-visible,body.portfolio-v21 .reference-teaser-link:focus-visible{outline:2px solid #a14c33;outline-offset:5px}
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
  body.portfolio-v21:not(.motion-paused) .shelf-entry:hover{transform:translateY(-4px);box-shadow:0 13px 0 -7px #c9c8ba}

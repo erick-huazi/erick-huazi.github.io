@@ -191,10 +191,14 @@ $('#generate-inquiry').disabled = false;
 // Project index: native buttons remain keyboard accessible; all content exists without JS.
 const projectFilters = $$('[data-project-filter]');
 const archivedProjects = $('#project-archive');
+const liveProjectList = $('.case-list');
+const projectDirectory = $('.project-directory');
 function setProjectFilter(value, writeHistory = false) {
   if (!['live', 'archive', 'all'].includes(value)) value = 'live';
   projectFilters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.projectFilter === value)));
   $$('.case-row').forEach(project => { project.hidden = value === 'archive'; });
+  liveProjectList.hidden = value === 'archive';
+  projectDirectory.hidden = value === 'archive';
   archivedProjects.hidden = value === 'live';
   if (value !== 'live') archivedProjects.open = true;
   $('#project-count').textContent = value === 'live' ? '2 个独立上线产品' : value === 'archive' ? '3 个过往项目实践' : '共 5 个项目';
