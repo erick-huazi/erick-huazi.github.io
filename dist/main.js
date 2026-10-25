@@ -54,6 +54,7 @@ $$('[data-open-wechat]').forEach(button => button.addEventListener('click', even
   const qr = wechatDialog.querySelector('[data-qr-src]');
   if (!qr.hasAttribute('src')) qr.src = qr.dataset.qrSrc;
   wechatDialog.showModal();
+  wechatDialog.scrollTop = 0;
 }));
 $('#close-wechat').addEventListener('click', () => wechatDialog.close());
 wechatDialog.addEventListener('close', () => wechatOrigin?.focus());
