@@ -77,7 +77,7 @@ if (projectViewer && typeof projectViewer.showModal === 'function') {
   $$('[data-open-project-viewer]').forEach(link => {
     link.setAttribute('aria-haspopup', 'dialog');
     link.setAttribute('aria-controls', 'project-viewer');
-    link.setAttribute('aria-label', '查看世界杯项目实屏大图');
+    link.setAttribute('aria-label', '查看实屏大图：世界杯项目');
     link.addEventListener('click', event => {
       if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
       if (projectViewer.open) return;
@@ -112,6 +112,7 @@ $('#share-page').addEventListener('click', () => copyText(siteUrl));
 const form = $('#inquiry-form');
 const inquiryDetails = $('#inquiry-details');
 const output = $('#summary-output');
+const outputPlaceholder = $('#summary-placeholder');
 const nameField = $('#visitor-name');
 const needField = $('#visitor-need');
 let generatedBody = '';
@@ -139,7 +140,7 @@ restoreInquiryHash();
 window.addEventListener('hashchange', restoreInquiryHash);
 window.addEventListener('popstate', restoreInquiryHash);
 function invalidateSummary() {
-  if (generatedBody) { generatedBody = ''; output.hidden = true; $('#summary-text').value = ''; $('#email-draft').href = `mailto:${contactEmail}`; $('#form-status').textContent = '内容已修改，请重新整理需求后发送。'; }
+  if (generatedBody) { generatedBody = ''; output.hidden = true; outputPlaceholder.hidden = false; $('#summary-text').value = ''; $('#email-draft').href = `mailto:${contactEmail}`; $('#form-status').textContent = '内容已修改，请重新整理需求后发送。'; }
   $('#need-count').textContent = `${needField.value.length} / 1500`;
   nameField.setCustomValidity(''); needField.setCustomValidity('');
 }
@@ -175,10 +176,15 @@ form.addEventListener('submit', event => {
   $('#email-draft').href = long ? `mailto:${contactEmail}?subject=${subject}` : fullLink;
   $('#email-draft').textContent = long ? '打开空白邮件 ↗' : '打开邮件 ↗';
   $('#email-help').textContent = long ? '需求较长：先复制全文，再打开邮件粘贴发送，避免邮件软件截断。也可下载文本作为附件。' : '可以直接打开邮件软件发送；也可复制全文，通过微信发送给我。';
+  outputPlaceholder.hidden = true;
   output.hidden = false;
   $('#form-status').textContent = '需求已整理，尚未发送。';
   $('#summary-title').focus({ preventScroll: true });
-  output.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'nearest' });
+  $('#summary-title').scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+});
+$('#edit-inquiry').addEventListener('click', () => {
+  needField.focus({ preventScroll: true });
+  needField.closest('label').scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
 });
 $('#copy-inquiry').addEventListener('click', () => { if (generatedBody) copyText(generatedBody); });
 $('#download-inquiry').addEventListener('click', () => {
