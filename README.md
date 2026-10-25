@@ -31,7 +31,7 @@ python scripts/check-static.py
 - `dist/reference-compare.*`：双案例对照与本地笔记下载。
 - `dist/index.html`、`main.js`：个人主页及业务交互。
 - `dist/editorial.css`、`editorial-motion.css`、`motion.js`：v25 项目展板、作品编排与可关闭动效。
-- `dist/reference-editorial.css`：v27 参考库案例目录：桌面按机构与正文分栏，手机沿 DOM 单列，学习卡片保持独立网格。
+- `dist/reference-editorial.css`：v27 参考库案例目录：桌面按机构与正文分栏，手机沿 DOM 单列，v30 学习路径使用独立书册布局，资料性质持续可见，章节入口和原生阅读笔记分层展示。
 - `dist/reference-reading.css`、`reference-reading.js`：v23 章节导航、阅读位置与案例定位入口。
 - `dist/navigation-editorial.css`、`contact-editorial.css`：手机导航、搜索与 v28 联系区域、名片式微信弹窗。
 - `dist/about-editorial.css`：v25 人物介绍、经验事实和签名的编辑式排版。
@@ -53,6 +53,8 @@ v28 微信弹窗将身份、微信号与复制入口放在图片之前；桌面�
 参考库章节导航保留原生锚点，无脚本时也可使用。修改后检查 320px 小屏、页头换行、筛选和详情展开后的当前章节；直达案例的标题不应被固定导航遮挡。案例链接指向已有稳定 ID，来源核验日期只在重新核验资料后更新。
 
 首页响应式规则统一使用 `body.portfolio-v21` 作用域，包括逗号分隔选择器的每一项，避免桌面规则因优先级更高压住手机规则。移动端检查不仅看横向溢出，还要确认两个独立项目都为单列、按标题、画面、说明依次阅读、服务标题和交付内容有完整阅读宽度，并检查 760/761px 断点两侧。
+
+v30 学习内容由独立 `learningCard()` 生成，保留原条目 ID、全部资料事实和来源，避免影响案例对照 DOM。阅读笔记使用原生 details；脚本不可用时仍可展开。直达学习链接定位卡片概览，不强制展开笔记。项目梳理四步及模板内容保持一致；下载入口与合作入口集中收尾。
 
 ## 部署
 
