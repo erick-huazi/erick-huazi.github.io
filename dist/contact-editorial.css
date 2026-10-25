@@ -65,6 +65,7 @@ body.portfolio-v22 #contact .contact-tools p{font-size:15px;line-height:1.8;colo
 body.portfolio-v22 #contact .contact-save{border:1px solid #9baa9a;border-radius:0;padding:10px 17px;min-height:46px;gap:10px;background:none;color:var(--contact-paper)}
 body.portfolio-v22 #contact .contact-save>span{font-size:13px}.portfolio-v22 #contact .contact-save>small{font-size:10px;color:#c7d1c5;opacity:1}
 body.portfolio-v22 #contact .inquiry-details{border-block:1px solid var(--contact-rule);border-inline:0;margin:10px 0 0;background:none;scroll-margin-top:0}
+body.portfolio-v22 #contact .inquiry-details:focus-visible{outline:2px solid var(--contact-paper);outline-offset:6px}
 body.portfolio-v22 #contact .inquiry-details>summary{padding:26px 0;min-height:96px;gap:24px;color:var(--contact-paper);border-radius:0}
 body.portfolio-v22 #contact .inquiry-details>summary strong{font-size:23px;font-weight:400;line-height:1.6;letter-spacing:-.3px;color:inherit}
 body.portfolio-v22 #contact .inquiry-details>summary small{font-size:13px;line-height:1.85;max-width:none;color:#c8d1c6;margin-top:6px}

@@ -27,3 +27,45 @@ body.portfolio-v21 .project-viewer{width:min(1240px,calc(100vw - 56px));max-widt
  .project-viewer-caption{font-size:10px;gap:4px;margin-top:11px}
 }
 @media(max-height:500px){body.portfolio-v21 .project-viewer{padding:14px 18px;max-height:calc(100dvh - 20px)}.project-viewer-frame,.project-viewer-frame img{max-height:55dvh}.project-viewer.is-zoomed .project-viewer-frame img{max-height:none}}
+
+/* Project process notes: native disclosure, ruled facts, and a quiet reading inset. */
+body.portfolio-v25 .case-details{border-color:#bec7bb}
+body.portfolio-v25 .case-details>summary{
+ min-height:62px;padding:9px 0;gap:16px;color:#183b32;
+ font-size:13px;line-height:1.8;letter-spacing:.2px;
+}
+body.portfolio-v25 .case-details>summary:focus-visible{outline:2px solid #b24a33;outline-offset:4px}
+body.portfolio-v25 .case-details[open]>summary{color:#9f4934}
+body.portfolio-v25 .case-details-symbol{
+ width:44px;height:44px;border:0;border-radius:0;background:transparent;color:#9f4934;
+ transition:color .2s ease;
+}
+body.portfolio-v25 .case-details-symbol:before,
+body.portfolio-v25 .case-details-symbol:after{left:15px;right:15px;top:21px;background:currentColor}
+body.portfolio-v25 .case-details[open] .case-details-symbol{background:transparent}
+body.portfolio-v25 .case-details-content{
+ margin:0 0 21px;padding:0 20px;border-left:2px solid #b24a33;background:#efeee6;
+}
+body.portfolio-v25 .case-facts>div{grid-template-columns:72px minmax(0,1fr);gap:18px;padding:16px 0;border-color:#d6d8cc}
+body.portfolio-v25 .case-facts>div:first-child{padding-top:16px}
+body.portfolio-v25 .case-facts>div:last-child{padding-bottom:16px}
+body.portfolio-v25 .case-facts dt{padding-top:3px;color:#677061;font-size:11px;line-height:1.9;letter-spacing:.6px}
+body.portfolio-v25 .case-facts dd{font-size:14px;line-height:1.95;color:#304b3f}
+@media(hover:hover){
+ body.portfolio-v25 .case-details>summary:hover{color:#9f4934}
+ body.portfolio-v25 .case-details>summary:hover .case-details-symbol{background:transparent;color:#b24a33}
+}
+@media(max-width:480px){
+ body.portfolio-v25 .case-details-content{padding-inline:16px;margin-bottom:18px}
+ body.portfolio-v25 .case-facts>div{grid-template-columns:minmax(0,1fr);gap:5px;padding-block:15px}
+ body.portfolio-v25 .case-facts>div:first-child{padding-top:15px}
+ body.portfolio-v25 .case-facts>div:last-child{padding-bottom:15px}
+ body.portfolio-v25 .case-facts dt{padding-top:0;line-height:1.8}
+}
+body.portfolio-v25.motion-paused .case-details-content{animation:none}
+@media(prefers-reduced-motion:reduce){
+ body.portfolio-v25 .case-details-content{animation:none}
+ body.portfolio-v25 .case-details>summary,
+ body.portfolio-v25 .case-details-symbol,
+ body.portfolio-v25 .case-details-symbol:after{transition:none}
+}
