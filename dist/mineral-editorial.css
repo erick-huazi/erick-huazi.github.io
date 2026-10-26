@@ -1,0 +1,142 @@
+/* V33 — mineral pigments, a silk-paper folio and quiet gilded rules. */
+body.portfolio-v33{
+  --paper:#f4ebdd;--ink:#252421;--muted:#655f53;--line:#c9b99c;--accent:#a83e2b;
+  --mineral-teal:#155e52;--mineral-gold:#aa8241;--mineral-light:#fcf7ed;
+  background:var(--paper);color:var(--ink);
+}
+body.portfolio-v33 ::selection{background:#e2c7a9;color:#252421}
+body.portfolio-v33 :focus-visible{outline-color:#a83e2b}
+body.portfolio-v33 .nav{background:var(--paper);border-bottom-color:#bfa67d}
+body.portfolio-v33 .brand,body.portfolio-v33 .nav-links>a{color:var(--ink)}
+body.portfolio-v33 .nav-cta{border-color:#8d7554;color:var(--ink)}
+body.portfolio-v33 .quick-trigger{color:#5f594e}
+body.portfolio-v33 .editorial-topline{color:#6a5b46;border-bottom:1px solid #c9b99c;padding-bottom:20px}
+body.portfolio-v33 .editorial-hero-grid{padding-top:48px;padding-bottom:52px;gap:clamp(40px,6vw,88px);min-height:620px}
+body.portfolio-v33 .editorial-kicker{border-color:var(--accent);color:#5f594e}
+body.portfolio-v33 .editorial-hero-title{font-family:'Songti SC','STSong','SimSun',serif;font-weight:600;letter-spacing:-5px;color:var(--ink)}
+body.portfolio-v33 .editorial-hero-title .editorial-name-en{font-size:.59em;letter-spacing:-3px;color:var(--mineral-teal);margin-top:18px;font-weight:400}
+body.portfolio-v33 .hero-position{color:var(--ink)}
+body.portfolio-v33 .hero-description{color:#655f53}
+body.portfolio-v33 .hero-actions .btn{background:var(--accent);border-color:var(--accent);color:#fff8ec;min-height:52px}
+body.portfolio-v33 .hero-contact{color:var(--mineral-teal)}
+body.portfolio-v33 .hero-baseline{border-top:3px double #b59a70;border-bottom:0}
+body.portfolio-v33 .hero-facts{color:#655f53}
+body.portfolio-v33 .hero-facts b{color:var(--mineral-teal)}
+body.portfolio-v33 .hero-facts>span+span{border-color:var(--line)}
+body.portfolio-v33 .hero-controls{color:#655f53}
+body.portfolio-v33 .scroll-link{color:#5e594c}
+body.portfolio-v33 .hero-project-sheet.mineral-folio{padding:0;background:transparent;color:var(--ink);border:0;border-radius:0;box-shadow:none;transform:none}
+body.portfolio-v33 .mineral-art{position:relative;overflow:hidden;margin:0;border:1px solid #ad8f5f;aspect-ratio:3/2;background:#f2e5ce;isolation:isolate}
+body.portfolio-v33 .mineral-art:after{content:'';position:absolute;inset:9px;border:1px solid #b28d4a80;pointer-events:none}
+body.portfolio-v33 .mineral-art picture,body.portfolio-v33 .mineral-art img{display:block;width:100%;height:100%;object-fit:cover}
+body.portfolio-v33 .mineral-art img{transform-origin:center;transition:transform 1s cubic-bezier(.22,1,.36,1)}
+body.portfolio-v33 .mineral-art figcaption{position:absolute;left:8%;top:10%;margin:0;max-width:55%;color:#373027}
+body.portfolio-v33 .mineral-art figcaption>span{display:block;font:500 clamp(24px,2.6vw,37px)/1.45 'Songti SC','STSong','SimSun',serif;letter-spacing:3px}
+body.portfolio-v33 .mineral-art figcaption small{display:block;margin-top:13px;font-size:8px;line-height:1.7;letter-spacing:1.6px}
+body.portfolio-v33 .folio-index{display:flex;justify-content:space-between;gap:14px;padding:21px 0 11px;font-size:9px;line-height:1.7;letter-spacing:1.2px;color:#6b5a43;border-bottom:1px solid #bfa67d}
+body.portfolio-v33 .folio-project{display:grid;grid-template-columns:25px minmax(0,1fr) 28px;gap:13px;align-items:center;min-height:82px;padding:14px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+body.portfolio-v33 .folio-number{align-self:start;padding-top:4px;font:italic 15px/1.5 Georgia,serif;color:var(--accent)}
+body.portfolio-v33 .folio-project-copy{min-width:0}
+body.portfolio-v33 .folio-project strong{display:block;font:400 22px/1.3 Georgia,'Songti SC','SimSun',serif;letter-spacing:-.4px;overflow-wrap:anywhere}
+body.portfolio-v33 .folio-project small{display:block;font-size:11px;line-height:1.8;color:#655f53;margin-top:5px}
+body.portfolio-v33 .folio-arrow{justify-self:end;font:25px/1 Georgia,serif;color:var(--mineral-teal);transition:transform .3s ease}
+body.portfolio-v33 .mineral-folio a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+body.portfolio-v33 .work-section,body.portfolio-v33 #about{background:var(--mineral-light)}
+body.portfolio-v33 .section-heading h2,body.portfolio-v33 #about .about-compact h2,body.portfolio-v33 .reference-teaser h2{font-family:'Songti SC','STSong','SimSun',serif;color:var(--ink);font-weight:600;letter-spacing:-1.2px}
+body.portfolio-v33 .section-number{color:var(--accent)}
+body.portfolio-v33 .section-heading{border-top:3px double #bfa67d;padding-top:28px}
+body.portfolio-v33 .section-heading>p{color:#655f53}
+body.portfolio-v33 .case-media>a.case-product-preview,body.portfolio-v33 .case-media>a.case-product-preview.real-preview{background:#e2e8dd;border:1px solid #b4bda8;padding:24px}
+body.portfolio-v33 #project-astrrot .case-media>a.case-product-preview{background:#eee0d2;border-color:#c9b99c}
+body.portfolio-v33 .case-preview-top{border-color:#a1ad99}
+body.portfolio-v33 .case-product-number{color:var(--mineral-teal)}
+body.portfolio-v33 .case-heading h3,body.portfolio-v33 .case-deck{color:var(--ink)}
+body.portfolio-v33 .case-summary,body.portfolio-v33 .case-inquiry{color:#655f53}
+body.portfolio-v33 .case-footer .btn{color:var(--mineral-teal);border-color:#6c8f7b}
+body.portfolio-v33 .project-filter>button[aria-pressed='true']{color:var(--accent);box-shadow:inset 0 -2px var(--accent)}
+body.portfolio-v33 .service-layout{border-color:#bfa67d}
+body.portfolio-v33 .offer>summary .offer-title{color:var(--ink);font-family:'Songti SC','STSong','SimSun',serif;font-weight:600}
+body.portfolio-v33 .offer>summary .offer-num{color:var(--accent)}
+body.portfolio-v33 .offer[open]>summary{border-color:#a83e2b}
+body.portfolio-v33 #services :is(.consult-strip>p>span,.offer-preview-label,.delivery-note){color:#5e594c}
+body.portfolio-v33 #about .about-compact>div:first-child{border-color:#bfa67d}
+body.portfolio-v33 #about .about-compact>div:first-child:before{background:var(--accent)}
+body.portfolio-v33 #about .about-role{color:var(--accent)}
+body.portfolio-v33 #about .about-statement{color:#344d40}
+body.portfolio-v33 .reference-teaser{background:#ede3d1;border-color:#bfa67d}
+body.portfolio-v33 .shelf-agents{--shelf-ink:#183b32;--shelf-muted:#52604c;--shelf-line:#abb99f;background:#dce4d7;border-color:#b4bda8;border-left-color:#526b55}
+body.portfolio-v33 .shelf-rag{--shelf-muted:#52604c;background:#f1dfc6}
+body.portfolio-v33 .shelf-practice{--shelf-muted:#685143;background:#ead4c6}
+body.portfolio-v33 #contact{--contact-paper:#f4ebdd;--contact-ink:#252b26;--contact-soft:#d4cec1;--contact-rule:#7b7a66;background:var(--contact-ink);border-top:4px double #b69a65}
+body.portfolio-v33 #contact .contact-heading h2{font-family:'Songti SC','STSong','SimSun',serif;font-weight:500;color:var(--contact-paper)}
+body.portfolio-v33 #contact .contact-heading h2 em{color:#e6bc7a}
+body.portfolio-v33 #contact .channel-wechat{outline:1px solid #b69a65;outline-offset:-7px}
+body.portfolio-v33 #contact .channel-wechat .plain-button{background:#9e3928;border-color:#9e3928;color:#fff8ec}
+body.portfolio-v33 #contact #inquiry-details .optional{color:#5e594c}
+body.portfolio-v33 .footer{background:var(--paper)}
+body.portfolio-v33 .footer-wordmark{color:var(--ink);border-color:#bfa67d}
+body.portfolio-v33 .footer-wordmark em{color:var(--mineral-teal)}
+body.portfolio-v33 .footer-wordmark>span{color:var(--accent)}
+body.portfolio-v33 .quick-dialog{background:#fcf7ed;border-color:#a88b5e}
+body.portfolio-v33 .quick-head{border-color:#c9b99c}
+body.portfolio-v33 #quick-query{background:#f5eddf;border-color:#a8987e;color:#252421}
+body.portfolio-v33 .quick-item[aria-selected='true']{background:#e8dcc5;color:#252421;border-color:#c6a66f}
+body.portfolio-v33 .mobile-contact .mobile-wechat{background:#9e3928;color:#fff8ec}
+body.portfolio-v33 .mobile-contact .mobile-call{background:#f4ebdd;color:#252421}
+
+.reference-page.ref-v33.editorial-reference{--ref-paper:#f4ebdd;--ref-ink:#252421;--ref-muted:#655f53;--ref-line:#c9b99c;--ref-accent:#a83e2b;background:var(--ref-paper)}
+.reference-page.ref-v33 .ref-header{border-bottom-color:#bfa67d}
+.reference-page.ref-v33 .ref-hero h1,.reference-page.ref-v33 .ref-section-heading h2{font-family:'Songti SC','STSong','SimSun',serif;font-weight:600;letter-spacing:-1.2px}
+.reference-page.ref-v33 .ref-hero h1>span{color:#155e52;font-weight:400}
+.reference-page.ref-v33 .ref-art-margin{height:105px;margin-bottom:22px;border:1px solid #bfa67d;padding:5px;overflow:hidden;background:#f2e5ce}
+.reference-page.ref-v33 .ref-art-margin img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 65%}
+.reference-page.ref-v33 .ref-section-heading{border-top:3px double #bfa67d}
+.reference-page.ref-v33 .ref-reading-nav{background:#f4ebdd;border-color:#bfa67d}
+.reference-page.ref-v33 #ref-search{background:#fcf7ed;border-color:#a8987e}
+.reference-page.ref-v33 .ref-compare-dialog{background:#fcf7ed;color:#252421;border-color:#a88b5e}
+.reference-page.ref-v33 .ref-compare-dialog .ref-compare-heading{background:#fcf7ed}
+.reference-page.ref-v33 .ref-select[aria-pressed='true']{background:#155e52;border-color:#155e52;color:#fff8ec}
+
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body.portfolio-v33[data-motion-ready='true']:not(.motion-paused) .mineral-art:hover img{transform:scale(1.025)}
+  body.portfolio-v33[data-motion-ready='true']:not(.motion-paused) .folio-project:hover .folio-arrow{transform:translate(3px,-3px)}
+}
+@media(max-width:1280px){body.portfolio-v33 .mineral-art figcaption small{display:none}}
+@media(max-width:1100px){
+  body.portfolio-v33 .editorial-hero-grid{min-height:540px;gap:36px;padding-block:35px}
+  body.portfolio-v33 .editorial-hero-title{font-size:76px;letter-spacing:-4px}
+  body.portfolio-v33 .editorial-hero-title .editorial-name-en{font-size:.6em;letter-spacing:-2px}
+  body.portfolio-v33 .mineral-art figcaption>span{font-size:24px;line-height:1.3;letter-spacing:2px}
+  body.portfolio-v33 .mineral-art figcaption small{display:none}
+  body.portfolio-v33 .folio-project strong{font-size:20px}
+  body.portfolio-v33 .folio-project small{font-size:10px}
+}
+@media(max-width:760px){
+  html.js body.portfolio-v33 .nav-links,body.portfolio-v33 .nav-links{background:var(--paper);border-color:#bfa67d}
+  body.portfolio-v33 .editorial-topline{padding-block:20px 17px}
+  body.portfolio-v33 .editorial-hero-grid{grid-template-columns:minmax(0,1fr);gap:36px;min-height:0;padding:34px 0 30px}
+  body.portfolio-v33 .editorial-hero-title{font-size:clamp(66px,14vw,92px);line-height:1.08;letter-spacing:-3px}
+  body.portfolio-v33 .editorial-hero-title .editorial-name-en{font-size:.64em;letter-spacing:-2px;margin-top:12px}
+  body.portfolio-v33 .mineral-art{aspect-ratio:1.6}
+  body.portfolio-v33 .mineral-art figcaption{top:8%}
+  body.portfolio-v33 .mineral-art figcaption>span{font-size:clamp(23px,6.1vw,36px);line-height:1.3}
+  body.portfolio-v33 .mineral-art figcaption small{display:none}
+  body.portfolio-v33 .folio-index{padding-top:18px;font-size:9px}
+  body.portfolio-v33 .folio-project{min-height:77px;gap:11px}
+  body.portfolio-v33 .folio-project strong{font-size:22px}
+  body.portfolio-v33 .folio-project small{font-size:11px}
+  body.portfolio-v33 .section-heading{padding-top:23px}
+  body.portfolio-v33 .case-media>a.case-product-preview,body.portfolio-v33 .case-media>a.case-product-preview.real-preview{padding:16px}
+  .reference-page.ref-v33 .ref-art-margin{height:75px;margin-bottom:20px}
+}
+@media(max-width:360px){
+  body.portfolio-v33 .editorial-hero-title{font-size:63px}
+  body.portfolio-v33 .editorial-hero-title .editorial-name-en{font-size:.61em}
+  body.portfolio-v33 .mineral-art figcaption>span{font-size:22px;letter-spacing:1px}
+  body.portfolio-v33 .folio-project{grid-template-columns:21px minmax(0,1fr) 20px;gap:8px}
+  body.portfolio-v33 .folio-project strong{font-size:19px}
+  body.portfolio-v33 .folio-project small{font-size:10px}
+}
+body.portfolio-v33.motion-paused :is(.mineral-art img,.folio-arrow){transform:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){body.portfolio-v33 :is(.mineral-art img,.folio-arrow){transform:none!important;transition:none!important}}

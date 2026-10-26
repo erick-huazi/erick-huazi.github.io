@@ -64,7 +64,7 @@ v31 需求整理使用 `.inquiry-workspace`：桌面表单与来信并排，平�
 
 案例对照按问题、做法、借鉴、资料边界逐项配对，手机在每个维度内先后阅读A/B。弹窗内章节定位保持页面URL与浏览历史不变；关闭返回对照入口，重新打开滚动归零。核验700/701px、短屏、下载状态撑高粘性标题、筛选后保留选择和空结果时移除最后一项的返焦。目录编号保持nowrap并预留两位数字宽度。
 
-样式剪裁只使用 `src/retired-style-symbols.json` 中明确列出的 43 个退役类：20 个旧雕塑首屏类、23 个旧项目示意类。19 份源 CSS 及其顺序保留，构建时交给 LightningCSS 的 `unusedSymbols` 处理，不自动猜测“未使用”样式。不要按版本号直接删除旧层或 body 类；它们仍承载弹窗、筛选、表单和动态状态的基础规则。
+样式剪裁只使用 `src/retired-style-symbols.json` 中明确列出的 43 个退役类：20 个旧雕塑首屏类、23 个旧项目示意类。既有 19 份源 CSS 及其顺序保留，v33 在末尾追加矿物色主题层，构建时交给 LightningCSS 的 `unusedSymbols` 处理，不自动猜测“未使用”样式。不要按版本号直接删除旧层或 body 类；它们仍承载弹窗、筛选、表单和动态状态的基础规则。
 
 ```sh
 node scripts/check-retired-styles.mjs
@@ -77,6 +77,14 @@ CSS 缓存指纹包含源样式、退役名单、检查器以及实际读取的�
 参考库分享图使用 `src/reference-share-card.svg`，由 `src/reference-library.json` 的 `cases`、`learning`、`topics` 数组长度填充三个计数，输出 `dist/assets/reference-share-card.png`（1200×630）。SVG 模板和 JSON 都参与图片缓存指纹；构建报告使用独立的 `referenceShareCard` 字段，原主页 `shareCard` 与其基线含义不变。修改参考库数据后运行 `npm run build`，使页面、分享图和项目模板同步；单独运行 `npm run build:references` 不会重绘 PNG。分享元数据和结构化数据仍在 `scripts/build-references.mjs` 中维护。
 
 `dist/404.html` 提供静态返回入口，不自动重定向未知地址。`dist/references/index.html` 是 `/references/` 兼容入口，脚本可用时跳转到规范地址 `/references.html` 并保留查询参数及锚点，无脚本时保留手动链接。两页直接维护，当前不由参考页生成器覆盖。回归包含 `/references/?topic=knowledge#cases`、无脚本入口及未命中地址；Python 本地服务器可直接预览 `/404.html` 的版式，但真正的 404 路由和 `/references` 到目录入口的行为应在部署后核验。若迁移到域名子路径，需同步调整这两页使用的根路径链接。
+
+## v33 矿物色视觉
+
+参考用户提供的东方视觉板，加入暖绢纸底、朱砂重点色、孔雀绿与细金边。`dist/mineral-editorial.css` 作为第20层首页样式构建，并在参考页最后加载；保留此前各层的交互与断点规则。中文大标题使用系统宋体退路，无在线字体依赖。
+
+首页的 `.mineral-folio` 由原创飘带插画和两个独立产品入口组成；真实产品界面继续在作品区展示。插画源文件和内置 ImageGen 完整提示词位于 `src/art/dunhuang-ribbons-v33.*`，生成两档本地 WebP（640/1280px）；原参考图的品牌字样和产品图未用于页面。小屏和窄双栏隐藏装饰英文，避免压到飘带。参考库复用图案作为页边装饰，正文不叠在纹样上。
+
+新增插画揭幕与悬停缩放接入已有动效开关，尊重系统减少动态效果；静态页面始终可读。变更后回归 320px、760/761px、1100/1101px，核对浅纸面文字对比度、搜索输入位置、书册变量、需求生成、案例对照及原二维码。公开版本号为33，主页样式与动效缓存标记33.0；参考数据核验日期保持原值。
 
 ## 部署
 

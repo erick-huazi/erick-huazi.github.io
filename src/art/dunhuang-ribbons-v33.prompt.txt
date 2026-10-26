@@ -1,0 +1,9 @@
+Use case: stylized-concept.
+Asset type: a standalone decorative art panel for a refined personal portfolio website, landscape 3:2, preferably 1536 x 1024 pixels.
+Primary request: an original abstract composition inspired by traditional Dunhuang flying-silk ribbons and mineral-pigment murals. Do not reproduce any brand board, logo or lettering. Show elegant sinuous silk ribbons sweeping from the lower-left toward upper-right in a flowing diagonal, with a few quiet fine gilded contour lines.
+Style/medium: hand-painted mineral pigment on fine antique silk / parchment. Sophisticated contemporary museum editorial art, flattened graphic color fields, very subtle tactile grain, controlled shapes, crisp flowing edges, restrained details. The ribbons feel like graceful calligraphic gestures with long tapered tips, a layered mix of broad teal and vermilion strips, occasional narrow old-gold and charcoal accents.
+Color palette: warm moon-rice parchment #F4EBDD base, peacock stone teal #157A67, cinnabar vermilion #C94732, muted aged gold #D7A64A, charcoal #252421. Avoid other hues.
+Composition: generous warm paper negative space about 45% of the canvas, especially upper-left and toward the center; the main ribbon sweep has breathing room around it. Ribbons may cross two outer edges for a natural editorial crop. No enclosing frame. Make the entire canvas one coherent flat artwork, not a mockup or photographed object.
+Lighting/mood: quiet, confident, cultured, tactile, elegant. It will be used beside a technical FDE's portfolio copy and also as a narrow cropped edge accent.
+Text: absolutely none.
+Constraints: NO text, typography, logo, monogram, watermark, deer, animal, pagoda, person, religious figure, mountain landscape, packaging, website layout, device or poster mockup. NO glowing gradient, 3D plastic, neon cyberpunk, metallic CGI, generic AI-tech aesthetic, excessive ornament, harsh grunge or distressed cracks.

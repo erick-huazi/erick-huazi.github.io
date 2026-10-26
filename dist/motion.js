@@ -109,7 +109,7 @@
     }
 
     function reveal(element) {
-      if (!element.matches('.sheet-image,.real-preview .case-artwork')) { enter(element); return; }
+      if (!element.matches('.sheet-image,.mineral-art,.real-preview .case-artwork')) { enter(element); return; }
       const image = element.querySelector('img');
       if (!image) return;
       // Lazy images reveal only after loading. An offscreen or failed load stays static.
@@ -165,7 +165,7 @@
           observer.unobserve(entry.target);
         }
       }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
-      document.querySelectorAll('[data-reveal],.portfolio-v25 .sheet-image,.portfolio-v25 .real-preview .case-artwork').forEach(element => {
+      document.querySelectorAll('[data-reveal],.portfolio-v25 .sheet-image,.portfolio-v33 .mineral-art,.portfolio-v25 .real-preview .case-artwork').forEach(element => {
         if (!revealed.has(element)) observer.observe(element);
       });
 

@@ -19,7 +19,7 @@ const targets = { chrome: 110 << 16, safari: (16 << 16) | (4 << 8), firefox: 115
 const cssFiles = [
   'styles.css', 'enhancements.css', 'projects.css', 'ui-refresh.css',
   'portfolio.css', 'atelier.css', 'refinements.css', 'experience.css',
-  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css', 'editorial.css', 'editorial-motion.css', 'navigation-editorial.css', 'contact-editorial.css', 'project-viewer.css', 'about-editorial.css'
+  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css', 'editorial.css', 'editorial-motion.css', 'navigation-editorial.css', 'contact-editorial.css', 'project-viewer.css', 'about-editorial.css', 'mineral-editorial.css'
 ];
 const captures = [
   { id: 'worldcup', source: 'src/project-captures/worldcup.png' }
@@ -60,7 +60,7 @@ async function writeChanged(path, data) {
 }
 
 // Validate every required input before touching generated assets.
-const [styles, vector, card, captureInputs, fuse, fuseLicense, quickSearch, baselineInput, lightningInput, retiredStyles, referenceCardTemplate, referenceDataInput] = await Promise.all([
+const [styles, vector, card, captureInputs, fuse, fuseLicense, quickSearch, baselineInput, lightningInput, retiredStyles, referenceCardTemplate, referenceDataInput, mineralArtwork] = await Promise.all([
   Promise.all(cssFiles.map(name => input('dist/' + name))),
   input('dist/assets/field-sculpture.svg'),
   input('src/share-card.svg'),
@@ -72,7 +72,8 @@ const [styles, vector, card, captureInputs, fuse, fuseLicense, quickSearch, base
   input('node_modules/lightningcss/package.json'),
   auditRetiredStyles(root),
   input('src/reference-share-card.svg'),
-  input('src/reference-library.json')
+  input('src/reference-library.json'),
+  input('src/art/dunhuang-ribbons-v33.png')
 ]);
 const baseline = JSON.parse(baselineInput.data.toString('utf8'));
 if (baseline.version !== 15 || !Number.isFinite(baseline.css?.outputBytes) || !Number.isFinite(baseline.css?.outputGzipBytes)) {
@@ -160,6 +161,16 @@ for (const [id, source, output] of [
 }
 
 const sharpTool = { versions: sharp.versions, platform: process.platform, arch: process.arch };
+const mineralVariants = [];
+for (const width of [640, 1280]) {
+  const options = { width, withoutEnlargement: true, webp: { quality: 83, effort: 6 } };
+  const task = await resource({
+    id: 'dunhuang-ribbons-' + width, kind: 'image', output: 'dist/assets/dunhuang-ribbons-' + width + '.webp',
+    inputs: [mineralArtwork], recipe: 'mineral-art-webp-v1', options, tool: sharpTool,
+    generate: () => sharp(mineralArtwork.data).resize({ width, withoutEnlargement: true }).webp(options.webp).toBuffer()
+  });
+  mineralVariants.push({ path: task.result.output, bytes: task.result.bytes, ...task.result.image });
+}
 const sculptureVariants = [];
 for (const width of [320, 640, 960, 1280]) {
   const options = { density: 192, width, height: width, webp: { quality: 88, alphaQuality: 100, effort: 6 } };
@@ -202,7 +213,7 @@ const referenceShareCard = await resource({
 });
 const cssGzipBytes = gzipSync(css.data).length;
 const report = {
-  version: 32,
+  version: 33,
   baseline: { source: baselineInput.path, ...baseline },
   css: {
     sourceFiles: cssFiles, sourceFileCount: cssFiles.length,
@@ -215,6 +226,7 @@ const report = {
     deltaGzipBytes: cssGzipBytes - baseline.css.outputGzipBytes
   },
   sculpture: { sourceBytes: vector.data.length, sourceGzipBytes: gzipSync(vector.data).length, variants: sculptureVariants },
+  mineralArtwork: { source: mineralArtwork.path, sourceBytes: mineralArtwork.data.length, variants: mineralVariants },
   projectScreenshots: screenshotVariants,
   projectScreenshotFallbacks: [{ project: 'astrrot', status: 'labelled-illustration-retained', reason: 'No verified screenshot supplied for this release.' }],
   shareCard: { ...shareCard.result.image, bytes: shareCard.result.bytes, baselineBytes: baseline.shareCard.bytes,
