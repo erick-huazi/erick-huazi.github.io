@@ -209,3 +209,9 @@ body.portfolio-v34 .qr-dialog-actions .btn,body.portfolio-v34 #copy-dialog .btn{
 body.portfolio-v35 #project-hyaloria .case-media>a.case-product-preview{background:#e6e2d7;border-color:#b9ad94}
 body.portfolio-v35 #project-hyaloria .case-artwork{aspect-ratio:1270/714;background:#0a0d15}
 body.portfolio-v35 .case-details .case-facts dt{color:#5e594c}
+
+/* V36 — HYALORIA's creative workspace, a separate view of the same product. */
+body.portfolio-v36 #project-hyaloria-playground .case-media>a.case-product-preview{background:#e6e2d7;border-color:#b9ad94}
+body.portfolio-v36 #project-hyaloria-playground .case-artwork{aspect-ratio:725/604;background:#0a0b0c}
+body.portfolio-v36 #project-hyaloria-playground .case-access-note{color:#5e594c;font-size:12px;line-height:1.8;margin:19px 0 6px}
+body.portfolio-v36 #project-hyaloria-playground .case-facts a{display:block;width:fit-content;max-width:100%;min-height:44px;padding-block:8px;color:#155e52;text-decoration:underline;text-underline-offset:4px}

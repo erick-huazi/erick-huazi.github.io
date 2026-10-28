@@ -102,6 +102,14 @@ UI改动集中在 `dist/mineral-editorial.css`，没有新增样式层；`dist/i
 
 快速搜索新增HYALORIA/API/网关入口，共14项；结构化数据以contributor关联本人，避免将协作开发描述成唯一作者。修改项目时同步入口、筛选、搜索、职责和JSON-LD。首页样式缓存35.1、主脚本35.0；参考库共享主题CSS缓存35.1，参考资料与核验日期未变。
 
+## v36 HYALORIA Playground
+
+新增 [HYALORIA Playground](https://api.hyaloria.cn/playground) 作品卡片，展示登录后可见的图片、视频、音乐与智能创作模式，以及参考素材和生成参数入口。卡片明确标注需要登录，并链接同产品的 API 网关。它是 HYALORIA 的创作模块；当前共4个作品条目与3个过往实践，不代表4个独立产品。未补写未经确认的模块个人职责，也未将界面入口描述成已验证的模型服务或生成效果。
+
+空白工作台实屏由用户登录后于2026-10-28查看并保存，原图 `src/project-captures/hyaloria-playground.jpg` 实际725×604，不含账户姓名、余额、历史创作或用户素材。构建输出700px与725px WebP；后一文件名仍为请求宽度1400，srcset使用实际725w，按725/604显示，不放大源图。仅查看界面，未上传素材或发起生成。
+
+首页第四入口、筛选4/3/7、15项快捷搜索和结构化产品关系同步更新；搜索HYALORIA会同时返回API与Playground，API或网关定位父卡片，Playground或音乐等定位创作模块。JSON-LD使用hasPart/isPartOf关联两者，父项目原contributor保留。样式与主脚本缓存36.0，参考库共享主题缓存36.0，参考资料核验日期未变。
+
 ## 部署
 
 GitHub Pages 使用 GitHub Actions 发布已提交的 `dist/`。提交前执行构建并一并提交生成文件；推送 main 后自动部署。运行时不依赖 ChatGPT、外部 CDN、数据库或登录。

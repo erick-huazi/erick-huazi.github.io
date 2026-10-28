@@ -242,7 +242,7 @@ function setProjectFilter(value, writeHistory = false) {
   projectDirectory.hidden = value === 'archive';
   archivedProjects.hidden = value === 'live';
   if (value !== 'live') archivedProjects.open = true;
-  $('#project-count').textContent = value === 'live' ? `${projectCounts.live} 个上线项目` : value === 'archive' ? `${projectCounts.archive} 个过往项目实践` : `共 ${projectCounts.all} 个项目`;
+  $('#project-count').textContent = value === 'live' ? `${projectCounts.live} 个作品条目` : value === 'archive' ? `${projectCounts.archive} 个过往项目实践` : `共 ${projectCounts.all} 个作品条目`;
   if (writeHistory) {
     const url = new URL(location.href);
     if (value === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', value);

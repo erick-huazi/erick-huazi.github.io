@@ -23,7 +23,8 @@ const cssFiles = [
 ];
 const captures = [
   { id: 'worldcup', source: 'src/project-captures/worldcup.png' },
-  { id: 'hyaloria', source: 'src/project-captures/hyaloria.jpg' }
+  { id: 'hyaloria', source: 'src/project-captures/hyaloria.jpg' },
+  { id: 'hyaloria-playground', source: 'src/project-captures/hyaloria-playground.jpg' }
 ];
 const sha256 = data => createHash('sha256').update(data).digest('hex');
 const stable = value => JSON.stringify(value, function (_key, item) {
@@ -214,7 +215,7 @@ const referenceShareCard = await resource({
 });
 const cssGzipBytes = gzipSync(css.data).length;
 const report = {
-  version: 35,
+  version: 36,
   baseline: { source: baselineInput.path, ...baseline },
   css: {
     sourceFiles: cssFiles, sourceFileCount: cssFiles.length,
