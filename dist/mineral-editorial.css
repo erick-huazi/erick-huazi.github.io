@@ -140,3 +140,67 @@ body.portfolio-v33 .mobile-contact .mobile-call{background:#f4ebdd;color:#252421
 }
 body.portfolio-v33.motion-paused :is(.mineral-art img,.folio-arrow){transform:none!important;transition:none!important}
 @media(prefers-reduced-motion:reduce){body.portfolio-v33 :is(.mineral-art img,.folio-arrow){transform:none!important;transition:none!important}}
+
+/* V34 — a two-part project letter, with a wider mobile writing surface. */
+body.portfolio-v34 #contact .inquiry-details:focus-visible{outline:2px solid #d5b47e;outline-offset:6px}
+body.portfolio-v34 #contact .inquiry-details>summary{min-height:88px;padding-block:20px}
+body.portfolio-v34 #contact .inquiry-details>summary strong{font-family:'Songti SC','STSong','SimSun',serif;font-size:26px;letter-spacing:.2px}
+body.portfolio-v34 #contact .inquiry-details>.contact-card{padding:32px 36px 36px;border-top:3px double #aa8956;background:#f4ebdd}
+body.portfolio-v34 #contact .inquiry-details .contact-card-heading{gap:14px;margin-bottom:28px;padding-bottom:22px;border-color:#c9b99c}
+body.portfolio-v34 #contact .inquiry-details .contact-card-heading h3{font:500 clamp(26px,2.7vw,36px)/1.4 'Songti SC','STSong','SimSun',serif;letter-spacing:-.6px;color:#252421}
+body.portfolio-v34 #contact .inquiry-details .contact-card-heading>span{color:#655b49;font-size:10px;letter-spacing:1px}
+body.portfolio-v34 #contact .inquiry-workspace{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:36px}
+body.portfolio-v34 #contact .inquiry-step{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin:0 0 20px;padding-bottom:12px;border-bottom:1px solid #c9b99c;color:#9e3928;font-size:11px;line-height:1.8;letter-spacing:.6px}
+body.portfolio-v34 #contact .inquiry-step small{font-size:11px;letter-spacing:0;color:#655b49}
+body.portfolio-v34 #contact .inquiry-details label{font-size:14px;color:#343229}
+body.portfolio-v34 #contact .inquiry-details :is(input,select,textarea){border-color:#b7a98f;background:#fffaf2;color:#252421}
+body.portfolio-v34 #contact .inquiry-details :is(input,textarea)::placeholder{color:#6c665a}
+body.portfolio-v34 #contact .inquiry-details :is(input,select,textarea):focus{border-color:#a83e2b;outline:2px solid #a83e2b;outline-offset:2px;background:#fffdf7}
+body.portfolio-v34 #contact .inquiry-preferences{border-color:#c9b99c}
+body.portfolio-v34 #contact .inquiry-details .need-meta,body.portfolio-v34 #contact .inquiry-details .form-note{color:#655f53}
+body.portfolio-v34 #contact .inquiry-details .btn{background:#a83e2b;border-color:#a83e2b;color:#fff8ec}
+body.portfolio-v34 #contact .inquiry-details .btn.secondary{background:transparent;border-color:#8c7554;color:#343229}
+body.portfolio-v34 #contact .inquiry-details #copy-inquiry[data-copied='true']{background:#155e52;border-color:#155e52;color:#fff8ec}
+body.portfolio-v34 #contact .inquiry-letter-panel{padding:26px;border:1px solid #b99c6e;border-top:3px double #aa8956;background:#eee2cc;color:#252421}
+body.portfolio-v34 #contact .inquiry-letter-panel .letter-kicker{font-size:11px;letter-spacing:.8px;color:#9e3928;margin-bottom:20px}
+body.portfolio-v34 #contact #summary-placeholder h4{font:500 clamp(25px,2.5vw,33px)/1.5 'Songti SC','STSong','SimSun',serif;color:#252421;letter-spacing:-.5px}
+body.portfolio-v34 #contact #summary-placeholder>p:not(.letter-kicker){color:#655b49;font-size:14px}
+body.portfolio-v34 #contact .letter-guide>li{border-color:#c5ae87;color:#344d40}
+body.portfolio-v34 #contact #summary-placeholder>p.letter-note{border-color:#c5ae87;color:#655b49;font-size:12px}
+body.portfolio-v34 #contact .inquiry-letter-panel:has(#summary-output:not([hidden])){background:#fcf7ed}
+body.portfolio-v34 #contact .inquiry-details .summary-output h4{font:500 32px/1.4 'Songti SC','STSong','SimSun',serif;color:#252421;letter-spacing:-.5px;margin-bottom:21px}
+body.portfolio-v34 #contact .inquiry-details .summary-output #email-help{color:#655f53}
+body.portfolio-v34 #contact .inquiry-details .summary-output #inquiry-copy-status{font-size:13px;line-height:1.8;color:#155e52;margin:0 0 14px}
+body.portfolio-v34 #contact .inquiry-details #inquiry-copy-status:empty{display:none}
+body.portfolio-v34 #contact .letter-recipient{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;margin:0 0 15px;padding-block:13px;border-block:1px solid #c9b99c;font-size:12px;color:#655b49}
+body.portfolio-v34 #contact .letter-recipient strong{font-size:15px;font-weight:400;color:#252421}
+body.portfolio-v34 #contact .inquiry-details .summary-output label{font-size:12px;color:#655b49}
+body.portfolio-v34 #contact .inquiry-details .summary-output textarea{background:#fffcf6;border-color:#b7a98f;height:340px;min-height:240px}
+body.portfolio-v34 #contact .inquiry-details .download-brief{color:#155e52;text-decoration-color:#788f73}
+body.portfolio-v34 .wechat-dialog,body.portfolio-v34 .wechat-dialog .qr-dialog-head,body.portfolio-v34 #copy-dialog{background:#f4ebdd;border-color:#b99c6e}
+body.portfolio-v34 .qr-dialog-head h2,body.portfolio-v34 #copy-dialog h2{font-family:'Songti SC','STSong','SimSun',serif;color:#252421}
+body.portfolio-v34 .qr-context,body.portfolio-v34 .qr-account>span{color:#5e594c}
+body.portfolio-v34 .qr-dialog-actions .btn,body.portfolio-v34 #copy-dialog .btn{background:#a83e2b;border-color:#a83e2b;color:#fff8ec}
+@media(max-width:1100px){body.portfolio-v34 #contact .inquiry-workspace{gap:26px}}
+@media(max-width:1000px){body.portfolio-v34 #contact .inquiry-workspace{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){
+  body.portfolio-v34 #contact .inquiry-details>summary{min-height:86px;padding-block:18px}
+  body.portfolio-v34 #contact .inquiry-details>summary strong{font-size:24px}
+  body.portfolio-v34 #contact .inquiry-details>.contact-card{padding:25px 18px 26px}
+  body.portfolio-v34 #contact .inquiry-details .contact-card-heading{margin-bottom:23px;padding-bottom:18px}
+  body.portfolio-v34 #contact .inquiry-details .contact-card-heading h3{font-size:27px;line-height:1.45}
+  body.portfolio-v34 #contact .inquiry-details .contact-card-heading>span{font-size:9px;margin-top:10px}
+  body.portfolio-v34 #contact .inquiry-step{margin-bottom:19px}
+  body.portfolio-v34 #contact .inquiry-details label{font-size:14px}
+  body.portfolio-v34 #contact .inquiry-letter-panel{padding:23px 0 0;border:0;border-top:3px double #aa8956;background:none}
+  body.portfolio-v34 #contact .inquiry-letter-panel:has(#summary-output:not([hidden])){background:none}
+  body.portfolio-v34 #contact .inquiry-details .summary-output h4{font-size:28px}
+  body.portfolio-v34 #contact .inquiry-details .summary-output textarea{height:340px;min-height:240px}
+}
+@media(max-width:360px){
+  body.portfolio-v34 #contact .inquiry-details>.contact-card{padding-inline:14px}
+  body.portfolio-v34 #contact .inquiry-details .contact-card-heading h3{font-size:24px}
+  body.portfolio-v34 #contact .inquiry-details .summary-actions{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:no-preference){body.portfolio-v34:not(.motion-paused) #summary-output:not([hidden]){animation:letter-arrive .25s cubic-bezier(.22,1,.36,1)}}
+@keyframes letter-arrive{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}

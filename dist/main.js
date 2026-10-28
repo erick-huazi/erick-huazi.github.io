@@ -119,6 +119,9 @@ const output = $('#summary-output');
 const outputPlaceholder = $('#summary-placeholder');
 const nameField = $('#visitor-name');
 const needField = $('#visitor-need');
+const inquiryCopyButton = $('#copy-inquiry');
+const inquiryCopyStatus = $('#inquiry-copy-status');
+let inquiryCopyAttempt = 0;
 let generatedBody = '';
 let generatedFilename = '咨询需求.txt';
 let lastSuggestedNeed = '';
@@ -144,6 +147,7 @@ restoreInquiryHash();
 window.addEventListener('hashchange', restoreInquiryHash);
 window.addEventListener('popstate', restoreInquiryHash);
 function invalidateSummary() {
+  resetInquiryCopy();
   if (generatedBody) { generatedBody = ''; output.hidden = true; outputPlaceholder.hidden = false; $('#summary-text').value = ''; $('#email-draft').href = `mailto:${contactEmail}`; $('#form-status').textContent = '内容已修改，请重新整理需求后发送。'; }
   $('#need-count').textContent = `${needField.value.length} / 1500`;
   nameField.setCustomValidity(''); needField.setCustomValidity('');
@@ -173,6 +177,7 @@ form.addEventListener('submit', event => {
   const name = nameField.value.trim(), service = String(data.get('service'));
   generatedBody = `张建华你好，\n\n我是 ${name}，想咨询「${service}」。\n\n我的需求：\n${needField.value.trim()}\n\n希望的沟通方式：${data.get('mode')}\n期望时间：${String(data.get('timing')).trim() || '双方协商'}\n\n请告知合适的沟通时间、合作范围及费用。谢谢！`;
   generatedFilename = `咨询需求-${service}.txt`;
+  resetInquiryCopy();
   $('#summary-text').value = generatedBody;
   const subject = encodeURIComponent(`合作咨询｜${service}｜${name}`);
   const fullLink = `mailto:${contactEmail}?subject=${subject}&body=${encodeURIComponent(generatedBody)}`;
@@ -190,7 +195,25 @@ $('#edit-inquiry').addEventListener('click', () => {
   needField.focus({ preventScroll: true });
   needField.closest('label').scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
 });
-$('#copy-inquiry').addEventListener('click', () => { if (generatedBody) copyText(generatedBody); });
+function resetInquiryCopy() {
+  inquiryCopyAttempt += 1;
+  inquiryCopyButton.textContent = '复制全文';
+  delete inquiryCopyButton.dataset.copied;
+  inquiryCopyStatus.textContent = '';
+}
+inquiryCopyButton.addEventListener('click', async () => {
+  if (!generatedBody) return;
+  const bodyToCopy = generatedBody;
+  resetInquiryCopy();
+  const attempt = inquiryCopyAttempt;
+  const copied = await copyText(bodyToCopy, inquiryCopyButton);
+  if (bodyToCopy !== generatedBody || attempt !== inquiryCopyAttempt) return;
+  if (copied) {
+    inquiryCopyButton.textContent = '已复制全文';
+    inquiryCopyButton.dataset.copied = 'true';
+    inquiryCopyStatus.textContent = '全文已复制。可粘贴到微信或邮件中发送。';
+  } else inquiryCopyStatus.textContent = '自动复制未完成，可在弹窗中手动复制全文。';
+});
 $('#download-inquiry').addEventListener('click', () => {
   if (!generatedBody) return;
   const url = URL.createObjectURL(new Blob(['\uFEFF' + generatedBody], { type: 'text/plain;charset=utf-8' }));
