@@ -326,6 +326,13 @@ function restoreInquiryHash() {
 restoreInquiryHash();
 window.addEventListener('hashchange', restoreInquiryHash);
 window.addEventListener('popstate', restoreInquiryHash);
+// A same-hash click does not emit hashchange; open the existing tool before
+// native anchor navigation without changing or submitting the visitor's text.
+document.addEventListener('click', event => {
+  if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  const link = event.target instanceof Element ? event.target.closest('a[href="#inquiry-details"]') : null;
+  if (link) inquiryDetails.open = true;
+});
 function invalidateSummary() {
   resetInquiryCopy();
   if (generatedBody) { generatedBody = ''; output.hidden = true; outputPlaceholder.hidden = false; $('#summary-text').value = ''; $('#email-draft').href = `mailto:${contactEmail}`; $('#form-status').textContent = '内容已修改，请重新整理需求后发送。'; }
