@@ -227,15 +227,22 @@ const projectFilters = $$('[data-project-filter]');
 const archivedProjects = $('#project-archive');
 const liveProjectList = $('.case-list');
 const projectDirectory = $('.project-directory');
+const liveProjects = [...liveProjectList.querySelectorAll('.case-row')];
+const projectCounts = { live: liveProjects.length, archive: archivedProjects.querySelectorAll('.archive-item').length };
+projectCounts.all = projectCounts.live + projectCounts.archive;
+projectFilters.forEach(button => {
+  const count = button.querySelector('span');
+  if (count) count.textContent = String(projectCounts[button.dataset.projectFilter] || 0).padStart(2, '0');
+});
 function setProjectFilter(value, writeHistory = false) {
   if (!['live', 'archive', 'all'].includes(value)) value = 'live';
   projectFilters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.projectFilter === value)));
-  $$('.case-row').forEach(project => { project.hidden = value === 'archive'; });
+  liveProjects.forEach(project => { project.hidden = value === 'archive'; });
   liveProjectList.hidden = value === 'archive';
   projectDirectory.hidden = value === 'archive';
   archivedProjects.hidden = value === 'live';
   if (value !== 'live') archivedProjects.open = true;
-  $('#project-count').textContent = value === 'live' ? '2 个独立上线产品' : value === 'archive' ? '3 个过往项目实践' : '共 5 个项目';
+  $('#project-count').textContent = value === 'live' ? `${projectCounts.live} 个上线项目` : value === 'archive' ? `${projectCounts.archive} 个过往项目实践` : `共 ${projectCounts.all} 个项目`;
   if (writeHistory) {
     const url = new URL(location.href);
     if (value === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', value);

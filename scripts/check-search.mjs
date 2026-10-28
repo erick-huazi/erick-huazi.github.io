@@ -23,11 +23,12 @@ const records = [...dialog.matchAll(/<button\b([^>]*\bclass="quick-item"[^>]*)>(
   }
   return { id: target || href, title: text(label[1]), description: text(label[2]), aliases: attributes['data-search-alias'] || '' };
 });
-assert.equal(records.length, 13, 'Keep all existing results plus the inquiry and three learning paths.');
+assert.equal(records.length, 14, 'Keep all existing results and the HYALORIA API project.');
 assert.equal(new Set(records.map(record => record.id)).size, records.length, 'Quick destinations must be unique.');
 const search = createQuickSearch(records, Fuse);
 const ids = query => search(query).map(result => result.id);
 assert.deepEqual(ids('世界杯'), ['project-worldcup']);
+for (const query of ['hyaloria', 'HYALORIA API', 'api', 'gateway', '多模型', '网关']) assert.deepEqual(ids(query), ['project-hyaloria'], `HYALORIA project query: ${query}`);
 assert.deepEqual(ids('电话'), ['contact']);
 assert.deepEqual(ids(' ＡＩ  赛事 '), ['project-worldcup']);
 assert.equal(search('worlcup')[0].id, 'project-worldcup');

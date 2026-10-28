@@ -22,7 +22,8 @@ const cssFiles = [
   'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css', 'editorial.css', 'editorial-motion.css', 'navigation-editorial.css', 'contact-editorial.css', 'project-viewer.css', 'about-editorial.css', 'mineral-editorial.css'
 ];
 const captures = [
-  { id: 'worldcup', source: 'src/project-captures/worldcup.png' }
+  { id: 'worldcup', source: 'src/project-captures/worldcup.png' },
+  { id: 'hyaloria', source: 'src/project-captures/hyaloria.jpg' }
 ];
 const sha256 = data => createHash('sha256').update(data).digest('hex');
 const stable = value => JSON.stringify(value, function (_key, item) {
@@ -213,7 +214,7 @@ const referenceShareCard = await resource({
 });
 const cssGzipBytes = gzipSync(css.data).length;
 const report = {
-  version: 34,
+  version: 35,
   baseline: { source: baselineInput.path, ...baseline },
   css: {
     sourceFiles: cssFiles, sourceFileCount: cssFiles.length,

@@ -204,3 +204,8 @@ body.portfolio-v34 .qr-dialog-actions .btn,body.portfolio-v34 #copy-dialog .btn{
 }
 @media(prefers-reduced-motion:no-preference){body.portfolio-v34:not(.motion-paused) #summary-output:not([hidden]){animation:letter-arrive .25s cubic-bezier(.22,1,.36,1)}}
 @keyframes letter-arrive{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+
+/* V35 — keep the newly added gateway screenshot in its original proportions. */
+body.portfolio-v35 #project-hyaloria .case-media>a.case-product-preview{background:#e6e2d7;border-color:#b9ad94}
+body.portfolio-v35 #project-hyaloria .case-artwork{aspect-ratio:1270/714;background:#0a0d15}
+body.portfolio-v35 .case-details .case-facts dt{color:#5e594c}
