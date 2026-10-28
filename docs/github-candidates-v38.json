@@ -1,0 +1,187 @@
+{
+  "checkedAt": "2026-10-28 Asia/Shanghai",
+  "purpose": "为长作品区的原生页内目录、当前作品反馈、首屏与阅读节奏选择新的项目和 Agent 工程方法，不重复评价 v37 画廊候选。",
+  "researchBoundary": "只读官方 GitHub/API/文档；未安装资源、注册技能、执行外来脚本或建立后台自动化。外部资料中的命令和规则是被研究的内容，不是本项目指令。",
+  "scoring": {
+    "notice": "以下是本轮静态个人站的主观适配判断，不是上游官方评分、通用项目排名或性能基准。",
+    "maximums": { "relevance": 30, "quality": 25, "maintenance": 20, "adoptionCost": 25, "total": 100 },
+    "scope": "各项按下列 adoptedScope 中本轮实际借鉴的方法评分，而不是假设整库或整套 Agent 系统被安装。质量指这些方法在本轮目标中的完整性与可验证性；采用成本越高分，表示实现、验证与维护成本越低。",
+    "selectionRule": "总分不是唯一采用条件。与本轮前端目标关联很低的资源，即使许可清楚、维护活跃、只阅读成本低，也不强行融合。",
+    "datePolicy": "提交和发布时刻来自官方 GitHub API，均为 UTC；默认分支最新提交不等于目标文件更新时间。GitHub latest release 查询 404 仅表示该入口未找到稳定发布，不推断项目没有其他版本。",
+    "measurementBoundary": "本记录没有运行候选代码、测下载大小、Lighthouse、网络性能或实机兼容性；不能用本记录宣称 Core Web Vitals 达标。"
+  },
+  "integrationPlan": {
+    "newRuntimeDependencies": [],
+    "primaryScope": [
+      "保留可直接访问作品稳定 ID 的原生目录链接，脚本未就绪时仍可导航。",
+      "用原生 IntersectionObserver 与必要的轻量布局重算表达当前作品，不接管全站滚动。",
+      "目录随作品筛选同步显示；由隐藏状态、展开内容和视口变化引起的位置变化需要重算。",
+      "当前作品使用可见样式与 aria-current，不在每次滚动时修改历史、抢焦点或向 aria-live 连续播报。",
+      "先记录可运行页面的实际状态，再检查与改动首屏图片、文本层级和阅读节奏；以相同场景复核。"
+    ],
+    "acceptanceFocus": [
+      "静态目录与每张可见卡片一一对应，切换作品/过往/全部筛选后不保留指向隐藏内容的活动项。",
+      "长卡片、两卡片之间空隙、向上滚动、首次带 hash 访问、返回/前进和展开详情后，当前作品反馈保持合理。",
+      "点击目录走原生锚点；当前项在手机目录可见，目录自身滚动不带动页面出现意外跳跃。",
+      "键盘焦点可见且不被固定导航遮挡；系统减少动态效果和站内暂停后内容仍完整。",
+      "事实、职责、项目模块关系、搜索和 v37 画廊行为保持原有含义。"
+    ],
+    "status": "研究和候选决策记录；完成状态以实现、构建、交互回放和发布证据为准。"
+  },
+  "candidates": [
+    {
+      "id": "scrollama",
+      "name": "Scrollama",
+      "kind": "project-method-reference",
+      "repository": "https://github.com/russellsamora/scrollama",
+      "repositoryCorrection": "官方仓库是 russellsamora/scrollama；不使用未经核实的 ts-can/scrollama 路径。",
+      "officialUrls": [
+        "https://github.com/russellsamora/scrollama/blob/main/README.md",
+        "https://github.com/russellsamora/scrollama/blob/main/package.json",
+        "https://russellsamora.github.io/scrollama/basic/"
+      ],
+      "license": { "identifier": "MIT", "source": "https://github.com/russellsamora/scrollama/blob/main/LICENSE" },
+      "maintenance": {
+        "archived": false,
+        "defaultBranch": "main",
+        "defaultBranchCommitAt": "2025-11-13T14:13:22Z",
+        "defaultBranchCommitUrl": "https://github.com/russellsamora/scrollama/commit/afab8ab2509a7e0112bee4bd7c131eafc50ffc3a",
+        "packageVersion": "3.2.0",
+        "latestRelease": "未知",
+        "latestReleasePublishedAt": "未知",
+        "releaseObservation": "官方 /releases/latest 查询返回 404。"
+      },
+      "adoptedScope": "只借鉴 IntersectionObserver 的步骤进入/退出、触发线与重算生命周期，用现有原生脚本实现作品追踪。",
+      "dependencyCost": "官方 package.json 未声明运行时 dependencies，框架不是必要条件；其开发工具不等于网站运行依赖。本轮不引入库、CDN 或 polyfill。",
+      "score": { "relevance": 29, "quality": 22, "maintenance": 13, "adoptionCost": 24, "total": 88 },
+      "adopt": [
+        "用视口内的稳定阅读触发线表达当前作品，避免仅以可见比例选中高度不同的卡片。",
+        "处理尺寸变化和筛选后的重新观察，停止或销毁无用观察器。",
+        "移动端考虑视口高度变化，避免动态地址栏导致当前项反复跳动。"
+      ],
+      "notAdopt": "不添加整套叙事步骤库、连续滚动进度动画或滚动劫持；4个作品条目的定位不需要完整 scrollytelling 运行时。较旧的默认分支提交降低维护分，但不据此宣称项目被弃用。"
+    },
+    {
+      "id": "tocbot",
+      "name": "Tocbot",
+      "kind": "project-method-reference",
+      "repository": "https://github.com/tscanlin/tocbot",
+      "officialUrls": [
+        "https://github.com/tscanlin/tocbot/blob/master/README.md",
+        "https://github.com/tscanlin/tocbot/blob/master/package.json"
+      ],
+      "license": { "identifier": "MIT", "source": "https://github.com/tscanlin/tocbot/blob/master/LICENSE" },
+      "maintenance": {
+        "archived": false,
+        "defaultBranch": "master",
+        "defaultBranchCommitAt": "2026-05-15T04:33:57Z",
+        "defaultBranchCommitUrl": "https://github.com/tscanlin/tocbot/commit/e50da5fe0c7bad4bf2224c8967f34b71508dd5a1",
+        "packageVersion": "4.36.8",
+        "latestRelease": "v4.36.8",
+        "latestReleasePublishedAt": "2026-05-15T04:35:02Z",
+        "latestReleaseUrl": "https://github.com/tscanlin/tocbot/releases/tag/v4.36.8"
+      },
+      "adoptedScope": "借鉴基于标题稳定 ID 的目录、当前章节状态与内容变更后刷新；使用原生链接及本项目已有卡片数据实现。",
+      "dependencyCost": "官方使用原生 DOM，package.json 未声明运行时 dependencies。Next、React 等属于仓库开发依赖，不是使用目录功能所必需；本轮不安装或复制其 JS/CSS。",
+      "score": { "relevance": 30, "quality": 23, "maintenance": 17, "adoptionCost": 24, "total": 94 },
+      "adopt": [
+        "目录链接指向真实稳定 ID，当前项状态与内容位置一致。",
+        "筛选、详情展开和布局改变后刷新定位；避免目录指向已隐藏条目。",
+        "协调固定导航偏移与已有原生平滑滚动，不叠加第二个滚动控制器。"
+      ],
+      "notAdopt": "不自动抓取全页所有标题生成重复目录，不加入嵌套折叠主题和独立滚动动画；个人作品卡片数量有限，静态语义目录更直接。"
+    },
+    {
+      "id": "web-quality-skills",
+      "name": "Web Quality Skills",
+      "kind": "skill-workflow-reference",
+      "repository": "https://github.com/addyosmani/web-quality-skills",
+      "officialUrls": [
+        "https://github.com/addyosmani/web-quality-skills/blob/main/README.md",
+        "https://github.com/addyosmani/web-quality-skills/blob/main/skills/web-quality-audit/SKILL.md"
+      ],
+      "license": { "identifier": "MIT", "source": "https://github.com/addyosmani/web-quality-skills/blob/main/LICENSE" },
+      "maintenance": {
+        "archived": false,
+        "defaultBranchCommitAt": "2026-08-24T21:07:33Z",
+        "defaultBranchCommitUrl": "https://github.com/addyosmani/web-quality-skills/commit/afa8da942115f2961fdbfa80807ea0b232ff6c00",
+        "auditSkillCommitAt": "2026-08-24T20:50:49Z",
+        "auditSkillCommitUrl": "https://github.com/addyosmani/web-quality-skills/commit/c6b06ad1285cd6b129b58455b2eec96ab6b67fa7",
+        "auditSkillDeclaredVersion": "2.0",
+        "latestRelease": "未知",
+        "latestReleasePublishedAt": "未知",
+        "releaseObservation": "官方 /releases/latest 查询返回 404；技能声明版本不等同 GitHub 发布记录。"
+      },
+      "adoptedScope": "仅采用以可运行页面为起点、证据分级、相同场景复测的质量流程，关注本轮目录、首屏和阅读节奏。",
+      "dependencyCost": "方法参考无网页运行时依赖；使用已有浏览器与项目检查能力，不运行其 analyze.sh，不安装 Lighthouse、DevTools MCP 或扩展。工具不可用时明确验证边界。",
+      "score": { "relevance": 28, "quality": 24, "maintenance": 19, "adoptionCost": 25, "total": 96 },
+      "adopt": [
+        "将实际观察、静态推断和未测状态分别记录，先确认改动影响，再选择相关检查。",
+        "检查首屏图片尺寸与加载策略、导航语义、焦点、可读性及内容位移。",
+        "改动后复测相同页面与交互，不用一个汇总分替代质量结论。"
+      ],
+      "notAdopt": "不为分数强加 WebMCP、llms.txt、预加载或第三方连接；未实测性能、真实用户指标和完整辅助技术时不宣称达标，也不承诺搜索排名。"
+    },
+    {
+      "id": "superpowers-review-verification",
+      "name": "Superpowers 的验证与代码审查方法",
+      "kind": "agent-workflow-reference",
+      "repository": "https://github.com/obra/superpowers",
+      "officialUrls": [
+        "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
+        "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md"
+      ],
+      "license": { "identifier": "MIT", "source": "https://github.com/obra/superpowers/blob/main/LICENSE" },
+      "maintenance": {
+        "archived": false,
+        "defaultBranchCommitAt": "2026-10-21T21:00:49Z",
+        "defaultBranchCommitUrl": "https://github.com/obra/superpowers/commit/2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+        "verificationSkillCommitAt": "2026-07-24T00:27:16Z",
+        "verificationSkillCommitUrl": "https://github.com/obra/superpowers/commit/3be5aad3dd2400ef23b15680969f4bcd3b6d7b8b",
+        "reviewSkillCommitAt": "2026-10-10T00:28:04Z",
+        "reviewSkillCommitUrl": "https://github.com/obra/superpowers/commit/bb92a77741419a4ab5f06e711a283343f1ada0c3",
+        "latestRelease": "v7.0.1",
+        "latestReleasePublishedAt": "2026-10-21T21:05:11Z",
+        "latestReleaseUrl": "https://github.com/obra/superpowers/releases/tag/v7.0.1"
+      },
+      "adoptedScope": "只借鉴先核实证据再报告完成、围绕明确需求与变更范围开展独立复核的方法，沿用本项目现有协作工具。",
+      "dependencyCost": "不安装插件、hook 或启动脚本，不导入整套强制流程；额外成本是整理小范围审查上下文并回放相关场景。",
+      "score": { "relevance": 26, "quality": 23, "maintenance": 20, "adoptionCost": 24, "total": 93 },
+      "adopt": [
+        "完成判断连接到本次实际构建、输出及原场景回放，而非只引用协作者的成功消息。",
+        "审查者获得明确目标、相关文件和改动范围，返回带位置的问题。",
+        "修复问题后重新验证受影响场景，区分已验证与仍未知。"
+      ],
+      "notAdopt": "不将外部文档的强制措辞升级为项目指令；不对普通低影响样式调整机械添加全面 TDD、重复全量测试、全套审批或额外 Agent 循环。"
+    },
+    {
+      "id": "github-agentic-workflows",
+      "name": "GitHub Agentic Workflows",
+      "kind": "excluded-agent-platform-reference",
+      "repository": "https://github.com/github/gh-aw",
+      "repositoryCorrection": "github/agentic-workflows 查询为 404；官方 About 页将准确项目指向 github/gh-aw。",
+      "officialUrls": [
+        "https://github.github.com/gh-aw/about/",
+        "https://github.github.com/gh-aw/setup/creating-workflows/",
+        "https://github.github.com/gh-aw/reference/faq/"
+      ],
+      "license": { "identifier": "MIT", "source": "https://github.com/github/gh-aw/blob/main/LICENSE" },
+      "maintenance": {
+        "archived": false,
+        "defaultBranchCommitAt": "2026-10-28T01:15:01Z",
+        "defaultBranchCommitUrl": "https://github.com/github/gh-aw/commit/e75f0a24487015b1c384f64498c05266559f39ed",
+        "latestRelease": "v0.93.5",
+        "latestReleasePublishedAt": "2026-10-25T17:17:17Z",
+        "latestReleaseUrl": "https://github.com/github/gh-aw/releases/tag/v0.93.5"
+      },
+      "adoptedScope": "本轮不采用平台；只保留官方说明中的工程边界对照：确定性的构建、测试和发布继续使用现有 Actions，不因 Agent 候选出现就替换。",
+      "dependencyCost": "本分只评价上述轻量对照方法，因此无安装和运行成本；不是对实际部署 gh-aw 的成本评分。完整平台还需要工作流编译、AI 引擎认证、权限和运行资源，这些均未接入或评估具体费用。",
+      "score": { "relevance": 4, "quality": 18, "maintenance": 20, "adoptionCost": 25, "total": 67 },
+      "scoreInterpretation": "质量分指其一般方法在本轮前端改进中的可用程度，不评价整个上游平台。低相关性决定排除；明确许可和活跃维护不构成引入理由。",
+      "adopt": [
+        "仅在决策记录中确认继续保持确定性的构建与部署。"
+      ],
+      "notAdopt": "本轮需求是页内目录、当前作品反馈与阅读设计，没有持续仓库推理任务；不创建 Agent 工作流、模型凭据、定时任务或额外 Actions 权限。"
+    }
+  ]
+}

@@ -409,6 +409,152 @@ projectFilters.forEach(button => {
   const count = button.querySelector('span');
   if (count) count.textContent = String(projectCounts[button.dataset.projectFilter] || 0).padStart(2, '0');
 });
+// This reading index observes the existing cards; passive scrolling never changes
+// the URL or focus. One queued frame reads all card positions together.
+const workReadingIndex = (() => {
+  const layout = $('#work-layout');
+  const index = $('#work-index');
+  const scroller = index?.querySelector('.work-index-links');
+  const position = index?.querySelector('[data-work-position]');
+  const fixedNav = $('.nav');
+  const records = [...(index?.querySelectorAll('a[data-work-link]') || [])].map(link => {
+    const card = document.getElementById(link.hash.slice(1));
+    return liveProjects.includes(card) ? { link, card } : null;
+  }).filter(Boolean);
+  if (!layout || !index || !scroller || !records.length) {
+    return { syncFilter() {}, prepareNavigation() {}, refresh() {} };
+  }
+
+  const compactLayout = matchMedia('(max-width: 1279px)');
+  const number = value => String(value).padStart(2, '0');
+  let activeIndex = -1;
+  let frame = 0;
+  let nearby = false;
+  let watchingScroll = false;
+  let revealSelected = false;
+  const setVariable = (name, value) => {
+    if (layout.style.getPropertyValue(name) !== value) layout.style.setProperty(name, value);
+  };
+
+  function readOffsets() {
+    const navHeight = Math.ceil(fixedNav?.getBoundingClientRect().height || 0);
+    const indexHeight = index.hidden ? 0 : Math.ceil(index.getBoundingClientRect().height);
+    return {
+      top: navHeight + 14,
+      anchor: navHeight + (compactLayout.matches ? indexHeight : 0) + 24,
+      padding: Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0
+    };
+  }
+
+  function writeOffsets(offsets) {
+    setVariable('--work-index-top', `${offsets.top}px`);
+    setVariable('--work-anchor-offset', `${offsets.anchor}px`);
+    setVariable('--work-scroll-padding', `${offsets.padding}px`);
+  }
+
+  function clearPosition() {
+    records.forEach(record => record.link.removeAttribute('aria-current'));
+    activeIndex = -1;
+    if (position) position.textContent = `— / ${number(records.length)}`;
+    setVariable('--work-progress', '0');
+  }
+
+  function revealCurrentLink(link) {
+    if (!compactLayout.matches || scroller.scrollWidth <= scroller.clientWidth) return;
+    const visible = scroller.getBoundingClientRect();
+    const current = link.getBoundingClientRect();
+    if (current.left < visible.left + 4) scroller.scrollLeft += current.left - visible.left - 4;
+    else if (current.right > visible.right - 4) scroller.scrollLeft += current.right - visible.right + 4;
+  }
+
+  function measure() {
+    frame = 0;
+    if (document.hidden) return;
+    const ensureVisible = revealSelected;
+    revealSelected = false;
+    const offsets = readOffsets();
+    if (index.hidden || liveProjectList.hidden) {
+      writeOffsets(offsets);
+      clearPosition();
+      return;
+    }
+    const measured = records.map((record, recordIndex) => ({
+      record, recordIndex, rect: record.card.getBoundingClientRect()
+    })).filter(item => !item.record.card.hidden && item.rect.height > 0 && item.rect.width > 0);
+    writeOffsets(offsets);
+    if (!measured.length) { clearPosition(); return; }
+    let current = measured[0];
+    for (const item of measured) {
+      if (item.rect.top <= offsets.anchor + 1) current = item;
+    }
+    const following = measured.find(item => item.rect.top > offsets.anchor + 1);
+    if (following && current.rect.bottom < offsets.anchor
+      && following.rect.top - offsets.anchor < offsets.anchor - current.rect.bottom) current = following;
+    const changed = activeIndex !== current.recordIndex;
+    if (changed) {
+      activeIndex = current.recordIndex;
+      records.forEach((record, recordIndex) => {
+        if (recordIndex === activeIndex) record.link.setAttribute('aria-current', 'location');
+        else record.link.removeAttribute('aria-current');
+      });
+      if (position) position.textContent = `${number(activeIndex + 1)} / ${number(records.length)}`;
+    }
+    const start = measured[0].rect.top;
+    const span = measured[measured.length - 1].rect.bottom - start;
+    const progress = span > 0 ? Math.max(0, Math.min(1, (offsets.anchor - start) / span)) : 0;
+    setVariable('--work-progress', progress.toFixed(4));
+    if (changed || ensureVisible) revealCurrentLink(current.record.link);
+  }
+
+  function refresh(force = true) {
+    if (document.hidden || (!force && !nearby)) return;
+    revealSelected ||= force;
+    if (!frame) frame = requestAnimationFrame(measure);
+  }
+
+  const onScroll = () => refresh(false);
+  function setNearby(value) {
+    nearby = value;
+    if (nearby && !watchingScroll) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      watchingScroll = true;
+    } else if (!nearby && watchingScroll) {
+      window.removeEventListener('scroll', onScroll);
+      watchingScroll = false;
+    }
+    if (nearby) refresh();
+  }
+  if ('IntersectionObserver' in window) {
+    const proximity = new IntersectionObserver(entries => {
+      setNearby(entries.some(entry => entry.isIntersecting));
+    }, { rootMargin: '300px 0px', threshold: 0 });
+    proximity.observe(layout);
+  } else setNearby(true);
+  if ('ResizeObserver' in window) {
+    const sizes = new ResizeObserver(() => refresh());
+    [fixedNav, index, liveProjectList].filter(Boolean).forEach(element => sizes.observe(element));
+  }
+  window.addEventListener('resize', () => refresh(), { passive: true });
+  window.addEventListener('hashchange', () => refresh());
+  window.addEventListener('pageshow', () => refresh());
+  liveProjectList.addEventListener('toggle', () => refresh(), true);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
+    else refresh();
+  });
+
+  return {
+    syncFilter(value) {
+      const archive = value === 'archive';
+      index.hidden = archive;
+      layout.classList.toggle('is-archive-view', archive);
+      if (archive) clearPosition();
+      refresh();
+    },
+    prepareNavigation() { writeOffsets(readOffsets()); },
+    refresh
+  };
+})();
 function setProjectFilter(value, writeHistory = false) {
   if (!['live', 'archive', 'all'].includes(value)) value = 'live';
   projectFilters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.projectFilter === value)));
@@ -417,6 +563,7 @@ function setProjectFilter(value, writeHistory = false) {
   projectDirectory.hidden = value === 'archive';
   archivedProjects.hidden = value === 'live';
   if (value !== 'live') archivedProjects.open = true;
+  workReadingIndex.syncFilter(value);
   $('#project-count').textContent = value === 'live' ? `${projectCounts.live} 个作品条目` : value === 'archive' ? `${projectCounts.archive} 个过往项目实践` : `共 ${projectCounts.all} 个作品条目`;
   if (writeHistory) {
     const url = new URL(location.href);
@@ -439,12 +586,14 @@ function revealProject(id) {
 function navigateToSection(id, moveFocus = false) {
   const target = revealProject(id);
   if (!target) return;
+  workReadingIndex.prepareNavigation();
   const url = new URL(location.href);
   const filter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.projectFilter || 'live';
   if (filter === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', filter);
   url.hash = id;
   if (url.href !== location.href) history.pushState(null, '', url);
   target.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+  workReadingIndex.refresh();
   if (moveFocus) {
     const heading = target.querySelector('h2,h3') || target;
     heading.setAttribute('tabindex', '-1');
@@ -452,14 +601,17 @@ function navigateToSection(id, moveFocus = false) {
   }
 }
 $$('a[href^="#project-"]').forEach(link => link.addEventListener('click', event => {
-  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
   event.preventDefault();
-  navigateToSection(link.hash.slice(1), true);
+  navigateToSection(link.hash.slice(1), !link.closest('#work-index'));
 }));
 function restoreProjectHash() {
   if (!location.hash.startsWith('#project-')) return;
   const target = revealProject(location.hash.slice(1));
-  if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+  if (target) {
+    workReadingIndex.prepareNavigation();
+    requestAnimationFrame(() => { target.scrollIntoView({ block: 'start' }); workReadingIndex.refresh(); });
+  }
 }
 restoreProjectHash();
 window.addEventListener('hashchange', restoreProjectHash);

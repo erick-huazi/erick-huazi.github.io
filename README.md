@@ -120,6 +120,16 @@ UI改动集中在 `dist/mineral-editorial.css`，没有新增样式层；`dist/i
 
 本轮核实8项GitHub项目、Skill和Agent实践，按本项目适配度评分并明确采用范围；见 [评分与融合记录](docs/open-source-integration-v37.md)。轻量验收方法见 [验证流程](docs/quality-workflow.md)，两份研究JSON保留官方来源、许可与维护信息。方法借鉴不等同于已安装这些库或技能。
 
+## v38 首屏与应用目录
+
+首屏四个入口使用两列目录，调整插画比例并前移主按钮；作品画面移除与外侧重复的英文类别/编号，真实截图与示意图标签仍保留。Playground摘要缩短，职责与产品关系不变。
+
+新增原生应用目录，仅覆盖4个live条目。>=1280px侧栏，以下横排；用阅读线维护目录内部aria-current、条目位置与浏览位置。滚动监听由IO限定在作品区附近，RAF合并测量，RO/resize/toggle/hash/pageshow/visibility负责刷新。被动滚动不修改URL/焦点或live播报。归档筛选隐藏目录并收回布局；搜索与历史可恢复。新目录点击保留自身焦点，其余旧入口不改。
+
+锚点留白先计算导航和目录实际高度，再减去html当前computed scroll-padding，避免历史88/104px覆盖造成遮挡。无JS目录保持静态，链接仍可用；短屏减少目录装饰。改动仍在既有20层源CSS内，主样式/脚本缓存38.0，参考页共享主题缓存38.0，参考事实与日期未改。
+
+新一轮5项GitHub项目、Skill与Agent方法评分见 [v38记录](docs/open-source-integration-v38.md)，官方来源和许可见研究JSON。未新增候选运行依赖，源码中的方法记录不等于安装了这些技能。
+
 ## 部署
 
 GitHub Pages 使用 GitHub Actions 发布已提交的 `dist/`。提交前执行构建并一并提交生成文件；推送 main 后自动部署。运行时不依赖 ChatGPT、外部 CDN、数据库或登录。

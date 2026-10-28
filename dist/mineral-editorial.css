@@ -215,3 +215,71 @@ body.portfolio-v36 #project-hyaloria-playground .case-media>a.case-product-previ
 body.portfolio-v36 #project-hyaloria-playground .case-artwork{aspect-ratio:725/604;background:#0a0b0c}
 body.portfolio-v36 #project-hyaloria-playground .case-access-note{color:#5e594c;font-size:12px;line-height:1.8;margin:19px 0 6px}
 body.portfolio-v36 #project-hyaloria-playground .case-facts a{display:block;width:fit-content;max-width:100%;min-height:44px;padding-block:8px;color:#155e52;text-decoration:underline;text-underline-offset:4px}
+/* V38 — a compact opening spread and a persistent index for the application folio. */
+body.portfolio-v38 .editorial-hero-grid{min-height:0;gap:clamp(36px,4.8vw,70px);padding-block:36px 38px}
+body.portfolio-v38 .mineral-art{aspect-ratio:2/1}
+body.portfolio-v38 .mineral-art figcaption>span{font-size:clamp(24px,2.3vw,32px);line-height:1.35}
+body.portfolio-v38 .mineral-art figcaption small{display:none}
+body.portfolio-v38 .folio-index{padding-top:16px}
+body.portfolio-v38 .folio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px}
+body.portfolio-v38 .folio-project{grid-template-columns:18px minmax(0,1fr) 17px;gap:9px;min-height:108px;align-items:start;padding-block:16px}
+body.portfolio-v38 .folio-project strong{font-size:19px;line-height:1.3;letter-spacing:-.3px}
+body.portfolio-v38 .folio-project small{font-size:11px;line-height:1.8}
+body.portfolio-v38 .folio-arrow{font-size:22px;padding-top:3px}
+body.portfolio-v38 .work-layout{display:grid;grid-template-columns:154px minmax(0,1fr);gap:32px;align-items:start}
+body.portfolio-v38 .work-layout.is-archive-view{grid-template-columns:minmax(0,1fr)}
+body.portfolio-v38 .work-content{min-width:0}
+body.portfolio-v38 .work-index{position:sticky;top:var(--work-index-top,96px);align-self:start;min-width:0;color:#5e594c}
+body.portfolio-v38 .work-index-heading{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:10px;line-height:1.8;letter-spacing:.6px}
+body.portfolio-v38 [data-work-position]{font:italic 13px/1.8 Georgia,serif;color:#155e52;white-space:nowrap;font-variant-numeric:tabular-nums}
+body.portfolio-v38 .work-index-track{height:2px;background:#d9ccb7;margin:10px 0 9px;overflow:hidden}
+body.portfolio-v38 .work-index-track>span{display:block;width:100%;height:100%;background:#a83e2b;transform:scaleX(var(--work-progress,0));transform-origin:left center;transition:transform .15s linear}
+body.portfolio-v38 .work-index-links{display:grid;min-width:0}
+body.portfolio-v38 .work-index-links>a{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;align-items:start;min-height:76px;padding:12px 5px 12px 9px;border-left:2px solid transparent;border-bottom:1px solid #d6c9b3;color:#5e594c}
+body.portfolio-v38 .work-index-num{font:italic 12px/1.8 Georgia,serif;color:#8b6450}
+body.portfolio-v38 .work-index-links strong{display:block;font:400 14px/1.4 Georgia,'Songti SC','SimSun',serif;overflow-wrap:anywhere}
+body.portfolio-v38 .work-index-links small{display:block;margin-top:5px;font-size:10px;line-height:1.6}
+body.portfolio-v38 .work-index-links>a[aria-current='location']{border-left-color:#a83e2b;background:#eee6d6;color:#155e52}
+body.portfolio-v38 .work-index-links>a[aria-current='location'] .work-index-num{color:#a83e2b}
+body.portfolio-v38 .work-index-contact{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;margin-top:18px;font-size:11px;color:#155e52;text-decoration:underline;text-underline-offset:5px;text-decoration-color:#aa9980}
+body.portfolio-v38 .work-index a:focus-visible{outline:2px solid #a83e2b;outline-offset:3px}
+body.portfolio-v38 .case-list{gap:56px}
+body.portfolio-v38 .case-row.case-showcase{column-gap:32px;padding-bottom:48px;scroll-margin-top:max(0px,calc(var(--work-anchor-offset,208px) - var(--work-scroll-padding,104px)))}
+body.portfolio-v38 .case-heading h3{font-size:clamp(28px,2.6vw,38px);line-height:1.17}
+body.portfolio-v38 .case-media>a.case-product-preview,body.portfolio-v38 .case-media>a.case-product-preview.real-preview{padding:18px}
+@media(hover:hover){body.portfolio-v38 .work-index-links>a:hover{background:#f0e9db;color:#155e52}}
+@media(max-width:1279px){
+ body.portfolio-v38 .work-layout{display:block;--work-scroll-padding:104px}
+ body.portfolio-v38 .work-index{z-index:12;padding:11px 0 0;margin-bottom:28px;border-top:1px solid #bfa67d;border-bottom:1px solid #c9b99c;background:#fcf7ed;box-shadow:0 10px 16px #fcf7ed}
+ body.portfolio-v38 .work-index-heading{font-size:10px}
+ body.portfolio-v38 .work-index-track{margin:7px 0 0}
+ body.portfolio-v38 .work-index-links{display:flex;max-width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;scrollbar-width:thin}
+ body.portfolio-v38 .work-index-links>a{flex:1 0 180px;min-height:65px;padding:10px 12px;border-left:0;border-bottom:2px solid transparent;grid-template-columns:18px minmax(0,1fr)}
+ body.portfolio-v38 .work-index-links>a[aria-current='location']{border-bottom-color:#a83e2b}
+ body.portfolio-v38 .work-index-links strong{font-size:13px}
+ body.portfolio-v38 .work-index-links small{margin-top:3px}
+ body.portfolio-v38 .work-index-contact{display:none}
+ body.portfolio-v38 .case-heading h3{font-size:clamp(30px,3.2vw,40px)}
+}
+@media(max-width:760px){
+ body.portfolio-v38 .editorial-hero-grid{gap:28px;padding-block:30px}
+ body.portfolio-v38 .folio-grid{gap:0 16px}
+ body.portfolio-v38 .folio-project{min-height:114px;grid-template-columns:16px minmax(0,1fr) 15px;gap:7px;padding-block:14px}
+ body.portfolio-v38 .folio-project strong{font-size:18px;line-height:1.3}
+ body.portfolio-v38 .folio-project small{font-size:11px}
+ body.portfolio-v38 .work-layout{--work-scroll-padding:88px}
+ body.portfolio-v38 .folio-number{font-size:13px}
+ body.portfolio-v38 .folio-arrow{font-size:19px}
+ body.portfolio-v38 .work-index{margin-bottom:24px}
+ body.portfolio-v38 .work-index-links>a{flex-basis:167px;min-height:67px;padding-inline:10px}
+ body.portfolio-v38 .case-list{gap:44px}
+ body.portfolio-v38 .case-row.case-showcase{padding-bottom:38px}
+ body.portfolio-v38 .case-media>a.case-product-preview,body.portfolio-v38 .case-media>a.case-product-preview.real-preview{padding:14px}
+ body.portfolio-v38 .case-heading h3{font-size:32px}
+}
+body.portfolio-v38.motion-paused .work-index-track>span{transition:none}
+html:not(.js) body.portfolio-v38 .work-index{position:static}
+html:not(.js) body.portfolio-v38 .work-index-track{display:none}
+html:not(.js) body.portfolio-v38 .case-row.case-showcase{scroll-margin-top:0}
+@media(max-width:1279px) and (max-height:500px){body.portfolio-v38 .work-index-heading,body.portfolio-v38 .work-index-track,body.portfolio-v38 .work-index-links small{display:none}body.portfolio-v38 .work-index-links>a{min-height:48px;padding-block:8px}body.portfolio-v38 .work-index{padding-top:0}}
+@media(prefers-reduced-motion:reduce){body.portfolio-v38 .work-index-track>span{transition:none}}
