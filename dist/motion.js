@@ -132,7 +132,7 @@
     function reveal(element) {
       // V41 uses scrubbed 3D on these same images, so do not start a second
       // transform animation that would override it or restore a stale matrix.
-      if (body.classList.contains('portfolio-v41') && element.matches('.real-preview .case-artwork')) return;
+      if (body.classList.contains('portfolio-v41') && desktop.matches && element.matches('.real-preview .case-artwork')) return;
       if (!element.matches('.sheet-image,.mineral-art,.real-preview .case-artwork')) { enter(element); return; }
       const image = element.querySelector('img');
       if (!image) return;
@@ -178,6 +178,8 @@
       ...document.querySelectorAll('.editorial-hero .hero-entrance:not(.editorial-hero-title),.kinetic-hero .hero-entrance')
     ];
     [...new Set(introduction)].forEach((element, index) => {
+      const bounds = element.getBoundingClientRect();
+      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return;
       revealed.add(element);
       enter(element, Math.min(index, 5) * 85);
     });
@@ -191,7 +193,7 @@
           observer.unobserve(entry.target);
         }
       }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
-      document.querySelectorAll('[data-reveal],.portfolio-v25 .sheet-image,.portfolio-v33 .mineral-art,.portfolio-v25 .real-preview .case-artwork').forEach(element => {
+      document.querySelectorAll('[data-reveal],.portfolio-v39 .hero-entrance,.portfolio-v25 .sheet-image,.portfolio-v33 .mineral-art,.portfolio-v25 .real-preview .case-artwork').forEach(element => {
         if (!revealed.has(element)) observer.observe(element);
       });
 

@@ -540,3 +540,12 @@ body.portfolio-v42 #process .delivery-actions a:focus-visible{outline:2px solid 
 }
 body.portfolio-v42.motion-paused .mineral-folio .mineral-art::before{transition:none}
 @media(prefers-reduced-motion:reduce){body.portfolio-v42 .mineral-folio .mineral-art::before{transition:none}}
+
+/* V49 — a lightweight mobile opening; content remains readable without animation. */
+@media(max-width:760px) and (prefers-reduced-motion:no-preference){
+ body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-fallback img{animation:mobile-ribbon-arrive 1.8s cubic-bezier(.22,1,.36,1) both}
+ body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-title>span{animation:mobile-title-arrive 1s cubic-bezier(.22,1,.36,1) both}
+ body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-title>span:last-child{animation-delay:.12s}
+}
+@keyframes mobile-ribbon-arrive{from{transform:scale(1.12) translate3d(1.5%,0,0)}to{transform:scale(1) translate3d(0,0,0)}}
+@keyframes mobile-title-arrive{from{opacity:.65;transform:translate3d(0,18px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
