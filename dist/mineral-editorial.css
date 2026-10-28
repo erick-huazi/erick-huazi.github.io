@@ -411,3 +411,23 @@ body.portfolio-v42 .spatial-contact{display:inline-flex;align-items:center;justi
  body.portfolio-v42 .spatial-actions{gap:6px;justify-content:flex-start}
  body.portfolio-v42 .spatial-contact{font-size:11px;padding-inline:12px}
 }
+
+/* V43 — an editorial map makes each product's existing journey visible. */
+body.portfolio-v42 .case-journey{margin:0 0 22px;padding:16px 17px 15px;border:1px solid #c9b99c;background:#f3ebdc}
+body.portfolio-v42 .case-journey-label{margin:0 0 13px;color:#665c4d;font-size:11px;font-weight:600;letter-spacing:.1em}
+body.portfolio-v42 .case-journey-label span{margin-left:5px;color:#796e5c;font:10px/1.4 Georgia,serif;letter-spacing:.1em}
+body.portfolio-v42 .case-journey ol{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;list-style:none;padding:0;margin:0}
+body.portfolio-v42 .case-journey ol::before,body.portfolio-v42 .case-journey ol::after{content:'';position:absolute;top:9px;left:9px;right:9px;height:1px;background:#c6b59a}
+body.portfolio-v42 .case-journey ol::after{background:#8b6144;transform-origin:left center}
+body.portfolio-v42 .case-journey li{position:relative;z-index:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+body.portfolio-v42 .case-journey li>span{display:grid;place-items:center;width:19px;height:19px;border:1px solid #907657;border-radius:50%;background:#f3ebdc;color:#6b553c;font:9px/1 Georgia,serif}
+body.portfolio-v42 .case-journey li>strong{color:#284c43;font-size:12px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+@supports (animation-timeline:view()) {
+ @media (prefers-reduced-motion:no-preference) and (min-width:761px){
+  body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .case-journey ol::after{animation:case-path-draw linear both;animation-timeline:view();animation-range:entry 5% cover 35%}
+ }
+}
+@keyframes case-path-draw{from{transform:scaleX(.08)}to{transform:scaleX(1)}}
+body.portfolio-v42.motion-paused .case-journey ol::after{animation:none;transform:none}
+@media(prefers-reduced-motion:reduce){body.portfolio-v42 .case-journey ol::after{animation:none;transform:none}}
+@media(max-width:760px){body.portfolio-v42 .case-journey{padding:14px;margin-bottom:18px}body.portfolio-v42 .case-journey li>strong{font-size:12px}}
