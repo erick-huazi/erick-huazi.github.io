@@ -549,3 +549,15 @@ body.portfolio-v42.motion-paused .mineral-folio .mineral-art::before{transition:
 }
 @keyframes mobile-ribbon-arrive{from{transform:scale(1.12) translate3d(1.5%,0,0)}to{transform:scale(1) translate3d(0,0,0)}}
 @keyframes mobile-title-arrive{from{opacity:.65;transform:translate3d(0,18px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+
+/* V50 — make the service example concrete and the source boundary visible. */
+body.portfolio-v42 .knowledge-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 0 27px;padding:0;border-block:1px solid #b8b8a1}
+body.portfolio-v42 .knowledge-notes>div{min-width:0;padding:13px 13px 14px 0}
+body.portfolio-v42 .knowledge-notes>div+div{padding-left:13px;border-left:1px solid #c8c8b5}
+body.portfolio-v42 .knowledge-notes dt{margin:0 0 5px;font-size:11px;letter-spacing:.06em;color:#9e3928}
+body.portfolio-v42 .knowledge-notes dd{margin:0;color:#314c3f;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+body.portfolio-v42 .reference-teaser-copy p.reference-origin{margin-top:15px;padding-left:11px;border-left:2px solid #a83e2b;color:#594c3d;font-size:12px;line-height:1.65}
+body.portfolio-v42 .shelf-footnote{font-size:12px}
+@media(max-width:500px){body.portfolio-v42 .knowledge-notes{grid-template-columns:minmax(0,1fr)}body.portfolio-v42 .knowledge-notes>div{display:grid;grid-template-columns:5em minmax(0,1fr);gap:10px;padding:10px 0}body.portfolio-v42 .knowledge-notes>div+div{padding-left:0;border-left:0;border-top:1px solid #c8c8b5}body.portfolio-v42 .knowledge-notes dt{margin:0;font-size:12px}body.portfolio-v42 .knowledge-notes dd{font-size:13px}}
+@media(prefers-reduced-motion:no-preference){body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .offer[open] .knowledge-notes{animation:knowledge-notes-in .45s cubic-bezier(.22,1,.36,1) both}}
+@keyframes knowledge-notes-in{from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
