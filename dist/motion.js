@@ -28,6 +28,7 @@
 
     function resetMedia(item) {
       item.artwork.style.removeProperty('--media-shift');
+      ['--v41-rx','--v41-ry','--v41-rz','--v41-depth'].forEach(name => item.artwork.style.removeProperty(name));
     }
 
     function stopMotion() {
@@ -41,6 +42,10 @@
     function updateMedia() {
       scrollFrame = null;
       if (!active || !desktop.matches) return;
+      if (body.classList.contains('portfolio-v41') && document.querySelector('dialog[open]')) {
+        mediaItems.forEach(resetMedia);
+        return;
+      }
       const viewport = Math.max(window.innerHeight, 1);
       for (const item of visibleMedia) {
         const rect = item.element.getBoundingClientRect();
@@ -51,6 +56,20 @@
         // A small offset through the viewport, never a continuous animation loop.
         const progress = Math.max(-1, Math.min(1, (viewport / 2 - rect.top - rect.height / 2) / viewport));
         item.artwork.style.setProperty('--media-shift', `${(progress * 14).toFixed(2)}px`);
+        if (body.classList.contains('portfolio-v41')) {
+          // Adapted from Codrops RotatingOnScrollAnimations/js/index.js (MIT,
+          // Copyright 2009–2026 Codrops): opposite rotations over the scroll
+          // range, with z = sin(progress * PI) * -50. Only the picture layer
+          // moves; the card, text, focus targets and native scroll stay put.
+          // https://github.com/codrops/RotatingOnScrollAnimations/blob/6c6ea42d3f4f3d122240ec931871afcac80b388e/js/index.js
+          const travel = Math.max(0, Math.min(1, (viewport * 1.2 - rect.top) / (viewport * 1.4 + rect.height)));
+          const angle = 1 - travel * 2;
+          const direction = item.index % 2 ? -1 : 1;
+          item.artwork.style.setProperty('--v41-rx', `${(angle * 13).toFixed(2)}deg`);
+          item.artwork.style.setProperty('--v41-ry', `${(angle * direction * 15).toFixed(2)}deg`);
+          item.artwork.style.setProperty('--v41-rz', `${(angle * direction * 3).toFixed(2)}deg`);
+          item.artwork.style.setProperty('--v41-depth', `${(Math.sin(travel * Math.PI) * -50).toFixed(2)}px`);
+        }
       }
     }
 
@@ -111,6 +130,9 @@
     }
 
     function reveal(element) {
+      // V41 uses scrubbed 3D on these same images, so do not start a second
+      // transform animation that would override it or restore a stale matrix.
+      if (body.classList.contains('portfolio-v41') && element.matches('.real-preview .case-artwork')) return;
       if (!element.matches('.sheet-image,.mineral-art,.real-preview .case-artwork')) { enter(element); return; }
       const image = element.querySelector('img');
       if (!image) return;
@@ -138,6 +160,7 @@
     window.addEventListener('scroll', requestMediaUpdate, { passive: true });
     window.addEventListener('resize', requestMediaUpdate, { passive: true });
     document.addEventListener('focusin', event => {
+      if (body.classList.contains('portfolio-v41') && document.querySelector('dialog[open]')) mediaItems.forEach(resetMedia);
       for (const animation of [...animations]) {
         const target = animation.effect?.target;
         if (target?.contains(event.target) || target?.closest(controls) === event.target) animation.cancel();
@@ -145,6 +168,7 @@
       for (const item of visibleMedia) if (item.element.contains(event.target)) resetMedia(item);
     });
     document.addEventListener('focusout', requestMediaUpdate);
+    document.addEventListener('close', requestMediaUpdate, true);
 
     updateState();
     const title = document.querySelector('.editorial-hero-title');
@@ -181,11 +205,11 @@
           }
           requestMediaUpdate();
         }, { rootMargin: '40px 0px' });
-        document.querySelectorAll('.case-media').forEach(element => {
+        document.querySelectorAll('.case-media').forEach((element, index) => {
           const artwork = element.querySelector('.case-artwork');
           if (!artwork) return;
           artwork.dataset.editorialParallax = '';
-          const item = { element, artwork };
+          const item = { element, artwork, index };
           mediaItems.push(item);
           mediaObserver.observe(element);
         });

@@ -379,3 +379,19 @@ body.portfolio-v40.motion-paused .case-media .case-artwork{transform:none!import
 /* Controls remain readable against the moving dark surfaces behind them. */
 body.portfolio-v40 .spatial-skip{background:#f4ebdd;padding-inline:12px}
 body.portfolio-v40 .spatial-motion-control{background:#f4ebdd}
+
+
+/* V41 — Codrops-inspired 3D picture choreography; layout stays anchored. */
+@media(min-width:761px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ body.portfolio-v41[data-motion-ready='true']:not(.motion-paused) .case-media>a.case-product-preview .case-artwork{
+  transform:translateZ(var(--v41-depth,0px)) rotateX(var(--v41-rx,0deg)) rotateY(var(--v41-ry,0deg)) rotateZ(var(--v41-rz,0deg));
+  transition:transform .18s linear,box-shadow .35s ease;
+ }
+ body.portfolio-v41[data-motion-ready='true']:not(.motion-paused) .case-media>a.case-product-preview:hover .case-artwork{
+  transform:translateZ(var(--v41-depth,0px)) rotateX(calc(var(--v41-rx,0deg) + 3deg)) rotateY(calc(var(--v41-ry,0deg) - 7deg)) rotateZ(var(--v41-rz,0deg)) scale(.96);
+ }
+ body.portfolio-v41[data-motion-ready='true']:not(.motion-paused) .case-showcase:nth-child(even) .case-media>a.case-product-preview:hover .case-artwork{
+  transform:translateZ(var(--v41-depth,0px)) rotateX(calc(var(--v41-rx,0deg) + 3deg)) rotateY(calc(var(--v41-ry,0deg) + 7deg)) rotateZ(var(--v41-rz,0deg)) scale(.96);
+ }
+ body.portfolio-v41 .case-media:focus-within .case-artwork{transform:none!important;translate:none!important;transition:none!important}
+}
