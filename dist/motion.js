@@ -273,7 +273,7 @@
     const valid = () => request === token && canRun()
       && (Boolean(controller) || (atEntry() && location.hash === entryHash));
     try {
-      const module = await import('./assets/spatial-intro.mjs?v=39.0');
+      const module = await import('./assets/spatial-intro.mjs?v=40.2');
       if (!valid()) return;
       const fresh = await module.createSpatialIntro({ root, mount, isEligible: valid,
         onPhase: (index, progress) => { if (request === token) setPhase(index, progress); },

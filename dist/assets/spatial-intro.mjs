@@ -1,7 +1,7 @@
 import * as THREE from './vendor/three-0.186.1/three.module.js';
 
-// Original paper doors, mineral-colour ribbons and a camera journey. No external
-// model, texture or borrowed character is used; the document supplies all copy.
+// Original mineral-colour ribbons, orbital sculptures and a camera journey.
+// All geometry is procedural; no external model, texture or character is used.
 export async function createSpatialIntro({ root, mount, isEligible, onPhase, onFailure }) {
   const assertEligible = () => {
     if (typeof isEligible !== 'function' || !isEligible()) {
@@ -31,9 +31,11 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
   let scene;
   let camera;
   let timeline;
+  let ambientTimeline;
   let trigger;
   let resizeObserver;
   let resizeFrame = 0;
+  let ambientScrollFrame = 0;
   let pointerTween;
   let active = false;
   let destroyed = false;
@@ -63,8 +65,11 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
   function detach() {
     if (resizeFrame) cancelAnimationFrame(resizeFrame);
     resizeFrame = 0;
+    if (ambientScrollFrame) cancelAnimationFrame(ambientScrollFrame);
+    ambientScrollFrame = 0;
     resizeObserver?.disconnect();
     window.removeEventListener('resize', queueResize);
+    window.removeEventListener('scroll', queueAmbientSync);
     root.removeEventListener('pointermove', onPointerMove);
     root.removeEventListener('pointerleave', onPointerLeave);
     bound = false;
@@ -78,6 +83,7 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
     stopPointer();
     trigger?.disable(false);
     timeline?.pause();
+    ambientTimeline?.pause();
     if (typeof onFailure === 'function') onFailure(error);
   }
 
@@ -91,10 +97,29 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
     } catch (error) { fail(error); }
   }
 
+  // Scroll choreography and ambient rotation use distinct object properties.
+  // Do not run the ambient ticker while covered, paused or outside the viewport.
+  function syncAmbient() {
+    if (!ambientTimeline) return;
+    if (active && !destroyed && !failed && isEligible() && visible()) ambientTimeline.play();
+    else ambientTimeline.pause();
+  }
+
+  // The section can become partly visible again while ScrollTrigger stays at
+  // progress 1. Coalesce native scroll events to recheck the visible area.
+  function queueAmbientSync() {
+    if (!active || destroyed || failed || ambientScrollFrame) return;
+    ambientScrollFrame = requestAnimationFrame(() => {
+      ambientScrollFrame = 0;
+      syncAmbient();
+    });
+  }
+
   function applyProgress(value) {
     if (!active || destroyed || failed) return;
     progress = Math.max(0, Math.min(1, Number(value) || 0));
     timeline.progress(progress, true);
+    syncAmbient();
     if (typeof onPhase === 'function') onPhase(Math.min(2, Math.floor(progress * 3)), progress);
     render();
   }
@@ -168,6 +193,7 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
       stopPointer();
       trigger?.disable(false);
       timeline?.pause();
+      ambientTimeline?.pause();
       return;
     }
     if (failed || !isEligible()) return;
@@ -198,6 +224,7 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
           resizeObserver.observe(mount);
         }
         window.addEventListener('resize', queueResize, { passive: true });
+        window.addEventListener('scroll', queueAmbientSync, { passive: true });
         root.addEventListener('pointermove', onPointerMove, { passive: true });
         root.addEventListener('pointerleave', onPointerLeave, { passive: true });
         bound = true;
@@ -217,6 +244,8 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
     trigger = undefined;
     timeline?.kill();
     timeline = undefined;
+    ambientTimeline?.kill();
+    ambientTimeline = undefined;
     renderer?.domElement.removeEventListener('webglcontextlost', onContextLost);
     scene?.clear();
     geometries.forEach(value => value.dispose());
@@ -259,7 +288,6 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
     scene.add(fill);
 
     const box = geometry(new THREE.BoxGeometry(1, 1, 1));
-    const paper = material(new THREE.MeshStandardMaterial({ color: '#E6D9BF', roughness: 0.94, metalness: 0.02 }));
     const gold = material(new THREE.MeshStandardMaterial({ color: '#B58A45', roughness: 0.4, metalness: 0.58 }));
     const edge = material(new THREE.LineBasicMaterial({ color: '#B58A45', transparent: true, opacity: 0.78 }));
     const addBox = (parent, size, position, surface) => {
@@ -285,20 +313,96 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
     addFrame(-11, 12, 10.8, -0.065);
     addFrame(-27, 11, 10, 0.065);
 
-    const leftDoor = new THREE.Group();
-    const rightDoor = new THREE.Group();
-    leftDoor.position.set(-6.4, 0, 7.08);
-    rightDoor.position.set(6.4, 0, 7.08);
-    leftDoor.rotation.y = 0.55;
-    rightDoor.rotation.y = -0.55;
-    [leftDoor, rightDoor].forEach((door, index) => {
-      const sign = index === 0 ? 1 : -1;
-      addBox(door, [6.4, 10.9, 0.085], [sign * 3.2, 0, 0], paper);
-      addBox(door, [0.025, 10.35, 0.02], [sign * 6.08, 0, 0.055], gold);
-      addBox(door, [5.75, 0.025, 0.02], [sign * 3.2, 5.13, 0.055], gold);
-      addBox(door, [5.75, 0.025, 0.02], [sign * 3.2, -5.13, 0.055], gold);
-      scene.add(door);
-    });
+    // Orbital sculptures make the opening immediately legible as 3D: an
+    // asymmetric mineral core, tilted metal rings and a tracery of star points.
+    // Every object is owned by this scene and disposed through the sets above.
+    const jade = material(new THREE.MeshStandardMaterial({
+      color: '#146256', roughness: 0.3, metalness: 0.38,
+      emissive: '#07392f', emissiveIntensity: 0.35
+    }));
+    const jadeLight = material(new THREE.MeshStandardMaterial({
+      color: '#67a18a', roughness: 0.44, metalness: 0.24
+    }));
+    const cinnabar = material(new THREE.MeshStandardMaterial({
+      color: '#a83e2b', roughness: 0.42, metalness: 0.2
+    }));
+    const pearl = material(new THREE.MeshStandardMaterial({
+      color: '#f3dfb7', roughness: 0.44, metalness: 0.17,
+      emissive: '#bb7437', emissiveIntensity: 0.18
+    }));
+    const wireGold = material(new THREE.MeshBasicMaterial({
+      color: '#e1bc76', wireframe: true, transparent: true, opacity: 0.35,
+      depthWrite: false
+    }));
+    const sphere = geometry(new THREE.IcosahedronGeometry(1.38, 3));
+    const wireSphere = geometry(new THREE.IcosahedronGeometry(1.405, 1));
+    const dot = geometry(new THREE.IcosahedronGeometry(0.14, 1));
+    const ringThin = geometry(new THREE.TorusGeometry(3.05, 0.035, 8, 128));
+    const ringWide = geometry(new THREE.TorusGeometry(2.48, 0.065, 10, 128));
+    const ringFine = geometry(new THREE.TorusGeometry(3.62, 0.018, 6, 128));
+    const dialLines = geometry(new THREE.BufferGeometry());
+    const dialSegments = [];
+    for (let i = 0; i < 72; i += 1) {
+      const angle = i / 72 * Math.PI * 2;
+      const inner = i % 6 === 0 ? 3.18 : 3.28;
+      const outer = 3.43;
+      dialSegments.push(Math.cos(angle) * inner, Math.sin(angle) * inner, 0,
+        Math.cos(angle) * outer, Math.sin(angle) * outer, 0);
+    }
+    dialLines.setAttribute('position', new THREE.Float32BufferAttribute(dialSegments, 3));
+    const dialInk = material(new THREE.LineBasicMaterial({
+      color: '#b68a47', transparent: true, opacity: 0.65
+    }));
+    function createOrbit(x, y, z, scale) {
+      const group = new THREE.Group();
+      group.position.set(x, y, z);
+      group.scale.setScalar(scale);
+      const core = new THREE.Mesh(sphere, jade);
+      group.add(core);
+      group.add(new THREE.Mesh(wireSphere, wireGold));
+      const centralBand = new THREE.Mesh(ringWide, gold);
+      centralBand.rotation.set(0.95, 0.25, -0.45);
+      group.add(centralBand);
+      const outerBand = new THREE.Mesh(ringThin, gold);
+      outerBand.rotation.set(0.32, 0.95, 0.23);
+      group.add(outerBand);
+      const haloRotor = new THREE.Group();
+      haloRotor.rotation.set(-0.16, 0.15, -0.16);
+      haloRotor.add(new THREE.Mesh(ringFine, gold));
+      haloRotor.add(new THREE.LineSegments(dialLines, dialInk));
+      group.add(haloRotor);
+      const orbitalNodes = new THREE.Group();
+      for (let i = 0; i < 7; i += 1) {
+        const angle = i / 7 * Math.PI * 2 + 0.2;
+        const node = new THREE.Mesh(dot, i % 3 === 0 ? cinnabar : i % 3 === 1 ? pearl : jadeLight);
+        node.position.set(Math.cos(angle) * 2.95, Math.sin(angle) * 1.85, Math.sin(angle) * 1.85);
+        node.scale.setScalar(i === 0 ? 2.0 : 1 + (i % 2) * 0.35);
+        orbitalNodes.add(node);
+      }
+      group.add(orbitalNodes);
+      scene.add(group);
+      return { group, core, centralBand, outerBand, orbitalNodes, haloRotor };
+    }
+    const orbitFront = createOrbit(3.25, 0.2, 4, 1);
+    const orbitFar = createOrbit(-2.7, 0.6, -21, 0.74);
+    orbitFar.group.rotation.z = 0.45;
+
+    // A seeded, single-draw-call dust field gives depth without a timer or
+    // continuous animation loop. Scroll changes the camera and constellation.
+    const dustValues = [];
+    let seed = 72193;
+    const random = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    for (let i = 0; i < 360; i += 1) {
+      dustValues.push((random() - 0.5) * 25, (random() - 0.5) * 15, 9 - random() * 52);
+    }
+    const dustGeometry = geometry(new THREE.BufferGeometry());
+    dustGeometry.setAttribute('position', new THREE.Float32BufferAttribute(dustValues, 3));
+    const dustMaterial = material(new THREE.PointsMaterial({
+      color: '#b88742', size: 0.07, transparent: true, opacity: 0.67,
+      depthWrite: false, sizeAttenuation: true
+    }));
+    const dust = new THREE.Points(dustGeometry, dustMaterial);
+    scene.add(dust);
 
     const ribbons = new THREE.Group();
     scene.add(ribbons);
@@ -347,11 +451,41 @@ export async function createSpatialIntro({ root, mount, isEligible, onPhase, onF
     timeline.to(pose, { z: 9.5, x: 0.7, y: 0.4, lookX: -0.4, lookY: 0.2, duration: 0.34 }, 0);
     timeline.to(pose, { z: -3.5, x: -0.8, y: -0.5, lookX: 0.6, lookY: -0.3, duration: 0.36 }, 0.34);
     timeline.to(pose, { z: -15, x: 0.15, y: 0.45, lookX: 0, lookY: 0.4, duration: 0.3 }, 0.7);
-    timeline.to(leftDoor.rotation, { y: 1.55, duration: 0.34 }, 0);
-    timeline.to(rightDoor.rotation, { y: -1.55, duration: 0.34 }, 0);
+    timeline.to(orbitFront.group.rotation, { y: 0.8, z: 0.7, duration: 1 }, 0);
+    timeline.to(orbitFront.centralBand.rotation, { x: 2.3, z: 0.65, duration: 1 }, 0);
+    timeline.to(orbitFront.outerBand.rotation, { y: 2.6, z: -0.55, duration: 1 }, 0);
+    timeline.to(orbitFront.orbitalNodes.rotation, { x: 0.7, z: 2.4, duration: 1 }, 0);
+    timeline.to(orbitFar.group.rotation, { x: 0.6, y: -0.8, z: -0.9, duration: 1 }, 0);
+    timeline.to(orbitFar.orbitalNodes.rotation, { y: 0.9, z: -1.8, duration: 1 }, 0);
+    timeline.to(dust.rotation, { z: 0.12, duration: 1 }, 0);
     timeline.to(ribbons.rotation, { z: 0.14, x: 0.02, duration: 1 }, 0);
     timeline.to(ribbons.position, { x: 0.4, y: -0.2, duration: 1 }, 0);
     timeline.pause(0, true);
+
+    // A separate, paused-at-creation loop lets the sculpture breathe without
+    // moving the camera or fighting scroll-controlled parent/ring rotations.
+    // Both timelines pause on dialog, document visibility, motion preference,
+    // offscreen state, WebGL failure and teardown through setActive/fail/destroy.
+    ambientTimeline = gsap.timeline({
+      paused: true, repeat: -1,
+      onUpdate: () => {
+        if (!active || destroyed || failed || !isEligible() || !visible()) {
+          ambientTimeline?.pause();
+          return;
+        }
+        render();
+      }
+    });
+    ambientTimeline.to(orbitFront.core.rotation, { y: Math.PI * 2, duration: 21.6, ease: 'none' }, 0);
+    ambientTimeline.to(orbitFar.core.rotation, { y: -Math.PI * 2, duration: 21.6, ease: 'none' }, 0);
+    ambientTimeline.to(orbitFront.haloRotor.rotation, { z: Math.PI * 2 - 0.16, duration: 21.6, ease: 'none' }, 0);
+    ambientTimeline.to(orbitFar.haloRotor.rotation, { z: -Math.PI * 2 - 0.16, duration: 21.6, ease: 'none' }, 0);
+    ambientTimeline.to(orbitFront.core.scale, {
+      x: 1.055, y: 1.055, z: 1.055, duration: 3.6, repeat: 5, yoyo: true, ease: 'sine.inOut'
+    }, 0);
+    ambientTimeline.to(orbitFar.core.scale, {
+      x: 1.045, y: 1.045, z: 1.045, duration: 3.6, repeat: 5, yoyo: true, ease: 'sine.inOut'
+    }, 0);
 
     assertEligible();
     root.dataset.spatialFrames = '0';

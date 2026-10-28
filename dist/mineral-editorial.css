@@ -345,3 +345,37 @@ body.portfolio-v39 .spatial-intro :is(a,button):focus-visible{outline:2px solid 
 }
 body.portfolio-v39.motion-paused .spatial-intro :is(.spatial-fallback,.spatial-mount){transition:none}
 @media(prefers-reduced-motion:reduce){body.portfolio-v39 .spatial-intro.spatial-enhanced{height:auto}body.portfolio-v39 .spatial-intro .spatial-sticky{position:relative;top:auto;height:auto}body.portfolio-v39 .spatial-mount{display:none}body.portfolio-v39 .spatial-intro .spatial-fallback{opacity:.8!important}body.portfolio-v39 .spatial-intro :is(.spatial-fallback,.spatial-mount){transition:none}}
+
+/* V40 — framed project exhibits with a restrained 3D response. */
+body.portfolio-v40 .case-showcase .case-media{isolation:isolate}
+body.portfolio-v40 .case-showcase .case-media::before{
+  content:'';position:absolute;inset:10px 10px 48px;z-index:-1;
+  border:1px solid #b58a45;transform:translate(7px,8px);pointer-events:none;opacity:.65;
+}
+body.portfolio-v40 .case-showcase:nth-child(even) .case-media::before{transform:translate(-7px,8px)}
+body.portfolio-v40 .case-media>a.case-product-preview{
+  perspective:1200px;perspective-origin:50% 45%;
+  background-image:linear-gradient(135deg,#f3e9d4 0%,transparent 43%,#d3b98338 100%);
+  box-shadow:0 16px 38px #3c382b16;
+}
+body.portfolio-v40 .case-media .case-artwork{transform-origin:center center;backface-visibility:hidden}
+@media(min-width:761px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body.portfolio-v40[data-motion-ready='true']:not(.motion-paused) .case-media>a.case-product-preview .case-artwork{
+    transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s cubic-bezier(.22,1,.36,1);
+  }
+  body.portfolio-v40[data-motion-ready='true']:not(.motion-paused) .case-media>a.case-product-preview:hover .case-artwork{
+    transform:rotateY(-7deg) rotateX(3deg) scale(.96);box-shadow:14px 20px 32px #25242135;
+  }
+  body.portfolio-v40[data-motion-ready='true']:not(.motion-paused) .case-showcase:nth-child(even) .case-media>a.case-product-preview:hover .case-artwork{
+    transform:rotateY(7deg) rotateX(3deg) scale(.96);box-shadow:-14px 20px 32px #25242135;
+  }
+  body.portfolio-v40[data-motion-ready='true']:not(.motion-paused) .case-media::before{transition:transform .7s cubic-bezier(.22,1,.36,1),opacity .7s ease}
+  body.portfolio-v40[data-motion-ready='true']:not(.motion-paused) .case-media:hover::before{transform:translate(11px,12px);opacity:.95}
+  body.portfolio-v40[data-motion-ready='true']:not(.motion-paused) .case-showcase:nth-child(even) .case-media:hover::before{transform:translate(-11px,12px)}
+}
+@media(max-width:760px){body.portfolio-v40 .case-showcase .case-media::before{inset:7px 7px 44px;transform:translate(4px,5px)}}
+body.portfolio-v40.motion-paused .case-media .case-artwork{transform:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){body.portfolio-v40 .case-media .case-artwork{transform:none!important;transition:none!important}}
+/* Controls remain readable against the moving dark surfaces behind them. */
+body.portfolio-v40 .spatial-skip{background:#f4ebdd;padding-inline:12px}
+body.portfolio-v40 .spatial-motion-control{background:#f4ebdd}
