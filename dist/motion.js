@@ -8,6 +8,7 @@
     body.dataset.motionReady = 'true';
 
     const toggle = document.getElementById('motion-toggle');
+    const toggles = [...new Set([toggle, ...document.querySelectorAll('[data-motion-control]')])].filter(Boolean);
     const media = query => typeof window.matchMedia === 'function'
       ? window.matchMedia(query) : { matches: false };
     const reduced = media('(prefers-reduced-motion: reduce)');
@@ -62,7 +63,7 @@
       const enabled = preference === 'on' && !reduced.matches;
       active = enabled && !document.hidden;
       body.classList.toggle('motion-paused', !active);
-      if (toggle) {
+      for (const toggle of toggles) {
         toggle.hidden = false;
         toggle.textContent = '动态效果';
         toggle.setAttribute('aria-pressed', String(enabled));
@@ -75,6 +76,7 @@
       }
       if (!active) stopMotion();
       else requestMediaUpdate();
+      document.dispatchEvent(new CustomEvent('portfolio:motionchange', { detail: { enabled, active, reduced: reduced.matches } }));
     }
 
     function enter(element, delay = 0, kind = 'text') {
@@ -95,7 +97,7 @@
             { clipPath: computed.clipPath === 'none' ? 'inset(0 0 0 0)' : computed.clipPath, transform: baseline }]
           : kind === 'surface'
             ? [{ transform: `translate3d(0, 12px, 0)${transform}` }, { transform: baseline }]
-            : [{ opacity: 0, transform: `translate3d(0, 16px, 0)${transform}` }, { opacity: 1, transform: baseline }];
+            : [{ opacity: body.classList.contains('portfolio-v39') ? 1 : 0, transform: `translate3d(0, 16px, 0)${transform}` }, { opacity: 1, transform: baseline }];
         // No persistent hidden styles: canceling or failing restores the readable CSS baseline.
         const animation = element.animate(frames, {
           duration: kind === 'image' ? 620 : kind === 'surface' ? 800 : 760, delay,
@@ -117,12 +119,12 @@
       else if (image.naturalWidth) enter(element, 0, 'image');
     }
 
-    toggle?.addEventListener('click', () => {
+    toggles.forEach(toggle => toggle.addEventListener('click', () => {
       if (reduced.matches) return;
       preference = preference === 'on' ? 'off' : 'on';
       try { window.localStorage.setItem('erick-motion', preference); } catch { /* Keep session preference. */ }
       updateState();
-    });
+    }));
 
     const listenMedia = (query, callback) => {
       if (typeof query.addEventListener === 'function') query.addEventListener('change', callback);
@@ -193,4 +195,161 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMotion, { once: true });
   else initMotion();
+})();
+
+/* V39: the optional WebGL chapter never owns document scrolling or content. */
+(() => {
+  'use strict';
+  const root = document.getElementById('spatial-intro');
+  const mount = root?.querySelector('[data-spatial-mount]');
+  const stage = root?.querySelector('.spatial-sticky');
+  if (!root || !mount || !stage || !window.IntersectionObserver) return;
+  const desktop = matchMedia('(min-width:1001px) and (min-height:600px) and (hover:hover) and (pointer:fine)');
+  const reduced = matchMedia('(prefers-reduced-motion:reduce)');
+  let controller = null, loading = false, failed = false, destroyed = false, near = false;
+  let token = 0, requests = 0, skipped = false, seenAway = false, entryFrame = 0;
+  let observedHash = location.hash;
+  let deepGate = Boolean(observedHash && observedHash !== '#spatial-intro');
+  function observeNavigation() {
+    if (location.hash === observedHash) return;
+    observedHash = location.hash;
+    if (observedHash && observedHash !== '#spatial-intro') {
+      deepGate = true; seenAway = false;
+    } else { deepGate = false; skipped = false; }
+  }
+  root.dataset.spatialRequests = '0';
+  function updateNavHeight() {
+    const value = `${Math.ceil(document.querySelector('.nav')?.getBoundingClientRect().height || 82)}px`;
+    if (root.style.getPropertyValue('--spatial-nav-height') !== value) root.style.setProperty('--spatial-nav-height', value);
+  }
+  function canRun() {
+    return !destroyed && !failed && !deepGate && !skipped && near && desktop.matches && !reduced.matches
+      && !document.hidden && !document.body.classList.contains('motion-paused')
+      && !navigator.connection?.saveData && !document.querySelector('dialog[open]');
+  }
+  function atEntry() {
+    const rect = root.getBoundingClientRect();
+    return rect.top >= -Math.min(stage.clientHeight * .2, 130) && rect.top < innerHeight && rect.bottom > 0;
+  }
+  function invalidatePending() {
+    if (loading) { token += 1; loading = false; }
+  }
+  function setPhase(index, progress) {
+    const phase = Math.max(0, Math.min(2, index));
+    root.style.setProperty('--spatial-progress', String(Math.max(0, Math.min(1, progress))));
+    if (root.dataset.spatialPhase === String(phase)) return;
+    root.dataset.spatialPhase = String(phase);
+    root.querySelectorAll('[data-scene-step]').forEach(item => {
+      if (Number(item.dataset.sceneStep) === phase) item.setAttribute('aria-current', 'step');
+      else item.removeAttribute('aria-current');
+    });
+  }
+  function fallBack(error) {
+    const wasEnhanced = root.classList.contains('spatial-enhanced');
+    const bounds = root.getBoundingClientRect();
+    const navBottom = document.querySelector('.nav')?.getBoundingClientRect().bottom || 82;
+    const inIntro = bounds.bottom > navBottom && bounds.top < innerHeight;
+    const anchor = [...document.querySelectorAll('main > section')]
+      .find(section => section !== root && section.getBoundingClientRect().bottom > navBottom);
+    const anchorTop = anchor?.getBoundingClientRect().top;
+    root.dataset.spatialFailure = String(error?.message || 'Scene unavailable').slice(0, 180);
+    failed = true; invalidatePending(); token += 1;
+    const previous = controller; controller = null;
+    previous?.destroy();
+    root.classList.remove('spatial-enhanced');
+    root.dataset.spatialState = 'fallback';
+    if (wasEnhanced && inIntro) root.scrollIntoView({ block: 'start', behavior: 'instant' });
+    else if (wasEnhanced && anchor && Number.isFinite(anchorTop)) {
+      const shift = anchor.getBoundingClientRect().top - anchorTop;
+      if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: 'instant' });
+    }
+  }
+  async function load() {
+    if (loading || controller || !canRun() || !atEntry()) return;
+    const request = ++token;
+    const entryHash = location.hash;
+    loading = true; root.dataset.spatialState = 'loading';
+    root.dataset.spatialRequests = String(++requests);
+    const valid = () => request === token && canRun()
+      && (Boolean(controller) || (atEntry() && location.hash === entryHash));
+    try {
+      const module = await import('./assets/spatial-intro.mjs?v=39.0');
+      if (!valid()) return;
+      const fresh = await module.createSpatialIntro({ root, mount, isEligible: valid,
+        onPhase: (index, progress) => { if (request === token) setPhase(index, progress); },
+        onFailure: error => { if (request === token) fallBack(error); }
+      });
+      if (!valid()) { fresh?.destroy(); return; }
+      controller = fresh;
+      root.classList.add('spatial-enhanced');
+      root.dataset.spatialState = 'ready';
+      updateNavHeight();
+      controller.setActive(true);
+    } catch (error) {
+      if (request === token && error?.name !== 'AbortError') fallBack(error);
+    } finally {
+      if (request === token) {
+        loading = false;
+        if (!controller && !failed) root.dataset.spatialState = 'static';
+      }
+    }
+  }
+  function sync() {
+    if (destroyed) return;
+    observeNavigation();
+    updateNavHeight();
+    if (!canRun()) {
+      invalidatePending();
+      controller?.setActive(false);
+      root.dataset.spatialState = failed ? 'fallback' : document.body.classList.contains('motion-paused') ? 'paused' : 'static';
+      return;
+    }
+    if (controller) { root.dataset.spatialState = 'ready'; controller.setActive(true); }
+    else load();
+  }
+  // Re-entering from below first intersects the section's trailing edge, where
+  // expanding it would move the reader. Recheck only the uninitialized entry
+  // on native scroll, so reaching the safe top later can activate it.
+  function requestEntryCheck() {
+    if (controller || loading || failed || destroyed || entryFrame || !near) return;
+    entryFrame = requestAnimationFrame(() => {
+      entryFrame = 0;
+      if (canRun() && atEntry()) sync();
+    });
+  }
+  window.addEventListener('scroll', requestEntryCheck, { passive: true });
+  const observer = new IntersectionObserver(entries => {
+    observeNavigation();
+    for (const entry of entries) {
+      near = entry.isIntersecting;
+      if (!near) seenAway = true;
+      else if (seenAway) { deepGate = false; skipped = false; }
+    }
+    sync();
+  }, { threshold: 0 });
+  observer.observe(root);
+  root.querySelector('[data-spatial-skip]')?.addEventListener('click', event => {
+    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    skipped = true; seenAway = false; sync();
+  });
+  document.addEventListener('portfolio:motionchange', sync);
+  document.addEventListener('visibilitychange', sync);
+  document.addEventListener('focusin', sync);
+  document.addEventListener('close', sync, true);
+  window.addEventListener('hashchange', () => {
+    if (!location.hash || location.hash === '#spatial-intro') { deepGate = false; skipped = false; }
+    sync();
+  });
+  desktop.addEventListener('change', sync); reduced.addEventListener('change', sync);
+  window.addEventListener('resize', () => { sync(); controller?.refresh(); }, { passive: true });
+  const sizeObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(() => { updateNavHeight(); controller?.refresh(); }) : null;
+  [stage, document.querySelector('.nav')].filter(Boolean).forEach(element => sizeObserver?.observe(element));
+  window.addEventListener('pagehide', event => {
+    if (entryFrame) cancelAnimationFrame(entryFrame);
+    entryFrame = 0;
+    invalidatePending(); controller?.setActive(false);
+    if (!event.persisted) { destroyed = true; token += 1; controller?.destroy(); controller = null; observer.disconnect(); sizeObserver?.disconnect(); }
+  });
+  window.addEventListener('pageshow', sync);
+  sync();
 })();

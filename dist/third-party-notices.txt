@@ -1,6 +1,23 @@
 THIRD-PARTY DESIGN REFERENCES AND LICENSE NOTICES
 第三方设计参考与许可证声明
 
+V39 / 2026-10-28 — spatial intro runtime
+纸间行旅：原创场景逻辑与几何表现，不包含 purplenoggin.com 的代码、人物、模型、纹理或品牌素材。
+该站只作为动效参考；未将其未知授权的自定义场景当作开源模板复制。
+Three.js 0.186.1 — https://github.com/mrdoob/three.js — MIT.
+Locally minified official ESM module/core, with original filenames and inline legal comments.
+Full unchanged license: assets/vendor/three-0.186.1/LICENSE.txt.
+GSAP 3.15.0 / ScrollTrigger — https://github.com/greensock/GSAP.
+License: Standard "No Charge" GSAP License, not MIT: https://gsap.com/standard-license/.
+Locally minified pure ESM gsap-core.js, CSSPlugin.js, ScrollTrigger.js and Observer.js retain inline legal comments.
+The scene animates Three.js numeric values and registers CSSPlugin for ScrollTrigger's DOM utilities.
+The index.js entry and browser-global UMD files are not included.
+Upstream README: assets/vendor/gsap-3.15.0/README.md.
+Runtime, version and originality notice: assets/vendor/gsap-3.15.0/NOTICE.txt.
+esbuild 0.28.2 — https://github.com/evanw/esbuild — MIT, development-only minification tool.
+Versions are fixed in the source lockfile. No scene CDN or React runtime is included.
+No upstream author is represented as participating in or endorsing this website.
+
 ROUND 4 / 2026-10-22 — actual use, evaluated alternatives
 Scores are our fit assessment for this portfolio, not GitHub ratings or popularity.
 Fuse.js 7.5.0 — 86/100 — https://github.com/krisk/Fuse (Apache-2.0)

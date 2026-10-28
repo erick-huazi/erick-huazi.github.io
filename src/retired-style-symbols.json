@@ -4,7 +4,14 @@
   "entrypoints": ["dist/index.html"],
   "sourceAliases": {
     "dist/assets/quick-search.mjs": "src/quick-search.mjs",
-    "dist/assets/vendor/fuse.basic.min.mjs": "node_modules/fuse.js/dist/fuse.basic.min.mjs"
+    "dist/assets/vendor/fuse.basic.min.mjs": "node_modules/fuse.js/dist/fuse.basic.min.mjs",
+    "dist/assets/spatial-intro.mjs": "src/spatial-intro.mjs",
+    "dist/assets/vendor/three-0.186.1/three.module.js": "node_modules/three/build/three.module.js",
+    "dist/assets/vendor/three-0.186.1/three.core.js": "node_modules/three/build/three.core.js",
+    "dist/assets/vendor/gsap-3.15.0/gsap-core.js": "node_modules/gsap/gsap-core.js",
+    "dist/assets/vendor/gsap-3.15.0/CSSPlugin.js": "node_modules/gsap/CSSPlugin.js",
+    "dist/assets/vendor/gsap-3.15.0/ScrollTrigger.js": "node_modules/gsap/ScrollTrigger.js",
+    "dist/assets/vendor/gsap-3.15.0/Observer.js": "node_modules/gsap/Observer.js"
   },
   "groups": [
     {

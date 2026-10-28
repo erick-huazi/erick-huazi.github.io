@@ -1,6 +1,6 @@
 {
   "name": "erick-fde-portfolio",
-  "version": "38.0.0",
+  "version": "39.0.0",
   "private": true,
   "type": "module",
   "description": "Static personal portfolio with optional local fuzzy search and development accessibility checks",
@@ -12,8 +12,11 @@
   },
   "devDependencies": {
     "axe-core": "4.14.0",
+    "esbuild": "0.28.2",
     "fuse.js": "7.5.0",
+    "gsap": "3.15.0",
     "lightningcss": "1.33.0",
-    "sharp": "0.35.5"
+    "sharp": "0.35.5",
+    "three": "0.186.1"
   }
 }

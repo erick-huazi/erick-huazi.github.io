@@ -1,0 +1,49 @@
+SPATIAL INTRO / LOCAL RUNTIME AND SOURCE NOTICE
+纸间行旅 / 本地运行资源与来源声明
+Version: 39 / 2026-10-28
+
+Original scene
+The spatial-intro.mjs scene is an original implementation for Erick 张建华's
+personal portfolio. It does not include purplenoggin.com's scene code,
+characters, models, textures, branding or other assets. That website was a
+motion reference only; its custom scene's copying license was not established.
+No upstream author is represented as participating in or endorsing this site.
+
+Three.js 0.186.1
+Repository: https://github.com/mrdoob/three.js
+Package: https://registry.npmjs.org/three/0.186.1
+License: MIT. Full unchanged license is distributed at
+../three-0.186.1/LICENSE.txt relative to this NOTICE.txt.
+Official build/three.module.js and build/three.core.js are locally minified
+with esbuild 0.28.2 in ESM format; their relative filenames and inline legal
+comments are retained. No third-party Three.js example models or textures
+are distributed as part of this scene.
+
+GSAP 3.15.0 / ScrollTrigger
+Repository: https://github.com/greensock/GSAP
+Package: https://registry.npmjs.org/gsap/3.15.0
+Copyright 2008-2026, GreenSock. All rights reserved.
+License: Standard "No Charge" GSAP License, not MIT.
+Official terms: https://gsap.com/standard-license/
+Current canonical terms: https://gsap.com/community/standard-license/
+The official pure ESM gsap-core.js, CSSPlugin.js, ScrollTrigger.js and Observer.js files
+are locally minified with esbuild 0.28.2 in ESM format, retaining their
+relative filenames and inline upstream legal comments. The scene uses
+GSAP numeric animation for Three.js values and registers CSSPlugin for
+the DOM utilities required by ScrollTrigger. The index.js entry and
+browser-global UMD distributions are not loaded or distributed here.
+The upstream README.md is distributed unchanged. The npm package does
+not provide a separate LICENSE file; this notice does not replace or expand
+the official GSAP license terms.
+
+Build tool
+esbuild 0.28.2 is an MIT-licensed development build dependency only:
+https://github.com/evanw/esbuild
+It is not included as a website runtime or downloaded by visitors.
+
+Delivery boundary
+All listed scene runtime files are self-hosted. No external CDN, React,
+React Three Fiber or source-site assets are required for the scene.
+The build report records the actual output sizes and SHA-256 values only
+after the build has generated or verified these files. Those byte counts
+do not establish network performance, frame rate or Core Web Vitals.

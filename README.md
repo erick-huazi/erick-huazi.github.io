@@ -130,6 +130,14 @@ UI改动集中在 `dist/mineral-editorial.css`，没有新增样式层；`dist/i
 
 新一轮5项GitHub项目、Skill与Agent方法评分见 [v38记录](docs/open-source-integration-v38.md)，官方来源和许可见研究JSON。未新增候选运行依赖，源码中的方法记录不等于安装了这些技能。
 
+## v39 纸间行旅
+
+首页增加原创纸页、金色边框与朱砂/孔雀绿/金色飘带组成的相机行旅，用“构想、打磨、落地”三个阶段衔接作品。沿用当前矿物色主题，几何体由本地代码生成，不复制 Purple Noggin 的场景代码、人物或素材。
+
+Three.js 0.186.1 与 GSAP 3.15.0 随站点自托管；GSAP 使用 core、CSSPlugin、ScrollTrigger、Observer 四份纯 ESM，CSSPlugin 为 ScrollTrigger 提供必要的 DOM 工具。esbuild 0.28.2 只在构建时压缩 vendor ESM，并保留原文件名、相对导入与许可声明。构建来源守卫继续跟踪原始依赖，没有 vendor 豁免。
+
+场景仅在满足桌面尺寸/指针、可见性和动效偏好等条件时按需加载。手机、系统减少动态效果、关闭动效、脚本或 WebGL 不可用时保留静态插画、文案与“直接看作品”入口。实现、固定资源、许可边界与当前验证范围见 [v39 动效说明](docs/spatial-motion-v39.md)；实际字节与哈希以本次 `build-report.json` 为准，不代表性能或发布结论。
+
 ## 部署
 
 GitHub Pages 使用 GitHub Actions 发布已提交的 `dist/`。提交前执行构建并一并提交生成文件；推送 main 后自动部署。运行时不依赖 ChatGPT、外部 CDN、数据库或登录。
@@ -140,4 +148,4 @@ GitHub Pages 的各地区网络可达性取决于访问者的网络环境。源�
 
 ## 归属
 
-个人简介、品牌及素材属于各自权利人；外部案例仅保留本站摘要和来源链接。第三方图标与搜索组件许可证见 `dist/third-party-notices.txt` 和 `dist/assets/` 中许可证文件。
+个人简介、品牌及素材属于各自权利人；外部案例仅保留本站摘要和来源链接。第三方图标、搜索、3D 与动画组件的许可见 `dist/third-party-notices.txt` 和 `dist/assets/` 中声明文件。

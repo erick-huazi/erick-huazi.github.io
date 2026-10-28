@@ -745,10 +745,12 @@ if ('IntersectionObserver' in window) {
     const current = [...activeSections].sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
     navLinks.forEach(link => { if (current?.id && link.hash === '#' + current.id) link.setAttribute('aria-current','location'); else link.removeAttribute('aria-current'); });
   }, { rootMargin: '-20% 0px -60% 0px' });
-  ['.hero','#work','#services','#about','#contact'].forEach(selector => sectionObserver.observe($(selector)));
+  ['#spatial-intro','.hero','#work','#services','#about','#contact'].forEach(selector => { const section = $(selector); if (section) sectionObserver.observe(section); });
   const mobileBar = $('.mobile-contact');
+  const heroRegions = [$('#spatial-intro'), $('.hero')].filter(Boolean);
+  const heroVisibility = new Map(heroRegions.map(region => [region, true]));
   let heroVisible = true, contactVisible = false;
   const updateBar = () => { mobileBar.hidden = heroVisible || contactVisible; };
-  const barObserver = new IntersectionObserver(entries => { for (const entry of entries) { if (entry.target.classList.contains('hero')) heroVisible = entry.isIntersecting; else contactVisible = entry.isIntersecting; } updateBar(); }, { threshold: 0 });
-  barObserver.observe($('.hero')); barObserver.observe($('#contact'));
+  const barObserver = new IntersectionObserver(entries => { for (const entry of entries) { if (heroVisibility.has(entry.target)) heroVisibility.set(entry.target, entry.isIntersecting); else contactVisible = entry.isIntersecting; } heroVisible = [...heroVisibility.values()].some(Boolean); updateBar(); }, { threshold: 0 });
+  heroRegions.forEach(region => barObserver.observe(region)); barObserver.observe($('#contact'));
 }
