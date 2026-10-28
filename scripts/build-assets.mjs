@@ -299,7 +299,7 @@ const referenceShareCard = await resource({
 });
 const cssGzipBytes = gzipSync(css.data).length;
 const report = {
-  version: 41,
+  version: 42,
   baseline: { source: baselineInput.path, ...baseline },
   css: {
     sourceFiles: cssFiles, sourceFileCount: cssFiles.length,

@@ -25,9 +25,14 @@ function markCopied(origin) {
   origin.dataset.copied = 'true';
   copyFeedback.set(origin, setTimeout(() => { delete origin.dataset.copied; copyFeedback.delete(origin); }, 2200));
 }
-async function copyText(text, origin = document.activeElement) {
-  try { await navigator.clipboard.writeText(text); markCopied(origin); notify('已复制，可以粘贴使用。'); return true; }
-  catch {
+async function copyText(text, origin = document.activeElement, isCurrent = () => true) {
+  try {
+    await navigator.clipboard.writeText(text);
+    if (!isCurrent()) return false;
+    markCopied(origin); notify('已复制，可以粘贴使用。'); return true;
+  } catch {
+    // A pending clipboard request must not reopen an obsolete inquiry draft.
+    if (!isCurrent()) return false;
     const dialog = $('#copy-dialog'), value = $('#copy-value');
     copyOrigin = origin;
     value.value = text;
@@ -327,6 +332,7 @@ function invalidateSummary() {
   $('#need-count').textContent = `${needField.value.length} / 1500`;
   nameField.setCustomValidity(''); needField.setCustomValidity('');
 }
+inquiryDetails.addEventListener('toggle', () => { if (!inquiryDetails.open) resetInquiryCopy(); });
 form.addEventListener('input', invalidateSummary);
 form.addEventListener('change', invalidateSummary);
 $('#service-select').addEventListener('change', () => {
@@ -381,7 +387,7 @@ inquiryCopyButton.addEventListener('click', async () => {
   const bodyToCopy = generatedBody;
   resetInquiryCopy();
   const attempt = inquiryCopyAttempt;
-  const copied = await copyText(bodyToCopy, inquiryCopyButton);
+  const copied = await copyText(bodyToCopy, inquiryCopyButton, () => inquiryDetails.open && bodyToCopy === generatedBody && attempt === inquiryCopyAttempt);
   if (bodyToCopy !== generatedBody || attempt !== inquiryCopyAttempt) return;
   if (copied) {
     inquiryCopyButton.textContent = '已复制全文';

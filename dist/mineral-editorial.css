@@ -395,3 +395,19 @@ body.portfolio-v40 .spatial-motion-control{background:#f4ebdd}
  }
  body.portfolio-v41 .case-media:focus-within .case-artwork{transform:none!important;translate:none!important;transition:none!important}
 }
+
+
+/* First-screen identity and direct collaboration, including the static view. */
+body.portfolio-v42 .spatial-position{margin:17px 0 0;color:#155e52;font-size:13px;font-weight:600;line-height:1.7;letter-spacing:.2px}
+body.portfolio-v42 .spatial-description{margin-top:14px}
+body.portfolio-v42 .spatial-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+body.portfolio-v42 .spatial-contact{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:44px;padding:8px 14px;background:#155e52;color:#fffaf0;font-size:12px;white-space:nowrap}
+@media(max-width:760px){
+ body.portfolio-v42 .spatial-intro .spatial-sticky{min-height:clamp(440px,60svh,570px)}
+ body.portfolio-v42 .spatial-topline p{font-size:10px}
+ body.portfolio-v42 .spatial-caption{padding-block:24px}
+ body.portfolio-v42 .spatial-position{margin-top:12px;font-size:11px;line-height:1.7;letter-spacing:0}
+ body.portfolio-v42 .spatial-description{margin-top:10px}
+ body.portfolio-v42 .spatial-actions{gap:6px;justify-content:flex-start}
+ body.portfolio-v42 .spatial-contact{font-size:11px;padding-inline:12px}
+}
