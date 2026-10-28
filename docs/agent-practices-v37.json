@@ -1,0 +1,161 @@
+{
+  "checkedAt": "2026-10-28",
+  "timeZone": "Asia/Shanghai",
+  "purpose": "为现有静态个人站选择可实际融合的 Agent 工程实践，不向公开主页引入 Agent 运行时。",
+  "scorePolicy": {
+    "subjective": true,
+    "description": "分数是针对本仓库的主观适用性判断，不是官方评分、通用排行榜或安全审计。质量项依据官方文档与工程能力，未运行框架性能基准。维护项依据本次实际读取的官方发布和维护声明；成本越低得分越高。",
+    "weights": {
+      "relevance": 30,
+      "quality": 25,
+      "maintenance": 20,
+      "integrationCost": 25
+    },
+    "integrationCostScope": "Spec Kit 按只融合轻量工作方法评估；LangGraph 和 AutoGen 按完整运行时接入现有静态站的额外成本评估。这个差异在各条目的采用方案中明确。"
+  },
+  "candidates": [
+    {
+      "repository": "github/spec-kit",
+      "officialUrl": "https://github.com/github/spec-kit",
+      "license": {
+        "code": "MIT",
+        "url": "https://github.com/github/spec-kit/blob/main/LICENSE",
+        "verifiedFrom": "官方 README 和 GitHub 仓库元数据均标明 MIT。"
+      },
+      "verifiedState": {
+        "latestStableVersion": "v1.2.4",
+        "releaseUrl": "https://github.com/github/spec-kit/releases/tag/v1.2.4",
+        "publishedAtUtc": "2026-10-27T18:07:43Z",
+        "publishedAtAsiaShanghai": "2026-10-28T02:07:43+08:00",
+        "releaseCommit": null,
+        "releaseCommitNote": "本次 latest release 的 target_commitish 为 main，未进一步解析到具体提交，因此不记录提交 SHA。",
+        "repositoryPushedAtUtc": "2026-10-27T20:01:22Z",
+        "archivedFlag": false,
+        "readmeBlobSha": "0d6d47f276feeda1afc2fe98b3ae653cd4b40fb4"
+      },
+      "score": {
+        "relevance": 27,
+        "quality": 23,
+        "maintenance": 19,
+        "integrationCost": 20,
+        "total": 89
+      },
+      "decision": "采用轻量验收与验证流程，作为本轮开发方法；不安装 CLI 或覆盖现有项目规则。",
+      "adopt": [
+        "修改前写清现象、预期行为、范围和可实际重演的验收项。",
+        "将实现和独立验证分开；验证需重演最初场景，不能只凭已有测试通过判断完成。",
+        "记录 verified、partial 或 failed 等证据结论；未执行的检查保留为未知。",
+        "沿用设计研究、实现、独立检查三角色协作，使用现有 HANDOFF 和检查证据，不初始化新的项目骨架。"
+      ],
+      "applicationToV37": [
+        "为三张真实实屏固定标题、alt、日期、原图地址和实际尺寸的验收要求。",
+        "回放连续打开不同项目，确认没有沿用上一个项目的标题、链接或图片。",
+        "验证 Escape、遮罩关闭、关闭后焦点返回、修饰键原链接和无脚本退路。",
+        "核对原尺寸放大、图片载入失败退路、窄屏滚动，以及动效开关和系统减少动态偏好。"
+      ],
+      "whyNoRuntime": "此仓库已有静态构建和公开发布流程；完整 CLI、模板和扩展机制不是本次 UI 改进的前置条件。方法融合不等于安装或完整移植 Spec Kit。",
+      "sources": [
+        "https://github.com/github/spec-kit/blob/main/README.md",
+        "https://github.github.io/spec-kit/guides/bugfix.html",
+        "https://api.github.com/repos/github/spec-kit",
+        "https://api.github.com/repos/github/spec-kit/releases/latest"
+      ]
+    },
+    {
+      "repository": "langchain-ai/langgraph",
+      "officialUrl": "https://github.com/langchain-ai/langgraph",
+      "license": {
+        "code": "MIT",
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/LICENSE",
+        "verifiedFrom": "本次直接读取官方 LICENSE，标为 MIT。"
+      },
+      "verifiedState": {
+        "latestStableVersion": "1.2.18",
+        "releaseUrl": "https://github.com/langchain-ai/langgraph/releases/tag/1.2.18",
+        "publishedAtUtc": "2026-10-26T20:04:45Z",
+        "publishedAtAsiaShanghai": "2026-10-27T04:04:45+08:00",
+        "releaseCommit": "3521f08e21a7d89c28331191374bc85c11ecb6e2",
+        "releaseCommitNote": "来自该 release 的 target_commitish 字段。",
+        "repositoryPushedAtUtc": "2026-10-28T01:22:08Z",
+        "archivedFlag": false,
+        "readmeBlobSha": "97c31e9cb4d8fe56be8d768ce3eb5e22400e897e"
+      },
+      "score": {
+        "relevance": 20,
+        "quality": 24,
+        "maintenance": 19,
+        "integrationCost": 12,
+        "total": 75
+      },
+      "decision": "保留为后续 FDE 工程参考，本轮不安装、不引入运行时。",
+      "adopt": [
+        "借鉴显式状态、可恢复执行和人工介入的工程思路，用清楚的状态和证据描述处理过程。",
+        "如果将来制作真正的后端 Agent 项目，再评估 checkpointer、持久存储、故障恢复和观测方案。"
+      ],
+      "whyNoRuntime": "官方定位是长时、有状态 Agent 的低层编排框架。现有作品展示、搜索、图片查看和需求整理均可在浏览器本地完成，接入会增加后端、模型调用、持久化和部署维护成本。没有将主页现有交互宣称为 LangGraph 实现。",
+      "sources": [
+        "https://github.com/langchain-ai/langgraph/blob/main/README.md",
+        "https://github.com/langchain-ai/langgraph/blob/main/LICENSE",
+        "https://docs.langchain.com/oss/python/langgraph/persistence",
+        "https://api.github.com/repos/langchain-ai/langgraph/releases/latest"
+      ]
+    },
+    {
+      "repository": "microsoft/autogen",
+      "officialUrl": "https://github.com/microsoft/autogen",
+      "license": {
+        "code": "MIT",
+        "documentation": "CC-BY-4.0",
+        "codeUrl": "https://github.com/microsoft/autogen/blob/main/LICENSE-CODE",
+        "documentationUrl": "https://github.com/microsoft/autogen/blob/main/LICENSE",
+        "verifiedFrom": "官方 README 的 Legal Notices 区分了代码 MIT 与文档/其他内容 CC BY 4.0；仓库 API 默认识别到 CC BY 4.0，不能据此说全部代码都是该许可。"
+      },
+      "verifiedState": {
+        "latestStableVersion": null,
+        "releaseCommit": null,
+        "versionNote": "本次未查询最新 release，不记录版本或提交。",
+        "repositoryPushedAtUtc": "2026-10-16T16:14:37Z",
+        "archivedFlag": false,
+        "readmeBlobSha": "042b9df197a220ec7072a116d694cd497ec332ad",
+        "maintenanceDeclaration": "本次官方 README 明确宣告项目已停止维护，并建议新用户选择 Microsoft Agent Framework。",
+        "stateCaveat": "GitHub API archived 字段为 false，与 README 的归档措辞不一致。因此只报告官方 README 的维护声明，不把仓库归档标志写成 true。README 下文仍有旧维护模式措辞，不据此承诺持续支持。"
+      },
+      "score": {
+        "relevance": 16,
+        "quality": 22,
+        "maintenance": 2,
+        "integrationCost": 9,
+        "total": 49
+      },
+      "decision": "不作为本次或新项目运行时依赖，仅保留历史方法比较。",
+      "adopt": [
+        "只借鉴角色职责明确、分任务检查的协作思想；当前三角色协作不依赖 AutoGen。"
+      ],
+      "whyNoRuntime": "除静态站适配成本高外，官方 README 的停止维护声明也使其不适合作为本轮新增依赖。Microsoft Agent Framework 是 README 给出的迁移方向，但本次未评估后者，不能将其视为已选型或已接入。",
+      "sources": [
+        "https://github.com/microsoft/autogen/blob/main/README.md",
+        "https://api.github.com/repos/microsoft/autogen"
+      ]
+    }
+  ],
+  "selectedPractice": {
+    "repository": "github/spec-kit",
+    "mode": "方法参考与项目文档融合",
+    "runtimeDependencyAdded": false,
+    "externalCodeExecuted": false,
+    "globalSkillInstalled": false,
+    "agentRuntimeInstalled": false,
+    "publicSiteBackendAdded": false,
+    "roles": [
+      { "role": "设计与研究", "responsibility": "核实官方来源、评分适配性、提出可核验体验目标。" },
+      { "role": "实现", "responsibility": "在既有静态架构和授权范围内实现，记录改动及证据。" },
+      { "role": "独立检查", "responsibility": "只读复核边界并回放验收场景，报告剩余问题和验证限制。" }
+    ],
+    "attributionBoundary": "这些是外部项目和工程方法，不是张建华本人的项目经历、客户合作或商业背书。"
+  },
+  "verificationLimits": [
+    "资料核验时间为 2026-10-28 Asia/Shanghai，维护状态和最新版本以后可能变化。",
+    "只读取官方仓库、发布元数据、许可和文档；没有安装、运行、审计或基准测试这些框架。",
+    "此文件记录选型依据，实际 UI 完成状态以本轮实现和验证证据为准。"
+  ]
+}

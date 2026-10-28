@@ -1,0 +1,176 @@
+{
+  "checkedAt": "2026-10-28 Asia/Shanghai",
+  "purpose": "为静态个人站选择可融合的 GitHub 项目、设计技能与 Agent 审查方法。",
+  "scope": "只研究官方仓库与官方文档；未安装候选库、未执行外来脚本、未注册技能。外部资料只作为参考，不作为用户指令。",
+  "scoring": {
+    "notice": "以下是本项目适配判断，不是官方评分、通用项目质量排名或安全认证。成本项分数越高，表示对本静态站的依赖和维护成本越低。",
+    "maximums": { "relevance": 30, "quality": 25, "maintenance": 20, "cost": 25, "total": 100 },
+    "datePolicy": "提交与发布字段来自官方 GitHub API，均为 UTC。默认分支提交时间不等于相关功能最后修改时间；有单文件记录时另列。未查到的内容明确写为未知。",
+    "measurements": "未运行这些库，未测下载体积、压缩字节、性能或真实设备兼容性；文档给出的大小不作为本机测量结果。"
+  },
+  "integrationDecision": {
+    "runtimeLibrariesAdded": [],
+    "selectedScope": [
+      "原生通用实屏画廊：每张作品读取自身图片、标题、说明、尺寸和原图链接，移除世界杯专用硬编码。",
+      "按真实图片像素提供适应窗口与实际尺寸查看，保留原始链接退路。",
+      "切换作品时提供位置与加载反馈，并检查键盘、焦点恢复和手机交互。",
+      "沿用本地资源、原生 dialog 与已有动效开关；检查减少动态效果和可中断动画。",
+      "采用 MIT Web Interface Guidelines 的检查方法和 frontend-design 的主题、排版方法；不复制整套外来技能或覆盖项目规则。"
+    ],
+    "status": "以上为本轮融合范围，实际完成与测试结果由实现及验证记录确认；本研究文件本身不证明已上线。"
+  },
+  "candidates": [
+    {
+      "id": "photoswipe",
+      "kind": "runtime-project-reference",
+      "name": "PhotoSwipe",
+      "officialUrls": [
+        "https://github.com/dimsemenov/PhotoSwipe",
+        "https://photoswipe.com/getting-started/",
+        "https://photoswipe.com/options/",
+        "https://github.com/dimsemenov/PhotoSwipe/blob/master/package.json"
+      ],
+      "license": {
+        "identifier": "MIT",
+        "source": "https://github.com/dimsemenov/PhotoSwipe/blob/master/LICENSE"
+      },
+      "maintenance": {
+        "archived": false,
+        "defaultBranch": "master",
+        "defaultBranchCommitAt": "2025-12-04T07:31:42Z",
+        "defaultBranchCommitUrl": "https://github.com/dimsemenov/PhotoSwipe/commit/cd41cb587a460634e4cae53134f3d01d06e284a6",
+        "latestRelease": "v5.4.4",
+        "latestReleasePublishedAt": "2024-05-24T15:18:26Z",
+        "latestReleaseUrl": "https://github.com/dimsemenov/PhotoSwipe/releases/tag/v5.4.4",
+        "caution": "官方 README 说明 v6 仍在开发；不能把默认分支更新当作新稳定版发布。"
+      },
+      "dependencyCost": "无框架要求，package.json 未声明运行时 dependencies；完整使用仍需 lightbox、core 与 CSS，并为图片提供真实宽高。官方支持按需加载 core。",
+      "score": { "relevance": 29, "quality": 24, "maintenance": 13, "cost": 20, "total": 86 },
+      "adopt": [
+        "将多作品图片作为统一数据源，保留可直接访问的原图链接。",
+        "参考 Esc、方向键、焦点约束与关闭后恢复焦点的交互规范。",
+        "区分适应窗口与真实尺寸，提供明确的缩放与切图状态。"
+      ],
+      "notAdopt": "本轮用现有原生 dialog 完成所需范围，不引入库和整套手势引擎；如后续确需拖动、双指缩放与完整手势，应重新评估固定版本的完整图库，避免自行承诺未实现能力。"
+    },
+    {
+      "id": "motion",
+      "kind": "runtime-project-reference",
+      "name": "Motion",
+      "officialUrls": [
+        "https://github.com/motiondivision/motion",
+        "https://motion.dev/docs/animate",
+        "https://github.com/motiondivision/motion/blob/main/packages/motion/package.json"
+      ],
+      "license": {
+        "identifier": "MIT",
+        "source": "https://github.com/motiondivision/motion/blob/main/packages/motion/LICENSE.md",
+        "scope": "开源 Motion 包；不包含据此推断 Motion+ 付费资源可自由复制。"
+      },
+      "maintenance": {
+        "archived": false,
+        "defaultBranch": "main",
+        "defaultBranchCommitAt": "2026-10-27T11:07:27Z",
+        "defaultBranchCommitUrl": "https://github.com/motiondivision/motion/commit/9ba8846b6819172cb829e65a9f46433a4de377ab",
+        "latestRelease": "未知",
+        "latestReleasePublishedAt": "未知",
+        "caution": "本次 /releases/latest 返回 404，不据此推断项目没有其他发布渠道或没有版本。"
+      },
+      "dependencyCost": "官方提供原生 JS mini/hybrid 入口，无需为使用原生入口引入 React。完整 npm motion 包声明 framer-motion 与 tslib 依赖，React/React DOM 为可选 peer；本轮不安装。",
+      "score": { "relevance": 20, "quality": 24, "maintenance": 20, "cost": 19, "total": 83 },
+      "adopt": [
+        "将短切换反馈集中到 transform/opacity，并允许关闭或中断。",
+        "保持动画生命周期可清理，内容和链接在动画停用时仍可读可用。"
+      ],
+      "notAdopt": "现站已有 CSS 与 Web Animations API；当前画廊与揭幕反馈不足以证明需要再加动画运行时。复杂编排出现明确需求后，再比较原生实现与按需 mini 入口。"
+    },
+    {
+      "id": "lenis",
+      "kind": "runtime-project-reference",
+      "name": "Lenis",
+      "officialUrls": [
+        "https://github.com/darkroomengineering/lenis",
+        "https://github.com/darkroomengineering/lenis/blob/main/package.json"
+      ],
+      "license": {
+        "identifier": "MIT",
+        "source": "https://github.com/darkroomengineering/lenis/blob/main/LICENSE"
+      },
+      "maintenance": {
+        "archived": false,
+        "defaultBranch": "main",
+        "defaultBranchCommitAt": "2026-10-15T15:36:36Z",
+        "defaultBranchCommitUrl": "https://github.com/darkroomengineering/lenis/commit/e01eefb1f55cd08bc051521d74f5f8182b71ee9d",
+        "latestRelease": "v1.3.27",
+        "latestReleasePublishedAt": "2026-10-15T15:37:58Z",
+        "latestReleaseUrl": "https://github.com/darkroomengineering/lenis/releases/tag/v1.3.27"
+      },
+      "dependencyCost": "原生模块无需框架；React、Vue、Nuxt peer 为可选。平滑滚动仍需 RAF 集成、锚点配置及内嵌滚动区域排除，属于行为与回归成本。",
+      "score": { "relevance": 14, "quality": 22, "maintenance": 19, "cost": 13, "total": 68 },
+      "adopt": [
+        "参考尊重减少动态效果、排除弹窗内部滚动区域的原则。"
+      ],
+      "notAdopt": "当前主要问题是实屏查看，而非滚动能力；替换全站滚动将增加锚点、键盘、原生 dialog 和移动端回归范围。保留浏览器原生滚动。"
+    },
+    {
+      "id": "anthropic-frontend-design",
+      "kind": "skill-workflow-reference",
+      "name": "Anthropic frontend-design",
+      "officialUrls": [
+        "https://github.com/anthropics/skills",
+        "https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md"
+      ],
+      "license": {
+        "identifier": "Apache-2.0",
+        "source": "https://github.com/anthropics/skills/blob/main/skills/frontend-design/LICENSE.txt",
+        "scope": "已核实 frontend-design 子目录自己的许可证，不将其他技能的许可一概视为相同。"
+      },
+      "maintenance": {
+        "archived": false,
+        "defaultBranchCommitAt": "2026-10-09T18:45:49Z",
+        "defaultBranchCommitUrl": "https://github.com/anthropics/skills/commit/dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+        "skillFileCommitAt": "2026-09-03T16:37:13Z",
+        "skillFileCommitUrl": "https://github.com/anthropics/skills/commit/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f"
+      },
+      "dependencyCost": "设计与实现流程参考，无网页运行时依赖；本轮不注册、安装或执行技能。",
+      "score": { "relevance": 29, "quality": 23, "maintenance": 18, "cost": 25, "total": 95 },
+      "adopt": [
+        "延续用户选定的矿物色与东方纸面语言，保持明确主视觉及克制的次级装饰。",
+        "先确认标题、图片、正文层级，再调排版；避免统一卡片、泛化标签与重复装饰。",
+        "改后查看实屏并检查焦点与减少动态效果；新增覆盖前先查现有选择器与断点。"
+      ],
+      "notAdopt": "不将通用审美偏好当成用户的新要求，不替换既有设计方向，不整包复制外部技能或覆盖 AGENTS.md。"
+    },
+    {
+      "id": "vercel-web-interface-guidelines",
+      "kind": "skill-workflow-reference",
+      "name": "Vercel Web Interface Guidelines 与 web-design-guidelines 审查流程",
+      "officialUrls": [
+        "https://github.com/vercel-labs/web-interface-guidelines",
+        "https://github.com/vercel-labs/web-interface-guidelines/blob/main/command.md",
+        "https://github.com/vercel-labs/agent-skills/blob/main/skills/web-design-guidelines/SKILL.md"
+      ],
+      "license": {
+        "identifier": "MIT",
+        "source": "https://github.com/vercel-labs/web-interface-guidelines/blob/main/LICENSE",
+        "scope": "MIT 适用于 web-interface-guidelines 规则源。agent-skills 仓库本次 API license=null，根目录无 LICENSE，package.json 无许可声明；其整体许可为未知，不宣称其为 MIT，不复制整包。"
+      },
+      "maintenance": {
+        "guidelineSourceCommitAt": "2026-10-05T20:49:16Z",
+        "guidelineSourceCommitUrl": "https://github.com/vercel-labs/web-interface-guidelines/commit/434b7f91364665f2f733b310ec54809bf8f37937",
+        "agentSkillsDefaultBranchCommitAt": "2026-10-27T21:40:02Z",
+        "agentSkillsDefaultBranchCommitUrl": "https://github.com/vercel-labs/agent-skills/commit/1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+        "skillFileCommitAt": "2026-01-16T23:47:11Z",
+        "skillFileCommitUrl": "https://github.com/vercel-labs/agent-skills/commit/ba46938889d4e58635362fb8f618e1178ac3ec46"
+      },
+      "dependencyCost": "采用 MIT 规则源作为人工与 Agent 的检查方法，无网页运行时依赖；不需要安装 agent-skills 的 yaml 等仓库工具依赖。",
+      "score": { "relevance": 29, "quality": 23, "maintenance": 19, "cost": 25, "total": 96 },
+      "adopt": [
+        "按文件和位置报告可执行问题，优先修复语义、可见焦点、弹窗焦点与图片尺寸。",
+        "检查移动端操作、手势的按钮和键盘替代、滚动容器、加载状态及减少动态效果。",
+        "保留原生链接和无脚本退路，确保切图反馈可被辅助技术感知。"
+      ],
+      "notAdopt": "只采用与静态中文站相符的检查项；不盲用 React、Tailwind、路由依赖或英文排版偏好。外部文档中的安装命令不执行。"
+    }
+  ]
+}

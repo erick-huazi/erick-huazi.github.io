@@ -62,55 +62,230 @@ $$('[data-open-wechat]').forEach(button => button.addEventListener('click', even
 $('#close-wechat').addEventListener('click', () => wechatDialog.close());
 wechatDialog.addEventListener('close', () => wechatOrigin?.focus());
 wechatDialog.addEventListener('click', event => { if (event.target === wechatDialog) { const r = wechatDialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) wechatDialog.close(); } });
-// The original image link remains usable without dialog support or with modified clicks.
-const projectViewer = $('#project-viewer');
-if (projectViewer && typeof projectViewer.showModal === 'function') {
-  const viewerImage = projectViewer.querySelector('[data-viewer-src]');
+// The original image links remain usable without dialog support or with modified clicks.
+(() => {
+  const projectViewer = $('#project-viewer');
+  if (!projectViewer || typeof projectViewer.showModal !== 'function') return;
+  let viewerImage = projectViewer.querySelector('img[data-viewer-src]');
   const viewerFrame = $('#project-viewer-frame');
   const viewerZoom = $('#project-viewer-zoom');
+  const viewerTitle = $('#project-viewer-title');
+  const viewerCategory = $('#project-viewer-category');
+  const viewerPosition = $('#project-viewer-position');
+  const viewerOriginal = $('#project-viewer-original');
+  const viewerVisit = $('#project-viewer-visit');
+  const viewerDate = $('#project-viewer-date');
+  const viewerAccess = $('#project-viewer-access');
+  const viewerStatus = $('#project-viewer-status');
+  const viewerThumbs = $('#project-viewer-thumbs');
+  const viewerPrevious = $('#project-viewer-prev');
+  const viewerNext = $('#project-viewer-next');
+  const viewerClose = $('#close-project-viewer');
+  const viewerHint = $('#project-viewer-hint');
+  if (![viewerImage, viewerFrame, viewerZoom, viewerTitle, viewerCategory, viewerPosition,
+    viewerOriginal, viewerVisit, viewerDate, viewerAccess, viewerStatus, viewerThumbs,
+    viewerPrevious, viewerNext, viewerClose].every(Boolean)) return;
+
+  const items = $$('[data-open-project-viewer]').map(link => {
+    const card = link.closest('.case-row');
+    const image = card?.querySelector('.case-artwork img');
+    const title = card?.querySelector('h3')?.textContent.trim();
+    const date = card?.querySelector('.case-image-label time');
+    const visit = card?.querySelector('.case-footer .btn')?.href;
+    const width = Number(image?.getAttribute('width'));
+    const height = Number(image?.getAttribute('height'));
+    if (!image || !title || !visit || !Number.isFinite(width) || !Number.isFinite(height)
+      || width <= 0 || height <= 0) return null;
+    const smallSource = image.closest('picture')?.querySelector('source[type="image/webp"]')
+      ?.getAttribute('srcset')?.split(',')[0]?.trim().split(/\s+/)[0];
+    return {
+      link, src: link.href, title, width, height, alt: image.alt,
+      thumbnail: image.currentSrc || (smallSource ? new URL(smallSource, document.baseURI).href : image.src),
+      category: card.querySelector('.case-eyebrow>span:first-child')?.textContent.trim() || 'PRODUCT SCREEN',
+      dateTime: date?.dateTime || '', dateLabel: date?.textContent.trim() || '', visit,
+      access: card.querySelector('.case-access-note')?.textContent.trim() || ''
+    };
+  }).filter(Boolean);
+  if (!items.length) return;
+
   let viewerOrigin;
+  let activeIndex = -1;
+  let loadRequest = 0;
+  let settledRequest = 0;
+  let thumbnailsBuilt = false;
+
   function resetProjectView() {
     projectViewer.classList.remove('is-zoomed');
     viewerZoom.setAttribute('aria-pressed', 'false');
-    viewerZoom.textContent = '放大细节';
-    $('#project-viewer-hint').textContent = '可放大查看界面细节';
+    viewerZoom.textContent = '原尺寸';
+    if (viewerHint) viewerHint.textContent = '可切换到原尺寸查看细节';
     viewerFrame.scrollTop = 0;
     viewerFrame.scrollLeft = 0;
   }
-  $$('[data-open-project-viewer]').forEach(link => {
-    link.setAttribute('aria-haspopup', 'dialog');
-    link.setAttribute('aria-controls', 'project-viewer');
-    link.setAttribute('aria-label', '查看实屏大图：世界杯项目');
-    link.addEventListener('click', event => {
-      if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-      if (projectViewer.open) return;
-      resetProjectView();
-      if (!viewerImage.hasAttribute('src')) viewerImage.src = viewerImage.dataset.viewerSrc;
+
+  function buildThumbnails() {
+    if (thumbnailsBuilt) return;
+    const fragment = document.createDocumentFragment();
+    items.forEach((item, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'viewer-thumb';
+      button.dataset.viewerIndex = String(index);
+      button.setAttribute('aria-label', `查看实屏：${item.title}`);
+      button.setAttribute('aria-pressed', 'false');
+      const image = document.createElement('img');
+      image.src = item.thumbnail;
+      image.alt = '';
+      image.width = 72;
+      image.height = 48;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      const title = document.createElement('span');
+      title.textContent = item.title;
+      button.append(image, title);
+      fragment.append(button);
+    });
+    viewerThumbs.replaceChildren(fragment);
+    thumbnailsBuilt = true;
+  }
+
+  function finishImage(request, failed = false) {
+    if (request !== loadRequest || settledRequest === request || !projectViewer.open) return;
+    settledRequest = request;
+    viewerFrame.setAttribute('aria-busy', 'false');
+    if (failed || !viewerImage.naturalWidth) {
+      viewerImage.hidden = true;
+      viewerZoom.disabled = true;
+      projectViewer.dataset.viewerState = 'error';
+      viewerStatus.textContent = '实屏暂未加载成功。可使用“打开原图”重试，或通过“访问项目”查看。';
+      return;
+    }
+    viewerImage.width = viewerImage.naturalWidth;
+    viewerImage.height = viewerImage.naturalHeight;
+    projectViewer.style.setProperty('--viewer-image-width', `${viewerImage.naturalWidth}px`);
+    viewerImage.hidden = false;
+    viewerZoom.disabled = false;
+    projectViewer.dataset.viewerState = 'ready';
+    viewerStatus.textContent = `已显示 ${items[activeIndex].title}，第 ${activeIndex + 1} 张，共 ${items.length} 张。`;
+  }
+
+  function showItem(index) {
+    activeIndex = (index + items.length) % items.length;
+    const item = items[activeIndex];
+    const request = ++loadRequest;
+    resetProjectView();
+    viewerTitle.textContent = item.title;
+    viewerCategory.textContent = item.category;
+    viewerPosition.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+    viewerOriginal.href = item.src;
+    viewerVisit.href = item.visit;
+    viewerDate.textContent = item.dateLabel;
+    if (item.dateTime) viewerDate.dateTime = item.dateTime;
+    else viewerDate.removeAttribute('datetime');
+    viewerAccess.textContent = item.access;
+    viewerAccess.hidden = !item.access;
+    viewerFrame.setAttribute('aria-label', `${item.title} 实屏，可滚动查看原尺寸图片`);
+    viewerFrame.setAttribute('aria-busy', 'true');
+    // Each request owns a new image node, so a queued event from an old source
+    // cannot run a newer source's callback after a rapid switch.
+    const nextImage = document.createElement('img');
+    nextImage.dataset.viewerSrc = item.src;
+    nextImage.decoding = 'async';
+    viewerImage.onload = viewerImage.onerror = null;
+    viewerImage.removeAttribute('src');
+    viewerImage.replaceWith(nextImage);
+    viewerImage = nextImage;
+    viewerImage.hidden = true;
+    viewerImage.width = item.width;
+    viewerImage.height = item.height;
+    viewerImage.alt = item.alt;
+    viewerZoom.disabled = true;
+    projectViewer.style.setProperty('--viewer-image-width', `${item.width}px`);
+    projectViewer.dataset.viewerState = 'loading';
+    viewerStatus.textContent = `正在加载 ${item.title} 实屏…`;
+    viewerThumbs.querySelectorAll('[data-viewer-index]').forEach(button => {
+      button.setAttribute('aria-pressed', String(Number(button.dataset.viewerIndex) === activeIndex));
+    });
+    viewerPrevious.disabled = viewerNext.disabled = items.length < 2;
+    viewerImage.onload = () => finishImage(request);
+    viewerImage.onerror = () => finishImage(request, true);
+    viewerImage.src = item.src;
+    if (viewerImage.complete) finishImage(request, !viewerImage.naturalWidth);
+  }
+
+  items.forEach((item, index) => {
+    item.link.setAttribute('aria-haspopup', 'dialog');
+    item.link.setAttribute('aria-controls', 'project-viewer');
+    item.link.setAttribute('aria-label', `查看实屏大图：${item.title}`);
+    item.link.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey
+        || event.shiftKey || event.altKey || projectViewer.open) return;
+      buildThumbnails();
+      showItem(index);
       try { projectViewer.showModal(); } catch { return; }
       event.preventDefault();
-      viewerOrigin = link;
+      viewerOrigin = item.link;
+      document.body.classList.add('project-viewer-open');
+      projectViewer.scrollTop = 0;
+      if (viewerImage.complete) finishImage(loadRequest, !viewerImage.naturalWidth);
     });
   });
-  $('#close-project-viewer').addEventListener('click', () => projectViewer.close());
+  viewerClose.addEventListener('click', () => projectViewer.close());
+  viewerPrevious.addEventListener('click', () => showItem(activeIndex - 1));
+  viewerNext.addEventListener('click', () => showItem(activeIndex + 1));
+  viewerThumbs.addEventListener('click', event => {
+    const button = event.target instanceof Element ? event.target.closest('[data-viewer-index]') : null;
+    if (!button || !viewerThumbs.contains(button)) return;
+    const index = Number(button.dataset.viewerIndex);
+    if (Number.isInteger(index) && index >= 0 && index < items.length) showItem(index);
+  });
+  projectViewer.addEventListener('keydown', event => {
+    if (event.key === 'Tab' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      const controls = [...projectViewer.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+        .filter(element => element.getClientRects().length && !element.closest('[hidden]'));
+      const first = controls[0], last = controls[controls.length - 1];
+      if ((event.shiftKey && document.activeElement === first) || (!event.shiftKey && document.activeElement === last)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first)?.focus();
+      }
+      return;
+    }
+    if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey
+      || projectViewer.classList.contains('is-zoomed') || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    event.preventDefault();
+    showItem(activeIndex + (event.key === 'ArrowLeft' ? -1 : 1));
+  });
   viewerZoom.addEventListener('click', () => {
+    if (projectViewer.dataset.viewerState !== 'ready') return;
     const zoomed = projectViewer.classList.toggle('is-zoomed');
     viewerZoom.setAttribute('aria-pressed', String(zoomed));
-    viewerZoom.textContent = zoomed ? '适应窗口' : '放大细节';
-    $('#project-viewer-hint').textContent = zoomed ? '滑动或使用方向键查看，点击“适应窗口”还原' : '可放大查看界面细节';
+    viewerZoom.textContent = zoomed ? '适应窗口' : '原尺寸';
+    if (viewerHint) viewerHint.textContent = zoomed
+      ? '原尺寸显示，可滑动或使用方向键查看超出部分'
+      : '可切换到原尺寸查看细节';
     viewerFrame.scrollTop = 0;
     viewerFrame.scrollLeft = 0;
     if (zoomed) viewerFrame.focus({ preventScroll: true });
   });
   projectViewer.addEventListener('close', () => {
+    loadRequest += 1;
+    viewerImage.onload = viewerImage.onerror = null;
+    viewerImage.hidden = true;
+    viewerImage.removeAttribute('src');
+    viewerFrame.setAttribute('aria-busy', 'false');
+    projectViewer.dataset.viewerState = 'idle';
+    viewerStatus.textContent = '';
+    document.body.classList.remove('project-viewer-open');
     resetProjectView();
     if (viewerOrigin?.isConnected) viewerOrigin.focus({ preventScroll: true });
   });
   projectViewer.addEventListener('click', event => {
     if (event.target !== projectViewer) return;
     const bounds = projectViewer.getBoundingClientRect();
-    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) projectViewer.close();
+    if (event.clientX < bounds.left || event.clientX > bounds.right
+      || event.clientY < bounds.top || event.clientY > bounds.bottom) projectViewer.close();
   });
-}
+})();
 $('#share-page').addEventListener('click', () => copyText(siteUrl));
 $('#share-page').hidden = false;
 const form = $('#inquiry-form');
