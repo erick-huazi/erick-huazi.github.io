@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-label="JMSAI 选股策略主题示意">
+ <rect width="960" height="560" fill="#173b33"/>
+ <rect x="24" y="24" width="912" height="512" fill="none" stroke="#b99a62" stroke-opacity=".7"/>
+ <circle cx="758" cy="276" r="136" fill="none" stroke="#d2b278" stroke-opacity=".42"/>
+ <circle cx="758" cy="276" r="91" fill="none" stroke="#d2b278" stroke-opacity=".38"/>
+ <path d="M573 276h368M758 93v366M628 145l260 262M888 145 628 407" fill="none" stroke="#b9985f" stroke-opacity=".3"/>
+ <circle cx="758" cy="276" r="7" fill="#d2b278"/>
+ <path d="M72 409h300" stroke="#c79c68" stroke-width="2"/>
+ <text x="72" y="109" fill="#d8bd87" font-family="Georgia,serif" font-size="19" letter-spacing="4">SELECTED PROJECT / 01</text>
+ <text x="72" y="228" fill="#f9f1e4" font-family="Georgia,serif" font-size="76" letter-spacing="2">JMSAI</text>
+ <text x="72" y="296" fill="#f9f1e4" font-family="Microsoft YaHei,sans-serif" font-size="35">选股策略</text>
+ <text x="72" y="373" fill="#d8bd87" font-family="Microsoft YaHei,sans-serif" font-size="18">核心开发 · 协作上线</text>
+ <text x="72" y="456" fill="#c7d7ca" font-family="Microsoft YaHei,sans-serif" font-size="15">项目主题示意 · 非网站截图</text>
+</svg>

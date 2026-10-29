@@ -23,11 +23,12 @@ const records = [...dialog.matchAll(/<button\b([^>]*\bclass="quick-item"[^>]*)>(
   }
   return { id: target || href, title: text(label[1]), description: text(label[2]), aliases: attributes['data-search-alias'] || '' };
 });
-assert.equal(records.length, 15, 'Keep all existing results and both HYALORIA entries.');
+assert.equal(records.length, 16, 'Keep all existing results and both HYALORIA entries.');
 assert.equal(new Set(records.map(record => record.id)).size, records.length, 'Quick destinations must be unique.');
 const search = createQuickSearch(records, Fuse);
 const ids = query => search(query).map(result => result.id);
 assert.deepEqual(ids('世界杯'), ['project-worldcup']);
+for (const query of ['JMSAI', '选股', '股票', '策略']) assert.deepEqual(ids(query), ['project-jmsai']);
 assert.deepEqual(ids('hyaloria'), ['project-hyaloria', 'project-hyaloria-playground']);
 for (const query of ['HYALORIA API', 'api', 'gateway', '多模型', '网关']) assert.deepEqual(ids(query), ['project-hyaloria'], `HYALORIA API query: ${query}`);
 for (const query of ['HYALORIA Playground', 'playground', '创作', '工作台', '多模态', '图片', '视频', '音乐', '素材']) assert.deepEqual(ids(query), ['project-hyaloria-playground'], `Playground query: ${query}`);
@@ -40,7 +41,7 @@ assert.equal(search('workflw')[0].id, 'services');
 assert.equal(search('没有这个项目').length, 0);
 assert.equal(search('xyzq').length, 0);
 assert.equal(search('世').length, 1);
-assert.equal(search('')[0].id, 'project-worldcup');
+assert.equal(search('')[0].id, 'project-jmsai');
 assert.deepEqual(ids('AI'), ['project-worldcup','project-astrrot','project-aimegapro','services']);
 assert.deepEqual(ids('需求'), ['inquiry-details']);
 assert.deepEqual(ids('整理'), ['inquiry-details']);
