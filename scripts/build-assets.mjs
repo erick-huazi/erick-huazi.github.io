@@ -23,6 +23,7 @@ const cssFiles = [
   'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css', 'editorial.css', 'editorial-motion.css', 'navigation-editorial.css', 'contact-editorial.css', 'project-viewer.css', 'about-editorial.css', 'mineral-editorial.css'
 ];
 const captures = [
+  { id: 'jmsai', source: 'src/project-captures/jmsai.png' },
   { id: 'worldcup', source: 'src/project-captures/worldcup.png' },
   { id: 'hyaloria', source: 'src/project-captures/hyaloria.jpg' },
   { id: 'hyaloria-playground', source: 'src/project-captures/hyaloria-playground.jpg' }
