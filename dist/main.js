@@ -174,6 +174,15 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     viewerStatus.textContent = `已显示 ${items[activeIndex].title}，第 ${activeIndex + 1} 张，共 ${items.length} 张。`;
   }
 
+  function keepSelectedThumbVisible() {
+    const button = viewerThumbs.querySelector('[aria-pressed="true"]');
+    if (!button || viewerThumbs.scrollWidth <= viewerThumbs.clientWidth) return;
+    const itemRect = button.getBoundingClientRect();
+    const stripRect = viewerThumbs.getBoundingClientRect();
+    if (itemRect.left < stripRect.left) viewerThumbs.scrollLeft += itemRect.left - stripRect.left;
+    else if (itemRect.right > stripRect.right) viewerThumbs.scrollLeft += itemRect.right - stripRect.right;
+  }
+
   function showItem(index) {
     activeIndex = (index + items.length) % items.length;
     const item = items[activeIndex];
@@ -209,8 +218,11 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     projectViewer.dataset.viewerState = 'loading';
     viewerStatus.textContent = `正在加载 ${item.title} 实屏…`;
     viewerThumbs.querySelectorAll('[data-viewer-index]').forEach(button => {
-      button.setAttribute('aria-pressed', String(Number(button.dataset.viewerIndex) === activeIndex));
+      const selected = Number(button.dataset.viewerIndex) === activeIndex;
+      button.setAttribute('aria-pressed', String(selected));
+
     });
+    keepSelectedThumbVisible();
     viewerPrevious.disabled = viewerNext.disabled = items.length < 2;
     viewerImage.onload = () => finishImage(request);
     viewerImage.onerror = () => finishImage(request, true);
@@ -228,6 +240,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
       buildThumbnails();
       showItem(index);
       try { projectViewer.showModal(); } catch { return; }
+      keepSelectedThumbVisible();
       event.preventDefault();
       viewerOrigin = item.link;
       document.body.classList.add('project-viewer-open');
