@@ -108,7 +108,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
       thumbnail: image.currentSrc || (smallSource ? new URL(smallSource, document.baseURI).href : image.src),
       category: card.querySelector('.case-eyebrow>span:first-child')?.textContent.trim() || 'PRODUCT SCREEN',
       dateTime: date?.dateTime || '', dateLabel: date?.textContent.trim() || '', visit,
-      access: card.querySelector('.case-access-note')?.textContent.trim() || ''
+      access: [card.querySelector('.case-access-note'), card.querySelector('.case-snapshot-note')].filter(Boolean).map(note => note.textContent.trim()).join(' ')
     };
   }).filter(Boolean);
   if (!items.length) return;

@@ -566,3 +566,6 @@ body.portfolio-v42 .shelf-footnote{font-size:12px}
 
 /* JMSAI screenshot uses its captured portrait aspect ratio. */
 body.portfolio-v42 #project-jmsai .case-artwork{aspect-ratio:559/600;background:#f4f5f8}
+
+/* V55: give the dated financial interface clear context. */
+body.portfolio-v42 #project-jmsai .case-snapshot-note{margin:16px 0 12px;color:#5e594c;font-size:12px;line-height:1.8}
