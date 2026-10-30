@@ -367,3 +367,18 @@ body.portfolio-v28.motion-paused :is(.wechat-dialog,#copy-dialog){animation:none
 body.portfolio-v34.portfolio-v42 #contact .inquiry-details .summary-output textarea{height:280px;min-height:220px}
 body.portfolio-v34.portfolio-v42 #contact .inquiry-details .summary-actions{margin-top:16px}
 @media(max-width:760px){body.portfolio-v34.portfolio-v42 #contact .inquiry-details .summary-output textarea{height:240px;min-height:200px}}
+
+/* Keep the contact options and most of the QR card in view on short phones. */
+@media(max-width:620px){
+ body.portfolio-v28 .wechat-dialog .qr-dialog-head{padding-block:10px}
+ body.portfolio-v28 .qr-dialog-body{gap:10px;padding-block:12px 16px}
+ body.portfolio-v28 .qr-person{font-size:21px;margin-bottom:0}
+ body.portfolio-v28 .qr-person em{font-size:24px}
+ body.portfolio-v28 .qr-context{margin-bottom:8px}
+ body.portfolio-v28 .qr-account{padding-top:8px;margin-bottom:8px}
+ body.portfolio-v28 .qr-account>span{margin-bottom:2px}
+ body.portfolio-v28 .qr-account>strong{font-size:27px}
+ body.portfolio-v28 .wechat-copy-status{min-height:0;margin-top:4px}
+ body.portfolio-v28 .qr-figure{max-width:220px}
+ body.portfolio-v28 .qr-figure figcaption{margin-top:4px}
+}

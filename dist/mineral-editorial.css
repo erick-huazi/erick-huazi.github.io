@@ -589,3 +589,12 @@ body.portfolio-v42 .case-preview-visit{align-self:flex-end;display:inline-flex;a
 body.portfolio-v42 .case-preview-visit span{transition:transform .2s ease}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){body.portfolio-v42:not(.motion-paused) .case-product-preview:hover .case-preview-visit span{transform:translate(3px,-3px)}}
 @media(prefers-reduced-motion:reduce){body.portfolio-v42 .case-preview-visit span{transition:none}}
+
+/* A gentle mobile ribbon drift; the observer pauses it away from the opening. */
+@media(prefers-reduced-motion:no-preference){
+ @media(max-width:1000px),(hover:none),(pointer:coarse),(max-height:599px){
+  body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-fallback{animation:mobile-ribbon-drift 14s ease-in-out infinite alternate;animation-play-state:paused}
+  body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-intro[data-ambient-active='true'] .spatial-fallback{animation-play-state:running}
+ }
+}
+@keyframes mobile-ribbon-drift{from{transform:scale(1.045) translate3d(-.5%,0,0)}to{transform:scale(1.065) translate3d(.5%,-.4%,0)}}

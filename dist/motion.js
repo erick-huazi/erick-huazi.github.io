@@ -322,6 +322,8 @@
   }
   function sync() {
     if (destroyed) return;
+    // The lightweight mobile backdrop only runs while its section is visible.
+    root.dataset.ambientActive = String(near && !document.hidden && !document.querySelector('dialog[open]'));
     observeNavigation();
     updateNavHeight();
     if (!canRun()) {
