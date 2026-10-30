@@ -123,7 +123,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     projectViewer.classList.remove('is-zoomed');
     viewerZoom.setAttribute('aria-pressed', 'false');
     viewerZoom.textContent = '原尺寸';
-    if (viewerHint) viewerHint.textContent = '可切换到原尺寸查看细节';
+    if (viewerHint) viewerHint.textContent = '可切换到原尺寸查看细节；聚焦图片后可用左右方向键切换';
     viewerFrame.scrollTop = 0;
     viewerFrame.scrollLeft = 0;
   }
@@ -198,7 +198,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     else viewerDate.removeAttribute('datetime');
     viewerAccess.textContent = item.access;
     viewerAccess.hidden = !item.access;
-    viewerFrame.setAttribute('aria-label', `${item.title} 实屏，可滚动查看原尺寸图片`);
+    viewerFrame.setAttribute('aria-label', `${item.title} 实屏，聚焦后可用左右方向键切换图片`);
     viewerFrame.setAttribute('aria-busy', 'true');
     // Each request owns a new image node, so a queued event from an old source
     // cannot run a newer source's callback after a rapid switch.
@@ -268,6 +268,8 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
       }
       return;
     }
+    // Arrow shortcuts belong to the image region, not every button/link in the dialog.
+    if (event.target !== viewerFrame && event.target !== projectViewer) return;
     if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey
       || projectViewer.classList.contains('is-zoomed') || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
     event.preventDefault();
@@ -280,7 +282,10 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     viewerZoom.textContent = zoomed ? '适应窗口' : '原尺寸';
     if (viewerHint) viewerHint.textContent = zoomed
       ? '原尺寸显示，可滑动或使用方向键查看超出部分'
-      : '可切换到原尺寸查看细节';
+      : '可切换到原尺寸查看细节；聚焦图片后可用左右方向键切换';
+    viewerFrame.setAttribute('aria-label', zoomed
+      ? `${items[activeIndex].title} 实屏，可用方向键滚动查看原尺寸图片`
+      : `${items[activeIndex].title} 实屏，聚焦后可用左右方向键切换图片`);
     viewerFrame.scrollTop = 0;
     viewerFrame.scrollLeft = 0;
     if (zoomed) viewerFrame.focus({ preventScroll: true });

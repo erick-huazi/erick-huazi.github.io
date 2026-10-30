@@ -274,7 +274,7 @@ for (const [index, capture] of captures.entries()) {
   const source = captureInputs[index];
   const variants = [];
   for (const width of [700, 1400]) {
-    const options = { width, withoutEnlargement: true, webp: { quality: 84, effort: 5 } };
+    const options = { width, withoutEnlargement: true, webp: capture.id === 'jmsai' ? { lossless: true, effort: 5 } : { quality: 84, effort: 5 } };
     const task = await resource({
       id: capture.id + '-screen-' + width, kind: 'image',
       output: 'dist/assets/' + capture.id + '-screen-' + width + '.webp',
