@@ -638,8 +638,17 @@ $$('a[href^="#project-"]').forEach(link => link.addEventListener('click', event 
 }));
 function restoreProjectHash() {
   if (!location.hash.startsWith('#project-')) return;
+  const previousFilter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.projectFilter || 'live';
   const target = revealProject(location.hash.slice(1));
   if (target) {
+    const currentFilter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.projectFilter || 'live';
+    if (currentFilter !== previousFilter) {
+      // Resolve conflicting shared URLs without creating a second history entry.
+      const url = new URL(location.href);
+      if (currentFilter === 'live') url.searchParams.delete('view');
+      else url.searchParams.set('view', currentFilter);
+      history.replaceState(history.state, '', url);
+    }
     workReadingIndex.prepareNavigation();
     requestAnimationFrame(() => { target.scrollIntoView({ block: 'start' }); workReadingIndex.refresh(); });
   }
