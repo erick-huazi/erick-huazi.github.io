@@ -604,3 +604,36 @@ body.portfolio-v42 .case-preview-visit span{transition:transform .2s ease}
  body.portfolio-v42[data-motion-enabled='false'] .spatial-intro.spatial-enhanced{height:auto}
  body.portfolio-v42[data-motion-enabled='false'] .spatial-intro.spatial-enhanced .spatial-sticky{position:relative;top:auto;height:auto;min-height:clamp(500px,76svh,780px)}
 }
+
+/* An ornamental orbital dial over the existing Dunhuang ribbon scene.
+   Only the decorative layer moves; content and controls remain still. */
+@supports (mask-image:radial-gradient(circle, transparent 40%, black 41%)) {
+ @media (prefers-reduced-motion:no-preference) {
+  body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-visual::before{
+   content:'';position:absolute;z-index:2;pointer-events:none;
+   width:clamp(300px,47vw,660px);aspect-ratio:1;right:4%;top:50%;margin-top:calc(clamp(300px,47vw,660px) / -2);
+   border-radius:50%;opacity:.7;
+   background:repeating-conic-gradient(from 2deg,#d7a64a 0deg 1deg,transparent 1deg 11deg,#c94732 11deg 11.5deg,transparent 11.5deg 30deg);
+   mask-image:radial-gradient(circle,transparent 0 36%,#000 36.2% 36.5%,transparent 36.8% 45%,#000 45.1% 45.4%,transparent 45.7% 47.5%,#000 47.7% 50%,transparent 50.2%);
+   animation:spatial-orbit-dial 26s linear infinite;animation-play-state:paused;
+  }
+  body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-intro[data-ambient-active='true'] .spatial-visual::before{animation-play-state:running}
+  body.portfolio-v42 .spatial-visual::after{z-index:3}
+  @media(max-width:760px){body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-visual::before{width:320px;right:-110px;margin-top:-160px;opacity:.5}}
+ }
+}
+@keyframes spatial-orbit-dial{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* A single ink-and-gold sweep introduces the scene without hiding content.
+   The idea of a layered seam is informed by Codrops SeamTransitions; this
+   treatment is original CSS and has no runtime or paid plugin dependency. */
+@media(prefers-reduced-motion:no-preference){
+ body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-inner::before{
+  content:'';position:absolute;z-index:4;top:0;bottom:0;left:0;width:65%;pointer-events:none;
+  background:linear-gradient(90deg,transparent 0%,#155e5212 34%,#c9473212 56%,#d7a64a88 58%,#f4ebdd30 59%,transparent 67%);
+  transform:translate3d(-150%,0,0) skewX(-18deg);
+  animation:spatial-ink-seam 1.8s cubic-bezier(.65,0,.25,1) both;animation-play-state:paused;
+ }
+ body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-intro[data-ambient-active='true'] .spatial-inner::before{animation-play-state:running}
+}
+@keyframes spatial-ink-seam{from{transform:translate3d(-150%,0,0) skewX(-18deg);opacity:.8}to{transform:translate3d(250%,0,0) skewX(-18deg);opacity:0}}
