@@ -598,3 +598,9 @@ body.portfolio-v42 .case-preview-visit span{transition:transform .2s ease}
  }
 }
 @keyframes mobile-ribbon-drift{from{transform:scale(1.045) translate3d(-.5%,0,0)}to{transform:scale(1.065) translate3d(.5%,-.4%,0)}}
+
+/* A user-disabled scene should not reserve a scroll-driven chapter. */
+@media(min-width:1001px) and (min-height:600px) and (hover:hover) and (pointer:fine){
+ body.portfolio-v42[data-motion-enabled='false'] .spatial-intro.spatial-enhanced{height:auto}
+ body.portfolio-v42[data-motion-enabled='false'] .spatial-intro.spatial-enhanced .spatial-sticky{position:relative;top:auto;height:auto;min-height:clamp(500px,76svh,780px)}
+}

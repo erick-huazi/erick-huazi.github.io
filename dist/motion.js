@@ -80,8 +80,25 @@
 
     function updateState() {
       const enabled = preference === 'on' && !reduced.matches;
+      const stateChanged = body.dataset.motionEnabled !== undefined && body.dataset.motionEnabled !== String(enabled);
+      const intro = document.getElementById('spatial-intro');
+      const sticky = intro?.querySelector('.spatial-sticky');
+      const navBottom = document.querySelector('.nav')?.getBoundingClientRect().bottom || 0;
+      const introBounds = intro?.getBoundingClientRect();
+      // Retain the visible content when the enhanced intro changes height.
+      // A hidden tab only pauses animation; it does not change the layout.
+      const anchor = stateChanged && intro?.classList.contains('spatial-enhanced')
+        ? (introBounds.bottom > navBottom && introBounds.top < innerHeight
+          ? sticky : [...document.querySelectorAll('main > section')].find(section => section !== intro && section.getBoundingClientRect().bottom > navBottom))
+        : null;
+      const before = anchor?.getBoundingClientRect().top;
+      body.dataset.motionEnabled = String(enabled);
       active = enabled && !document.hidden;
       body.classList.toggle('motion-paused', !active);
+      if (anchor && Number.isFinite(before)) {
+        const shift = anchor.getBoundingClientRect().top - before;
+        if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: 'instant' });
+      }
       for (const toggle of toggles) {
         toggle.hidden = false;
         toggle.textContent = '动态效果';
