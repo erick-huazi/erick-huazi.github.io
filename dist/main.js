@@ -123,7 +123,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     projectViewer.classList.remove('is-zoomed');
     viewerZoom.setAttribute('aria-pressed', 'false');
     viewerZoom.textContent = '原尺寸';
-    if (viewerHint) viewerHint.textContent = '可切换到原尺寸查看细节；聚焦图片后可用左右方向键切换';
+    if (viewerHint) viewerHint.textContent = '左右滑动或聚焦图片后按方向键切换；可切换到原尺寸查看细节';
     viewerFrame.scrollTop = 0;
     viewerFrame.scrollLeft = 0;
   }
@@ -275,6 +275,24 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     event.preventDefault();
     showItem(activeIndex + (event.key === 'ArrowLeft' ? -1 : 1));
   });
+  // Touch navigation is only active at fit size; original-size images keep native panning.
+  let touchStart = null;
+  viewerFrame.addEventListener('touchstart', event => {
+    if (projectViewer.classList.contains('is-zoomed') || event.touches.length !== 1) { touchStart = null; return; }
+    const touch = event.touches[0];
+    touchStart = { x: touch.clientX, y: touch.clientY, id: touch.identifier, time: Date.now() };
+  }, { passive: true });
+  viewerFrame.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
+  viewerFrame.addEventListener('touchend', event => {
+    const start = touchStart;
+    touchStart = null;
+    if (!start || event.touches.length || projectViewer.classList.contains('is-zoomed') || !projectViewer.open) return;
+    const touch = [...event.changedTouches].find(point => point.identifier === start.id);
+    if (!touch || Date.now() - start.time > 900) return;
+    const dx = touch.clientX - start.x, dy = touch.clientY - start.y;
+    if (Math.abs(dx) < 64 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    showItem(activeIndex + (dx < 0 ? 1 : -1));
+  }, { passive: true });
   viewerZoom.addEventListener('click', () => {
     if (projectViewer.dataset.viewerState !== 'ready') return;
     const zoomed = projectViewer.classList.toggle('is-zoomed');
@@ -282,7 +300,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     viewerZoom.textContent = zoomed ? '适应窗口' : '原尺寸';
     if (viewerHint) viewerHint.textContent = zoomed
       ? '原尺寸显示，可滑动或使用方向键查看超出部分'
-      : '可切换到原尺寸查看细节；聚焦图片后可用左右方向键切换';
+      : '左右滑动或聚焦图片后按方向键切换；可切换到原尺寸查看细节';
     viewerFrame.setAttribute('aria-label', zoomed
       ? `${items[activeIndex].title} 实屏，可用方向键滚动查看原尺寸图片`
       : `${items[activeIndex].title} 实屏，聚焦后可用左右方向键切换图片`);

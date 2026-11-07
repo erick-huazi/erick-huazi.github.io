@@ -637,3 +637,12 @@ body.portfolio-v42 .case-preview-visit span{transition:transform .2s ease}
  body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) .spatial-intro[data-ambient-active='true'] .spatial-inner::before{animation-play-state:running}
 }
 @keyframes spatial-ink-seam{from{transform:translate3d(-150%,0,0) skewX(-18deg);opacity:.8}to{transform:translate3d(250%,0,0) skewX(-18deg);opacity:0}}
+
+/* ConnectedGrid-inspired: a gold line traces each stage as it enters view. */
+body.portfolio-v42 #process.delivery-strip>ol>li::before{content:'';position:absolute;top:-1px;left:0;right:0;height:2px;background:#e4c18b;transform-origin:left center;pointer-events:none}
+@supports (animation-timeline:view()) {
+ @media(prefers-reduced-motion:no-preference){
+  body.portfolio-v42[data-motion-ready='true']:not(.motion-paused) #process.delivery-strip>ol>li::before{animation:delivery-line-draw linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
+ }
+}
+@keyframes delivery-line-draw{from{transform:scaleX(.08)}to{transform:scaleX(1)}}

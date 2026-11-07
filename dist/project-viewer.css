@@ -17,6 +17,7 @@ body.portfolio-v21 .project-viewer{width:min(1140px,calc(100vw - 56px));max-widt
 .project-viewer-toolbar a{display:inline-flex;align-items:center;gap:12px;min-height:44px;font-size:12px;text-decoration:underline;text-decoration-color:#a99572;text-underline-offset:5px}
 .project-viewer-toolbar .viewer-visit{padding:9px 15px;background:#155c4d;color:#fff8ec;text-decoration:none}
 .project-viewer-frame{display:flex;align-items:center;justify-content:center;height:min(56dvh,calc(100dvh - 355px),620px);min-height:120px;overflow:auto;border:1px solid #a99472;background:#152620;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom}
+.project-viewer:not(.is-zoomed) .project-viewer-frame{touch-action:pan-y pinch-zoom}
 .project-viewer.is-zoomed .project-viewer-frame{display:block}
 .project-viewer-frame img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;margin:auto}
 .project-viewer.is-zoomed .project-viewer-frame img{width:var(--viewer-image-width,auto);min-width:0;max-width:none;max-height:none;margin:0 auto}
