@@ -48,15 +48,24 @@ $('#close-copy').addEventListener('click', () => $('#copy-dialog').close());
 $('#copy-dialog').addEventListener('close', () => copyOrigin?.focus());
 $$('[data-copy-email]').forEach(button => { button.addEventListener('click', () => copyText(contactEmail, button)); button.hidden = false; });
 $$('[data-copy-phone]').forEach(button => { button.addEventListener('click', () => copyText(contactPhone, button)); button.hidden = false; });
-$$('[data-copy-wechat]').forEach(button => {
-  button.addEventListener('click', async () => { const copied = await copyText(contactWechat, button); if (copied && button.closest('#wechat-dialog')) $('#wechat-copy-status').textContent = '微信号已复制，可切换到微信添加好友。'; });
-  button.hidden = false;
-});
 const wechatDialog = $('#wechat-dialog');
 let wechatOrigin;
+let wechatSession = 0;
+$$('[data-copy-wechat]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const fromDialog = button.closest('#wechat-dialog');
+    const session = wechatSession;
+    // Clipboard permissions may resolve after the dialog has been closed or reopened.
+    const isCurrent = () => !fromDialog || (wechatDialog.open && session === wechatSession);
+    const copied = await copyText(contactWechat, button, isCurrent);
+    if (copied && fromDialog && isCurrent()) $('#wechat-copy-status').textContent = '微信号已复制，可切换到微信添加好友。';
+  });
+  button.hidden = false;
+});
 $$('[data-open-wechat]').forEach(button => button.addEventListener('click', event => {
   if (typeof wechatDialog.showModal !== 'function' || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
   event.preventDefault();
+  wechatSession += 1;
   wechatOrigin = button.closest('#nav-links') && matchMedia('(max-width:760px)').matches ? menu : button;
   closeMenu(); $('#wechat-copy-status').textContent = '复制微信号，在微信中搜索添加。';
   const qr = wechatDialog.querySelector('[data-qr-src]');
@@ -65,7 +74,7 @@ $$('[data-open-wechat]').forEach(button => button.addEventListener('click', even
   wechatDialog.scrollTop = 0;
 }));
 $('#close-wechat').addEventListener('click', () => wechatDialog.close());
-wechatDialog.addEventListener('close', () => wechatOrigin?.focus());
+wechatDialog.addEventListener('close', () => { wechatSession += 1; wechatOrigin?.focus(); });
 wechatDialog.addEventListener('click', event => { if (event.target === wechatDialog) { const r = wechatDialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) wechatDialog.close(); } });
 // The original image links remain usable without dialog support or with modified clicks.
 (() => {
