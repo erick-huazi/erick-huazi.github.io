@@ -646,3 +646,44 @@ body.portfolio-v42 #process.delivery-strip>ol>li::before{content:'';position:abs
  }
 }
 @keyframes delivery-line-draw{from{transform:scaleX(.08)}to{transform:scaleX(1)}}
+
+/* Cinematic introduction: generated landscape plus the existing interactive scene. */
+body.portfolio-v42 .nav{background:#f6eaded9;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom-color:#b99c76a8}
+@media(min-width:761px){
+ body.portfolio-v42 .nav-links{padding:5px 6px 5px 22px;gap:clamp(16px,2.1vw,30px);border:1px solid #fff9;border-radius:999px;background:#fffaf073;box-shadow:inset 0 1px #fff9}
+ body.portfolio-v42 .nav-links .nav-cta{border-radius:999px;background:#183e34;color:#fff9ec;border-color:#183e34}
+}
+body.portfolio-v42 .spatial-intro{background:#ead5bf}
+body.portfolio-v42 .spatial-sticky{min-height:calc(100svh - var(--spatial-nav-height,82px))}
+body.portfolio-v42 .spatial-fallback,body.portfolio-v42 .spatial-intro[data-spatial-state='ready'] .spatial-fallback{opacity:1}
+body.portfolio-v42 .spatial-fallback img{object-position:65% 50%}
+body.portfolio-v42 .spatial-intro[data-spatial-state='ready'] .spatial-mount{opacity:.58}
+body.portfolio-v42 .spatial-visual::after{background:linear-gradient(90deg,#f7e8d8ee 0%,#f7e8d8d9 29%,#f7e8d86e 55%,#f7e8d800 84%)}
+body.portfolio-v42 .spatial-inner{padding-top:22px;padding-bottom:22px}
+body.portfolio-v42 .spatial-caption{max-width:660px}
+body.portfolio-v42 .spatial-kicker{display:table;padding:8px 15px;margin-bottom:22px;border:1px solid #fff9;border-radius:999px;background:#fff8ec88;box-shadow:inset 0 1px #fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#543f35;letter-spacing:1px}
+body.portfolio-v42 .spatial-title{font-weight:600;letter-spacing:-.045em;line-height:1.12;text-shadow:0 1px 20px #fbeee8b0}
+body.portfolio-v42 .spatial-position{font-size:14px;color:#164b40}
+body.portfolio-v42 .spatial-description{color:#514138;font-size:15px}
+body.portfolio-v42 .spatial-motion-control{border:1px solid #fff9;border-radius:999px;background:#fff8ecc9;box-shadow:inset 0 1px #fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+body.portfolio-v42 .spatial-actions a{border:1px solid #fff9;border-radius:999px;min-height:48px;padding:10px 19px;box-shadow:inset 0 1px #fff8;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+body.portfolio-v42 .spatial-contact{background:#174f43;color:#fffaf0;border-color:#174f43;box-shadow:none}
+body.portfolio-v42 .spatial-skip{background:#fff8ecb3;color:#174f43}
+body.portfolio-v42 .spatial-facts{display:flex;gap:12px 28px;flex-wrap:wrap;margin-top:22px;padding-top:15px;border-top:1px solid #7a624d65;color:#493e32;font-size:12px;line-height:1.6}
+body.portfolio-v42 .spatial-facts b{font-weight:700;color:#193f35}
+@media(max-width:1000px),(hover:none),(pointer:coarse),(max-height:599px){
+ body.portfolio-v42 .spatial-intro .spatial-sticky{min-height:calc(100svh - 70px)}
+ body.portfolio-v42 .spatial-visual::after{background:linear-gradient(90deg,#f7e8d8ed 0%,#f7e8d8bb 44%,#f7e8d827 100%)}
+}
+@media(max-width:760px){
+ body.portfolio-v42 .spatial-inner{padding-top:16px;padding-bottom:20px}
+ body.portfolio-v42 .spatial-fallback img{object-position:68% center}
+ body.portfolio-v42 .spatial-caption{padding-block:28px}
+ body.portfolio-v42 .spatial-kicker{font-size:11px;padding:7px 12px;margin-bottom:18px}
+ body.portfolio-v42 .spatial-title{font-size:clamp(44px,12vw,70px);line-height:1.13}
+ body.portfolio-v42 .spatial-position{font-size:13px;line-height:1.7}
+ body.portfolio-v42 .spatial-description{font-size:14px;line-height:1.8}
+ body.portfolio-v42 .spatial-footer{gap:14px}
+ body.portfolio-v42 .spatial-actions a{min-height:46px;font-size:13px;padding-inline:14px}
+ body.portfolio-v42 .spatial-facts{gap:5px 16px;margin-top:18px;padding-top:12px;font-size:11px}
+}
