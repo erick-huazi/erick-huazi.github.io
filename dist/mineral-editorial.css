@@ -687,3 +687,28 @@ body.portfolio-v42 .spatial-facts b{font-weight:700;color:#193f35}
  body.portfolio-v42 .spatial-actions a{min-height:46px;font-size:13px;padding-inline:14px}
  body.portfolio-v42 .spatial-facts{gap:5px 16px;margin-top:18px;padding-top:12px;font-size:11px}
 }
+
+/* Legibility and hierarchy across the cinematic introduction. */
+body.portfolio-v42 .spatial-position{font-size:15px;line-height:1.65;color:#123f35}
+body.portfolio-v42 .spatial-description{max-width:32em;color:#3f3029}
+body.portfolio-v42 .spatial-topline p{color:#473d31}
+body.portfolio-v42 .spatial-motion-control{color:#263f35;font-size:12px;min-height:44px}
+body.portfolio-v42 .spatial-steps li{color:#433a30;font-size:13px;letter-spacing:.05em;border-color:#77624f}
+body.portfolio-v42 .spatial-steps li[aria-current='step']{color:#8c3020;border-color:#9c3829;font-weight:600}
+body.portfolio-v42 .spatial-facts{align-self:flex-start;gap:6px 22px;padding:10px 14px;margin-top:18px;border:1px solid #e2d0b9;border-radius:12px;background:#fbf2e8ed;color:#382e27;font-size:13px;line-height:1.55}
+body.portfolio-v42 .spatial-facts span{white-space:nowrap}
+@media(max-width:760px){
+ body.portfolio-v42 .spatial-topline p{font-size:11px}
+ body.portfolio-v42 .spatial-position{font-size:14px;line-height:1.65}
+ body.portfolio-v42 .spatial-description{font-size:14px;line-height:1.75}
+ body.portfolio-v42 .spatial-steps{gap:14px}
+ body.portfolio-v42 .spatial-steps li{font-size:12px;min-width:58px;letter-spacing:0}
+ body.portfolio-v42 .spatial-steps li>span{font-size:12px}
+ body.portfolio-v42 .spatial-facts{max-width:100%;gap:4px 14px;padding:9px 11px;margin-top:16px;font-size:12px}
+}
+
+/* Make portfolio navigation and project labels easier to read. */
+body.portfolio-v42 .work-index-heading{font-size:12px}
+body.portfolio-v42 .work-index-links small{font-size:12px;line-height:1.5}
+body.portfolio-v42 .project-filter>button span{font-size:12px}
+body.portfolio-v42 .case-journey-label span{color:#605343;font-size:11px}
