@@ -103,7 +103,7 @@
 .ref-select:not([disabled]):hover{border-color:var(--bone)}
 .ref-select[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--ink)}
 .ref-select[disabled]{color:var(--mute-d);cursor:not-allowed}
-.ref-permalink{font:500 11px/1.6 var(--f-mono);color:var(--mute)}
+.ref-permalink{font:500 11px/1.6 var(--f-mono);color:var(--mute);padding-block:5px 4px}
 .ref-empty{border:1px dashed var(--line);padding:clamp(28px,4vw,56px);display:grid;gap:10px;justify-items:start}
 .ref-empty h3{font-size:24px;font-weight:800}
 .ref-empty p{color:var(--mute)}
@@ -126,7 +126,7 @@
 .ref-application-heading .ref-intro{color:var(--mute-d);font-size:16px;font-weight:400;max-width:40em;margin-top:16px}
 .ref-steps{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:2px solid var(--ink);margin-top:clamp(28px,3.4vw,52px)}
 .ref-steps li{padding:24px 22px 0 0}
-.ref-steps b{display:block;font-size:clamp(48px,5vw,72px);line-height:.85;font-weight:900;font-stretch:62%;color:var(--accent);margin-bottom:16px}
+.ref-steps b{display:block;font-size:clamp(48px,5vw,72px);line-height:.85;font-weight:900;font-stretch:62%;color:var(--accent-deep);margin-bottom:16px}
 .ref-steps h3{font-size:19px;font-weight:800;margin-bottom:6px}
 .ref-steps p{color:var(--mute-d);font-size:14px}
 .ref-bottom-link{display:flex;justify-content:space-between;align-items:end;gap:20px 32px;flex-wrap:wrap;margin-top:clamp(32px,4vw,60px);padding-top:24px;border-top:1px solid var(--line-d)}

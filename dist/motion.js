@@ -39,6 +39,7 @@
   /* ---- fit display type to its container ---- */
   const hero = $('.hero');
   const wordmark = $('[data-vf]');
+  const heroRules = $('.hero-rules');
   let letters = [];
   let letterRow = null;
   if (wordmark) {
@@ -230,6 +231,12 @@
   window.addEventListener('pointermove', event => {
     if (event.pointerType === 'touch') return;
     pointerX = event.clientX; pointerY = event.clientY; pointerSeen = performance.now();
+    if (active && heroVisible && heroRules) {
+      const rect = heroRules.getBoundingClientRect();
+      heroRules.style.setProperty('--mx', `${(pointerX - rect.left).toFixed(0)}px`);
+      heroRules.style.setProperty('--my', `${(pointerY - rect.top).toFixed(0)}px`);
+      heroRules.style.setProperty('--spot', pointerY < rect.bottom ? '1' : '0');
+    }
     moveCursor();
   }, { passive: true });
   if (hero && 'IntersectionObserver' in window) {
@@ -294,6 +301,7 @@
       processSteps.forEach(step => step.classList.add('on'));
       caseHeadings.forEach(heading => heading.style.removeProperty('--drift'));
       if (marqueeAnimation) marqueeAnimation.playbackRate = 1;
+      heroRules?.style.setProperty('--spot', '0');
     }
     setCursor(active && finePointer.matches);
     toggles.forEach(toggle => {

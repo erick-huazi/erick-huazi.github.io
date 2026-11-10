@@ -20,7 +20,7 @@
 .work-index-num{font:500 11px/1.9 var(--f-mono)}
 .work-index-links a[aria-current] .work-index-num{color:var(--accent)}
 .work-index-links strong{display:block;font-weight:600;line-height:1.4}
-.work-index-links small{font:400 11px/1.6 var(--f-mono);opacity:.8}
+.work-index-links small{font:400 11px/1.6 var(--f-mono)}
 .work-index-contact{display:inline-block;margin-top:20px}
 .case-list{counter-reset:case}
 .case-row{counter-increment:case;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);grid-template-areas:"heading heading" "media copy";gap:clamp(24px,3vw,44px) clamp(28px,3.4vw,60px);padding-block:clamp(44px,5.4vw,88px);border-top:1px solid var(--rule);scroll-margin-top:var(--work-anchor-offset,96px)}
@@ -34,6 +34,10 @@
 .case-deck{font-size:clamp(16px,1.5vw,20px);color:var(--dim);margin-top:.3em}
 .case-media{grid-area:media;min-width:0}
 .case-product-preview{display:block;position:relative;background:var(--ink-2);border:1px solid var(--rule);overflow:hidden}
+.case-product-preview::before{content:attr(href);display:block;padding:10px 14px 10px 34px;font:500 11px/1.4 var(--f-mono);letter-spacing:.02em;color:var(--dim);border-bottom:1px solid var(--rule);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:radial-gradient(circle at 18px 50%,var(--accent) 3.5px,transparent 4px);transition:color .3s}
+.case-product-preview:hover::before{color:var(--fg)}
+.case-product-preview{transition:border-color .35s}
+.case-product-preview:hover{border-color:var(--fg)}
 .case-artwork{display:block;max-height:min(74vh,640px);overflow:hidden}
 .case-artwork img{width:100%;height:auto;transition:transform 1.2s var(--ease)}
 .case-product-preview:hover .case-artwork img{transform:scale(1.025)}
@@ -78,7 +82,7 @@
 .case-deliverables li{padding:8px 0;border-top:1px solid var(--rule);display:flex;gap:10px}
 .case-deliverables li::before{content:"—";color:var(--accent)}
 .project-details{margin-top:14px}
-.project-details summary{font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+.project-details summary{padding-block:6px;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
 .archive-detail-content{padding-top:14px;font-size:14px}
 @media (max-width:1279px){
   .work-layout{grid-template-columns:minmax(0,1fr)}
@@ -113,7 +117,7 @@
 .offer summary{display:grid;grid-template-columns:clamp(52px,6vw,84px) minmax(0,1fr) auto;grid-template-areas:"num title toggle" "num lead toggle" "num preview toggle";column-gap:16px;padding:clamp(22px,2.6vw,34px) 0}
 .offer-top{grid-area:num}
 .offer-top .ui-icon{display:none}
-.offer-num{font-size:clamp(40px,4.4vw,60px);line-height:.9;font-weight:900;font-stretch:62%;color:var(--accent)}
+.offer-num{font-size:clamp(40px,4.4vw,60px);line-height:.9;font-weight:900;font-stretch:62%;color:var(--accent-deep)}
 .offer h3{grid-area:title;font-size:clamp(24px,2.7vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
 .offer h3 span{display:inline-block;transition:transform .5s var(--ease)}
 .offer summary:hover h3 span{transform:translateX(10px)}
@@ -196,6 +200,7 @@
 /* ---------- about ---------- */
 .about{border-top:1px solid var(--line)}
 .about-compact{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5vw,100px);align-items:start}
+.about-compact>div:first-child{position:sticky;top:calc(var(--nav-h) + 36px)}
 .about-role{font:500 12px/1.4 var(--f-mono);letter-spacing:.08em;color:var(--accent);margin-bottom:20px}
 .about-statement{font-size:clamp(23px,3vw,44px);font-weight:700;line-height:1.36;letter-spacing:-.012em;margin-bottom:clamp(28px,3.4vw,48px)}
 .about-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--rule)}
@@ -209,6 +214,7 @@
 .resume-link{display:inline-block;margin:10px 0 22px;font-weight:700}
 @media (max-width:900px){
   .about-compact{grid-template-columns:minmax(0,1fr)}
+  .about-compact>div:first-child{position:static}
 }
 @media (max-width:560px){
   .about-facts{grid-template-columns:minmax(0,1fr)}
@@ -218,7 +224,7 @@
 }
 
 /* ---------- contact (accent) ---------- */
-#contact{--bg:var(--accent);--fg:var(--ink);--rule:rgba(11,11,12,.32);--dim:rgba(11,11,12,.76);--label:var(--ink);--btn-bg:var(--ink);--btn-fg:var(--bone);--btn-hover-bg:var(--bone);--btn-hover-fg:var(--ink)}
+#contact{--bg:var(--accent);--fg:var(--ink);--rule:rgba(11,11,12,.32);--dim:rgba(11,11,12,.88);--label:var(--ink);--btn-bg:var(--ink);--btn-fg:var(--bone);--btn-hover-bg:var(--bone);--btn-hover-fg:var(--ink)}
 .contact h2 em{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--ink)}
 .contact-heading>p{color:var(--fg);font-weight:600}
 .contact-channels{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,1fr);border:1px solid var(--ink)}
@@ -299,3 +305,6 @@
 @media (max-width:480px){
   .field-row{grid-template-columns:minmax(0,1fr)}
 }
+
+/* comfortable pointer targets for inline utility links */
+.case-image-label a,.project-directory a,.case-facts a,.offer-related a{padding-block:5px 4px}

@@ -170,4 +170,5 @@ v42 在首屏增加 FDE 与服务定位和直接联系入口，修复咨询内�
 - 字体：`dist/assets/fonts/` 内的 Archivo（含宽度轴）与 JetBrains Mono 拉丁子集，SIL OFL 1.1；中文使用系统字体。
 - `dist/main.js` 未改动，所有交互沿用原有的 id、class 与 data 属性。
 - 参考库：`dist/v70-reference.css` 在 `site.css` 之后加载，沿用同一组变量；模板在 `scripts/build-references.mjs`。原有的 `reference-*.css` 与 `mineral-editorial.css` 不再被引用。
-- 尚未处理：分享卡 `src/share-card.svg` 仍是旧图；旧的 20 份首页 CSS、`assets/vendor/three-*`、`gsap-*`、`cinematic-hero-*`、`dunhuang-ribbons-*`、`field-sculpture*` 已不被首页加载，但仍留在 `dist/` 与构建脚本中，可另行清理。
+- 分享卡：`src/share-card.svg` 与 `src/reference-share-card.svg` 已换成同一套深色样式，构建时生成 PNG。
+- 已清理：v70 之前的首页与参考库样式、Three.js / GSAP 场景及其构建步骤、首屏与书架插画、未使用的示意图。本节之前的版本说明保留作历史记录，其中提到的旧文件已不在仓库中。
