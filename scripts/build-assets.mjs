@@ -18,9 +18,7 @@ const cachePath = resolve(root, '.cache/assets-build.json');
 const cacheSchema = 1;
 const targets = { chrome: 110 << 16, safari: (16 << 16) | (4 << 8), firefox: 115 << 16 };
 const cssFiles = [
-  'styles.css', 'enhancements.css', 'projects.css', 'ui-refresh.css',
-  'portfolio.css', 'atelier.css', 'refinements.css', 'experience.css',
-  'search.css', 'services-v15.css', 'polish-v15.css', 'showcase-v16.css', 'reference-teaser.css', 'editorial.css', 'editorial-motion.css', 'navigation-editorial.css', 'contact-editorial.css', 'project-viewer.css', 'about-editorial.css', 'mineral-editorial.css'
+  'v70-core.css', 'v70-sections.css', 'v70-overlays.css'
 ];
 const captures = [
   { id: 'jmsai', source: 'src/project-captures/jmsai.png' },

@@ -285,3 +285,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+
+================================================================================
+Archivo (variable, Latin subset) — dist/assets/fonts/archivo-latin-wdth-normal.woff2
+Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)
+Licensed under the SIL Open Font License, Version 1.1.
+Full text: dist/assets/fonts/Archivo-OFL.txt
+
+JetBrains Mono (variable, Latin subset) — dist/assets/fonts/jetbrains-mono-latin-wght-normal.woff2
+Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+Licensed under the SIL Open Font License, Version 1.1.
+Full text: dist/assets/fonts/JetBrainsMono-OFL.txt
+Both files were taken unmodified from the Fontsource npm packages.

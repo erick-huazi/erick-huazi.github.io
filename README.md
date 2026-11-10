@@ -159,3 +159,15 @@ v41 作品区根据 [开源动效评分与接入记录](docs/open-source-motion-
 
 
 v42 在首屏增加 FDE 与服务定位和直接联系入口，修复咨询内容复制的异步反馈竞态；候选技能与 Agent 的评分、来源和实际采用范围见 [v42 研究记录](docs/github-agent-evaluation-v42.md)。
+
+## v70「Signal」首页设计语言
+
+首页已整体换成深色、直角、单一强调色（#ff4a1a）的排版式设计，不再使用插画首屏和 Three.js / GSAP 场景。
+
+- 样式源文件：`dist/v70-core.css`（变量、导航、首屏、页脚、动效基础）、`dist/v70-sections.css`（作品、合作、书架、关于、联系）、`dist/v70-overlays.css`（弹窗、查看器、提示）。`npm run build` 把这三份合并压缩成 `dist/site.css`，不要直接改 `site.css`。
+- 各区块通过 `--bg / --fg / --rule / --dim / --label` 五个变量换配色：合作区为浅色，联系区为强调色，其余为深色。
+- `dist/motion.js`：首屏可变字体随指针变化、滚动揭示、作品图擦入、合作路径进度、关于段落逐字点亮、跑马灯随滚动加速、指针跟随。全部受 `html.motion` 控制；“动态效果”开关与系统“减少动态效果”会移除它，内容保持完整可见。
+- 字体：`dist/assets/fonts/` 内的 Archivo（含宽度轴）与 JetBrains Mono 拉丁子集，SIL OFL 1.1；中文使用系统字体。
+- `dist/main.js` 未改动，所有交互沿用原有的 id、class 与 data 属性。
+- 参考库：`dist/v70-reference.css` 在 `site.css` 之后加载，沿用同一组变量；模板在 `scripts/build-references.mjs`。原有的 `reference-*.css` 与 `mineral-editorial.css` 不再被引用。
+- 尚未处理：分享卡 `src/share-card.svg` 仍是旧图；旧的 20 份首页 CSS、`assets/vendor/three-*`、`gsap-*`、`cinematic-hero-*`、`dunhuang-ribbons-*`、`field-sculpture*` 已不被首页加载，但仍留在 `dist/` 与构建脚本中，可另行清理。
