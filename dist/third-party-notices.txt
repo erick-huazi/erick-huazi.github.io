@@ -4,7 +4,7 @@ THIRD-PARTY DESIGN REFERENCES AND LICENSE NOTICES
 V70 / 2026-11-10 — Signal
 The site no longer ships Three.js, GSAP or the adapted scroll choreography;
 their files and notices were removed together with the code. Motion is original, dependency-free JavaScript.
-Fonts: see the Archivo and JetBrains Mono entries at the end of this file.
+Fonts and the annotation library: see the entries at the end of this file.
 
 ROUND 4 / 2026-10-22 — actual use, evaluated alternatives
 Scores are our fit assessment for this portfolio, not GitHub ratings or popularity.
@@ -251,8 +251,15 @@ Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Arch
 Licensed under the SIL Open Font License, Version 1.1.
 Full text: dist/assets/fonts/Archivo-OFL.txt
 
-JetBrains Mono (variable, Latin subset) — dist/assets/fonts/jetbrains-mono-latin-wght-normal.woff2
-Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
-Licensed under the SIL Open Font License, Version 1.1.
-Full text: dist/assets/fonts/JetBrainsMono-OFL.txt
-Both files were taken unmodified from the Fontsource npm packages.
+The Archivo file was taken unmodified from the Fontsource npm package.
+
+得意黑 Smiley Sans (subset of the glyphs used by headlines) — dist/assets/fonts/smiley-sans-subset.woff2
+Copyright (c) 2022--2024, atelierAnchor <https://atelier-anchor.com>, with Reserved Font Name <Smiley> and <得意黑>.
+Repository: https://github.com/atelier-anchor/smiley-sans — SIL Open Font License, Version 1.1.
+The subset is generated at build time; under the OFL reserved-name clause it is served as a subset of the original, unmodified in design.
+Full text: dist/assets/fonts/SmileySans-OFL.txt
+
+Rough Notation 0.5.1 — dist/assets/vendor/rough-notation.esm.js (unmodified ESM build)
+Repository: https://github.com/rough-stuff/rough-notation — MIT License, Copyright (c) 2020 Preet Shihn.
+Full text: dist/assets/vendor/rough-notation-LICENSE.txt
+

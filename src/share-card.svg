@@ -1,28 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">张建华 — Erick Zhang</title>
   <desc id="desc">技术出身的 FDE，AI 应用、智能体与自动化。常驻上海，7 年互联网与 AI 行业经验，美国贝翰文大学 MBA。</desc>
-  <rect width="1200" height="630" fill="#0b0b0c"/>
-  <g stroke="#ece8df" stroke-opacity=".1">
-    <line x1="333" y1="0" x2="333" y2="630"/><line x1="602" y1="0" x2="602" y2="630"/><line x1="871" y1="0" x2="871" y2="630"/>
+  <rect width="1200" height="630" fill="#fbfbf9"/>
+  <g transform="translate(64 46) scale(.5)">
+    <rect width="64" height="64" fill="#141414"/>
+    <path d="M15 17H43V24L28 39H47V47H15V40L30 25H15Z" fill="#fbfbf9"/>
+    <path d="M47 9H55V17Z" fill="#ffe14a"/>
   </g>
-  <g transform="translate(64 44) scale(.5)">
-    <rect width="64" height="64" fill="#ff4a1a"/>
-    <path d="M15 17H43V24L28 39H47V47H15V40L30 25H15Z" fill="#0b0b0c"/>
-    <path d="M47 9H55V17Z" fill="#0b0b0c"/>
+  <text x="112" y="70" fill="#141414" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="22" font-weight="700">张建华 <tspan fill="#6a6a66" font-weight="400">Erick Zhang · 技术出身的 FDE</tspan></text>
+  <text x="1136" y="70" text-anchor="end" fill="#6a6a66" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="18">上海</text>
+  <line x1="64" y1="104" x2="1136" y2="104" stroke="#141414" stroke-opacity=".14"/>
+  <g transform="translate(64 0) skewX(-9)">
+    <path d="M254 268 L690 262 L694 396 L250 402 Z" fill="#ffe14a"/>
+    <g fill="#141414" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="116" font-weight="700" letter-spacing="-3">
+      <text x="70" y="232">技术出身，</text>
+      <text x="92" y="372">在 业务现场</text>
+      <text x="114" y="512">解决问题。</text>
+    </g>
   </g>
-  <rect x="116" y="55" width="9" height="9" fill="#ff4a1a"/>
-  <text x="136" y="65" fill="#ff4a1a" font-family="Consolas, 'Courier New', monospace" font-size="15" font-weight="700" letter-spacing="2.4">FORWARD DEPLOYED ENGINEER</text>
-  <text x="1136" y="65" text-anchor="end" fill="#918e86" font-family="Consolas, 'Courier New', monospace" font-size="15" letter-spacing="1.8">上海 · 31.23°N 121.47°E</text>
-  <line x1="64" y1="100" x2="1136" y2="100" stroke="#ece8df" stroke-opacity=".18"/>
-  <text x="56" y="276" fill="#ece8df" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="170" font-weight="700" letter-spacing="-6">张建华</text>
-  <text x="62" y="408" fill="none" stroke="#ece8df" stroke-width="2.2" font-family="'Arial Black', Arial, sans-serif" font-size="126" font-weight="900" letter-spacing="-4">ERICK ZHANG</text>
-  <text x="64" y="478" fill="#ece8df" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="30" font-weight="700">技术出身，在业务现场解决问题。</text>
-  <line x1="64" y1="520" x2="1136" y2="520" stroke="#ece8df" stroke-opacity=".18"/>
-  <g font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="19" fill="#ece8df">
-    <text x="64" y="573"><tspan font-family="Impact, 'Arial Narrow', sans-serif" font-size="34" dy="4">07</tspan><tspan dx="12" dy="-4">年 · 互联网与 AI</tspan></text>
-    <text x="345" y="573"><tspan font-family="Impact, 'Arial Narrow', sans-serif" font-size="34" dy="4">MBA</tspan><tspan dx="12" dy="-4">美国贝翰文大学</tspan></text>
-    <text x="614" y="573">AI 应用 · 智能体 · 自动化</text>
-  </g>
-  <text x="1136" y="573" text-anchor="end" fill="#918e86" font-family="Consolas, 'Courier New', monospace" font-size="16">erick-huazi.github.io</text>
-  <rect x="0" y="622" width="1200" height="8" fill="#ff4a1a"/>
+  <line x1="64" y1="548" x2="1136" y2="548" stroke="#141414" stroke-opacity=".14"/>
+  <text x="64" y="592" fill="#141414" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="20">7 年互联网与 AI　·　MBA　·　AI 应用 · 智能体 · 自动化</text>
+  <text x="1136" y="592" text-anchor="end" fill="#6a6a66" font-family="Arial, sans-serif" font-size="18">erick-huazi.github.io</text>
+  <rect x="0" y="620" width="1200" height="10" fill="#ffe14a"/>
 </svg>

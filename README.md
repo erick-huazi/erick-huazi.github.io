@@ -172,3 +172,14 @@ v42 在首屏增加 FDE 与服务定位和直接联系入口，修复咨询内�
 - 参考库：`dist/v70-reference.css` 在 `site.css` 之后加载，沿用同一组变量；模板在 `scripts/build-references.mjs`。原有的 `reference-*.css` 与 `mineral-editorial.css` 不再被引用。
 - 分享卡：`src/share-card.svg` 与 `src/reference-share-card.svg` 已换成同一套深色样式，构建时生成 PNG。
 - 已清理：v70 之前的首页与参考库样式、Three.js / GSAP 场景及其构建步骤、首屏与书架插画、未使用的示意图。本节之前的版本说明保留作历史记录，其中提到的旧文件已不在仓库中。
+
+## v71「校样 / Proof」
+
+v70 的深色+橙色+等宽小标签仍然像模板，这一版换成“纸、墨、一支荧光笔”：
+
+- 页面为浅色纸面，文字为墨色，唯一的颜色是荧光黄，只用来划重点和整块铺底（联系区）。
+- 标题与数字统一用开源字体「得意黑 Smiley Sans」。`scripts/build-fonts.mjs` 在构建末尾按页面里实际出现的标题文字生成子集（约 50 KB），改了标题后重新 `npm run build` 即可。
+- 手绘划线与高亮来自 `rough-notation`，只在动效开启时加载；关闭动效或无脚本时，高亮退回普通的黄色底纹。给元素加 `data-note="highlight|underline|circle|box"` 即可标注。
+- 首屏右侧是真实作品截图叠成的一摞“样张”，点击跳到对应作品；不再有跑马灯、描边大字、编号小标签、字符乱码效果和经纬度装饰。
+- 样式分层：`v70-core / sections / overlays.css` 是组件，根变量已改为浅色取值（`--ink` 现在是纸色，`--bone` 是墨色，名称沿用）；`v71-proof.css` 负责字体、首屏、深色与黄色区域的局部变量和细节。参考库页面的对应覆盖在 `v70-reference.css` 末尾。
+- 选型记录见 `docs/design-evaluation-v71.md`。

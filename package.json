@@ -11,9 +11,12 @@
     "build:references": "node scripts/build-references.mjs"
   },
   "devDependencies": {
+    "@fontpkg/smiley-sans": "2.0.4",
     "axe-core": "4.14.0",
     "fuse.js": "7.5.0",
     "lightningcss": "1.33.0",
-    "sharp": "0.35.5"
+    "rough-notation": "0.5.1",
+    "sharp": "0.35.5",
+    "subset-font": "2.9.0"
   }
 }

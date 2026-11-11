@@ -1,32 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">FDE 参考库 — Field notes.</title>
+  <title id="title">FDE 参考库 — 交付参考</title>
   <desc id="desc">Erick 张建华整理的 {{CASE_COUNT}} 个公开案例、{{LEARNING_COUNT}} 条 Datawhale 学习路径与 {{TOPIC_COUNT}} 类业务场景。外部公开资料，不代表个人项目经历。</desc>
-  <rect width="1200" height="630" fill="#0b0b0c"/>
-  <rect x="64" y="55" width="9" height="9" fill="#ff4a1a"/>
-  <text x="84" y="65" fill="#ff4a1a" font-family="Consolas, 'Courier New', monospace" font-size="15" font-weight="700" letter-spacing="2.4">ERICK ZHANG / READING INDEX</text>
-  <text x="1136" y="65" text-anchor="end" fill="#918e86" font-family="Consolas, 'Courier New', monospace" font-size="15" letter-spacing="1.8">CASES / LEARN / BUILD</text>
-  <line x1="64" y1="100" x2="1136" y2="100" stroke="#ece8df" stroke-opacity=".18"/>
-  <text x="56" y="268" fill="#ece8df" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="150" font-weight="700" letter-spacing="-6">交付参考</text>
-  <text x="62" y="372" fill="none" stroke="#ece8df" stroke-width="2" font-family="'Arial Black', Arial, sans-serif" font-size="84" font-weight="900" letter-spacing="-3">FIELD NOTES.</text>
-  <text x="64" y="446" fill="#918e86" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="24">公开案例 · 学习路线 · 项目方法</text>
-  <line x1="790" y1="140" x2="790" y2="470" stroke="#ece8df" stroke-opacity=".18"/>
-  <g font-family="Impact, 'Arial Narrow', sans-serif" font-size="84" fill="#ff4a1a">
-    <text x="832" y="222">{{CASE_COUNT}}</text>
-    <text x="832" y="338">{{LEARNING_COUNT}}</text>
-    <text x="832" y="454">{{TOPIC_COUNT}}</text>
+  <rect width="1200" height="630" fill="#fbfbf9"/>
+  <path d="M64 58 L88 58 L84 68 L60 68 Z" fill="#ffe14a"/>
+  <text x="100" y="70" fill="#141414" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="22" font-weight="700">张建华的阅读索引</text>
+  <text x="1136" y="70" text-anchor="end" fill="#6a6a66" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="18">公开案例 · 学习路径 · 项目方法</text>
+  <line x1="64" y1="104" x2="1136" y2="104" stroke="#141414" stroke-opacity=".14"/>
+  <g transform="translate(40 0) skewX(-9)">
+    <path d="M392 196 L716 190 L720 352 L388 358 Z" fill="#ffe14a"/>
+    <text x="96" y="326" fill="#141414" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="150" font-weight="700" letter-spacing="-4">交付参考</text>
   </g>
-  <g font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="21" fill="#ece8df">
-    <text x="920" y="212">公开案例</text>
-    <text x="920" y="328">Datawhale 学习路径</text>
-    <text x="920" y="444">业务场景</text>
+  <text x="66" y="430" fill="#3a3a38" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="26">案例、方法与学习资料，可查阅、可对照。</text>
+  <line x1="800" y1="140" x2="800" y2="480" stroke="#141414" stroke-opacity=".14"/>
+  <g font-family="Impact, 'Arial Narrow', sans-serif" font-size="84" fill="#141414">
+    <text x="842" y="222">{{CASE_COUNT}}</text>
+    <text x="842" y="338">{{LEARNING_COUNT}}</text>
+    <text x="842" y="454">{{TOPIC_COUNT}}</text>
   </g>
-  <g stroke="#ece8df" stroke-opacity=".18">
-    <line x1="832" y1="250" x2="1136" y2="250"/>
-    <line x1="832" y1="366" x2="1136" y2="366"/>
+  <g font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="21" fill="#141414">
+    <text x="926" y="212">公开案例</text>
+    <text x="926" y="328">Datawhale 学习路径</text>
+    <text x="926" y="444">业务场景</text>
   </g>
-  <line x1="64" y1="520" x2="1136" y2="520" stroke="#ece8df" stroke-opacity=".18"/>
-  <text x="64" y="572" fill="#ece8df" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="21" font-weight="700">Erick 张建华</text>
-  <text x="230" y="572" fill="#918e86" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="16">外部公开资料 · 阅读与实践参考</text>
-  <text x="1136" y="572" text-anchor="end" fill="#918e86" font-family="Consolas, 'Courier New', monospace" font-size="16">erick-huazi.github.io</text>
-  <rect x="0" y="622" width="1200" height="8" fill="#ff4a1a"/>
+  <g stroke="#141414" stroke-opacity=".14">
+    <line x1="842" y1="250" x2="1136" y2="250"/>
+    <line x1="842" y1="366" x2="1136" y2="366"/>
+  </g>
+  <line x1="64" y1="548" x2="1136" y2="548" stroke="#141414" stroke-opacity=".14"/>
+  <text x="64" y="592" fill="#141414" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="20">外部公开资料 · 阅读与实践参考</text>
+  <text x="1136" y="592" text-anchor="end" fill="#6a6a66" font-family="Arial, sans-serif" font-size="18">erick-huazi.github.io</text>
+  <rect x="0" y="620" width="1200" height="10" fill="#ffe14a"/>
 </svg>

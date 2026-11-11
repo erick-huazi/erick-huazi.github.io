@@ -17,7 +17,7 @@ const cachePath = resolve(root, '.cache/assets-build.json');
 const cacheSchema = 1;
 const targets = { chrome: 110 << 16, safari: (16 << 16) | (4 << 8), firefox: 115 << 16 };
 const cssFiles = [
-  'v70-core.css', 'v70-sections.css', 'v70-overlays.css'
+  'v70-core.css', 'v70-sections.css', 'v70-overlays.css', 'v71-proof.css'
 ];
 const captures = [
   { id: 'jmsai', source: 'src/project-captures/jmsai.png' },
@@ -223,3 +223,4 @@ await writeChanged(resolve(root, 'build-report.json'), Buffer.from(JSON.stringif
 await writeChanged(cachePath, Buffer.from(JSON.stringify(nextCache, null, 2) + '\n'));
 console.log(JSON.stringify(report));
 await import('./build-references.mjs');
+await import('./build-fonts.mjs');

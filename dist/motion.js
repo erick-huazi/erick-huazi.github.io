@@ -1,4 +1,4 @@
-/* v70 "Signal" motion layer.
+/* v71 "校样 / Proof" motion layer.
    Progressive: all content is readable before, after, or without this file.
    html.motion gates every pre-reveal style; the switch and prefers-reduced-motion remove it. */
 (() => {
@@ -21,62 +21,32 @@
   let active = false;
   try { if (window.localStorage.getItem('erick-motion') === 'off') preference = 'off'; } catch { /* storage is optional */ }
 
-  /* ---- Shanghai clock: plain information, runs regardless of the motion switch ---- */
+  /* ---- Shanghai clock in the footer: plain information ---- */
   const clocks = $$('[data-clock]');
   if (clocks.length && typeof Intl === 'object') {
     try {
-      const format = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+      const format = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false });
       const tick = () => {
         if (document.hidden) return;
         const now = format.format(new Date());
         clocks.forEach(clock => { const time = clock.querySelector('time'); if (time) time.textContent = now; clock.hidden = false; });
       };
       tick();
-      window.setInterval(tick, 1000);
+      window.setInterval(tick, 20000);
     } catch { /* keep the clock hidden */ }
   }
 
-  /* ---- fit display type to its container ---- */
-  const hero = $('.hero');
-  const wordmark = $('[data-vf]');
-  const heroRules = $('.hero-rules');
-  let letters = [];
-  let letterRow = null;
-  if (wordmark) {
-    const text = wordmark.textContent.trim();
-    const label = document.createElement('span');
-    label.className = 'sr-only';
-    label.textContent = text;
-    letterRow = document.createElement('span');
-    letterRow.className = 'vf-row';
-    letterRow.setAttribute('aria-hidden', 'true');
-    for (const character of text) {
-      const span = document.createElement('span');
-      if (character === ' ') span.className = 'sp';
-      else { span.textContent = character; letters.push(span); }
-      letterRow.append(span);
-    }
-    wordmark.replaceChildren(label, letterRow);
-  }
-  const levels = letters.map(() => 0);
-  function paintLetter(span, level) {
-    span.style.setProperty('--a', level.toFixed(3));
-    span.style.setProperty('--wg', String(Math.round(560 + 340 * level)));
-    span.style.setProperty('--wd', (90 + 35 * level).toFixed(1));
-  }
+  /* ---- fit the footer wordmark to its container ---- */
   function fitText() {
     for (const element of $$('[data-fit]')) {
-      const row = element === wordmark ? letterRow : element.firstElementChild;
+      const row = element.firstElementChild;
       const style = window.getComputedStyle(element);
       const box = element.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
       if (!row || !(box > 0)) continue;
-      if (element === wordmark) letters.forEach(span => paintLetter(span, 0));
       element.style.fontSize = '100px';
       const width = row.getBoundingClientRect().width;
       if (!width) { element.style.removeProperty('font-size'); continue; }
-      const ratio = Number(element.dataset.fit) || 1;
-      const limit = Number(element.dataset.fitVh) ? window.innerHeight * Number(element.dataset.fitVh) / 100 : Infinity;
-      element.style.fontSize = `${Math.min(100 * box * ratio / width, limit).toFixed(1)}px`;
+      element.style.fontSize = `${(100 * box * (Number(element.dataset.fit) || 1) / width).toFixed(1)}px`;
     }
   }
 
@@ -100,40 +70,70 @@
     inner.append(...element.childNodes);
     element.append(inner);
   }
-  const scrambleTargets = new WeakSet($$('.section-number,.reference-teaser-label,.eyebrow'));
-  const glyphs = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789/#+';
-  function scramble(element) {
-    const final = element.textContent;
-    const characters = [...final];
-    let frame = 0;
-    const total = 16;
-    const timer = window.setInterval(() => {
-      frame += 1;
-      if (!active || frame >= total) { window.clearInterval(timer); element.textContent = final; return; }
-      const settled = frame / total * characters.length;
-      element.textContent = characters.map((character, index) =>
-        index < settled || !/[A-Za-z0-9]/.test(character) ? character : glyphs[Math.floor(Math.random() * glyphs.length)]).join('');
-    }, 38);
+
+  /* ---- hand-drawn notes: rough-notation, loaded only when motion is on ---- */
+  const noteTargets = $$('[data-note]');
+  const notes = new Map();
+  let annotate = null;
+  let notesLoading = null;
+  const noteStyles = {
+    highlight: { type: 'highlight', color: '#ffe14a', iterations: 1, multiline: true, animationDuration: 700 },
+    underline: { type: 'underline', color: '#141414', strokeWidth: 3, padding: 2, iterations: 2, animationDuration: 700 },
+    circle: { type: 'circle', color: '#141414', strokeWidth: 2.5, padding: [6, 12], iterations: 2, animationDuration: 900 },
+    box: { type: 'box', color: '#141414', strokeWidth: 2.5, padding: 6, iterations: 2, animationDuration: 800 }
+  };
+  function loadNotes() {
+    if (!noteTargets.length) return Promise.resolve(false);
+    notesLoading ||= import('./assets/vendor/rough-notation.esm.js')
+      .then(module => { annotate = module.annotate; root.classList.add('notes-ready'); return true; })
+      .catch(() => false);
+    return notesLoading;
   }
-  const revealTargets = $$('[data-reveal],.rv,.case-product-preview,.section-number,.reference-teaser-label,.eyebrow');
+  function showNote(element, delay) {
+    if (!active || notes.has(element)) return;
+    // Measure only after the display face has replaced the fallback.
+    const displayFace = document.fonts?.load ? document.fonts.load('1em "Smiley Sans"', element.textContent || '字').catch(() => null) : null;
+    Promise.all([loadNotes(), displayFace]).then(([ready]) => {
+      if (!ready || !active || notes.has(element)) return;
+      const note = annotate(element, noteStyles[element.dataset.note] || noteStyles.underline);
+      notes.set(element, note);
+      window.setTimeout(() => {
+        if (!active || notes.get(element) !== note) return;
+        element.closest('[data-reveal]')?.classList.add('noted');
+        note.show();
+      }, delay);
+    });
+  }
+  function clearNotes() {
+    notes.forEach(note => note.remove());
+    notes.clear();
+    root.classList.remove('notes-ready');
+    $$('[data-reveal].noted').forEach(element => element.classList.remove('noted'));
+  }
+
+  const revealTargets = $$('[data-reveal],.rv,.case-product-preview');
   let revealObserver = null;
+  let noteObserver = null;
   if ('IntersectionObserver' in window) {
     revealObserver = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         entry.target.classList.add('in');
-        if (active && scrambleTargets.has(entry.target)) scramble(entry.target);
         revealObserver.unobserve(entry.target);
       }
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.06 });
     revealTargets.forEach(element => revealObserver.observe(element));
+    noteObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        // Headline wrappers finish sliding before the pen comes down.
+        showNote(entry.target, entry.target.closest('.hero') ? 1100 : 1000);
+      }
+    }, { rootMargin: '0px 0px -14% 0px', threshold: 0.5 });
+    noteTargets.forEach(element => noteObserver.observe(element));
   } else revealTargets.forEach(element => element.classList.add('in'));
 
   /* ---- scroll-linked values: one passive listener, one frame ---- */
-  const progressBar = document.createElement('div');
-  progressBar.className = 'progress';
-  progressBar.setAttribute('aria-hidden', 'true');
-  body.append(progressBar);
   const statement = $('.about-statement');
   let words = [];
   let litCount = -1;
@@ -155,11 +155,6 @@
   }
   const processList = $('.delivery-strip ol');
   const processSteps = processList ? $$(':scope > li', processList) : [];
-  const caseHeadings = $$('.case-heading');
-  const marqueeTrack = $('.marquee-track');
-  let marqueeAnimation = null;
-  let marqueeRate = 1;
-  let lastScroll = window.scrollY;
   let scrollFrame = 0;
   function lightWords(count) {
     if (count === litCount) return;
@@ -168,10 +163,8 @@
   }
   function updateScroll() {
     scrollFrame = 0;
-    const viewport = Math.max(window.innerHeight, 1);
-    const scrollable = Math.max(root.scrollHeight - viewport, 1);
-    progressBar.style.setProperty('--scroll', clamp(window.scrollY / scrollable).toFixed(4));
     if (!active) return;
+    const viewport = Math.max(window.innerHeight, 1);
     if (words.length) {
       const rect = statement.getBoundingClientRect();
       lightWords(Math.round(clamp((viewport * 0.86 - rect.top) / (viewport * 0.46 + rect.height * 0.5)) * words.length));
@@ -182,72 +175,14 @@
       processList.style.setProperty('--process', progress.toFixed(3));
       processSteps.forEach((step, index) => step.classList.toggle('on', progress > (index + 0.35) / processSteps.length));
     }
-    for (const heading of caseHeadings) {
-      const rect = heading.getBoundingClientRect();
-      if (rect.bottom < -200 || rect.top > viewport + 200) continue;
-      heading.style.setProperty('--drift', ((rect.top + rect.height / 2 - viewport / 2) / viewport * -34).toFixed(1));
-    }
-    const delta = window.scrollY - lastScroll;
-    lastScroll = window.scrollY;
-    if (marqueeTrack && Math.abs(delta) > 1) {
-      marqueeAnimation ||= marqueeTrack.getAnimations?.()[0] || null;
-      marqueeRate = Math.min(1 + Math.abs(delta) / 6, 9);
-    }
   }
   function requestScrollUpdate() { if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updateScroll); }
   window.addEventListener('scroll', requestScrollUpdate, { passive: true });
 
-  /* ---- hero wordmark: variable-font proximity, idle wave without a pointer ---- */
-  let pointerX = -1e5, pointerY = -1e5, pointerSeen = 0;
-  let heroVisible = true;
-  let loopFrame = 0;
-  let idle = 1;
-  function loop(now) {
-    loopFrame = 0;
-    if (!active) return;
-    if (marqueeAnimation) {
-      marqueeRate += (1 - marqueeRate) * 0.06;
-      marqueeAnimation.playbackRate = marqueeRate;
-    }
-    if (heroVisible && letters.length && !document.hidden) {
-      const centres = letters.map(span => { const rect = span.getBoundingClientRect(); return [rect.left + rect.width / 2, rect.top + rect.height / 2]; });
-      const radius = Math.max(window.innerWidth * 0.26, 220);
-      const pointerActive = now - pointerSeen < 2400;
-      idle += ((pointerActive ? 0 : 1) - idle) * 0.04;
-      letters.forEach((span, index) => {
-        const distance = Math.hypot(centres[index][0] - pointerX, centres[index][1] - pointerY);
-        const near = clamp(1 - distance / radius);
-        const wave = (0.5 + 0.5 * Math.sin(now * 0.0011 - index * 0.62)) ** 3;
-        const target = Math.max(near * near * (3 - 2 * near) * (1 - idle * 0.5), wave * idle);
-        levels[index] += (target - levels[index]) * 0.11;
-        paintLetter(span, levels[index]);
-      });
-    }
-    schedule();
-  }
-  function schedule() {
-    if (!loopFrame && active && !document.hidden && (heroVisible || marqueeRate > 1.02)) loopFrame = window.requestAnimationFrame(loop);
-  }
-  window.addEventListener('pointermove', event => {
-    if (event.pointerType === 'touch') return;
-    pointerX = event.clientX; pointerY = event.clientY; pointerSeen = performance.now();
-    if (active && heroVisible && heroRules) {
-      const rect = heroRules.getBoundingClientRect();
-      heroRules.style.setProperty('--mx', `${(pointerX - rect.left).toFixed(0)}px`);
-      heroRules.style.setProperty('--my', `${(pointerY - rect.top).toFixed(0)}px`);
-      heroRules.style.setProperty('--spot', pointerY < rect.bottom ? '1' : '0');
-    }
-    moveCursor();
-  }, { passive: true });
-  if (hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; schedule(); }).observe(hero);
-  }
-  window.addEventListener('scroll', schedule, { passive: true });
-  document.addEventListener('visibilitychange', schedule);
-
-  /* ---- cursor companion (fine pointers only) ---- */
+  /* ---- hero prints drift with the pointer; preview label follows it ---- */
+  const stack = $('.hero-stack');
   let cursor = null;
-  let cursorX = 0, cursorY = 0, cursorFrame = 0, cursorPlaced = false;
+  let pointerX = 0, pointerY = 0, cursorX = 0, cursorY = 0, cursorFrame = 0, cursorPlaced = false;
   function drawCursor() {
     cursorFrame = 0;
     if (!cursor) return;
@@ -256,21 +191,26 @@
     cursor.style.transform = `translate3d(${cursorX.toFixed(1)}px,${cursorY.toFixed(1)}px,0)`;
     if (Math.abs(pointerX - cursorX) + Math.abs(pointerY - cursorY) > 0.4) cursorFrame = window.requestAnimationFrame(drawCursor);
   }
-  function moveCursor() {
+  window.addEventListener('pointermove', event => {
+    if (event.pointerType === 'touch' || !active) return;
+    pointerX = event.clientX; pointerY = event.clientY;
+    if (stack && window.scrollY < window.innerHeight) {
+      stack.style.setProperty('--px', ((pointerX / window.innerWidth - 0.5) * -14).toFixed(2));
+      stack.style.setProperty('--py', ((pointerY / window.innerHeight - 0.5) * -10).toFixed(2));
+    }
+    if (cursor) {
+      if (!cursorPlaced) { cursorX = pointerX; cursorY = pointerY; cursorPlaced = true; }
+      if (!cursorFrame) cursorFrame = window.requestAnimationFrame(drawCursor);
+    }
+  }, { passive: true });
+  document.addEventListener('pointerover', event => {
     if (!cursor) return;
-    if (!cursorPlaced) { cursorX = pointerX; cursorY = pointerY; cursorPlaced = true; }
-    cursor.classList.add('on');
-    if (!cursorFrame) cursorFrame = window.requestAnimationFrame(drawCursor);
-  }
-  function describeCursor(target) {
-    if (!cursor) return;
-    const element = target instanceof Element ? target : null;
-    const preview = element?.closest('.case-product-preview,.wechat-preview');
-    const link = !preview && element?.closest('a,button,summary,select,[role="option"]');
-    cursor.dataset.label = preview ? (preview.matches('.wechat-preview') ? '放大' : '访问 ↗') : '';
+    const element = event.target instanceof Element ? event.target : null;
+    const preview = element?.closest('.case-product-preview,.wechat-preview,.hero-shot');
+    cursor.dataset.label = preview ? (preview.matches('.wechat-preview') ? '放大' : preview.matches('.hero-shot') ? '看作品' : '访问 ↗') : '';
     cursor.classList.toggle('is-label', Boolean(preview));
-    cursor.classList.toggle('is-link', Boolean(link));
-  }
+    cursor.classList.toggle('on', Boolean(preview));
+  }, { passive: true });
   function setCursor(enabled) {
     if (enabled && !cursor) {
       cursor = document.createElement('div');
@@ -283,25 +223,23 @@
       root.classList.remove('has-cursor');
     }
   }
-  document.addEventListener('pointerover', event => describeCursor(event.target), { passive: true });
-  document.addEventListener('pointerleave', () => cursor?.classList.remove('on'));
-  root.addEventListener('mouseleave', () => cursor?.classList.remove('on'));
 
   /* ---- switch ---- */
   function apply() {
     active = preference === 'on' && !reduced.matches;
     root.classList.toggle('motion', active);
     body.classList.toggle('motion-paused', !active);
-    letterRow?.classList.toggle('live', active);
     if (!active) {
-      letters.forEach(span => ['--a', '--wg', '--wd'].forEach(name => span.style.removeProperty(name)));
+      clearNotes();
       lightWords(words.length);
       litCount = -1;
       processList?.style.removeProperty('--process');
       processSteps.forEach(step => step.classList.add('on'));
-      caseHeadings.forEach(heading => heading.style.removeProperty('--drift'));
-      if (marqueeAnimation) marqueeAnimation.playbackRate = 1;
-      heroRules?.style.setProperty('--spot', '0');
+      stack?.style.removeProperty('--px');
+      stack?.style.removeProperty('--py');
+    } else {
+      // Re-arm notes for headings already on screen.
+      noteTargets.forEach(element => { noteObserver?.unobserve(element); noteObserver?.observe(element); });
     }
     setCursor(active && finePointer.matches);
     toggles.forEach(toggle => {
@@ -312,7 +250,6 @@
     });
     fitText();
     requestScrollUpdate();
-    schedule();
   }
   toggles.forEach(toggle => toggle.addEventListener('click', () => {
     preference = active ? 'off' : 'on';
@@ -323,7 +260,5 @@
   finePointer.addEventListener?.('change', apply);
   window.addEventListener('resize', () => { fitText(); requestScrollUpdate(); }, { passive: true });
   document.fonts?.ready.then(fitText);
-  window.addEventListener('pagehide', () => { window.cancelAnimationFrame(loopFrame); loopFrame = 0; });
-  window.addEventListener('pageshow', schedule);
   apply();
 })();

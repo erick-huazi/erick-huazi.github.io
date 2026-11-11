@@ -209,3 +209,29 @@
   .reference-page *,.reference-page *::before,.reference-page *::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
 .reference-page.motion-paused *,.reference-page.motion-paused *::before,.reference-page.motion-paused *::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+
+/* v71 "Proof" overrides for this page */
+.ref-header,.ref-reading-nav{background:rgba(251,251,249,.9)}
+.ref-kicker{font:400 clamp(17px,1.5vw,21px)/1.3 var(--f-display);letter-spacing:.02em;text-transform:none;color:var(--bone)}
+.ref-kicker::before{width:22px;height:9px;background:var(--hl);transform:skewX(-14deg)}
+.ref-learning-word{display:none}
+.ref-hero h1,.ref-section h2,.ref-card h3,.ref-steps h3,.ref-compare-cell h4,.ref-compare-group-title,.ref-empty h3{font-family:var(--f-display);font-weight:400;font-synthesis:none;letter-spacing:0}
+.ref-hero h1 span{color:var(--mute);-webkit-text-stroke:0;font-family:var(--f-display);font-weight:400;font-stretch:normal;text-transform:none;letter-spacing:0}
+.ref-stats b,.ref-steps b{font-size:clamp(52px,5.4vw,80px)}
+.ref-application{--label:var(--hl);border-radius:6px}
+.ref-application .ref-kicker{color:#fbfbf9}
+.ref-steps b{color:var(--hl)}
+.ref-template-actions a{border-color:#fbfbf9}
+.ref-template-actions a:first-child{background:var(--hl);border-color:var(--hl);color:#141414}
+.ref-template-actions a::before{background:#fbfbf9}
+.ref-template-actions a:hover{color:#141414}
+.ref-card:target,.ref-card:focus-visible{box-shadow:inset 0 0 0 2px #141414}
+.ref-card-number,.ref-type,.ref-outline a span:first-child,.ref-compare-type,.ref-compare-group-title span,.ref-selected-remove{color:var(--mute)}
+.ref-filters button,.ref-tags span,#ref-selected-items button,.ref-compare-actions button,.ref-compare-header-actions button,#ref-empty-reset{border-radius:999px}
+.ref-search-row{border-radius:8px;overflow:hidden}
+.ref-compare-tray{border-top-color:#141414;background:#fbfbf9;box-shadow:0 -12px 40px rgba(20,20,20,.12)}
+#ref-compare-open:not([disabled]){background:var(--hl);border-color:#141414;color:#141414}
+.ref-select[aria-pressed="true"]{background:var(--hl);border-color:#141414;color:#141414}
+.ref-compare-cell:nth-child(1) .ref-compare-letter{background:var(--hl);color:#141414}
+.ref-outline a:hover,.ref-nav a:hover,.ref-case-detail summary:hover,.ref-learning-notes summary:hover{color:var(--bone);text-decoration:underline;text-decoration-thickness:3px;text-decoration-color:var(--hl);text-underline-offset:4px}
+.ref-nav a:last-child{border-radius:999px}

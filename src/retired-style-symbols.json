@@ -6,7 +6,8 @@
   ],
   "sourceAliases": {
     "dist/assets/quick-search.mjs": "src/quick-search.mjs",
-    "dist/assets/vendor/fuse.basic.min.mjs": "node_modules/fuse.js/dist/fuse.basic.min.mjs"
+    "dist/assets/vendor/fuse.basic.min.mjs": "node_modules/fuse.js/dist/fuse.basic.min.mjs",
+    "dist/assets/vendor/rough-notation.esm.js": "node_modules/rough-notation/lib/rough-notation.esm.js"
   },
   "groups": [
     {
