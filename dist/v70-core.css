@@ -124,6 +124,16 @@ kbd{font:500 11px/1 var(--f-mono);border:1px solid var(--line);padding:3px 5px;c
 .marquee-track i{font-style:normal;color:var(--accent)}
 body.motion-paused .marquee-track{animation-play-state:paused}
 @keyframes marquee{to{transform:translate3d(-50%,0,0)}}
+@media (max-width:1000px){
+  .hero-cn{font-size:min(19vw,22vh)}
+  .hero-lead,.hero-side{grid-column:1/-1}
+  .hero-lead{font-size:clamp(24px,4.6vw,40px)}
+  .hero-description{max-width:38em}
+}
+@media (max-width:1000px) and (min-height:900px){
+  .hero{min-height:0}
+  .hero-inner{justify-content:flex-start;gap:clamp(36px,5vh,64px);padding-block:clamp(28px,4vh,48px)}
+}
 @media (max-width:760px){
   .hero-cn{font-size:min(21vw,16vh)}
   .hero-en{font-size:min(11.2vw,12vh)}
