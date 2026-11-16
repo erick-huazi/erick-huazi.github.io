@@ -44,7 +44,7 @@
 .is-bleed .case-artwork{border-radius:0}
 .case-shot{display:block;position:relative;container-type:inline-size}
 .case-artwork img{width:100%;height:auto}
-.case-product-preview:hover .case-sheet,.case-product-preview:focus-visible .case-sheet{transform:translateY(-6px);box-shadow:0 0 0 1px rgba(20,20,20,.14),0 44px 80px -30px rgba(20,20,20,.55)}
+a.case-product-preview:hover .case-sheet,a.case-product-preview:focus-visible .case-sheet{transform:translateY(-6px);box-shadow:0 0 0 1px rgba(20,20,20,.14),0 44px 80px -30px rgba(20,20,20,.55)}
 .case-preview-visit{position:absolute;right:12px;bottom:12px;z-index:3;background:#141414;color:#fbfbf9;border-radius:999px;padding:10px 16px;font:600 13px/1 var(--f-sans)}
 /* Proof marks: a pen circle around one part of the screen and a marker tag naming it. */
 .proof-mark{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);pointer-events:none;border:2.5px solid #141414;border-radius:50%}

@@ -206,3 +206,11 @@ v70 的深色+橙色+等宽小标签仍然像模板，这一版换成“纸、�
 - 首屏相片上的手写名称、留白和作品截图上的荧光标签都按各自容器宽度缩放（容器查询单位 `cqw`），任何窗口宽度下都不会被下一张相片或截图边缘挡住。标签靠近截图右边缘时加 `data-edge="right"`，小屏上会改为贴右边缘排。
 - 星萝塔罗用的是主题示意图而不是截图，所以它的样张不带网址条（`.case-sheet` 不写 `data-url` 即可）。拿到真实截图后：把图放进 `src/project-captures/`，在 `scripts/build-assets.mjs` 的 `captures` 里登记，再把这一条改回带 `data-url` 的写法并补上批注。
 - 页脚标语“现实”下有一道黄色手绘线；参考库标题去掉了英文副题，改为“参考”二字带荧光笔底纹；各处“＋”展开后统一转成“×”。
+
+星萝塔罗的访问入口（2026-11-16 暂时隐藏）：当天 astrrot.com 多次返回 522，无法打开，所以首页这一条不再把访客带过去。改了三处，站点恢复后照此改回：
+
+- 底板从 `<a class="case-product-preview" href="https://astrrot.com/" target="_blank" rel="noopener noreferrer">` 改成了 `<div class="case-product-preview">`，并去掉了里面的 `<span class="sr-only">访问产品（新窗口）：</span>` 和 `<span class="case-preview-visit" aria-hidden="true">访问项目 <span>↗</span></span>`。
+- 图注里的 `astrrot.com ↗` 去掉了箭头。
+- `.case-footer` 里的“体验星萝塔罗”按钮（`<a class="btn" href="https://astrrot.com/" …>`，写法同其他作品）删除了，只留“聊聊类似需求”。
+
+样式上只有 `a.case-product-preview` 才有悬停抬起和“访问”光标提示，所以没有可访问地址的作品用 `div` 即可。结构化数据里的产品网址没有动。

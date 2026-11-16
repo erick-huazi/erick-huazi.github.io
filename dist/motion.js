@@ -220,7 +220,7 @@
   document.addEventListener('pointerover', event => {
     if (!cursor) return;
     const element = event.target instanceof Element ? event.target : null;
-    const preview = element?.closest('.case-product-preview,.wechat-preview,.hero-shot');
+    const preview = element?.closest('a.case-product-preview,.wechat-preview,.hero-shot');
     cursor.dataset.label = preview ? (preview.matches('.wechat-preview') ? '放大' : preview.matches('.hero-shot') ? '看作品' : '访问 ↗') : '';
     cursor.classList.toggle('is-label', Boolean(preview));
     cursor.classList.toggle('on', Boolean(preview));
