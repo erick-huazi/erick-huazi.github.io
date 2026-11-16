@@ -11,7 +11,7 @@ const pages = ['dist/index.html', 'dist/references.html', 'dist/404.html'];
 // Display type: headings plus the few classes styled with the display face.
 const displayClasses = ['hero-lead', 'footer-cta', 'footer-wordmark', 'archive-heading', 'archive-deck',
   'qr-person', 'ref-intro', 'number', 'shelf-title', 'about-statement', 'case-deck', 'live-badge', 'section-number',
-  'reference-teaser-label', 'eyebrow', 'ref-kicker', 'hero-shot-label'];
+  'reference-teaser-label', 'eyebrow', 'ref-kicker', 'hero-shot-label', 'hero-tip', 'proof-tag', 'nav-links'];
 // Headings written by scripts at run time (comparison dialog, viewer).
 const runtimeText = '案例概览业务问题做法借鉴到项目资料边界原文与核验补充资料作品实屏逐项对照需求已整理。';
 const always = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'

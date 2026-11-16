@@ -1,60 +1,70 @@
-/* v71 "校样 / Proof" — paper, ink, one marker colour, a drawn display face.
-   Loaded after the v70 component files. The root tokens in v70-core.css were re-valued for a
-   light page (--ink is now the paper, --bone the ink); this file sets the inverted scopes,
-   the display type, the new hero, and removes the decorative devices of v70. */
+/* "校样 / Proof" theme layer — paper, ink, one marker colour, a drawn display face.
+   Loaded after the component files. Root tokens in v70-core.css are valued for a light page
+   (--ink is the paper, --bone the ink); this file sets the display type, the hero,
+   the hand-drawn notes, the inverted section scopes and the overlay look. */
 @font-face{font-family:"Smiley Sans";font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/smiley-sans-subset.woff2) format("woff2")}
 :root{--hl:#ffe14a;--f-display:"Smiley Sans",Archivo,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei UI","Microsoft YaHei",sans-serif;--btn-hover-bg:var(--hl);--btn-hover-fg:#141414}
 html,body{background:#fbfbf9}
 ::selection{background:var(--hl);color:#141414}
 :focus-visible{outline-color:#141414}
+@view-transition{navigation:auto}
 
 /* ---- display type: one drawn face for every headline and numeral ---- */
-h1,h2,h3,h4,.hero-lead,.footer-cta,.footer-wordmark,.archive-heading strong,.archive-deck,.qr-person,.qr-account strong,.offer-num,.hero-facts b,.delivery-strip li b,.ref-stats b,.ref-steps b,.ref-intro,.channel-wechat strong,.channel-phone>a,.channel-email>a,.contact-tools p,.inquiry-details>summary strong,.ref-template-note p:last-child,.about-statement,.case-deck{font-family:var(--f-display);font-weight:400;font-stretch:normal;font-synthesis:none;letter-spacing:0}
+h1,h2,h3,h4,.hero-lead,.footer-cta,.footer-wordmark,.archive-heading strong,.archive-deck,.qr-person,.qr-account strong,.offer-num,.hero-facts b,.delivery-strip li b,.ref-stats b,.ref-steps b,.ref-intro,.channel-wechat strong,.channel-phone>a,.channel-email>a,.inquiry-details>summary strong,.ref-template-note p:last-child,.about-statement,.case-deck{font-family:var(--f-display);font-weight:400;font-stretch:normal;font-synthesis:none;letter-spacing:0}
 h2{font-size:clamp(44px,7.2vw,116px);line-height:1.08}
-.case-row h3{font-size:clamp(34px,4.8vw,74px);line-height:1.08}
 .offer h3{font-size:clamp(26px,3vw,42px)}
 .about-statement{font-size:clamp(26px,3.3vw,48px);line-height:1.32}
-.case-deck{font-size:clamp(18px,1.8vw,24px);color:var(--fg)}
 
-/* ---- labels: plain words with a marker tick instead of numbered mono kickers ---- */
+/* ---- labels: plain words with a marker tick ---- */
 .section-number,.reference-teaser-label,.eyebrow,.ref-kicker{font:400 clamp(17px,1.5vw,21px)/1.3 var(--f-display);letter-spacing:.02em;text-transform:none;color:var(--fg);gap:10px}
 .section-number::before,.reference-teaser-label::before,.eyebrow::before,.ref-kicker::before{width:22px;height:9px;background:var(--hl);transform:skewX(-14deg)}
-.case-eyebrow,.work-index-heading,.archive-index,.case-journey-label,.case-facts dt,.archive-facts dt,.about-facts dt,.knowledge-notes dt,.hero-facts dt,.shelf-meta,.contact-channel h3,.contact-tools-label,.offer-preview,.offer-toggle,.offer-example-label,.automation-map p,.offer-deliverables-title,.about-role,.delivery-heading>span,.letter-kicker,.inquiry-step,.contact-card-heading span,.quick-title-stack small,.qr-dialog-head p,.copy-dialog-heading p,.qr-account span,.project-viewer-header p,.viewer-gallery-heading,.ref-index-label,.ref-card-top,.ref-type,.ref-facts dt,.ref-search-label,.ref-reading-label,.ref-compare-identity,.ref-compare-type,.ref-compare-fact dt,.footer-inner{letter-spacing:.02em;text-transform:none}
-.case-heading::before,.shelf-wordmark,.ref-learning-word,.progress{display:none}
-.case-heading{display:block}
+html.motion .section-number::before,html.motion .reference-teaser-label::before,html.motion .eyebrow::before{transform:skewX(-14deg) scaleX(0);transform-origin:left;transition:transform .7s var(--ease) .1s}
+html.motion .section-number.in::before,html.motion .reference-teaser-label.in::before,html.motion .eyebrow.in::before{transform:skewX(-14deg)}
+.work-index-heading,.archive-index,.hero-facts dt,.shelf-meta,.contact-channel h3,.contact-tools-label,.offer-preview,.offer-toggle,.offer-example-label,.automation-map p,.offer-deliverables-title,.about-role,.letter-kicker,.inquiry-step,.contact-card-heading span,.quick-title-stack small,.qr-dialog-head p,.copy-dialog-heading p,.qr-account span,.project-viewer-header p,.viewer-gallery-heading,.ref-index-label,.ref-card-top,.ref-type,.ref-facts dt,.ref-search-label,.ref-reading-label,.ref-compare-identity,.ref-compare-type,.ref-compare-fact dt,.footer-inner{letter-spacing:.02em;text-transform:none}
+.ref-learning-word{display:none}
 
-/* ---- navigation ---- */
-.nav,.ref-header,.ref-reading-nav{background:rgba(251,251,249,.9)}
-.nav-links .nav-cta:hover,.ref-nav a:last-child:hover{background:var(--hl);color:#141414}
-.nav-links a[aria-current]:not(.nav-cta){color:var(--bone)}
-.brand-alias{color:var(--mute)}
+/* ---- navigation and controls ---- */
+.ref-header,.ref-reading-nav{background:rgba(251,251,249,.9)}
+.ref-nav a:last-child:hover{background:var(--hl);color:#141414}
 .btn,.delivery-primary,.delivery-secondary,.reference-teaser-link,.nav-links .nav-cta,.plain-button,.contact-save,.ref-select,.ref-template-actions a,.quick-trigger,.menu,#motion-toggle{border-radius:999px}
 .btn:hover,.delivery-primary:hover{border-color:#141414}
 
 /* ---- hero: statement, real screens, facts ---- */
-.hero{min-height:0;border-bottom:1px solid var(--line);overflow:visible}
-.hero-inner{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,4vw,72px) clamp(24px,4vw,80px);align-items:center;padding-block:clamp(40px,7vh,96px) clamp(24px,4vh,48px)}
+.hero{position:relative;padding-top:var(--nav-h);border-bottom:1px solid var(--line)}
+.hero-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,3.4vw,56px) clamp(24px,4vw,80px);align-items:center;padding-block:clamp(36px,6vh,84px) clamp(22px,3.6vh,44px)}
 .hero-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font-size:clamp(22px,2.2vw,30px);line-height:1.2}
 .hero-title span{color:var(--mute)}
 .hero-title small{font:400 14px/1.4 var(--f-sans);color:var(--mute);margin-left:6px}
-.hero-lead{grid-column:auto;font-size:clamp(46px,7.4vw,124px);line-height:1.06;margin:clamp(14px,2.4vh,28px) 0 clamp(20px,3.4vh,40px);letter-spacing:0}
+.hero-lead{position:relative;font-size:clamp(46px,min(7.4vw,13.4vh),124px);line-height:1.06;margin:clamp(14px,2.4vh,28px) 0 clamp(20px,3.4vh,40px)}
 .hero-lead mark{line-height:1;display:inline-block}
 .hero-lead mark,.note-fallback{background:linear-gradient(transparent 12%,var(--hl) 12%,var(--hl) 92%,transparent 92%);color:inherit;padding-inline:.06em;margin-inline:-.06em}
 html.notes-ready .hero-lead mark,html.notes-ready .note-fallback{background:none}
-.hero-description{font-size:clamp(16px,1.3vw,19px);color:var(--bone-2);max-width:30em;margin-bottom:26px}
-.hero-stack{position:relative;aspect-ratio:1/1.02;max-height:min(72vh,640px);justify-self:end;width:100%}
-.hero-shot{position:absolute;display:block;background:#fff;padding:8px 8px 30px;box-shadow:0 1px 0 rgba(20,20,20,.08),0 18px 50px -18px rgba(20,20,20,.38);transform:translate3d(calc(var(--px,0)*var(--depth,1)*1px),calc(var(--py,0)*var(--depth,1)*1px),0) rotate(var(--tilt,0deg));transition:transform .7s var(--ease),box-shadow .5s;will-change:transform}
+.hero-description{font-size:clamp(16px,1.3vw,19px);color:var(--bone-2);margin-bottom:26px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+/* The pile keeps its proportions when the viewport is short, so the prints never spill onto the facts. */
+.hero-stack{position:relative;justify-self:end;width:min(100%,calc(min(66vh,620px)*1.03));aspect-ratio:1/.97;container-type:inline-size}
+.hero-shot{position:absolute;display:block;background:#fff;padding:clamp(5px,1.3cqw,8px) clamp(5px,1.3cqw,8px) clamp(21px,4.9cqw,30px);box-shadow:0 1px 0 rgba(20,20,20,.08),0 18px 50px -18px rgba(20,20,20,.38);transform:translate3d(calc(var(--dx,0px) + var(--px,0)*var(--depth,1)*1px),calc(var(--dy,0px) + var(--py,0)*var(--depth,1)*1px + var(--sy,0)*var(--depth,1)*-30px),0) rotate(calc(var(--tilt,0deg) + var(--sy,0)*var(--spin,0deg)));transition:transform .7s var(--ease),box-shadow .5s;will-change:transform;-webkit-user-drag:none;user-select:none}
+/* A print can be picked up and moved with a mouse or pen. */
+.hero-shot img{-webkit-user-drag:none}
+.hero-shot.is-dragging{transition:box-shadow .3s;cursor:grabbing;--tilt:0deg!important;--spin:0deg!important;box-shadow:0 1px 0 rgba(20,20,20,.08),0 44px 90px -24px rgba(20,20,20,.55)}
 .hero-shot img{width:100%;height:auto;display:block}
-.hero-shot-label{position:absolute;left:10px;bottom:6px;font:400 15px/1 var(--f-display);color:#141414}
-.hero-shot:hover,.hero-shot:focus-visible{--tilt:0deg!important;z-index:5;box-shadow:0 1px 0 rgba(20,20,20,.08),0 30px 70px -20px rgba(20,20,20,.5)}
-.hero-shot:nth-child(1){--tilt:-5deg;--depth:.5;width:62%;left:0;top:2%}
-.hero-shot:nth-child(2){--tilt:4deg;--depth:1.1;width:60%;right:0;top:20%}
-.hero-shot:nth-child(3){--tilt:-2.5deg;--depth:1.7;width:58%;left:9%;top:50%}
-.hero-shot:nth-child(4){--tilt:6deg;--depth:2.2;width:30%;right:3%;top:58%}
+/* Sized from the pile (cqw), so a caption always ends before the next print begins. */
+.hero-shot-label{position:absolute;left:clamp(7px,1.6cqw,10px);bottom:clamp(5px,1cqw,6px);font:400 clamp(10px,2.55cqw,15px)/1 var(--f-display);color:#141414;white-space:nowrap}
+.hero-shot:hover,.hero-shot:focus-visible{--tilt:0deg!important;--spin:0deg!important;z-index:5;box-shadow:0 1px 0 rgba(20,20,20,.08),0 30px 70px -20px rgba(20,20,20,.5)}
+/* Fanned down the diagonal so every caption stays readable. */
+.hero-shot:nth-child(1){--tilt:-5deg;--spin:-4deg;--depth:.5;width:58%;left:0;top:3%}
+.hero-shot:nth-child(2){--tilt:3deg;--spin:5deg;--depth:1.1;width:56%;left:28%;top:17%}
+.hero-shot:nth-child(3){--tilt:-2deg;--spin:-3deg;--depth:1.7;width:50%;left:46%;top:40%}
+.hero-shot:nth-child(4){--tilt:5deg;--spin:7deg;--depth:2.2;width:27%;left:72%;top:64%}
 .hero-shot:nth-child(4) img{aspect-ratio:1/1.05;object-fit:cover;object-position:top}
-.hero-facts{grid-column:1/-1;border-top:1px solid var(--line)}
+/* A pencilled aside with an arrow, the way a designer marks a contact sheet. */
+.hero-tip{position:absolute;left:3%;bottom:10%;display:flex;align-items:flex-end;gap:8px;font:400 clamp(15px,1.5vw,21px)/1 var(--f-display);letter-spacing:.02em;transform:rotate(-4deg);pointer-events:none}
+.hero-tip svg{width:clamp(40px,4.6vw,66px);height:auto;margin-bottom:.55em;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.hero-facts{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+.hero-facts div{padding:14px 16px 0 0}
 .hero-facts dt{font:500 12px/1.4 var(--f-sans);color:var(--mute)}
-.hero-facts b{font-size:34px}
+.hero-facts dd{font-size:14px;margin-top:4px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.hero-facts b{font-size:34px;line-height:1}
 html.motion .hero-title,html.motion .hero-description,html.motion .hero-actions,html.motion .hero-facts{animation:fade-up .9s var(--ease) backwards}
 html.motion .hero-lead{animation:wipe-up 1.1s var(--ease) .08s backwards}
 html.motion .hero-description{animation-delay:.3s}
@@ -65,52 +75,62 @@ html.motion .hero-shot:nth-child(1){animation-delay:.25s}
 html.motion .hero-shot:nth-child(2){animation-delay:.38s}
 html.motion .hero-shot:nth-child(3){animation-delay:.5s}
 html.motion .hero-shot:nth-child(4){animation-delay:.62s}
+html.motion .hero-tip span{animation:fade-up .7s var(--ease) 1.25s backwards}
+html.motion .hero-tip path{stroke-dasharray:1;stroke-dashoffset:1;animation:pen .7s ease-out 1.5s forwards}
+html.motion .hero-tip path+path{animation-duration:.3s;animation-delay:2.15s}
 @keyframes deal{from{opacity:0;transform:translate3d(40px,70px,0) rotate(14deg)}}
+@keyframes pen{to{stroke-dashoffset:0}}
 @media (max-width:1000px){
   .hero-inner{grid-template-columns:minmax(0,1fr)}
   .hero-lead{font-size:clamp(46px,11.5vw,104px)}
-  .hero-stack{aspect-ratio:16/11;max-height:none;justify-self:stretch}
-  .hero-shot:nth-child(1){width:48%;top:0}
-  .hero-shot:nth-child(2){width:46%;top:8%}
-  .hero-shot:nth-child(3){width:44%;left:18%;top:42%}
-  .hero-shot:nth-child(4){width:24%;top:48%}
+  .hero-description{max-width:30em}
+  .hero-stack{width:100%;aspect-ratio:16/11;justify-self:stretch}
+  .hero-shot:nth-child(1){width:46%;top:0}
+  .hero-shot:nth-child(2){width:44%;left:33%;top:14%}
+  .hero-shot:nth-child(3){width:40%;left:56%;top:38%}
+  .hero-shot:nth-child(4){width:22%;left:77%;top:30%}
+  .hero-shot-label{font-size:clamp(10px,3.2cqw,15px)}
+  .hero-tip{left:2%;bottom:6%}
 }
 @media (max-width:1000px) and (min-height:900px){.hero-inner{padding-block:clamp(28px,4vh,48px)}}
 @media (max-width:760px){
-  .hero-shot{padding:5px 5px 22px}
-  .hero-shot-label{font-size:12px;left:7px;bottom:5px}
+  .hero-facts{grid-template-columns:1fr 1fr;row-gap:6px}
   .hero-facts b{font-size:26px}
+  .hero-actions .btn{flex:1 1 auto}
 }
 
 /* ---- hand-drawn notes (rough-notation) ---- */
 svg.rough-annotation{mix-blend-mode:multiply}
-#contact svg.rough-annotation,.footer svg.rough-annotation{mix-blend-mode:normal}
+#contact svg.rough-annotation,.footer svg.rough-annotation,#services svg.rough-annotation{mix-blend-mode:normal}
 html.motion [data-reveal].noted{overflow:visible}
 
 /* ---- work ---- */
-.live-badge{font:400 16px/1.2 var(--f-display);letter-spacing:.02em;color:var(--fg)}
-.live-badge::before{width:8px;height:8px;background:var(--hl);box-shadow:0 0 0 1.5px #141414}
-.case-eyebrow{align-items:center;font:500 13px/1.5 var(--f-sans);margin-bottom:6px}
-.case-journey li{border-radius:999px;border-color:var(--rule)}
-.case-product-preview::before{background:radial-gradient(circle at 18px 50%,#141414 3.5px,transparent 4px);font-family:var(--f-sans)}
-.case-preview-visit{font:600 13px/1 var(--f-sans);border-radius:999px 0 0 0;padding:10px 16px}
-.project-filter button span,.work-index-num,.work-index-links small,.case-image-label,.project-directory,.archive-count,.project-index,.shelf-title,.shelf-footnote{font-family:var(--f-sans)}
+.project-filter button span,.work-index-num,.work-index-links small,.project-directory,.archive-count,.project-index,.shelf-title,.shelf-footnote{font-family:var(--f-sans)}
 .project-index{color:var(--mute)}
+/* The print is laid on the stage, then the pen and the marker tag follow. */
+html.motion .case-product-preview .case-sheet{opacity:0;transform:translateY(64px) rotate(-1.6deg);transition:opacity .7s var(--ease),transform 1.1s var(--ease),box-shadow .5s}
+html.motion .case-product-preview.in .case-sheet{opacity:1;transform:none}
+html.motion .case-product-preview.in:hover .case-sheet,html.motion .case-product-preview.in:focus-visible .case-sheet{transform:translateY(-6px)}
+html.motion .proof-tag{opacity:0;transform:rotate(-10deg) scale(.7);transition:opacity .4s var(--ease) 1.7s,transform .6s var(--ease) 1.7s}
+html.motion .case-product-preview.in .proof-tag{opacity:1;transform:rotate(-2.5deg)}
 
 /* ---- services: the dark room; delivery strip is the lit table inside it ---- */
 #services{--label:var(--hl);--btn-bg:var(--hl);--btn-fg:#141414;--btn-hover-bg:#fbfbf9;--btn-hover-fg:#141414}
 #services .section-number{color:var(--fg)}
+.service-heading h2 em{font-style:normal;color:var(--hl)}
 .offer-num{color:var(--hl);font-size:clamp(44px,4.8vw,66px)}
-.offer summary:hover .offer-toggle-symbol{background:var(--hl);color:#141414}
+.offer summary:hover .offer-toggle-symbol{background:var(--hl);color:#141414;border-color:var(--hl)}
 .offer-toggle-symbol{border-radius:50%}
 .offer-example{background:rgba(251,251,249,.07);border-left-color:var(--hl)}
-.delivery-strip{--btn-bg:#141414;--btn-fg:#fbfbf9;--btn-hover-bg:var(--hl);--btn-hover-fg:#141414;border-radius:6px}
-.delivery-heading>span{font:400 18px/1.3 var(--f-display);color:var(--fg)}
+.delivery-strip{--btn-bg:#141414;--btn-fg:#fbfbf9;--btn-hover-bg:var(--hl);--btn-hover-fg:#141414;border-radius:10px}
+.delivery-heading>span{display:inline-flex;align-items:center;gap:10px;font:400 clamp(17px,1.5vw,21px)/1.3 var(--f-display);letter-spacing:.02em;color:var(--fg)}
+.delivery-heading>span::before{content:"";width:22px;height:9px;background:var(--hl);transform:skewX(-14deg)}
 .delivery-strip li b{color:var(--ink-3);-webkit-text-stroke:0;font-size:clamp(56px,6vw,88px)}
 .delivery-strip li.on b{color:#141414}
 .delivery-strip ol::before{height:3px}
 
-/* ---- reference shelf ---- */
+/* ---- reference shelf: a secondary section, so a quieter headline ---- */
+.reference-teaser h2{font-size:clamp(38px,5.4vw,88px)}
 .shelf-entry h3{font-size:clamp(30px,3.8vw,56px);line-height:1.05}
 .shelf-entry .shelf-title{font:400 1em/1.05 var(--f-display);color:inherit}
 .shelf-entry::before{background:var(--hl)}
@@ -121,12 +141,18 @@ html.motion [data-reveal].noted{overflow:visible}
 .about-role{font:500 14px/1.4 var(--f-sans);color:var(--mute)}
 .experience>span{font:500 13px/1.9 var(--f-sans);color:var(--mute)}
 
-/* ---- contact: the marker-yellow sheet; inside it the old dark/light roles hold ---- */
+/* ---- contact: the marker-yellow sheet; channels are index cards on it ---- */
 #contact{--ink:#141414;--bone:#fbfbf9;--bg:var(--hl);--fg:#141414;--rule:rgba(20,20,20,.28);--dim:rgba(20,20,20,.8);--label:#141414;--btn-bg:#141414;--btn-fg:#fbfbf9;--btn-hover-bg:#fbfbf9;--btn-hover-fg:#141414}
 #contact .eyebrow::before{background:#141414}
 .contact h2 em{color:var(--hl);-webkit-text-stroke:0;background:#141414;padding:0 .12em;margin-left:.06em;display:inline-block;transform:rotate(-1.5deg)}
-.contact-channels{border-radius:6px;background:rgba(251,251,249,.38)}
-.contact-card{--ink-2:#1f1f1f;--line:rgba(251,251,249,.16);--mute:#a9a8a2;--accent:var(--hl);--btn-fg:#141414;--btn-hover-bg:#fbfbf9;border-radius:6px}
+.contact-channels{border:1.5px solid #141414;border-radius:12px;background:#fbfbf9;overflow:hidden;box-shadow:0 26px 50px -34px rgba(20,20,20,.7)}
+.contact-channel{border-color:rgba(20,20,20,.16)}
+.contact-channel h3{font:600 13px/1.4 var(--f-sans)}
+.contact-channel p{color:#55554f}
+.wechat-preview{box-shadow:0 0 0 1px rgba(20,20,20,.12),0 16px 30px -18px rgba(20,20,20,.55);transform:rotate(2deg);font-family:var(--f-sans)}
+.wechat-preview:hover{transform:translateY(-4px) rotate(0deg)}
+.contact-tools p{font:600 17px/1.5 var(--f-sans)}
+.contact-card{--ink-2:#1f1f1f;--line:rgba(251,251,249,.16);--mute:#a9a8a2;--accent:var(--hl);--btn-fg:#141414;--btn-hover-bg:#fbfbf9;border-radius:10px}
 .contact-card input,.contact-card select,.contact-card textarea{border-radius:4px}
 .contact-card .btn.secondary{color:var(--bone)}
 .contact-card :focus-visible{outline-color:var(--hl)}
@@ -152,7 +178,3 @@ dialog::backdrop{background:rgba(20,20,20,.55)}
 .toast{border-radius:999px}
 .cursor{background:var(--hl);color:#141414;font:600 13px/1 var(--f-sans);box-shadow:0 0 0 1.5px #141414}
 .cursor:not(.is-label){display:none}
-
-#motion-toggle{margin-left:0;font:inherit;padding:6px 14px}
-#motion-toggle::after{content:"关"}
-#motion-toggle[aria-pressed="true"]::after{content:"开";color:var(--hl)}

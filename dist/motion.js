@@ -1,4 +1,4 @@
-/* v71 "校样 / Proof" motion layer.
+/* "校样 / Proof" motion layer (v72).
    Progressive: all content is readable before, after, or without this file.
    html.motion gates every pre-reveal style; the switch and prefers-reduced-motion remove it. */
 (() => {
@@ -52,9 +52,9 @@
 
   /* ---- scroll reveals ---- */
   const staggered = [
-    ['.case-copy', ':scope > *'], ['.offer-grid', ':scope > .offer'], ['.reference-shelf', ':scope > li'],
+    ['.case-brief', ':scope > *'], ['.case-side', ':scope > *'], ['.offer-grid', ':scope > .offer'], ['.reference-shelf', ':scope > li'],
     ['.contact-channels', ':scope > .contact-channel'], ['.delivery-strip ol', ':scope > li'],
-    ['.about-facts', ':scope > div'], ['.archive-grid', ':scope > .archive-item'], ['.contact-faq', ':scope > details']
+    ['.about-facts', ':scope > div'], ['.background', ':scope > *'], ['.archive-grid', ':scope > .archive-item'], ['.contact-faq', ':scope > details']
   ];
   for (const [parent, child] of staggered) {
     for (const group of $$(parent)) {
@@ -95,7 +95,16 @@
     const displayFace = document.fonts?.load ? document.fonts.load('1em "Smiley Sans"', element.textContent || '字').catch(() => null) : null;
     Promise.all([loadNotes(), displayFace]).then(([ready]) => {
       if (!ready || !active || notes.has(element)) return;
-      const note = annotate(element, noteStyles[element.dataset.note] || noteStyles.underline);
+      const proof = element.classList.contains('proof-mark');
+      // The drawing is laid out against the nearest positioned ancestor. Keep that ancestor
+      // right around the text, so the note travels with it when something above opens or closes.
+      const anchor = element.parentElement;
+      if (anchor && window.getComputedStyle(anchor).position === 'static') anchor.style.position = 'relative';
+      const note = annotate(element, {
+        ...(noteStyles[element.dataset.note] || noteStyles.underline),
+        ...(element.dataset.noteColor === 'hl' ? { color: '#ffe14a' } : null),
+        ...(proof ? { padding: 3, strokeWidth: 3 } : null)
+      });
       notes.set(element, note);
       window.setTimeout(() => {
         if (!active || notes.get(element) !== note) return;
@@ -111,7 +120,7 @@
     $$('[data-reveal].noted').forEach(element => element.classList.remove('noted'));
   }
 
-  const revealTargets = $$('[data-reveal],.rv,.case-product-preview');
+  const revealTargets = $$('[data-reveal],.rv,.case-product-preview,.section-number,.reference-teaser-label,.eyebrow');
   let revealObserver = null;
   let noteObserver = null;
   if ('IntersectionObserver' in window) {
@@ -127,13 +136,15 @@
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         // Headline wrappers finish sliding before the pen comes down.
-        showNote(entry.target, entry.target.closest('.hero') ? 1100 : 1000);
+        const target = entry.target;
+        showNote(target, target.classList.contains('proof-mark') ? 1350 : target.closest('.hero') ? 1250 : 1150);
       }
     }, { rootMargin: '0px 0px -14% 0px', threshold: 0.5 });
     noteTargets.forEach(element => noteObserver.observe(element));
   } else revealTargets.forEach(element => element.classList.add('in'));
 
   /* ---- scroll-linked values: one passive listener, one frame ---- */
+  const stack = $('.hero-stack');
   const statement = $('.about-statement');
   let words = [];
   let litCount = -1;
@@ -161,10 +172,14 @@
     words.forEach((word, index) => word.classList.toggle('lit', index < count));
     litCount = count;
   }
+  root.classList.add('js-scroll');
   function updateScroll() {
     scrollFrame = 0;
+    const scrolled = window.scrollY || 0;
+    root.classList.toggle('scrolled', scrolled > 8);
     if (!active) return;
     const viewport = Math.max(window.innerHeight, 1);
+    if (stack && scrolled < viewport * 1.4) stack.style.setProperty('--sy', clamp(scrolled / (viewport * 0.9)).toFixed(3));
     if (words.length) {
       const rect = statement.getBoundingClientRect();
       lightWords(Math.round(clamp((viewport * 0.86 - rect.top) / (viewport * 0.46 + rect.height * 0.5)) * words.length));
@@ -180,7 +195,6 @@
   window.addEventListener('scroll', requestScrollUpdate, { passive: true });
 
   /* ---- hero prints drift with the pointer; preview label follows it ---- */
-  const stack = $('.hero-stack');
   let cursor = null;
   let pointerX = 0, pointerY = 0, cursorX = 0, cursorY = 0, cursorFrame = 0, cursorPlaced = false;
   function drawCursor() {
@@ -211,6 +225,56 @@
     cursor.classList.toggle('is-label', Boolean(preview));
     cursor.classList.toggle('on', Boolean(preview));
   }, { passive: true });
+  /* ---- a print can be picked up and moved (mouse or pen); a plain click still opens the work ---- */
+  if (stack) {
+    let drag = null;
+    let swallowClick = false;
+    let topLayer = 5;
+    stack.addEventListener('pointerdown', event => {
+      if (!active || event.pointerType === 'touch' || event.button !== 0) return;
+      const shot = event.target instanceof Element ? event.target.closest('.hero-shot') : null;
+      if (!shot) return;
+      swallowClick = false;
+      drag = { shot, id: event.pointerId, x: event.clientX, y: event.clientY, dx: Number(shot.dataset.dx) || 0, dy: Number(shot.dataset.dy) || 0, moved: false };
+    });
+    window.addEventListener('pointermove', event => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const moveX = event.clientX - drag.x;
+      const moveY = event.clientY - drag.y;
+      if (!drag.moved) {
+        if (Math.hypot(moveX, moveY) < 6) return;
+        drag.moved = true;
+        drag.shot.classList.add('is-dragging');
+        drag.shot.style.zIndex = String(++topLayer);
+        if (cursor) cursor.dataset.label = '松手放下';
+      }
+      drag.shot.style.setProperty('--dx', `${(drag.dx + moveX).toFixed(1)}px`);
+      drag.shot.style.setProperty('--dy', `${(drag.dy + moveY).toFixed(1)}px`);
+    }, { passive: true });
+    const drop = event => {
+      if (!drag || event.pointerId !== drag.id) return;
+      if (drag.moved) {
+        drag.shot.dataset.dx = String(drag.dx + event.clientX - drag.x);
+        drag.shot.dataset.dy = String(drag.dy + event.clientY - drag.y);
+        drag.shot.classList.remove('is-dragging');
+        if (cursor) cursor.dataset.label = '看作品';
+        // The click that ends a drag must not open the work.
+        swallowClick = true;
+        window.setTimeout(() => { swallowClick = false; }, 80);
+      }
+      drag = null;
+    };
+    window.addEventListener('pointerup', drop);
+    window.addEventListener('pointercancel', drop);
+    stack.addEventListener('click', event => {
+      if (!swallowClick) return;
+      swallowClick = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+    stack.addEventListener('dragstart', event => event.preventDefault());
+  }
+
   function setCursor(enabled) {
     if (enabled && !cursor) {
       cursor = document.createElement('div');
@@ -237,6 +301,11 @@
       processSteps.forEach(step => step.classList.add('on'));
       stack?.style.removeProperty('--px');
       stack?.style.removeProperty('--py');
+      stack?.style.removeProperty('--sy');
+      $$('.hero-shot').forEach(shot => {
+        shot.style.removeProperty('--dx'); shot.style.removeProperty('--dy'); shot.style.removeProperty('z-index');
+        delete shot.dataset.dx; delete shot.dataset.dy;
+      });
     } else {
       // Re-arm notes for headings already on screen.
       noteTargets.forEach(element => { noteObserver?.unobserve(element); noteObserver?.observe(element); });
