@@ -125,7 +125,7 @@ html.motion .case-product-preview.in .proof-tag{opacity:1;transform:rotate(-2.5d
 .delivery-strip{--btn-bg:#141414;--btn-fg:#fbfbf9;--btn-hover-bg:var(--hl);--btn-hover-fg:#141414;border-radius:10px}
 .delivery-heading>span{display:inline-flex;align-items:center;gap:10px;font:400 clamp(17px,1.5vw,21px)/1.3 var(--f-display);letter-spacing:.02em;color:var(--fg)}
 .delivery-heading>span::before{content:"";width:22px;height:9px;background:var(--hl);transform:skewX(-14deg)}
-.delivery-strip li b{color:var(--ink-3);-webkit-text-stroke:0;font-size:clamp(56px,6vw,88px)}
+.delivery-strip li b{color:#686861;-webkit-text-stroke:0;font-size:clamp(56px,6vw,88px)}
 .delivery-strip li.on b{color:#141414}
 .delivery-strip ol::before{height:3px}
 
