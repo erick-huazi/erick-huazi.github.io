@@ -38,7 +38,7 @@ html.motion .section-number.in::before,html.motion .reference-teaser-label.in::b
 .hero-lead{position:relative;font-size:clamp(46px,min(7.4vw,13.4vh),124px);line-height:1.06;margin:clamp(14px,2.4vh,28px) 0 clamp(20px,3.4vh,40px)}
 .hero-lead mark{line-height:1;display:inline-block}
 .hero-lead mark,.note-fallback{background:linear-gradient(transparent 12%,var(--hl) 12%,var(--hl) 92%,transparent 92%);color:inherit;padding-inline:.06em;margin-inline:-.06em}
-html.notes-ready .hero-lead mark,html.notes-ready .note-fallback{background:none}
+.hero-lead mark.note-applied,.note-fallback.note-applied{background:none}
 .hero-description{font-size:clamp(16px,1.3vw,19px);color:var(--bone-2);margin-bottom:26px}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
 /* The pile keeps its proportions when the viewport is short, so the prints never spill onto the facts. */
@@ -56,7 +56,9 @@ html.notes-ready .hero-lead mark,html.notes-ready .note-fallback{background:none
 .hero-shot:nth-child(2){--tilt:3deg;--spin:5deg;--depth:1.1;width:56%;left:28%;top:17%}
 .hero-shot:nth-child(3){--tilt:-2deg;--spin:-3deg;--depth:1.7;width:50%;left:46%;top:40%}
 .hero-shot:nth-child(4){--tilt:5deg;--spin:7deg;--depth:2.2;width:27%;left:72%;top:64%}
-.hero-shot:nth-child(4) img{aspect-ratio:1/1.05;object-fit:cover;object-position:top}
+.hero-shot:first-child img{aspect-ratio:1.55;object-fit:cover;object-position:top}
+.hero-shot:nth-child(4) img{aspect-ratio:1.14;object-fit:cover;object-position:top}
+.hero-shot:nth-child(4) .hero-shot-label{right:6px;white-space:normal}
 /* A pencilled aside with an arrow, the way a designer marks a contact sheet. */
 .hero-tip{position:absolute;left:3%;bottom:10%;display:flex;align-items:flex-end;gap:8px;font:400 clamp(15px,1.5vw,21px)/1 var(--f-display);letter-spacing:.02em;transform:rotate(-4deg);pointer-events:none}
 .hero-tip svg{width:clamp(40px,4.6vw,66px);height:auto;margin-bottom:.55em;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
@@ -94,6 +96,40 @@ html.motion .hero-tip path+path{animation-duration:.3s;animation-delay:2.15s}
 }
 @media (max-width:1000px) and (min-height:900px){.hero-inner{padding-block:clamp(28px,4vh,48px)}}
 @media (max-width:760px){
+  /* One tap target per print; touch readers can inspect each title before choosing. */
+  .hero-stack{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    aspect-ratio:auto;
+  }
+  .hero-shot:nth-child(n){
+    position:relative;
+    inset:auto;
+    width:auto;
+    display:grid;
+    grid-template-rows:auto 1fr;
+    align-items:start;
+    padding:5px;
+    transform:none;
+    border:1px solid var(--line);
+    box-shadow:0 3px 8px -5px rgba(20,20,20,.3);
+    will-change:auto;
+  }
+  .hero-shot:nth-child(n) img{
+    width:100%;
+    aspect-ratio:1.6;
+    object-fit:cover;
+    object-position:top;
+  }
+  .hero-shot-label{
+    position:static;
+    padding:7px 2px 3px;
+    white-space:normal;
+    font:600 clamp(13px,2.7vw,16px)/1.3 var(--f-sans);
+  }
+  .hero-tip{display:none}
+  html.motion .hero-shot{animation-name:fade-up}
   .hero-facts{grid-template-columns:1fr 1fr;row-gap:6px}
   .hero-facts b{font-size:26px}
   .hero-actions .btn{flex:1 1 auto}

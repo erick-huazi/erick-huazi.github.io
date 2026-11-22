@@ -64,18 +64,25 @@ html.scrolled .nav,html:not(.js-scroll) .nav{border-bottom-color:var(--line)}
 .nav-links .nav-cta:hover{background:var(--hl);color:#141414}
 .nav-cta .ui-icon{width:15px;height:15px}
 @media (max-width:760px){
-  .menu{display:inline-flex}
+  /* Without the menu handler, keep all destinations in normal document flow. */
+  html:not(.js) .nav{position:static;height:auto}
+  html:not(.js) .nav-inner{flex-direction:column;align-items:stretch;gap:0;padding-block:8px}
+  html:not(.js) .nav-links{flex-wrap:wrap;gap:0 4px}
+  html:not(.js) .nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:4px 8px}
+  html:not(.js) .nav-cta{margin-left:0}
+  html:not(.js) .hero{padding-top:0}
+  html.js .menu{display:inline-flex}
   .quick-trigger span,.quick-trigger kbd{display:none}
   /* Phone menu: a full sheet under the bar, set in the display face. Absolute, not fixed —
      the bar's backdrop-filter makes it the containing block for fixed children. */
-  .nav-links{position:absolute;top:100%;left:0;right:0;height:calc(100dvh - var(--nav-h) + 1px);display:none;flex-direction:column;align-items:stretch;gap:0;background:var(--ink);border-top:1px solid var(--line);padding:6px var(--pad) calc(22px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;counter-reset:nav}
-  .nav-links.open{display:flex}
+  html.js .nav-links{position:absolute;top:100%;left:0;right:0;height:calc(100dvh - var(--nav-h) + 1px);display:none;flex-direction:column;align-items:stretch;gap:0;background:var(--ink);border-top:1px solid var(--line);padding:6px var(--pad) calc(22px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;counter-reset:nav}
+  html.js .nav-links.open{display:flex}
   html:has(.nav-links.open){overflow:hidden}
-  .nav-links a:not(.nav-cta){counter-increment:nav;display:block;padding:20px 0 16px;font:400 clamp(32px,9.6vw,42px)/1.1 var(--f-display);border-bottom:1px solid var(--line)}
-  .nav-links a:not(.nav-cta)::before{content:counter(nav,decimal-leading-zero);display:inline-block;width:3.2em;vertical-align:.9em;font:500 12px/1 var(--f-sans);color:var(--mute)}
+  html.js .nav-links a:not(.nav-cta){counter-increment:nav;display:block;padding:20px 0 16px;font:400 clamp(32px,9.6vw,42px)/1.1 var(--f-display);border-bottom:1px solid var(--line)}
+  html.js .nav-links a:not(.nav-cta)::before{content:counter(nav,decimal-leading-zero);display:inline-block;width:3.2em;vertical-align:.9em;font:500 12px/1 var(--f-sans);color:var(--mute)}
   .nav-links a:not(.nav-cta)::after{display:none}
   .nav-links a[aria-current]:not(.nav-cta){text-decoration:underline;text-decoration-color:var(--hl);text-decoration-thickness:.34em;text-underline-offset:-.2em;text-decoration-skip-ink:none}
-  .nav-links .nav-cta{margin:auto 0 0;height:58px;justify-content:center;border:0;font-size:17px}
+  html.js .nav-links .nav-cta{margin:auto 0 0;height:58px;justify-content:center;border:0;font-size:17px}
   html.motion .nav-links.open a{animation:fade-up .5s var(--ease) backwards}
   html.motion .nav-links.open a:nth-child(2){animation-delay:.04s}
   html.motion .nav-links.open a:nth-child(3){animation-delay:.08s}
@@ -149,7 +156,7 @@ html.motion [data-reveal] .rv-in{display:block;position:relative;transform:trans
 html.motion [data-reveal].in .rv-in{transform:none}
 html.motion .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease) var(--d,0s),transform .9s var(--ease) var(--d,0s)}
 html.motion .rv.in{opacity:1;transform:none}
-html.motion .about-statement .w{opacity:.2;transition:opacity .35s}
+html.motion .about-statement .w{opacity:.68;transition:opacity .35s}
 html.motion .about-statement .w.lit{opacity:1}
 @keyframes wipe-up{from{clip-path:inset(0 0 100% 0);transform:translateY(.35em)}to{clip-path:inset(-20% -5% -20% -5%);transform:none}}
 @keyframes fade-up{from{opacity:0;transform:translateY(22px)}}

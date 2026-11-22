@@ -349,21 +349,22 @@ const inquiryCopyStatus = $('#inquiry-copy-status');
 let inquiryCopyAttempt = 0;
 let generatedBody = '';
 let generatedFilename = '咨询需求.txt';
-let lastSuggestedNeed = '';
-const serviceTemplates = new Map($$('.offer [data-service][data-need]').map(link => [link.dataset.service, link.dataset.need]));
-function syncServiceTemplate(service, suggestion = serviceTemplates.get(service) || '') {
-  const canReplace = !needField.value.trim() || needField.value === lastSuggestedNeed;
-  if (canReplace) {
-    needField.value = suggestion;
-    lastSuggestedNeed = needField.value;
-  }
-  return canReplace;
+const serviceField = $('#service-select');
+const referenceField = $('#inquiry-reference');
+const defaultNeedPrompt = needField.placeholder;
+const servicePrompts = new Map($$('.offer [data-service][data-prompt]').map(link => [link.dataset.service, link.dataset.prompt]));
+const projectPrompts = new Map();
+for (const link of $$('.case-inquiry')) {
+  const project = link.closest('.case-showcase');
+  const title = project.querySelector('.case-heading h3').textContent.trim();
+  referenceField.add(new Option(title, project.id));
+  projectPrompts.set(project.id, link.dataset.prompt);
 }
-function showServiceSelection(service, replaced) {
-  const message = !replaced ? '已保留你填写的需求，可继续修改。'
-    : needField.value ? '已填入场景示例，请按实际需求修改并补充称呼。'
-      : '请补充称呼和具体需求。';
-  $('#form-status').textContent = `已选择：${service}。${message}内容尚未发送。`;
+$('#reference-field').hidden = false;
+function updateInquiryContext() {
+  needField.placeholder = projectPrompts.get(referenceField.value) || servicePrompts.get(serviceField.value) || defaultNeedPrompt;
+  const reference = referenceField.value ? `，参考作品为「${referenceField.selectedOptions[0].text}」` : '';
+  $('#form-status').textContent = `已选择「${serviceField.value}」${reference}。`;
 }
 function restoreInquiryHash() {
   if (location.hash === '#inquiry-details') inquiryDetails.open = true;
@@ -387,19 +388,15 @@ function invalidateSummary() {
 inquiryDetails.addEventListener('toggle', () => { if (!inquiryDetails.open) resetInquiryCopy(); });
 form.addEventListener('input', invalidateSummary);
 form.addEventListener('change', invalidateSummary);
-$('#service-select').addEventListener('change', () => {
-  const service = $('#service-select').value;
-  const replaced = syncServiceTemplate(service);
-  invalidateSummary();
-  showServiceSelection(service, replaced);
-});
+serviceField.addEventListener('change', updateInquiryContext);
+referenceField.addEventListener('change', updateInquiryContext);
 $$('[data-service]').forEach(link => link.addEventListener('click', event => {
-  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
   inquiryDetails.open = true;
-  $('#service-select').value = link.dataset.service;
-  const replaced = syncServiceTemplate(link.dataset.service, link.dataset.need ?? serviceTemplates.get(link.dataset.service) ?? '');
+  serviceField.value = link.dataset.service;
+  referenceField.value = link.closest('.case-showcase')?.id || '';
   invalidateSummary();
-  showServiceSelection(link.dataset.service, replaced);
+  updateInquiryContext();
 }));
 form.addEventListener('submit', event => {
   event.preventDefault();
@@ -408,7 +405,8 @@ form.addEventListener('submit', event => {
   if (!form.reportValidity()) return;
   const data = new FormData(form);
   const name = nameField.value.trim(), service = String(data.get('service'));
-  generatedBody = `张建华你好，\n\n我是 ${name}，想咨询「${service}」。\n\n我的需求：\n${needField.value.trim()}\n\n希望的沟通方式：${data.get('mode')}\n期望时间：${String(data.get('timing')).trim() || '双方协商'}\n\n请告知合适的沟通时间、合作范围及费用。谢谢！`;
+  const referenceLine = referenceField.value ? `参考作品：${referenceField.selectedOptions[0].text}\n\n` : '';
+  generatedBody = `张建华你好，\n\n我是 ${name}，想咨询「${service}」。\n\n${referenceLine}我的需求：\n${needField.value.trim()}\n\n希望的沟通方式：${data.get('mode')}\n期望时间：${String(data.get('timing')).trim() || '双方协商'}\n\n请告知合适的沟通时间、合作范围及费用。谢谢！`;
   generatedFilename = `咨询需求-${service}.txt`;
   resetInquiryCopy();
   $('#summary-text').value = generatedBody;

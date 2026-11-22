@@ -15,6 +15,7 @@
     ? window.matchMedia(query) : { matches: false, addEventListener() {} };
   const reduced = media('(prefers-reduced-motion: reduce)');
   const finePointer = media('(hover: hover) and (pointer: fine)');
+  const smallScreen = media('(max-width: 760px)');
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const toggles = $$('#motion-toggle,[data-motion-control]');
   let preference = 'on';
@@ -85,7 +86,7 @@
   function loadNotes() {
     if (!noteTargets.length) return Promise.resolve(false);
     notesLoading ||= import('./assets/vendor/rough-notation.esm.js')
-      .then(module => { annotate = module.annotate; root.classList.add('notes-ready'); return true; })
+      .then(module => { annotate = module.annotate; return true; })
       .catch(() => false);
     return notesLoading;
   }
@@ -110,13 +111,16 @@
         if (!active || notes.get(element) !== note) return;
         element.closest('[data-reveal]')?.classList.add('noted');
         note.show();
+        element.classList.add('note-applied');
       }, delay);
     });
   }
   function clearNotes() {
-    notes.forEach(note => note.remove());
+    notes.forEach((note, element) => {
+      note.remove();
+      element.classList.remove('note-applied');
+    });
     notes.clear();
-    root.classList.remove('notes-ready');
     $$('[data-reveal].noted').forEach(element => element.classList.remove('noted'));
   }
 
@@ -179,7 +183,7 @@
     root.classList.toggle('scrolled', scrolled > 8);
     if (!active) return;
     const viewport = Math.max(window.innerHeight, 1);
-    if (stack && scrolled < viewport * 1.4) stack.style.setProperty('--sy', clamp(scrolled / (viewport * 0.9)).toFixed(3));
+    if (stack && !smallScreen.matches && scrolled < viewport * 1.4) stack.style.setProperty('--sy', clamp(scrolled / (viewport * 0.9)).toFixed(3));
     if (words.length) {
       const rect = statement.getBoundingClientRect();
       lightWords(Math.round(clamp((viewport * 0.86 - rect.top) / (viewport * 0.46 + rect.height * 0.5)) * words.length));
@@ -208,7 +212,7 @@
   window.addEventListener('pointermove', event => {
     if (event.pointerType === 'touch' || !active) return;
     pointerX = event.clientX; pointerY = event.clientY;
-    if (stack && window.scrollY < window.innerHeight) {
+    if (stack && !smallScreen.matches && window.scrollY < window.innerHeight) {
       stack.style.setProperty('--px', ((pointerX / window.innerWidth - 0.5) * -14).toFixed(2));
       stack.style.setProperty('--py', ((pointerY / window.innerHeight - 0.5) * -10).toFixed(2));
     }
@@ -231,7 +235,7 @@
     let swallowClick = false;
     let topLayer = 5;
     stack.addEventListener('pointerdown', event => {
-      if (!active || event.pointerType === 'touch' || event.button !== 0) return;
+      if (!active || smallScreen.matches || event.pointerType === 'touch' || event.button !== 0) return;
       const shot = event.target instanceof Element ? event.target.closest('.hero-shot') : null;
       if (!shot) return;
       swallowClick = false;
@@ -289,6 +293,9 @@
   }
 
   /* ---- switch ---- */
+  function syncCursor() {
+    setCursor(active && finePointer.matches && !smallScreen.matches);
+  }
   function apply() {
     active = preference === 'on' && !reduced.matches;
     root.classList.toggle('motion', active);
@@ -310,7 +317,7 @@
       // Re-arm notes for headings already on screen.
       noteTargets.forEach(element => { noteObserver?.unobserve(element); noteObserver?.observe(element); });
     }
-    setCursor(active && finePointer.matches);
+    syncCursor();
     toggles.forEach(toggle => {
       toggle.hidden = false;
       toggle.disabled = reduced.matches;
@@ -327,6 +334,7 @@
   }));
   reduced.addEventListener?.('change', apply);
   finePointer.addEventListener?.('change', apply);
+  smallScreen.addEventListener?.('change', syncCursor);
   window.addEventListener('resize', () => { fitText(); requestScrollUpdate(); }, { passive: true });
   document.fonts?.ready.then(fitText);
   apply();

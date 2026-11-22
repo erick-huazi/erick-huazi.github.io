@@ -49,7 +49,7 @@ a.case-product-preview:hover .case-sheet,a.case-product-preview:focus-visible .c
 /* Proof marks: a pen circle around one part of the screen and a marker tag naming it. */
 .proof-mark{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);pointer-events:none;border:2.5px solid #141414;border-radius:50%}
 .proof-mark[data-note-color="hl"]{border-color:var(--hl)}
-html.notes-ready .proof-mark{border-color:transparent}
+.proof-mark.note-applied{border-color:transparent}
 .case-shot svg.rough-annotation{mix-blend-mode:normal}
 .proof-tag{position:absolute;left:var(--x);top:var(--y);z-index:2;isolation:isolate;padding:.42em .8em .36em;font:400 clamp(11px,3.4cqw,19px)/1 var(--f-display);letter-spacing:.02em;color:#141414;white-space:nowrap;pointer-events:none;transform:rotate(-2.5deg)}
 .proof-tag::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--hl);transform:skewX(-12deg);box-shadow:0 8px 16px -8px rgba(20,20,20,.55)}
