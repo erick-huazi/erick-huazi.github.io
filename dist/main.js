@@ -475,7 +475,7 @@ const workReadingIndex = (() => {
   const fixedNav = $('.nav');
   const records = [...(index?.querySelectorAll('a[data-work-link]') || [])].map(link => {
     const card = document.getElementById(link.hash.slice(1));
-    return liveProjects.includes(card) ? { link, card } : null;
+    return card ? { link, card, archive: archivedProjects.contains(card) } : null;
   }).filter(Boolean);
   if (!layout || !index || !scroller || !records.length) {
     return { syncFilter() {}, prepareNavigation() {}, refresh() {} };
@@ -483,7 +483,8 @@ const workReadingIndex = (() => {
 
   const compactLayout = matchMedia('(max-width: 1279px)');
   const number = value => String(value).padStart(2, '0');
-  let activeIndex = -1;
+  let listed = records;
+  let activeLink = null;
   let frame = 0;
   let nearby = false;
   let watchingScroll = false;
@@ -510,13 +511,22 @@ const workReadingIndex = (() => {
 
   function clearPosition() {
     records.forEach(record => record.link.removeAttribute('aria-current'));
-    activeIndex = -1;
-    if (position) position.textContent = `— / ${number(records.length)}`;
+    activeLink = null;
+    if (position) position.textContent = `— / ${number(listed.length)}`;
     setVariable('--work-progress', '0');
   }
 
   function revealCurrentLink(link) {
-    if (!compactLayout.matches || scroller.scrollWidth <= scroller.clientWidth) return;
+    if (!compactLayout.matches) {
+      if (scroller.scrollHeight > scroller.clientHeight) {
+        const visible = scroller.getBoundingClientRect();
+        const current = link.getBoundingClientRect();
+        if (current.top < visible.top) scroller.scrollTop += current.top - visible.top;
+        else if (current.bottom > visible.bottom) scroller.scrollTop += current.bottom - visible.bottom;
+      }
+      return;
+    }
+    if (scroller.scrollWidth <= scroller.clientWidth) return;
     const visible = scroller.getBoundingClientRect();
     const current = link.getBoundingClientRect();
     if (current.left < visible.left + 4) scroller.scrollLeft += current.left - visible.left - 4;
@@ -529,14 +539,11 @@ const workReadingIndex = (() => {
     const ensureVisible = revealSelected;
     revealSelected = false;
     const offsets = readOffsets();
-    if (index.hidden || liveProjectList.hidden) {
-      writeOffsets(offsets);
-      clearPosition();
-      return;
-    }
-    const measured = records.map((record, recordIndex) => ({
-      record, recordIndex, rect: record.card.getBoundingClientRect()
-    })).filter(item => !item.record.card.hidden && item.rect.height > 0 && item.rect.width > 0);
+    const measured = listed.flatMap((record, recordIndex) => {
+      if (record.archive && !archivedProjects.open) return [];
+      const rect = record.card.getBoundingClientRect();
+      return rect.height && rect.width ? [{ record, recordIndex, rect }] : [];
+    });
     writeOffsets(offsets);
     if (!measured.length) { clearPosition(); return; }
     let current = measured[0];
@@ -546,14 +553,12 @@ const workReadingIndex = (() => {
     const following = measured.find(item => item.rect.top > offsets.anchor + 1);
     if (following && current.rect.bottom < offsets.anchor
       && following.rect.top - offsets.anchor < offsets.anchor - current.rect.bottom) current = following;
-    const changed = activeIndex !== current.recordIndex;
+    const changed = activeLink !== current.record.link;
     if (changed) {
-      activeIndex = current.recordIndex;
-      records.forEach((record, recordIndex) => {
-        if (recordIndex === activeIndex) record.link.setAttribute('aria-current', 'location');
-        else record.link.removeAttribute('aria-current');
-      });
-      if (position) position.textContent = `${number(activeIndex + 1)} / ${number(records.length)}`;
+      activeLink?.removeAttribute('aria-current');
+      activeLink = current.record.link;
+      activeLink.setAttribute('aria-current', 'location');
+      if (position) position.textContent = `${number(current.recordIndex + 1)} / ${number(listed.length)}`;
     }
     const start = measured[0].rect.top;
     const span = measured[measured.length - 1].rect.bottom - start;
@@ -588,12 +593,12 @@ const workReadingIndex = (() => {
   } else setNearby(true);
   if ('ResizeObserver' in window) {
     const sizes = new ResizeObserver(() => refresh());
-    [fixedNav, index, liveProjectList].filter(Boolean).forEach(element => sizes.observe(element));
+    [fixedNav, index, liveProjectList, archivedProjects].filter(Boolean).forEach(element => sizes.observe(element));
   }
   window.addEventListener('resize', () => refresh(), { passive: true });
   window.addEventListener('hashchange', () => refresh());
   window.addEventListener('pageshow', () => refresh());
-  liveProjectList.addEventListener('toggle', () => refresh(), true);
+  layout.addEventListener('toggle', () => refresh(), true);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
     else refresh();
@@ -601,17 +606,27 @@ const workReadingIndex = (() => {
 
   return {
     syncFilter(value) {
-      const archive = value === 'archive';
-      index.hidden = archive;
-      layout.classList.toggle('is-archive-view', archive);
-      if (archive) clearPosition();
+      listed = records.filter(record => value === 'all' || record.archive === (value === 'archive'));
+      records.forEach(record => { record.link.hidden = !listed.includes(record); });
+      index.querySelector('[data-work-index-title]').textContent = {
+        live: '应用目录', archive: '过往实践目录', all: '全部作品目录'
+      }[value];
+      clearPosition();
       refresh();
     },
     prepareNavigation() { writeOffsets(readOffsets()); },
     refresh
   };
 })();
+function pushProjectLocation(url, departureY) {
+  if (url.href === location.href) return;
+  // A fragment entry created with pushState can restore its anchor instead of
+  // the reading position. Record it only when leaving via a portfolio control.
+  history.replaceState({ ...history.state, workReturn: { y: departureY, width: innerWidth } }, '');
+  history.pushState(null, '', url);
+}
 function setProjectFilter(value, writeHistory = false) {
+  const departureY = window.scrollY;
   if (!['live', 'archive', 'all'].includes(value)) value = 'live';
   projectFilters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.projectFilter === value)));
   liveProjects.forEach(project => { project.hidden = value === 'archive'; });
@@ -624,9 +639,8 @@ function setProjectFilter(value, writeHistory = false) {
   if (writeHistory) {
     const url = new URL(location.href);
     if (value === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', value);
-    const hashTarget = document.getElementById(url.hash.slice(1));
-    if (hashTarget?.closest('[hidden]')) url.hash = 'work';
-    if (url.href !== location.href) history.pushState(null, '', url);
+    url.hash = 'work';
+    pushProjectLocation(url, departureY);
   }
 }
 projectFilters.forEach(button => button.addEventListener('click', () => setProjectFilter(button.dataset.projectFilter, true)));
@@ -640,6 +654,7 @@ function revealProject(id) {
   return target;
 }
 function navigateToSection(id, moveFocus = false) {
+  const departureY = window.scrollY;
   const target = revealProject(id);
   if (!target) return;
   workReadingIndex.prepareNavigation();
@@ -647,7 +662,7 @@ function navigateToSection(id, moveFocus = false) {
   const filter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.projectFilter || 'live';
   if (filter === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', filter);
   url.hash = id;
-  if (url.href !== location.href) history.pushState(null, '', url);
+  pushProjectLocation(url, departureY);
   target.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
   workReadingIndex.refresh();
   if (moveFocus) {
@@ -659,30 +674,43 @@ function navigateToSection(id, moveFocus = false) {
 $$('a[href^="#project-"]').forEach(link => link.addEventListener('click', event => {
   if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
   event.preventDefault();
-  navigateToSection(link.hash.slice(1), !link.closest('#work-index'));
+  navigateToSection(link.hash.slice(1), event.detail === 0 || !link.closest('#work-index'));
 }));
-function restoreProjectHash() {
+function restoreProjectHash(initial = false) {
   if (!location.hash.startsWith('#project-')) return;
-  const previousFilter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.projectFilter || 'live';
-  const target = revealProject(location.hash.slice(1));
-  if (target) {
-    const currentFilter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.projectFilter || 'live';
-    if (currentFilter !== previousFilter) {
-      // Resolve conflicting shared URLs without creating a second history entry.
-      const url = new URL(location.href);
-      if (currentFilter === 'live') url.searchParams.delete('view');
-      else url.searchParams.set('view', currentFilter);
-      history.replaceState(history.state, '', url);
-    }
-    workReadingIndex.prepareNavigation();
-    requestAnimationFrame(() => { target.scrollIntoView({ block: 'start' }); workReadingIndex.refresh(); });
+  const target = document.getElementById(location.hash.slice(1));
+  if (!target) return;
+  const wasHidden = target.closest('[hidden]') || (target.matches('.archive-item') && !archivedProjects.open);
+  revealProject(target.id);
+  if (wasHidden) {
+    const url = new URL(location.href);
+    const filter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true').dataset.projectFilter;
+    if (filter === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', filter);
+    if (url.href !== location.href) history.replaceState(history.state, '', url);
   }
+  workReadingIndex.prepareNavigation();
+  // On traversal the browser restores the reader's exact position in the case.
+  // Only align a fresh deep link or a fragment the browser could not see.
+  if (initial) requestAnimationFrame(() => {
+    if (location.hash === '#' + target.id) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+  });
+  else if (wasHidden) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+  workReadingIndex.refresh();
 }
-restoreProjectHash();
-window.addEventListener('hashchange', restoreProjectHash);
-window.addEventListener('popstate', () => {
+restoreProjectHash(true);
+window.addEventListener('hashchange', () => restoreProjectHash());
+window.addEventListener('popstate', event => {
   setProjectFilter(new URLSearchParams(location.search).get('view') || 'live');
   restoreProjectHash();
+  const saved = event.state?.workReturn;
+  if (saved?.width === innerWidth && Number.isFinite(saved.y)) {
+    const href = location.href;
+    requestAnimationFrame(() => {
+      if (location.href === href && Math.abs(window.scrollY - saved.y) > 1) {
+        window.scrollTo({ top: saved.y, behavior: 'instant' });
+      }
+    });
+  }
 });
 
 // Native combobox keeps typing focus while the active result follows keyboard selection.

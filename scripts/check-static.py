@@ -8,9 +8,15 @@ dist = root / 'dist'
 class Document(HTMLParser):
     def __init__(self):
         super().__init__(); self.ids=[]; self.refs=[]
+        self.work_links = []
+        self.work_articles = []
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if attrs.get('id'): self.ids.append(attrs['id'])
+        if tag == 'a' and 'data-work-link' in attrs:
+            self.work_links.append(attrs['href'])
+        if tag == 'article' and {'case-row', 'archive-item'}.intersection(attrs.get('class', '').split()):
+            self.work_articles.append('#' + attrs['id'])
         for name in ['href','src','data-quick-href']:
             if attrs.get(name): self.refs.append(attrs[name])
         for item in attrs.get('srcset','').split(','):
@@ -20,6 +26,8 @@ for name in ['index.html','references.html','404.html','references/index.html']:
     assert 'huazi-ai-studio.erickzhang09.chatgpt.site' not in source
     page=Document();page.feed(source)
     assert len(page.ids)==len(set(page.ids)), 'Duplicate IDs in '+name
+    if name == 'index.html':
+        assert page.work_articles and page.work_links == page.work_articles, 'Work index and project articles must match in order'
     for ref in page.refs:
         url=urlsplit(ref)
         if url.scheme or url.netloc or not url.path: continue
