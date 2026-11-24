@@ -41,7 +41,9 @@ assert.equal(search('workflw')[0].id, 'services');
 assert.equal(search('没有这个项目').length, 0);
 assert.equal(search('xyzq').length, 0);
 assert.equal(search('世').length, 1);
-assert.equal(search('')[0].id, 'project-jmsai');
+assert.deepEqual(search('').slice(0, 5).map(item => item.id), [
+  'project-hyaloria', 'project-hyaloria-playground', 'project-jmsai', 'project-worldcup', 'project-astrrot'
+]);
 assert.deepEqual(ids('AI'), ['project-worldcup','project-astrrot','project-aimegapro','services']);
 assert.deepEqual(ids('需求'), ['inquiry-details']);
 assert.deepEqual(ids('整理'), ['inquiry-details']);
