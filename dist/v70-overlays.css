@@ -46,6 +46,7 @@ html.motion dialog[open]{animation:dialog-in .45s var(--ease)}
 
 /* WeChat card */
 .wechat-dialog{max-width:min(640px,calc(100vw - 28px))}
+.wechat-dialog .qr-close{width:44px;height:44px}
 .qr-dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:22px 24px 18px}
 .qr-dialog-head p,.copy-dialog-heading p{font:500 11px/1.4 var(--f-mono);letter-spacing:.1em;color:var(--accent)}
 .qr-dialog-head h2,.copy-dialog-heading h2{font-size:28px;letter-spacing:-.02em;margin-top:4px;padding:0}
@@ -59,13 +60,31 @@ html.motion dialog[open]{animation:dialog-in .45s var(--ease)}
 .qr-account strong{font-size:30px;font-weight:800;letter-spacing:-.02em}
 .qr-dialog-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:6px}
 .qr-dialog-actions .btn{min-height:46px}
+.qr-dialog-actions .text-link{display:inline-flex;align-items:center;gap:4px;min-height:44px}
 .wechat-copy-status{font-size:13px;color:var(--mute);min-height:1.5em}
-.qr-figure{width:min(230px,56vw);background:#fff;color:var(--ink);padding:10px 10px 8px}
-.qr-figure img{width:100%;height:auto}
+.qr-figure{width:min(230px,56vw);background:#fff;color:var(--bone);padding:6px 6px 8px;border:1px solid var(--line);border-radius:6px}
+/* Display the 744px square at (72,237) within the original 888×1134 contact card, including its scan margin. */
+.qr-image-frame{display:block;position:relative;aspect-ratio:1;overflow:hidden}
+.qr-image-frame img{position:absolute;left:-9.677%;top:-31.855%;width:119.355%;max-width:none;height:auto}
 .qr-figure figcaption{text-align:center;font-size:12px;margin-top:6px}
 @media (max-width:560px){
-  .qr-dialog-body{grid-template-columns:minmax(0,1fr)}
-  .qr-figure{justify-self:center;order:-1}
+  .qr-dialog-head{align-items:center;padding:14px 16px 10px}
+  .qr-dialog-body{grid-template-columns:minmax(0,1fr);gap:12px;padding:0 14px 16px}
+  .qr-figure{width:clamp(160px,min(56vw,32dvh),224px);justify-self:center;order:-1}
+  .qr-contact-info{justify-items:center;gap:4px;text-align:center}
+  .qr-person{font-size:20px}
+  .qr-account{display:flex;align-items:baseline;gap:8px;margin-top:0}
+  .qr-account strong{line-height:1.2}
+  .qr-dialog-actions{justify-content:center;gap:4px 10px;margin-top:2px}
+  .qr-dialog-actions .btn{padding-inline:12px}
+  .qr-dialog-actions .text-link{font-size:14px}
+}
+@media (min-width:561px) and (max-height:540px){
+  .qr-dialog-head{align-items:center;padding:10px 18px 8px}
+  .qr-dialog-body{gap:16px;padding:0 18px 14px}
+  .qr-contact-info{gap:5px}
+  .qr-account{margin-top:2px}
+  .qr-figure{width:clamp(148px,50dvh,224px)}
 }
 
 /* clipboard fallback */

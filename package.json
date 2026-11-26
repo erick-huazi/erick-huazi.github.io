@@ -15,6 +15,7 @@
     "@fontpkg/smiley-sans": "2.0.4",
     "axe-core": "4.14.0",
     "fuse.js": "7.5.0",
+    "jsqr": "1.4.0",
     "lightningcss": "1.33.0",
     "playwright-core": "1.65.1",
     "rough-notation": "0.5.1",

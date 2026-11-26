@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { before, after, test } from 'node:test';
 import { chromium } from 'playwright-core';
 import { checkInquiry } from './check-inquiry.mjs';
+import { checkWechatCard, checkContactCopy } from './check-contact.mjs';
 
 const origin = new URL(process.argv[2] || 'http://127.0.0.1:8000/');
 const axePath = createRequire(import.meta.url).resolve('axe-core/axe.min.js');
@@ -152,7 +153,9 @@ async function checkComparison(page) {
 for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1280, 800]]) {
   const workflows = [
     ['gallery', checkGallery], ['quick search', checkQuickSearch], ['comparison', checkComparison],
-    ['inquiry', page => checkInquiry(page, auditRegion, origin)]
+    ['inquiry', page => checkInquiry(page, auditRegion, origin)],
+    ['WeChat contact card', page => checkWechatCard(page, auditRegion, origin)],
+    ['clipboard recovery', page => checkContactCopy(page, auditRegion, origin)]
   ];
   for (const [name, check] of workflows) {
     test(name + ' at ' + width + 'x' + height, async () => {

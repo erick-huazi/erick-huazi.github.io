@@ -18,6 +18,11 @@ document.documentElement.classList.add('js');
 let toastTimer;
 function notify(message) { const toast = $('#toast'); toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 3600); }
 let copyOrigin;
+let pendingCopy;
+document.addEventListener('focusin', event => {
+  // Moving into or out of a dialog abandons clipboard prompts from the previous view.
+  if (pendingCopy && event.target.closest('dialog') !== pendingCopy.dialog) pendingCopy = null;
+});
 const copyFeedback = new WeakMap();
 function markCopied(origin) {
   if (!(origin instanceof HTMLElement) || !origin.matches('[data-copy-email],[data-copy-phone],[data-copy-wechat]')) return;
@@ -26,13 +31,15 @@ function markCopied(origin) {
   copyFeedback.set(origin, setTimeout(() => { delete origin.dataset.copied; copyFeedback.delete(origin); }, 2200));
 }
 async function copyText(text, origin = document.activeElement, isCurrent = () => true) {
+  const request = { dialog: origin?.closest('dialog') ?? null };
+  pendingCopy = request;
+  const acceptsResult = () => pendingCopy === request && isCurrent();
   try {
     await navigator.clipboard.writeText(text);
-    if (!isCurrent()) return false;
-    markCopied(origin); notify('已复制，可以粘贴使用。'); return true;
+    if (!acceptsResult()) return 'superseded';
+    markCopied(origin); notify('已复制，可以粘贴使用。'); return 'copied';
   } catch {
-    // A pending clipboard request must not reopen an obsolete inquiry draft.
-    if (!isCurrent()) return false;
+    if (!acceptsResult()) return 'superseded';
     const dialog = $('#copy-dialog'), value = $('#copy-value');
     copyOrigin = origin;
     value.value = text;
@@ -41,7 +48,9 @@ async function copyText(text, origin = document.activeElement, isCurrent = () =>
     value.rows = short ? 3 : 9;
     dialog.showModal();
     value.focus(); value.select();
-    return false;
+    return 'manual';
+  } finally {
+    if (pendingCopy === request) pendingCopy = null;
   }
 }
 $('#close-copy').addEventListener('click', () => $('#copy-dialog').close());
@@ -57,24 +66,35 @@ $$('[data-copy-wechat]').forEach(button => {
     const session = wechatSession;
     // Clipboard permissions may resolve after the dialog has been closed or reopened.
     const isCurrent = () => !fromDialog || (wechatDialog.open && session === wechatSession);
-    const copied = await copyText(contactWechat, button, isCurrent);
-    if (copied && fromDialog && isCurrent()) $('#wechat-copy-status').textContent = '微信号已复制，可切换到微信添加好友。';
+    const result = await copyText(contactWechat, button, isCurrent);
+    if (result === 'copied' && fromDialog && isCurrent()) $('#wechat-copy-status').textContent = '微信号已复制，可切换到微信添加好友。';
   });
   button.hidden = false;
 });
-$$('[data-open-wechat]').forEach(button => button.addEventListener('click', event => {
-  if (typeof wechatDialog.showModal !== 'function' || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-  event.preventDefault();
-  wechatSession += 1;
-  wechatOrigin = button.closest('#nav-links') && matchMedia('(max-width:760px)').matches ? menu : button;
-  closeMenu(); $('#wechat-copy-status').textContent = '复制微信号，在微信中搜索添加。';
-  const qr = wechatDialog.querySelector('[data-qr-src]');
-  if (!qr.hasAttribute('src')) qr.src = qr.dataset.qrSrc;
-  wechatDialog.showModal();
-  wechatDialog.scrollTop = 0;
-}));
+if (typeof wechatDialog.showModal === 'function') {
+  $$('[data-open-wechat]').forEach(button => {
+    button.setAttribute('aria-haspopup', 'dialog');
+    button.setAttribute('aria-controls', wechatDialog.id);
+    button.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      wechatSession += 1;
+      wechatOrigin = button.closest('#nav-links') && matchMedia('(max-width:760px)').matches ? menu : button;
+      closeMenu();
+      $('#wechat-copy-status').textContent = '复制微信号，在微信中搜索添加。';
+      const qr = wechatDialog.querySelector('[data-qr-src]');
+      if (!qr.hasAttribute('src')) qr.src = qr.dataset.qrSrc;
+      wechatDialog.showModal();
+      wechatDialog.scrollTop = 0;
+    });
+  });
+}
 $('#close-wechat').addEventListener('click', () => wechatDialog.close());
-wechatDialog.addEventListener('close', () => { wechatSession += 1; wechatOrigin?.focus(); });
+wechatDialog.addEventListener('close', () => {
+  if (wechatDialog.open) return;
+  wechatSession += 1;
+  wechatOrigin?.focus();
+});
 wechatDialog.addEventListener('click', event => { if (event.target === wechatDialog) { const r = wechatDialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) wechatDialog.close(); } });
 // The original image links remain usable without dialog support or with modified clicks.
 (() => {
@@ -336,7 +356,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
       || event.clientY < bounds.top || event.clientY > bounds.bottom) projectViewer.close();
   });
 })();
-$('#share-page').addEventListener('click', () => copyText(siteUrl));
+$('#share-page').addEventListener('click', event => copyText(siteUrl, event.currentTarget));
 $('#share-page').hidden = false;
 const form = $('#inquiry-form');
 const inquiryDetails = $('#inquiry-details');
@@ -459,13 +479,13 @@ inquiryCopyButton.addEventListener('click', async () => {
   const bodyToCopy = generatedBody;
   resetInquiryCopy();
   const attempt = inquiryCopyAttempt;
-  const copied = await copyText(bodyToCopy, inquiryCopyButton, () => inquiryDetails.open && bodyToCopy === generatedBody && attempt === inquiryCopyAttempt);
+  const result = await copyText(bodyToCopy, inquiryCopyButton, () => inquiryDetails.open && bodyToCopy === generatedBody && attempt === inquiryCopyAttempt);
   if (bodyToCopy !== generatedBody || attempt !== inquiryCopyAttempt) return;
-  if (copied) {
+  if (result === 'copied') {
     inquiryCopyButton.textContent = '已复制全文';
     inquiryCopyButton.dataset.copied = 'true';
     inquiryCopyStatus.textContent = '全文已复制。可粘贴到微信或邮件中发送。';
-  } else inquiryCopyStatus.textContent = '自动复制未完成，可在弹窗中手动复制全文。';
+  } else if (result === 'manual') inquiryCopyStatus.textContent = '自动复制未完成，可在弹窗中手动复制全文。';
 });
 $('#download-inquiry').addEventListener('click', () => {
   if (!generatedBody) return;
