@@ -1,13 +1,28 @@
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
 import { before, after, test } from 'node:test';
 import { chromium } from 'playwright-core';
+import { checkInquiry } from './check-inquiry.mjs';
 
 const origin = new URL(process.argv[2] || 'http://127.0.0.1:8000/');
+const axePath = createRequire(import.meta.url).resolve('axe-core/axe.min.js');
 let browser;
 before(async () => {
   browser = await chromium.launch({ channel: process.env.PORTFOLIO_BROWSER_CHANNEL || 'chrome' });
 });
 after(async () => { await browser?.close(); });
+
+async function auditRegion(page, selector) {
+  if (!await page.evaluate(() => Boolean(window.axe))) await page.addScriptTag({ path: axePath });
+  const violations = await page.evaluate(async region => {
+    const result = await window.axe.run(region, {
+      runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] },
+      resultTypes: ['violations']
+    });
+    return result.violations.map(rule => ({ rule: rule.id, elements: rule.nodes.map(node => node.target) }));
+  }, selector);
+  assert.deepEqual(violations, [], 'Accessibility findings in ' + selector + ': ' + JSON.stringify(violations));
+}
 
 async function checkGallery(page) {
   await page.goto(new URL('/#project-jmsai', origin).href);
@@ -37,6 +52,68 @@ async function checkGallery(page) {
   await page.keyboard.press('Escape');
   await viewer.waitFor({ state: 'hidden' });
   assert.ok(await trigger.evaluate(a => a === document.activeElement), 'Return focus to the original case');
+}
+
+async function checkQuickSearch(page) {
+  const exactOnly = page.viewportSize().width === 320;
+  let blockedFuse = false;
+  if (exactOnly) {
+    await page.route('**/assets/vendor/fuse.basic.min.mjs', route => {
+      blockedFuse = true;
+      return route.abort();
+    });
+  }
+  await page.goto(origin.href);
+  await page.keyboard.press('Control+k');
+  const dialog = page.locator('#quick-dialog');
+  const input = page.locator('#quick-query');
+  await dialog.waitFor();
+  assert.ok(await dialog.evaluate(el => {
+    const box = el.getBoundingClientRect();
+    const help = el.querySelector('.quick-help').getBoundingClientRect();
+    return box.top >= 0 && box.left >= 0 && box.bottom <= innerHeight + 1 && box.right <= innerWidth + 1
+      && help.height > 0 && help.top >= box.top && help.bottom <= box.bottom + 1;
+  }), 'Keep the quick dialog and its keyboard hints inside the viewport');
+  await auditRegion(page, '#quick-dialog');
+  if (!exactOnly) {
+    await input.fill('worlcup');
+    await dialog.locator('[data-quick-target="project-worldcup"][data-approximate="true"]:visible').waitFor();
+  }
+  const selected = dialog.locator('[role="option"][aria-selected="true"]');
+  for (const [query, destination] of [
+    ['HYALORIA工作台', 'project-hyaloria-playground'], ['多模型API', 'project-hyaloria'], ['JMSAI选股', 'project-jmsai']
+  ]) {
+    await input.fill(query);
+    assert.equal(await dialog.getByRole('option').count(), 1, query);
+    assert.equal(await selected.getAttribute('data-quick-target'), destination);
+  }
+  if (exactOnly) assert.ok(blockedFuse, 'Exercise exact matching when Fuse cannot load');
+
+  await input.fill('HYALORIA');
+  await input.press('ArrowDown');
+  assert.equal(await selected.getAttribute('data-quick-target'), 'project-hyaloria-playground');
+  assert.equal(await input.getAttribute('aria-activedescendant'), await selected.getAttribute('id'));
+  assert.ok(await input.evaluate(el => el === document.activeElement), 'Arrow navigation keeps typing focus in the field');
+
+  await input.fill('no-matching-portfolio-example');
+  await dialog.locator('#quick-empty').waitFor();
+  assert.equal(await input.getAttribute('aria-activedescendant'), null);
+  await input.press('Enter');
+  assert.ok(await dialog.isVisible(), 'An empty list must not navigate');
+
+  await input.fill('世界杯');
+  const originalUrl = page.url();
+  await input.evaluate(el => {
+    // Recreate the key sequence where the IME finishes composition before its final Enter keydown.
+    el.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+    el.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+    el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 229, bubbles: true, cancelable: true }));
+  });
+  assert.ok(await dialog.isVisible(), 'Confirming an IME candidate must not activate an option');
+  assert.equal(page.url(), originalUrl);
+  await input.press('Enter');
+  await dialog.waitFor({ state: 'hidden' });
+  assert.equal(new URL(page.url()).hash, '#project-worldcup');
 }
 
 async function checkComparison(page) {
@@ -73,7 +150,11 @@ async function checkComparison(page) {
 }
 
 for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1280, 800]]) {
-  for (const [name, check] of [['gallery', checkGallery], ['comparison', checkComparison]]) {
+  const workflows = [
+    ['gallery', checkGallery], ['quick search', checkQuickSearch], ['comparison', checkComparison],
+    ['inquiry', page => checkInquiry(page, auditRegion, origin)]
+  ];
+  for (const [name, check] of workflows) {
     test(name + ' at ' + width + 'x' + height, async () => {
       const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' });
       page.setDefaultTimeout(7000);

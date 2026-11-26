@@ -379,11 +379,23 @@ document.addEventListener('click', event => {
   const link = event.target instanceof Element ? event.target.closest('a[href="#inquiry-details"]') : null;
   if (link) inquiryDetails.open = true;
 });
-function invalidateSummary() {
+const requiredInquiryFields = new Map([
+  [nameField, '请填写你的称呼。'],
+  [needField, '请简单描述希望解决的问题。']
+]);
+function validateInquiryField(field) {
+  const error = document.getElementById(field.id + '-error');
+  field.setCustomValidity(field.value.trim() ? '' : requiredInquiryFields.get(field));
+  error.textContent = field.validationMessage;
+  error.hidden = field.validity.valid;
+  if (error.hidden) field.removeAttribute('aria-invalid');
+  else field.setAttribute('aria-invalid', 'true');
+}
+function invalidateSummary(event) {
   resetInquiryCopy();
   if (generatedBody) { generatedBody = ''; output.hidden = true; outputPlaceholder.hidden = false; $('#summary-text').value = ''; $('#email-draft').href = `mailto:${contactEmail}`; $('#form-status').textContent = '内容已修改，请重新整理需求后发送。'; }
   $('#need-count').textContent = `${needField.value.length} / 1500`;
-  nameField.setCustomValidity(''); needField.setCustomValidity('');
+  if (event?.target.getAttribute('aria-invalid') === 'true') validateInquiryField(event.target);
 }
 inquiryDetails.addEventListener('toggle', () => { if (!inquiryDetails.open) resetInquiryCopy(); });
 form.addEventListener('input', invalidateSummary);
@@ -400,13 +412,23 @@ $$('[data-service]').forEach(link => link.addEventListener('click', event => {
 }));
 form.addEventListener('submit', event => {
   event.preventDefault();
-  nameField.setCustomValidity(nameField.value.trim() ? '' : '请填写你的称呼。');
-  needField.setCustomValidity(needField.value.trim() ? '' : '请简单描述希望解决的问题。');
-  if (!form.reportValidity()) return;
+  for (const field of requiredInquiryFields.keys()) validateInquiryField(field);
+  const firstInvalid = form.querySelector(':invalid');
+  if (firstInvalid) {
+    firstInvalid.focus();
+    return;
+  }
   const data = new FormData(form);
   const name = nameField.value.trim(), service = String(data.get('service'));
   const referenceLine = referenceField.value ? `参考作品：${referenceField.selectedOptions[0].text}\n\n` : '';
-  generatedBody = `张建华你好，\n\n我是 ${name}，想咨询「${service}」。\n\n${referenceLine}我的需求：\n${needField.value.trim()}\n\n希望的沟通方式：${data.get('mode')}\n期望时间：${String(data.get('timing')).trim() || '双方协商'}\n\n请告知合适的沟通时间、合作范围及费用。谢谢！`;
+  const mode = data.get('mode');
+  const timing = String(data.get('timing')).trim();
+  const preferences = [mode && `希望的沟通方式：${mode}`, timing && `期望时间：${timing}`].filter(Boolean).join('\n');
+  generatedBody = [
+    '张建华你好，', `我是 ${name}，想咨询「${service}」。`,
+    `${referenceLine}我的需求：\n${needField.value.trim()}`, preferences,
+    '请告知合适的沟通时间、合作范围及费用。谢谢！'
+  ].filter(Boolean).join('\n\n');
   generatedFilename = `咨询需求-${service}.txt`;
   resetInquiryCopy();
   $('#summary-text').value = generatedBody;
@@ -451,6 +473,7 @@ $('#download-inquiry').addEventListener('click', () => {
   const link = document.createElement('a'); link.href = url; link.download = generatedFilename; document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1500);
   notify('已生成需求文本，尚未发送。');
 });
+form.noValidate = true;
 $('#generate-inquiry').disabled = false;
 $('#inquiry-unavailable').hidden = true;
 // Project index: native buttons remain keyboard accessible; all content exists without JS.
@@ -720,7 +743,9 @@ const quickItems = $$('.quick-item');
 const quickRecords = quickItems.map((item, index) => {
   item.id = `quick-option-${index}`;
   item.setAttribute('role', 'option'); item.setAttribute('aria-selected', 'false'); item.tabIndex = -1;
-  return { id: item.id, title: item.querySelector('span').firstChild.textContent.trim(), description: item.querySelector('small').textContent, aliases: item.dataset.searchAlias || '' };
+  const title = item.querySelector('span').firstChild.textContent.trim();
+  const compactTitle = title.normalize('NFKC').replace(/[\s·:—–-]+/gu, '');
+  return { id: item.id, title, description: item.querySelector('small').textContent, aliases: [item.dataset.searchAlias || '', compactTitle].join(' ') };
 });
 let quickOrigin, restoreQuickFocus = true, quickComposing = false;
 let quickVisible = [], quickActive = -1, searchRanker, searchLoading;
@@ -740,8 +765,12 @@ function setQuickActive(index, scroll = false) {
 }
 function filterQuickItems(keepActive = false) {
   const previousId = keepActive ? quickVisible[quickActive]?.id : null;
-  const terms = quickInput.value.normalize('NFKC').trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
-  const matches = searchRanker ? searchRanker(quickInput.value) : quickRecords.filter(record => {
+  // Visitors commonly type product names and Chinese keywords without spaces.
+  const query = quickInput.value.normalize('NFKC').toLowerCase()
+    .replace(/([a-z0-9])(\p{Script=Han})/gu, '$1 $2')
+    .replace(/(\p{Script=Han})([a-z0-9])/gu, '$1 $2').trim();
+  const terms = query.split(/\s+/).filter(Boolean);
+  const matches = searchRanker ? searchRanker(query) : quickRecords.filter(record => {
     const searchable = [record.title, record.description, record.aliases].join(' ').toLocaleLowerCase();
     return terms.every(term => /^[a-z]{1,2}$/.test(term) ? new RegExp(`\\b${term}`).test(searchable) : searchable.includes(term));
   }).map(record => ({ id: record.id, approximate: false }));
@@ -785,13 +814,18 @@ function openQuick() {
 $$('[data-open-quick]').forEach(button => { button.hidden = false; button.addEventListener('click', openQuick); });
 $('#close-quick').addEventListener('click', () => quickDialog.close());
 quickDialog.addEventListener('close', () => {
+  quickComposing = false;
   quickInput.setAttribute('aria-expanded', 'false'); quickInput.removeAttribute('aria-activedescendant');
   if (restoreQuickFocus) (quickOrigin?.getClientRects().length ? quickOrigin : $('.quick-trigger')).focus();
 });
+function isQuickImeKey(event) {
+  // Some IMEs end composition before the keydown that confirms the candidate.
+  return event.isComposing || quickComposing || event.keyCode === 229;
+}
 quickDialog.addEventListener('keydown', event => {
-  if (event.key !== 'Escape') return;
+  if (event.key !== 'Escape' || isQuickImeKey(event)) return;
   event.preventDefault(); event.stopPropagation();
-  if (!event.isComposing && !quickComposing) quickDialog.close();
+  quickDialog.close();
 });
 quickDialog.addEventListener('cancel', event => { if (quickComposing) event.preventDefault(); });
 quickInput.addEventListener('compositionstart', () => { quickComposing = true; });
@@ -800,7 +834,7 @@ quickInput.addEventListener('input', event => { if (!event.isComposing && !quick
 $('#quick-clear').addEventListener('click', () => { quickInput.value = ''; filterQuickItems(); quickInput.focus(); });
 $$('[data-quick-query]').forEach(button => button.addEventListener('click', () => { quickInput.value = button.dataset.quickQuery; filterQuickItems(); quickInput.focus(); }));
 quickInput.addEventListener('keydown', event => {
-  if (event.isComposing || quickComposing || !quickVisible.length) return;
+  if (isQuickImeKey(event) || !quickVisible.length) return;
   if (event.key === 'ArrowDown') { event.preventDefault(); setQuickActive((quickActive + 1) % quickVisible.length, true); }
   if (event.key === 'ArrowUp') { event.preventDefault(); setQuickActive((quickActive - 1 + quickVisible.length) % quickVisible.length, true); }
   if (event.key === 'Enter') { event.preventDefault(); quickVisible[quickActive]?.click(); }
@@ -818,7 +852,7 @@ quickItems.forEach(item => item.addEventListener('click', () => {
   }
 }));
 document.addEventListener('keydown', event => {
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k' && !event.isComposing) { event.preventDefault(); if (quickDialog.open) quickDialog.close(); else openQuick(); }
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k' && !isQuickImeKey(event)) { event.preventDefault(); if (quickDialog.open) quickDialog.close(); else openQuick(); }
 });
 const shortcutLabel = $('.quick-trigger kbd');
 shortcutLabel.textContent = /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘ K' : 'Ctrl K';

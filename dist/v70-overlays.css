@@ -7,7 +7,20 @@ html.motion dialog[open]{animation:dialog-in .45s var(--ease)}
 #close-quick:hover,.qr-close:hover,#close-project-viewer:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
 
 /* command palette */
-.quick-dialog{margin-top:min(14vh,120px)}
+.quick-dialog{--quick-top:min(12dvh,100px);margin:var(--quick-top) auto auto;max-height:calc(100dvh - var(--quick-top) - 12px)}
+.quick-dialog[open]{display:flex;flex-direction:column}
+.quick-head,.quick-search-field,.quick-suggestions,.quick-help{flex:none}
+.quick-search-field:has(#quick-query:focus-visible){box-shadow:inset 0 -2px var(--accent)}
+.quick-help{border-top:1px solid var(--line)}
+#quick-count{font-variant-numeric:tabular-nums}
+@media (max-height:560px){
+  .quick-dialog{--quick-top:8px}
+  .quick-dialog .quick-head{align-items:center;padding:6px 14px 0}
+  .quick-dialog .quick-suggestions{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;padding:6px 14px}
+  .quick-suggestions button{flex:none}
+  .quick-dialog #quick-query{padding:8px 14px}
+  .quick-dialog .quick-help{padding:5px 14px}
+}
 .quick-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px 18px 0}
 .quick-title-stack small{display:block;font:500 11px/1.4 var(--f-mono);letter-spacing:.1em;color:var(--accent)}
 .quick-title-stack label{font-weight:800;font-size:18px}
@@ -20,7 +33,7 @@ html.motion dialog[open]{animation:dialog-in .45s var(--ease)}
 .quick-suggestions{display:flex;flex-wrap:wrap;gap:6px;padding:12px 18px}
 .quick-suggestions button{border:1px solid var(--line);padding:4px 10px;font-size:12px;color:var(--mute);transition:color .2s,border-color .2s}
 .quick-suggestions button:hover{color:var(--bone);border-color:var(--bone)}
-#quick-results{max-height:min(46vh,420px);overflow:auto;border-top:1px solid var(--line);scrollbar-width:thin;scrollbar-color:var(--mute-d) transparent}
+#quick-results{min-height:0;max-height:min(46dvh,420px);overflow:auto;overscroll-behavior:contain;border-top:1px solid var(--line);scrollbar-width:thin;scrollbar-color:var(--mute-d) transparent}
 .quick-item{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;text-align:left;padding:11px 18px;border-bottom:1px solid var(--line);font-weight:600;font-size:15px}
 .quick-item small{display:block;font-weight:400;font-size:12px;color:var(--mute)}
 .quick-item .ui-icon{opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .3s var(--ease)}

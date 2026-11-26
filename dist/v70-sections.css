@@ -314,6 +314,8 @@ a.case-product-preview:hover .case-sheet,a.case-product-preview:focus-visible .c
 .contact-card input:focus,.contact-card select:focus,.contact-card textarea:focus{border-color:var(--accent);outline:0}
 .contact-card ::placeholder{color:#6f6c66}
 #visitor-need{min-height:150px;resize:vertical}
+.contact-card [aria-invalid="true"]{border-color:#ffab98}
+.field-error{margin-top:6px;font-size:13px;line-height:1.5;color:#ffab98}
 .need-meta{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--dim);margin-top:-8px}
 .inquiry-preferences{border-block:1px solid var(--rule)}
 .inquiry-preferences summary{display:flex;align-items:center;gap:10px;padding:13px 0;font-size:14px;font-weight:600}
