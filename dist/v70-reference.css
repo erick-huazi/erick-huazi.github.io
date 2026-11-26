@@ -173,7 +173,7 @@
 #ref-compare-download-status:not(:empty){padding-bottom:10px}
 .ref-compare-intro{padding:18px clamp(16px,2.4vw,32px) 0;color:var(--mute);font-size:14px;max-width:70em}
 #ref-comparison-content{padding:0 clamp(16px,2.4vw,32px)}
-.ref-compare-group{padding-block:26px;border-bottom:1px solid var(--line);scroll-margin-top:calc(var(--ref-compare-header-height,150px) + 12px);outline:0}
+.ref-compare-group{padding-block:26px;border-bottom:1px solid var(--line);outline:0}
 .ref-compare-group-title{display:flex;align-items:baseline;gap:12px;font-size:20px;font-weight:800;margin-bottom:16px}
 .ref-compare-group-title span{font:500 12px/1 var(--f-mono);color:var(--accent)}
 .ref-compare-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}

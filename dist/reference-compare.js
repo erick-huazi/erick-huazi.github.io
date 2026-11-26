@@ -139,6 +139,10 @@
       sources.append(cell);
     });
   }
+  function visibleChoice(id) {
+    return choices.find(button => button.dataset.compareId === id && !button.closest('article').hidden);
+  }
+  const search = document.querySelector('#ref-search');
   function update() {
     choices.forEach(button => {
       const isSelected = selected.has(button.dataset.compareId);
@@ -164,7 +168,7 @@
       remove.setAttribute('aria-label', `移除案例：${record.title}（${record.provider}）`);
       remove.addEventListener('click', () => {
         selected.delete(id); update();
-        const target = selectedItems.querySelector('button') || choices.find(button => !button.closest('article').hidden) || document.querySelector('#ref-search');
+        const target = selectedItems.querySelector('button') || visibleChoice(id) || search;
         target?.focus();
       });
       selectedItems.append(remove);
@@ -173,16 +177,19 @@
   }
   choices.forEach(button => {
     button.hidden = false;
-    button.addEventListener('click', () => {
+    button.addEventListener('click', event => {
       const id = button.dataset.compareId;
       if (selected.has(id)) selected.delete(id);
       else if (selected.size < 2) selected.add(id);
       update();
+      // Keyboard and assistive activation can continue directly into the comparison.
+      if (selected.size === 2 && event.detail === 0) openButton.focus({preventScroll:true});
     });
   });
   document.querySelector('#ref-compare-clear').addEventListener('click', () => {
+    const origin = [...selected].reverse().map(visibleChoice).find(Boolean) || search;
     selected.clear(); update();
-    (choices.find(button => !button.closest('article').hidden) || document.querySelector('#ref-search')).focus();
+    origin?.focus();
   });
   openButton.addEventListener('click', () => {
     if (selected.size !== 2) return;
