@@ -95,3 +95,15 @@
 在 390×844、DPR 2、冷缓存的 Chrome 中，以 4 倍 CPU 降速、80ms 延迟、400,000 B/s 下载速率交替测量新旧版本各三次。最大内容元素均为首页主文案，LCP 中位数从 1,420ms 到 1,188ms。四张首屏实图合计从 155,060 B 到 91,810 B。实验室结果受设备和网络条件影响。
 
 滚动回归另用八次小幅滚动计数，确保作品区外的阅读文案与流程图不会被反复测量，移回实际预览时自定义指针仍会响应。[屏外动效回归](../scripts/check-motion-work.mjs)
+
+## 从案例进入合作咨询
+
+访客看完作品可以带着它来谈自己的需求，也可以把外部公开案例的原文附给收件人。这轮评分考察带入的内容能否修改、换入口会不会盖掉已填信息，以及收件人能否找到所讨论的案例。
+
+| GitHub 项目 | 场景匹配 | 可验证性 | 接入成本 | 互补性 | 总分 | 在本站的用法 |
+|---|---:|---:|---:|---:|---:|---|
+| [React Hook Form · 保留已编辑字段的测试](https://github.com/react-hook-form/react-hook-form/blob/239aed829b3e23b60c0fd61dff0946771b525402/src/__tests__/useForm/reset.test.tsx#L1158-L1238) | 5 | 5 | 4 | 5 | 19/20 | 借鉴其逐字段验证预填更新的方法。本站分别记录访客是否手选过服务和作品，保留主动清空作品的选择。 |
+| [GOV.UK Design System · Check answers](https://github.com/alphagov/govuk-design-system/blob/0c6de5736a4e755a3808fb31d3a7723a33b7c705/src/patterns/check-answers/index.md#L44-L62) | 5 | 4 | 5 | 4 | 18/20 | 采用确认前核对、保留已填答案的流程。本站用同一份正文生成预览、邮件草稿与下载文件，方便逐项复核。 |
+| [Marketing Skills · CRO 表单指南](https://github.com/coreyhaines31/marketingskills/blob/2bf95edb4ebd37198ab7fd18b99ba95c2145ec64/skills/cro/references/form.md#L176-L198) | 5 | 3 | 5 | 4 | 17/20 | 采用保留输入、将焦点移到首个错误、按操作结果命名按钮的检查方式。项目测试可直接核对焦点和正文，转化率仍需真实访客数据。 |
+
+本站作品随需求单附上个人网站中的作品链接。参考库对照中的两条外部案例保留来源和原文，可以一起取消附上。两类引用都要在预览与最终导出中保持一致。[项目评审 skill](../.agents/skills/portfolio-ui-review/SKILL.md)

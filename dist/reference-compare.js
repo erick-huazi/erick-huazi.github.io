@@ -205,6 +205,10 @@
   }
   function showComparison() {
     if (selected.size !== 2) return;
+    const inquiry = new URL('./', location.href);
+    inquiry.searchParams.set('cases', [...selected].join(','));
+    inquiry.hash = 'inquiry-details';
+    document.getElementById('ref-compare-inquiry').href = inquiry.href;
     shareAttempt++;
     shareField.hidden = true;
     shareStatus.textContent = '';

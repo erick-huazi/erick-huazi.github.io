@@ -383,6 +383,39 @@ let generatedFilename = '咨询需求.txt';
 const serviceField = $('#service-select');
 const referenceField = $('#inquiry-reference');
 const defaultNeedPrompt = needField.placeholder;
+const publicContext = $('#inquiry-public-context');
+const includePublicCases = $('#include-public-cases');
+function getIncomingCases() {
+  if (location.hash !== '#inquiry-details') return [];
+  const params = new URLSearchParams(location.search).getAll('cases');
+  const ids = params.length === 1 ? params[0].split(',') : [];
+  if (ids.length !== 2 || ids[0] === ids[1]) return [];
+  const records = JSON.parse($('#inquiry-public-records').textContent);
+  const pair = ids.map(id => records.find(record => record.id === id));
+  return pair.every(Boolean) ? pair : [];
+}
+const incomingCases = getIncomingCases();
+if (incomingCases.length) {
+  const list = $('#inquiry-public-list');
+  for (const record of incomingCases) {
+    const li = document.createElement('li');
+    const source = document.createElement('a');
+    source.href = record.url;
+    source.target = '_blank';
+    source.rel = 'noopener noreferrer';
+    source.textContent = record.title;
+    source.setAttribute('aria-label', record.title + '，打开原文（新标签页）');
+    const provider = document.createElement('small');
+    provider.textContent = record.provider;
+    li.append(source, provider);
+    list.append(li);
+  }
+  publicContext.hidden = false;
+}
+function publicCaseText() {
+  if (!incomingCases.length || !includePublicCases.checked) return '';
+  return ['想讨论的外部公开案例：', ...incomingCases.map(({provider, title, url}) => provider + ' · ' + title + '\n' + url)].join('\n');
+}
 const servicePrompts = new Map($$('.offer [data-service][data-prompt]').map(link => [link.dataset.service, link.dataset.prompt]));
 const projectPrompts = new Map();
 for (const link of $$('.case-inquiry')) {
@@ -392,17 +425,55 @@ for (const link of $$('.case-inquiry')) {
   projectPrompts.set(project.id, link.dataset.prompt);
 }
 $('#reference-field').hidden = false;
-function updateInquiryContext() {
+const inquirySources = new Map($$('[data-inquiry-source][data-service]').map(link => [link.dataset.inquirySource, link]));
+const manualInquiryChoices = new Set();
+let currentInquirySource = null;
+function updateInquiryContext(keptChoice = false) {
   needField.placeholder = projectPrompts.get(referenceField.value) || servicePrompts.get(serviceField.value) || defaultNeedPrompt;
   const reference = referenceField.value ? `，参考作品为「${referenceField.selectedOptions[0].text}」` : '';
-  $('#form-status').textContent = `已选择「${serviceField.value}」${reference}。`;
+  $('#form-status').textContent = `已选择「${serviceField.value}」${reference}。${keptChoice ? '已保留你在表单中手选的内容。' : ''}`;
+}
+function inquirySourceReference(link) {
+  return link.closest('.case-showcase')?.id || '';
+}
+function inquiryLocation() {
+  const url = new URL(location.href);
+  const link = currentInquirySource;
+  if (link && serviceField.value === link.dataset.service && referenceField.value === inquirySourceReference(link)) {
+    url.searchParams.set('inquiry', link.dataset.inquirySource);
+  } else url.searchParams.delete('inquiry');
+  return url;
+}
+function applyInquirySource(link) {
+  currentInquirySource = link;
+  let changed = false;
+  let keptChoice = false;
+  for (const [field, value] of [[serviceField, link.dataset.service], [referenceField, inquirySourceReference(link)]]) {
+    if (field.value === value) continue;
+    if (manualInquiryChoices.has(field)) keptChoice = true;
+    else {
+      field.value = value;
+      changed = true;
+    }
+  }
+  if (changed) invalidateSummary();
+  if (changed || keptChoice || !generatedBody) updateInquiryContext(keptChoice);
 }
 function restoreInquiryHash() {
   if (location.hash === '#inquiry-details') inquiryDetails.open = true;
 }
-restoreInquiryHash();
+function restoreInquirySource() {
+  if (location.hash !== '#inquiry-details') return;
+  restoreInquiryHash();
+  const sources = new URLSearchParams(location.search).getAll('inquiry');
+  currentInquirySource = sources.length === 1 ? inquirySources.get(sources[0]) : null;
+  if (currentInquirySource) applyInquirySource(currentInquirySource);
+  const url = inquiryLocation();
+  if (url.href !== location.href) history.replaceState(history.state, '', url);
+}
+restoreInquirySource();
 window.addEventListener('hashchange', restoreInquiryHash);
-window.addEventListener('popstate', restoreInquiryHash);
+window.addEventListener('popstate', restoreInquirySource);
 // A same-hash click does not emit hashchange; open the existing tool before
 // native anchor navigation without changing or submitting the visitor's text.
 document.addEventListener('click', event => {
@@ -431,16 +502,24 @@ function invalidateSummary(event) {
 inquiryDetails.addEventListener('toggle', () => { if (!inquiryDetails.open) resetInquiryCopy(); });
 form.addEventListener('input', invalidateSummary);
 form.addEventListener('change', invalidateSummary);
-serviceField.addEventListener('change', updateInquiryContext);
-referenceField.addEventListener('change', updateInquiryContext);
-$$('[data-service]').forEach(link => link.addEventListener('click', event => {
-  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
-  inquiryDetails.open = true;
-  serviceField.value = link.dataset.service;
-  referenceField.value = link.closest('.case-showcase')?.id || '';
-  invalidateSummary();
-  updateInquiryContext();
-}));
+for (const field of [serviceField, referenceField]) {
+  field.addEventListener('change', () => {
+    manualInquiryChoices.add(field);
+    updateInquiryContext();
+    const url = inquiryLocation();
+    if (location.hash === '#inquiry-details' && url.href !== location.href) history.replaceState(history.state, '', url);
+  });
+}
+for (const link of inquirySources.values()) {
+  link.id ||= 'inquiry-from-' + link.dataset.inquirySource;
+  link.addEventListener('click', event => {
+    if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    inquiryDetails.open = true;
+    applyInquirySource(link);
+    navigateToSection(inquiryDetails.id, true, link, inquiryLocation());
+  });
+}
 form.addEventListener('submit', event => {
   event.preventDefault();
   for (const field of requiredInquiryFields.keys()) validateInquiryField(field);
@@ -451,14 +530,14 @@ form.addEventListener('submit', event => {
   }
   const data = new FormData(form);
   const name = nameField.value.trim(), service = String(data.get('service'));
-  const referenceLine = referenceField.value ? `参考作品：${referenceField.selectedOptions[0].text}\n\n` : '';
+  const referenceLine = referenceField.value ? `参考作品：${referenceField.selectedOptions[0].text}\n作品链接：${siteUrl}#${referenceField.value}` : '';
   const mode = data.get('mode');
   const timing = String(data.get('timing')).trim();
   const preferences = [mode && `希望的沟通方式：${mode}`, timing && `期望时间：${timing}`].filter(Boolean).join('\n');
   generatedBody = [
     '张建华你好，', `我是 ${name}，想咨询「${service}」。`,
-    `${referenceLine}我的需求：\n${needField.value.trim()}`, preferences,
-    '请告知合适的沟通时间、合作范围及费用。谢谢！'
+    referenceLine, `我的需求：\n${needField.value.trim()}`, preferences,
+    publicCaseText(), '请告知合适的沟通时间、合作范围及费用。谢谢！'
   ].filter(Boolean).join('\n\n');
   generatedFilename = `咨询需求-${service}.txt`;
   resetInquiryCopy();
@@ -756,12 +835,11 @@ function focusProjectTarget(target) {
   if (!heading.matches('summary')) heading.tabIndex = -1;
   heading.focus({ preventScroll: true });
 }
-function navigateToSection(id, moveFocus = false, origin = document.activeElement) {
+function navigateToSection(id, moveFocus = false, origin = document.activeElement, url = new URL(location.href)) {
   const departure = projectDeparture(origin);
   const target = revealProject(id);
   if (!target) return;
   workReadingIndex.prepareNavigation();
-  const url = new URL(location.href);
   const filter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.projectFilter || 'live';
   if (filter === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', filter);
   url.hash = id;

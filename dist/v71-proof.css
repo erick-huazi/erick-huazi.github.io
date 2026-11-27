@@ -20,7 +20,7 @@ h2{font-size:clamp(44px,7.2vw,116px);line-height:1.08}
 .section-number::before,.reference-teaser-label::before,.eyebrow::before,.ref-kicker::before{width:22px;height:9px;background:var(--hl);transform:skewX(-14deg)}
 html.motion .section-number::before,html.motion .reference-teaser-label::before,html.motion .eyebrow::before{transform:skewX(-14deg) scaleX(0);transform-origin:left;transition:transform .7s var(--ease) .1s}
 html.motion .section-number.in::before,html.motion .reference-teaser-label.in::before,html.motion .eyebrow.in::before{transform:skewX(-14deg)}
-.work-index-heading,.archive-index,.hero-facts dt,.shelf-meta,.contact-channel h3,.contact-tools-label,.offer-preview,.offer-toggle,.offer-example-label,.automation-map p,.offer-deliverables-title,.about-role,.letter-kicker,.inquiry-step,.contact-card-heading span,.quick-title-stack small,.qr-dialog-head p,.copy-dialog-heading p,.qr-account span,.project-viewer-header p,.viewer-gallery-heading,.ref-index-label,.ref-card-top,.ref-type,.ref-facts dt,.ref-search-label,.ref-reading-label,.ref-compare-identity,.ref-compare-type,.ref-compare-fact dt,.footer-inner{letter-spacing:.02em;text-transform:none}
+.work-index-heading,.archive-index,.hero-facts dt,.shelf-meta,.contact-channel h3,.contact-tools-label,.offer-preview,.offer-toggle,.offer-example-label,.automation-map p,.offer-deliverables-title,.about-role,.letter-kicker,.inquiry-step,.quick-title-stack small,.qr-dialog-head p,.copy-dialog-heading p,.qr-account span,.project-viewer-header p,.viewer-gallery-heading,.ref-index-label,.ref-card-top,.ref-type,.ref-facts dt,.ref-search-label,.ref-reading-label,.ref-compare-identity,.ref-compare-type,.ref-compare-fact dt,.footer-inner{letter-spacing:.02em;text-transform:none}
 .ref-learning-word{display:none}
 
 /* ---- navigation and controls ---- */
@@ -209,6 +209,8 @@ html.motion .case-product-preview.in .proof-tag{opacity:1;transform:rotate(-2.5d
 .contact-card input,.contact-card select,.contact-card textarea{border-radius:4px}
 .contact-card .btn.secondary{color:var(--bone)}
 .contact-card :focus-visible{outline-color:var(--hl)}
+.contact-card .inquiry-letter-panel :focus-visible{outline:2px solid #3a361d;outline-offset:2px}
+.contact-card .inquiry-letter-panel textarea:focus{border-color:#3a361d}
 
 /* ---- footer: dark scope ---- */
 .footer{--ink:#141414;--bone:#fbfbf9;--line:rgba(251,251,249,.16);--mute:#a9a8a2;--accent:var(--hl)}

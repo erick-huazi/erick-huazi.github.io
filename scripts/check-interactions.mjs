@@ -3,6 +3,8 @@ import { createRequire } from 'node:module';
 import { before, after, test } from 'node:test';
 import { chromium } from 'playwright-core';
 import { checkInquiry } from './check-inquiry.mjs';
+import { checkPublicInquiry } from './check-public-inquiry.mjs';
+import { checkProjectInquiry } from './check-project-inquiry.mjs';
 import { checkWechatCard, checkContactCopy } from './check-contact.mjs';
 import { checkCatalogNavigation, checkCaseSharing } from './check-catalog.mjs';
 import { checkDiscovery, checkSharedComparison } from './check-reference-discovery.mjs';
@@ -158,6 +160,8 @@ for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1280, 800]])
   const workflows = [
     ['gallery', checkGallery], ['quick search', checkQuickSearch], ['comparison', checkComparison],
     ['inquiry', page => checkInquiry(page, auditRegion, origin)],
+    ['public case inquiry', page => checkPublicInquiry(page, origin, auditRegion)],
+    ['project inquiry', page => checkProjectInquiry(page, origin)],
     ['WeChat contact card', page => checkWechatCard(page, auditRegion, origin)],
     ['clipboard recovery', page => checkContactCopy(page, auditRegion, origin)],
     ['catalog navigation', page => checkCatalogNavigation(page, origin, auditRegion)],

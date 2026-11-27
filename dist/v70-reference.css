@@ -212,6 +212,7 @@
 .ref-compare-share{display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;margin:8px clamp(16px,2.4vw,32px) 0;font-size:14px}
 .ref-compare-share button{min-height:44px;padding:0 14px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:999px;font-weight:600}
 .ref-compare-share button:hover,.ref-compare-share button:focus-visible{border-color:currentColor}
+.ref-compare-share a{display:inline-flex;align-items:center;gap:6px;min-height:44px;text-decoration:underline;text-underline-offset:3px;font-weight:600}
 .ref-compare-share input{width:100%;min-width:0;padding:10px;border:1px solid var(--line);font:inherit;background:var(--bg);color:var(--fg)}
 .ref-compare-group{padding-block:26px;border-bottom:1px solid var(--line);outline:0}
 .ref-compare-group-title{display:flex;align-items:baseline;gap:12px;font-size:20px;font-weight:800;margin-bottom:16px}

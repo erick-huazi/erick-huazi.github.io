@@ -5,10 +5,15 @@ export async function checkInquiry(page, auditRegion, origin) {
   const form = page.locator('#inquiry-form');
   const name = form.locator('#visitor-name');
   const need = form.locator('#visitor-need');
-  const generate = form.getByRole('button', { name: '整理成一封来信' });
+  const generate = form.locator('button[type="submit"]');
   const summary = page.locator('#summary-text');
   const output = page.locator('#summary-output');
   const email = page.locator('#email-draft');
+  if (page.viewportSize().width <= 390) {
+    await page.evaluate(() => document.fonts.ready);
+    assert.ok(await need.evaluate(input => input.getBoundingClientRect().bottom <= innerHeight),
+      'Show both required fields on a small phone opening the form directly');
+  }
 
   await generate.click();
   assert.equal(await name.evaluate(field => field === document.activeElement), true);
@@ -28,6 +33,13 @@ export async function checkInquiry(page, auditRegion, origin) {
   assert.equal(await need.getAttribute('aria-invalid'), 'true');
   await need.fill('希望让同事自行整理周报。');
   await generate.click();
+  for (const action of [page.locator('#copy-inquiry'), email]) {
+    assert.ok(await action.evaluate(button => {
+      const rect = button.getBoundingClientRect();
+      const center = document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);
+      return rect.height >= 44 && rect.bottom <= innerHeight && button.contains(center);
+    }), 'Keep both primary draft actions immediately reachable after preview');
+  }
   const firstBody = await summary.inputValue();
   assert.ok(firstBody.includes('希望让同事自行整理周报。'));
   assert.doesNotMatch(firstBody, /希望的沟通方式|期望时间/);

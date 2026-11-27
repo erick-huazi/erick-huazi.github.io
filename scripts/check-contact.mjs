@@ -117,7 +117,7 @@ export async function checkContactCopy(page, auditRegion, origin) {
   const form = page.locator('#inquiry-form');
   await form.locator('#visitor-name').fill('测试访客');
   await form.locator('#visitor-need').fill('希望把每周进展整理成一份简报。');
-  await form.getByRole('button', { name: '整理成一封来信' }).click();
+  await form.locator('button[type="submit"]').click();
   await page.locator('#copy-inquiry').press('Enter');
   await opener.press('Enter');
   await wechat.waitFor();
