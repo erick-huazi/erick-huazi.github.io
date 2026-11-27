@@ -7,7 +7,6 @@
   const body = document.body;
   if (!body || body.dataset.motionReady === 'true') return;
   body.dataset.motionReady = 'true';
-  window.__motionReady = true;
 
   const $ = (selector, scope = document) => scope.querySelector(selector);
   const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -75,6 +74,7 @@
   /* ---- hand-drawn notes: rough-notation, loaded only when motion is on ---- */
   const noteTargets = $$('[data-note]');
   const notes = new Map();
+  const pendingNotes = new Map();
   let annotate = null;
   let notesLoading = null;
   const noteStyles = {
@@ -91,11 +91,15 @@
     return notesLoading;
   }
   function showNote(element, delay) {
-    if (!active || notes.has(element)) return;
-    // Measure only after the display face has replaced the fallback.
-    const displayFace = document.fonts?.load ? document.fonts.load('1em "Smiley Sans"', element.textContent || '字').catch(() => null) : null;
-    Promise.all([loadNotes(), displayFace]).then(([ready]) => {
-      if (!ready || !active || notes.has(element)) return;
+    if (!active || document.hidden || notes.has(element) || pendingNotes.has(element)) return;
+    const timer = window.setTimeout(async () => {
+      // Measure only after the entrance and display font are ready. A scroll
+      // or preference change may have cancelled this particular visit meanwhile.
+      const displayFace = document.fonts?.load?.('1em "Smiley Sans"', element.textContent || '字').catch(() => null);
+      const [ready] = await Promise.all([loadNotes(), displayFace]);
+      if (pendingNotes.get(element) !== timer) return;
+      pendingNotes.delete(element);
+      if (!ready || !active || document.hidden) return;
       const proof = element.classList.contains('proof-mark');
       // The drawing is laid out against the nearest positioned ancestor. Keep that ancestor
       // right around the text, so the note travels with it when something above opens or closes.
@@ -107,15 +111,26 @@
         ...(proof ? { padding: 3, strokeWidth: 3 } : null)
       });
       notes.set(element, note);
-      window.setTimeout(() => {
-        if (!active || notes.get(element) !== note) return;
-        element.closest('[data-reveal]')?.classList.add('noted');
-        note.show();
-        element.classList.add('note-applied');
-      }, delay);
-    });
+      element.closest('[data-reveal]')?.classList.add('noted');
+      note.show();
+      element.classList.add('note-applied');
+      noteObserver?.unobserve(element);
+    }, delay);
+    pendingNotes.set(element, timer);
+  }
+  function cancelNote(element) {
+    window.clearTimeout(pendingNotes.get(element));
+    pendingNotes.delete(element);
+  }
+  function observeNotes() {
+    if (!noteObserver) return;
+    noteObserver.disconnect();
+    for (const element of noteTargets) {
+      if (!notes.has(element)) noteObserver.observe(element);
+    }
   }
   function clearNotes() {
+    pendingNotes.forEach((_timer, element) => cancelNote(element));
     notes.forEach((note, element) => {
       note.remove();
       element.classList.remove('note-applied');
@@ -135,16 +150,14 @@
         revealObserver.unobserve(entry.target);
       }
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.06 });
-    revealTargets.forEach(element => revealObserver.observe(element));
     noteObserver = new IntersectionObserver(entries => {
       for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
         // Headline wrappers finish sliding before the pen comes down.
         const target = entry.target;
-        showNote(target, target.classList.contains('proof-mark') ? 1350 : target.closest('.hero') ? 1250 : 1150);
+        if (entry.isIntersecting) showNote(target, target.classList.contains('proof-mark') ? 1350 : target.closest('.hero') ? 1250 : 1150);
+        else cancelNote(target);
       }
     }, { rootMargin: '0px 0px -14% 0px', threshold: 0.5 });
-    noteTargets.forEach(element => noteObserver.observe(element));
   } else revealTargets.forEach(element => element.classList.add('in'));
 
   /* ---- scroll-linked values: one passive listener, one frame ---- */
@@ -170,6 +183,18 @@
   }
   const processList = $('.delivery-strip ol');
   const processSteps = processList ? $$(':scope > li', processList) : [];
+  const scrollEffects = [statement, processList].filter(Boolean);
+  const nearbyEffects = new Set(scrollEffects);
+  let effectObserver = null;
+  if ('IntersectionObserver' in window) {
+    effectObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) nearbyEffects.add(entry.target);
+        else nearbyEffects.delete(entry.target);
+      }
+      requestScrollUpdate();
+    }, { rootMargin: '96px 0px' });
+  }
   let scrollFrame = 0;
   function lightWords(count) {
     if (count === litCount) return;
@@ -184,11 +209,11 @@
     if (!active) return;
     const viewport = Math.max(window.innerHeight, 1);
     if (stack && !smallScreen.matches && scrolled < viewport * 1.4) stack.style.setProperty('--sy', clamp(scrolled / (viewport * 0.9)).toFixed(3));
-    if (words.length) {
+    if (words.length && nearbyEffects.has(statement)) {
       const rect = statement.getBoundingClientRect();
       lightWords(Math.round(clamp((viewport * 0.86 - rect.top) / (viewport * 0.46 + rect.height * 0.5)) * words.length));
     }
-    if (processList) {
+    if (nearbyEffects.has(processList)) {
       const rect = processList.getBoundingClientRect();
       const progress = clamp((viewport * 0.84 - rect.top) / (viewport * 0.42));
       processList.style.setProperty('--process', progress.toFixed(3));
@@ -201,6 +226,12 @@
   /* ---- hero prints drift with the pointer; preview label follows it ---- */
   let cursor = null;
   let pointerX = 0, pointerY = 0, cursorX = 0, cursorY = 0, cursorFrame = 0, cursorPlaced = false;
+  function hideCursor() {
+    if (cursorFrame) window.cancelAnimationFrame(cursorFrame);
+    cursorFrame = 0;
+    cursorPlaced = false;
+    cursor?.classList.remove('on', 'is-label');
+  }
   function drawCursor() {
     cursorFrame = 0;
     if (!cursor) return;
@@ -216,7 +247,7 @@
       stack.style.setProperty('--px', ((pointerX / window.innerWidth - 0.5) * -14).toFixed(2));
       stack.style.setProperty('--py', ((pointerY / window.innerHeight - 0.5) * -10).toFixed(2));
     }
-    if (cursor) {
+    if (cursor?.classList.contains('on')) {
       if (!cursorPlaced) { cursorX = pointerX; cursorY = pointerY; cursorPlaced = true; }
       if (!cursorFrame) cursorFrame = window.requestAnimationFrame(drawCursor);
     }
@@ -225,13 +256,28 @@
     if (!cursor) return;
     const element = event.target instanceof Element ? event.target : null;
     const preview = element?.closest('a.case-product-preview,.wechat-preview,.hero-shot');
-    cursor.dataset.label = preview ? (preview.matches('.wechat-preview') ? '放大' : preview.matches('.hero-shot') ? '看作品' : '访问 ↗') : '';
-    cursor.classList.toggle('is-label', Boolean(preview));
-    cursor.classList.toggle('on', Boolean(preview));
+    if (!preview || event.pointerType === 'touch') { hideCursor(); return; }
+    cursor.dataset.label = preview.matches('.wechat-preview') ? '放大' : preview.matches('.hero-shot') ? '看作品' : '访问 ↗';
+    cursor.classList.add('is-label', 'on');
+    if (!cursorPlaced) {
+      cursorX = pointerX = event.clientX;
+      cursorY = pointerY = event.clientY;
+      cursorPlaced = true;
+      drawCursor();
+    }
   }, { passive: true });
+  document.addEventListener('pointerout', event => { if (!event.relatedTarget) hideCursor(); });
   /* ---- a print can be picked up and moved (mouse or pen); a plain click still opens the work ---- */
+  let drag = null;
+  function cancelDrag() {
+    if (drag?.moved) {
+      drag.shot.classList.remove('is-dragging');
+      drag.shot.style.setProperty('--dx', drag.dx + 'px');
+      drag.shot.style.setProperty('--dy', drag.dy + 'px');
+    }
+    drag = null;
+  }
   if (stack) {
-    let drag = null;
     let swallowClick = false;
     let topLayer = 5;
     stack.addEventListener('pointerdown', event => {
@@ -269,7 +315,7 @@
       drag = null;
     };
     window.addEventListener('pointerup', drop);
-    window.addEventListener('pointercancel', drop);
+    window.addEventListener('pointercancel', event => { if (drag?.id === event.pointerId) cancelDrag(); });
     stack.addEventListener('click', event => {
       if (!swallowClick) return;
       swallowClick = false;
@@ -287,7 +333,8 @@
       body.append(cursor);
       root.classList.add('has-cursor');
     } else if (!enabled && cursor) {
-      cursor.remove(); cursor = null; cursorPlaced = false;
+      hideCursor();
+      cursor.remove(); cursor = null;
       root.classList.remove('has-cursor');
     }
   }
@@ -301,6 +348,10 @@
     root.classList.toggle('motion', active);
     body.classList.toggle('motion-paused', !active);
     if (!active) {
+      cancelDrag();
+      revealObserver?.disconnect();
+      noteObserver?.disconnect();
+      effectObserver?.disconnect();
       clearNotes();
       lightWords(words.length);
       litCount = -1;
@@ -314,8 +365,14 @@
         delete shot.dataset.dx; delete shot.dataset.dy;
       });
     } else {
-      // Re-arm notes for headings already on screen.
-      noteTargets.forEach(element => { noteObserver?.unobserve(element); noteObserver?.observe(element); });
+      for (const element of revealTargets) {
+        if (!element.classList.contains('in')) revealObserver?.observe(element);
+      }
+      observeNotes();
+      if (effectObserver) {
+        nearbyEffects.clear();
+        for (const element of scrollEffects) effectObserver.observe(element);
+      }
     }
     syncCursor();
     toggles.forEach(toggle => {
@@ -333,8 +390,29 @@
     apply();
   }));
   reduced.addEventListener?.('change', apply);
-  finePointer.addEventListener?.('change', apply);
-  smallScreen.addEventListener?.('change', syncCursor);
+  finePointer.addEventListener?.('change', syncCursor);
+  smallScreen.addEventListener?.('change', () => { cancelDrag(); syncCursor(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      hideCursor();
+      cancelDrag();
+      noteObserver?.disconnect();
+      pendingNotes.forEach((_timer, element) => cancelNote(element));
+    } else {
+      if (active) observeNotes();
+      requestScrollUpdate();
+    }
+  });
+  window.addEventListener('storage', event => {
+    if (event.key !== 'erick-motion' && event.key !== null) return;
+    try {
+      if (event.storageArea !== window.localStorage) return;
+      const next = window.localStorage.getItem('erick-motion') === 'off' ? 'off' : 'on';
+      if (next === preference) return;
+      preference = next;
+      apply();
+    } catch { /* storage is optional */ }
+  });
   window.addEventListener('resize', () => { fitText(); requestScrollUpdate(); }, { passive: true });
   document.fonts?.ready.then(fitText);
   apply();

@@ -79,3 +79,19 @@
 | [Impeccable · Clarify](https://github.com/pbakaus/impeccable/blob/2fc5e1459efbbf06d92c7306517c286bf12490cf/skill/reference/clarify.md#L55-L61) | 4 | 3 | 5 | 4 | 16/20 | 采用其针对空结果给出下一步操作的方法。在选定场景为零、其他场景有匹配时，优先保留关键词并放宽场景。 |
 
 本站沿用原生 JavaScript 筛选本地案例。查询回归使用全角英文与中文连写，验证输入、浏览器往返及空结果恢复。对照回归另查接收方看到的左右两列是否保持分享时的顺序。[参考库回归](../scripts/check-reference-discovery.mjs) · [项目 skill](../.agents/skills/portfolio-ui-review/SKILL.md)
+
+## 首页作品图与动效
+
+首页的任务是让访客读到张建华的定位，并从真实产品画面进入案例。评分考察首帧能否读和点、离开作品区后还有哪些动画工作，以及浏览器为首屏下载了哪一张图。
+
+| GitHub 项目 | 场景匹配 | 可验证性 | 接入成本 | 互补性 | 总分 | 采用内容 |
+|---|---:|---:|---:|---:|---:|---|
+| [Vercel Labs · Web Animation Design](https://github.com/vercel-labs/open-agents/blob/cf865e94de7729751c747171785b6ce57e7b178c/.agents/skills/web-animation-design/SKILL.md#L199-L214) | 5 | 4 | 5 | 5 | 19/20 | 将入场位移和旋转用在作品图上，首帧保留完整文字和入口。另按该 skill 的[减弱动画与触屏章节](https://github.com/vercel-labs/open-agents/blob/cf865e94de7729751c747171785b6ce57e7b178c/.agents/skills/web-animation-design/SKILL.md#L249-L301)检查系统偏好与触控操作。 |
+| [Anime.js · Engine](https://github.com/juliangarnier/anime/blob/01b81be1df6843ccfe0a71c0699a746bf740dd77/src/engine/engine.js#L157-L168) | 5 | 5 | 4 | 4 | 18/20 | 引用其监听页面可见性、成对暂停和恢复的处理方式。本站用原生事件管理预览光标与滚动更新，并单独处理访客保存的动效开关。 |
+| [Chrome DevTools · Debug and Optimize LCP](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/aacf611faf0d329f3c49e4a1f9828864a5c13752/skills/debug-optimize-lcp/SKILL.md#L49-L68) | 4 | 5 | 4 | 4 | 17/20 | 在同一视口、像素比和缓存条件下识别最大内容绘制元素，对照网络请求与渲染时刻。首屏 JMSAI 图片独立选取尺寸，案例详情保留原始实屏。 |
+
+动效使用已有 CSS 和浏览器 API。首屏性能记录注明视口、像素比、缓存和采样条件；浏览器实测的资源字节、首帧可见性及 LCP 各有独立证据。[首页交互回归](../scripts/check-home-motion.mjs)
+
+在 390×844、DPR 2、冷缓存的 Chrome 中，以 4 倍 CPU 降速、80ms 延迟、400,000 B/s 下载速率交替测量新旧版本各三次。最大内容元素均为首页主文案，LCP 中位数从 1,420ms 到 1,188ms。四张首屏实图合计从 155,060 B 到 91,810 B。实验室结果受设备和网络条件影响。
+
+滚动回归另用八次小幅滚动计数，确保作品区外的阅读文案与流程图不会被反复测量，移回实际预览时自定义指针仍会响应。[屏外动效回归](../scripts/check-motion-work.mjs)

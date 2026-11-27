@@ -164,6 +164,18 @@ const screenshotVariants = [];
 for (const [index, capture] of captures.entries()) {
   const source = captureInputs[index];
   const variants = [];
+  // The homepage shows the top of the strategy screen. Keep the gallery's full-height capture separate.
+  if (capture.id === 'jmsai') {
+    for (const width of [448, 1120]) {
+      const height = Math.ceil(width / 1.55);
+      const webp = width === 1120 ? {lossless: true, effort: 5} : {quality: 93, smartSubsample: true, effort: 5};
+      await resource({
+        id: 'jmsai-hero-' + width, kind: 'image', output: 'dist/assets/jmsai-hero-' + width + '.webp',
+        inputs: [source], recipe: 'top-aligned-hero-preview-v1', options: {width, height, webp}, tool: sharpTool,
+        generate: () => sharp(source.data).resize(width, height, {fit: 'cover', position: 'north'}).webp(webp).toBuffer()
+      });
+    }
+  }
   for (const width of [700, 1400]) {
     const options = { width, withoutEnlargement: true, webp: capture.id === 'jmsai' ? { lossless: true, effort: 5 } : { quality: 84, effort: 5 } };
     const task = await resource({

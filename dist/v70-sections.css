@@ -34,6 +34,20 @@
 }
 .case-row{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(20px,2.4vw,34px);padding-block:clamp(48px,5.6vw,92px);border-top:1px solid var(--rule);scroll-margin-top:var(--work-anchor-offset,96px)}
 .case-row:first-child{border-top:0;padding-top:0}
+/* Reserve space for unread cases. A direct link and the print layout need the actual content immediately. */
+@media screen{
+  .case-row:not(:target){content-visibility:auto;contain-intrinsic-block-size:auto clamp(920px,90vw,1120px)}
+}
+@media screen and (max-width:760px){
+  #services{--resting-height:1640px}
+  #references{--resting-height:980px}
+  #about{--resting-height:990px}
+  #contact{--resting-height:1050px}
+  :is(#services,#references,#about,#contact):not(:target):not(:has(:target)){
+    content-visibility:auto;
+    contain-intrinsic-block-size:auto var(--resting-height);
+  }
+}
 .case-eyebrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;font:500 13px/1.5 var(--f-sans);color:var(--dim);margin-bottom:6px}
 .live-badge{display:inline-flex;align-items:center;gap:8px;color:var(--fg);font-weight:600}
 .live-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--hl);box-shadow:0 0 0 1.5px #141414}

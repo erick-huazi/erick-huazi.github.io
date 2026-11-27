@@ -1,6 +1,6 @@
 ---
 name: portfolio-ui-review
-description: Review the Erick Zhang portfolio’s project directory, reference library search and comparison links, browser history, contact and clipboard flows, WeChat QR card, quick search, inquiry form and screenshot viewer. Replay visitor workflows after changes.
+description: Review the Erick Zhang portfolio’s homepage motion and first paint, project directory, reference library, shared links, browser history, contact and clipboard flows, WeChat QR card, quick search, inquiry form and screenshot viewer. Replay visitor workflows after changes.
 ---
 
 # 作品站交互验收
@@ -9,6 +9,7 @@ description: Review the Erick Zhang portfolio’s project directory, reference l
 
 | 操作 | 审查重点 | 维护位置 |
 |---|---|---|
+| 查看首页作品图 | 检查首帧标题与入口、触屏点击、站内暂停和系统减弱动画，核对首屏取图与真实案例详情。 | `dist/motion.js`、`dist/index.html`、`scripts/check-home-motion.mjs` |
 | 浏览与分享作品 | 对照筛选、目录和可见作品。在新标签打开分享地址，检查项目、视图和浏览器往返。 | `dist/main.js`、`scripts/check-catalog.mjs` |
 | 联系张建华 | 手机可直接复制微信号；二维码显示完整、能解码、能保存原图。复制被拒后检查选区和键盘返回路径。 | `dist/index.html`、`dist/main.js`、`scripts/check-contact.mjs` |
 | 快速前往 | 输入框持有焦点，活动选项可见且与 ARIA 状态一致。验证混合中英文、无结果、模糊搜索不可用、输入法确认和普通回车。 | `dist/main.js`、`dist/v70-overlays.css` |
@@ -44,3 +45,9 @@ description: Review the Erick Zhang portfolio’s project directory, reference l
 2. 在同一次输入中连续修改关键词，按一次后退应回到输入前的筛选，前进应恢复最终输入。中文输入法组词时检查候选阶段的结果和地址，确认上屏后再更新。模拟输入事件及实机输入法应分别记录。
 3. 从带跟踪参数的页面分享当前筛选，在新标签核对主题、关键词和可见案例。结果链接只保留有效的 `topic`、`q` 和 `#cases`。
 4. 按 B、A 的顺序选择两个不同案例并分享对照，在新标签直接打开，核对两列的名称及顺序。再分别打开含重复 ID、未知 ID 或仅一个 ID 的 `compare` 参数，确认页面仍可浏览，并且不会显示错误的案例组合。
+
+## 首页动效与首屏资源
+
+1. 首次打开首页，在动画的第一帧与结束时分别检查姓名、定位、主要操作和作品链接。窄屏及短横屏用实际命中点检查触控入口。按正常速度观察作品图入场，再用系统减弱动态和站内暂停检查对应的静态排版。
+2. 在两个同源标签之间切换站内开关，确认偏好同步。打开与收起系统减弱动画设置，复核开关显示、实际动画及作品入口。检查预览光标离开作品图、页面转入后台和返回前台时的帧调度；分别记录真实切换和模拟的可见性事件。
+3. 测量加载时固定视口、像素比、CPU 与网络条件，使用冷缓存。用 PerformanceObserver 记录 LCP 的元素与时刻，从网络记录核对首页 JMSAI 图片的实际地址与字节数，再打开作品详情核对原图。记录本地采样次数和条件；访客现场数据单独标注来源。

@@ -6,6 +6,8 @@ import { checkInquiry } from './check-inquiry.mjs';
 import { checkWechatCard, checkContactCopy } from './check-contact.mjs';
 import { checkCatalogNavigation, checkCaseSharing } from './check-catalog.mjs';
 import { checkDiscovery, checkSharedComparison } from './check-reference-discovery.mjs';
+import { checkHeroEntry, checkMotionSettings } from './check-home-motion.mjs';
+import { checkMotionWork } from './check-motion-work.mjs';
 
 const origin = new URL(process.argv[2] || 'http://127.0.0.1:8000/');
 const axePath = createRequire(import.meta.url).resolve('axe-core/axe.min.js');
@@ -161,14 +163,18 @@ for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1280, 800]])
     ['catalog navigation', page => checkCatalogNavigation(page, origin, auditRegion)],
     ['case sharing', page => checkCaseSharing(page, origin)],
     ['reference discovery', page => checkDiscovery(page, origin, auditRegion)],
-    ['shared comparison', page => checkSharedComparison(page, origin)]
+    ['shared comparison', page => checkSharedComparison(page, origin)],
+    ['hero entry', page => checkHeroEntry(page, origin)],
+    ['motion settings', page => checkMotionSettings(page, origin)]
   ];
+  if (width === 1280) workflows.push(['offscreen motion', page => checkMotionWork(page, origin)]);
   for (const [name, check] of workflows) {
     test(name + ' at ' + width + 'x' + height, async () => {
-      const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' });
+      const context = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' });
+      const page = await context.newPage();
       page.setDefaultTimeout(7000);
       try { await check(page); }
-      finally { await page.close(); }
+      finally { await context.close(); }
     });
   }
 }
