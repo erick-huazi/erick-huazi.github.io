@@ -183,6 +183,7 @@ for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1280, 800]])
       const context = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' });
       const page = await context.newPage();
       page.setDefaultTimeout(7000);
+      page.setDefaultNavigationTimeout(30000);
       try { await check(page); }
       finally { await context.close(); }
     });

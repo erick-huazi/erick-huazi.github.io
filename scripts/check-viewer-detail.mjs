@@ -17,6 +17,12 @@ export async function checkViewerDetail(page, origin) {
   await page.waitForFunction(() => document.documentElement.classList.contains('motion'));
   assert.equal(await image.evaluate(img => getComputedStyle(img).animationName), 'viewer-image-in');
   await page.emulateMedia({reducedMotion:'reduce'});
+  await page.waitForFunction(() => !document.documentElement.classList.contains('motion'));
+  // Measure the controls after the preference change has been painted with the final fonts.
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+  });
   const compact = await thumbs.isHidden();
   if (compact) {
     assert.equal(await choice.locator('option').count(), projects.length);
