@@ -107,3 +107,17 @@
 | [Marketing Skills · CRO 表单指南](https://github.com/coreyhaines31/marketingskills/blob/2bf95edb4ebd37198ab7fd18b99ba95c2145ec64/skills/cro/references/form.md#L176-L198) | 5 | 3 | 5 | 4 | 17/20 | 采用保留输入、将焦点移到首个错误、按操作结果命名按钮的检查方式。项目测试可直接核对焦点和正文，转化率仍需真实访客数据。 |
 
 本站作品随需求单附上个人网站中的作品链接。参考库对照中的两条外部案例保留来源和原文，可以一起取消附上。两类引用都要在预览与最终导出中保持一致。[项目评审 skill](../.agents/skills/portfolio-ui-review/SKILL.md)
+
+## 阅读产品截图中的细节
+
+看 JMSAI 的策略界面时，访客可能只想读图中某个字段。放大后能否找到刚才点中的位置、拖动会不会误切图、加载中断后能否继续读，决定了大图是否好用。以下分数按本站已有原生查看器和 Playwright 测试环境评定，各维满分为 5。
+
+| GitHub 项目 | 场景匹配 | 可验证性 | 接入成本 | 互补性 | 总分 | 选取的方法 |
+|---|---:|---:|---:|---:|---:|---|
+| [Microsoft Playwright · Test Planner agent](https://github.com/microsoft/playwright/blob/d73823e63502a6386a408a25d74ebcbeb4a58f1c/packages/playwright/src/agents/playwright-test-planner.agent.md#L47-L71) | 5 | 5 | 5 | 5 | 20/20 | 把正常放大、边缘钳制和断图重试写成可独立重放的场景，给出起始状态和可观察的通过条件。配合官方 CLI skill 的[图片请求拦截与解除](https://github.com/microsoft/playwright/blob/80290e838ba588b841e49c0945dc5ac2f2dbc82f/packages/playwright-core/src/tools/skills/playwright-cli/SKILL.md#L169-L176)和[鼠标操作](https://github.com/microsoft/playwright/blob/80290e838ba588b841e49c0945dc5ac2f2dbc82f/packages/playwright-core/src/tools/skills/playwright-cli/SKILL.md#L88-L99)，均可通过仓库已有的 Playwright API 执行。 |
+| [PhotoSwipe · 围绕指定坐标缩放](https://github.com/dimsemenov/PhotoSwipe/blob/696d042fd3b6e0100f0ac6a58e3e8df1e424051f/src/js/slide/slide.js#L377-L406) | 5 | 5 | 4 | 5 | 19/20 | 借鉴其按图像位置计算两轴偏移、将平移限制在图片边界内的做法。本站使用原生滚动容器，在测试中分别核对点中的文字与边缘位置。 |
+| [W3C · 键盘焦点的延续](https://github.com/w3c/aria-practices/blob/b20627c7b353cc13e71b245457dff2c9c83ed3ea/content/practices/keyboard-interface/keyboard-interface-practice.html#L110-L113) | 4 | 4 | 5 | 4 | 17/20 | 用 APG 对活动元素消失的说明审查「重试」按钮的生命周期。核对恢复图片后的焦点位置，再按 Escape 验证焦点回到当初打开大图的链接。 |
+
+维护时可用同一张截图对比两次构建，记录选中的原图坐标、放大后的可见范围、重试所发出的请求和最后获得焦点的元素。[项目验收步骤](../.agents/skills/portfolio-ui-review/SKILL.md#查看作品实屏细节)
+
+使用相同的 JMSAI 原图与 Chrome 视口测量，320×568 下的整图显示尺寸从 199×213 增至 302×324 CSS 像素，1280×800 下从 369×395 增至 699×748。站内沿用原始图片和原生滚动。窄屏可用作品选择框直达其他实屏，宽屏使用缩略图。从图册标题进入案例后，后退可返回打开图册的作品入口。[缩放及触摸测试](../scripts/check-viewer-zoom.mjs) · [失败恢复测试](../scripts/check-viewer-recovery.mjs) · [图册与案例跳转测试](../scripts/check-viewer-detail.mjs)

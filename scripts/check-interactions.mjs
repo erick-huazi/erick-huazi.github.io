@@ -10,6 +10,9 @@ import { checkCatalogNavigation, checkCaseSharing } from './check-catalog.mjs';
 import { checkDiscovery, checkSharedComparison } from './check-reference-discovery.mjs';
 import { checkHeroEntry, checkMotionSettings } from './check-home-motion.mjs';
 import { checkMotionWork } from './check-motion-work.mjs';
+import { checkViewerZoom } from './check-viewer-zoom.mjs';
+import { checkViewerRecovery } from './check-viewer-recovery.mjs';
+import { checkViewerDetail } from './check-viewer-detail.mjs';
 
 const origin = new URL(process.argv[2] || 'http://127.0.0.1:8000/');
 const axePath = createRequire(import.meta.url).resolve('axe-core/axe.min.js');
@@ -159,6 +162,9 @@ async function checkComparison(page) {
 for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1280, 800]]) {
   const workflows = [
     ['gallery', checkGallery], ['quick search', checkQuickSearch], ['comparison', checkComparison],
+    ['viewer zoom', page => checkViewerZoom(page, origin)],
+    ['viewer recovery', page => checkViewerRecovery(page, origin, auditRegion)],
+    ['viewer case detail', page => checkViewerDetail(page, origin)],
     ['inquiry', page => checkInquiry(page, auditRegion, origin)],
     ['public case inquiry', page => checkPublicInquiry(page, origin, auditRegion)],
     ['project inquiry', page => checkProjectInquiry(page, origin)],

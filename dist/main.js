@@ -103,7 +103,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
   let viewerImage = projectViewer.querySelector('img[data-viewer-src]');
   const viewerFrame = $('#project-viewer-frame');
   const viewerZoom = $('#project-viewer-zoom');
-  const viewerTitle = $('#project-viewer-title');
+  const viewerCase = $('#project-viewer-case');
   const viewerCategory = $('#project-viewer-category');
   const viewerPosition = $('#project-viewer-position');
   const viewerOriginal = $('#project-viewer-original');
@@ -111,14 +111,19 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
   const viewerDate = $('#project-viewer-date');
   const viewerAccess = $('#project-viewer-access');
   const viewerStatus = $('#project-viewer-status');
+  const viewerNotes = $('#project-viewer-notes');
+  const viewerRecovery = $('#project-viewer-recovery');
+  const viewerRetry = $('#project-viewer-retry');
   const viewerThumbs = $('#project-viewer-thumbs');
+  const viewerPicker = $('#project-viewer-picker');
   const viewerPrevious = $('#project-viewer-prev');
   const viewerNext = $('#project-viewer-next');
   const viewerClose = $('#close-project-viewer');
   const viewerHint = $('#project-viewer-hint');
-  if (![viewerImage, viewerFrame, viewerZoom, viewerTitle, viewerCategory, viewerPosition,
+  if (![viewerImage, viewerFrame, viewerZoom, viewerCase, viewerCategory, viewerPosition,
     viewerOriginal, viewerVisit, viewerDate, viewerAccess, viewerStatus, viewerThumbs,
-    viewerPrevious, viewerNext, viewerClose].every(Boolean)) return;
+    viewerPrevious, viewerNext, viewerClose, viewerNotes, viewerRecovery, viewerRetry, viewerPicker].every(Boolean)) return;
+  viewerNotes.open = matchMedia('(min-width: 900px), (min-width: 600px) and (max-height: 540px)').matches;
 
   const items = $$('[data-open-project-viewer]').map(link => {
     const card = link.closest('.case-row');
@@ -133,7 +138,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     const smallSource = image.closest('picture')?.querySelector('source[type="image/webp"]')
       ?.getAttribute('srcset')?.split(',')[0]?.trim().split(/\s+/)[0];
     return {
-      link, src: link.href, title, width, height, alt: image.alt,
+      link, caseId: card.id, src: link.href, title, width, height, alt: image.alt,
       thumbnail: image.currentSrc || (smallSource ? new URL(smallSource, document.baseURI).href : image.src),
       category: card.querySelector('.case-eyebrow>span:first-child')?.textContent.trim() || 'PRODUCT SCREEN',
       dateTime: date?.dateTime || '', dateLabel: date?.textContent.trim() || '', visit,
@@ -147,12 +152,16 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
   let loadRequest = 0;
   let settledRequest = 0;
   let thumbnailsBuilt = false;
+  let mousePan = null;
+  let suppressImageClick = false;
+  const fitHint = '点图放大该处，左右滑动或用方向键切换实屏。';
 
   function resetProjectView() {
+    stopMousePan();
     projectViewer.classList.remove('is-zoomed');
     viewerZoom.setAttribute('aria-pressed', 'false');
     viewerZoom.textContent = '原尺寸';
-    if (viewerHint) viewerHint.textContent = '左右滑动或聚焦图片后按方向键切换；可切换到原尺寸查看细节';
+    if (viewerHint) viewerHint.textContent = fitHint;
     viewerFrame.scrollTop = 0;
     viewerFrame.scrollLeft = 0;
   }
@@ -161,6 +170,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     if (thumbnailsBuilt) return;
     const fragment = document.createDocumentFragment();
     items.forEach((item, index) => {
+      viewerPicker.add(new Option(item.title, String(index)));
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'viewer-thumb';
@@ -191,7 +201,8 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
       viewerImage.hidden = true;
       viewerZoom.disabled = true;
       projectViewer.dataset.viewerState = 'error';
-      viewerStatus.textContent = '实屏暂未加载成功。可使用“打开原图”重试，或通过“访问项目”查看。';
+      viewerRecovery.hidden = false;
+      viewerStatus.textContent = `${items[activeIndex].title} 实屏未能加载。可重新加载图片或继续切换作品。`;
       return;
     }
     viewerImage.width = viewerImage.naturalWidth;
@@ -216,10 +227,13 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     activeIndex = (index + items.length) % items.length;
     const item = items[activeIndex];
     const request = ++loadRequest;
+    viewerRecovery.hidden = true;
     resetProjectView();
-    viewerTitle.textContent = item.title;
+    viewerCase.textContent = item.title;
+    viewerCase.href = '#' + item.caseId;
     viewerCategory.textContent = item.category;
     viewerPosition.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+    viewerPicker.value = String(activeIndex);
     viewerOriginal.href = item.src;
     viewerVisit.href = item.visit;
     viewerDate.textContent = item.dateLabel;
@@ -260,6 +274,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
   }
 
   items.forEach((item, index) => {
+    item.link.id ||= 'screenshot-from-' + item.caseId;
     item.link.setAttribute('aria-haspopup', 'dialog');
     item.link.setAttribute('aria-controls', 'project-viewer');
     item.link.setAttribute('aria-label', `查看实屏大图：${item.title}`);
@@ -278,7 +293,23 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     });
   });
   viewerClose.addEventListener('click', () => projectViewer.close());
+  viewerRetry.addEventListener('click', () => {
+    if (projectViewer.dataset.viewerState !== 'error') return;
+    viewerFrame.focus({ preventScroll: true });
+    showItem(activeIndex);
+  });
+  viewerCase.addEventListener('click', event => {
+    if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    const origin = viewerOrigin;
+    viewerOrigin = null;
+    projectViewer.close();
+    navigateToSection(items[activeIndex].caseId, true, origin);
+  });
   viewerPrevious.addEventListener('click', () => showItem(activeIndex - 1));
+  viewerPicker.addEventListener('change', () => {
+    if (viewerPicker.selectedIndex >= 0) showItem(viewerPicker.selectedIndex);
+  });
   viewerNext.addEventListener('click', () => showItem(activeIndex + 1));
   viewerThumbs.addEventListener('click', event => {
     const button = event.target instanceof Element ? event.target.closest('[data-viewer-index]') : null;
@@ -288,7 +319,7 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
   });
   projectViewer.addEventListener('keydown', event => {
     if (event.key === 'Tab' && !event.ctrlKey && !event.metaKey && !event.altKey) {
-      const controls = [...projectViewer.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+      const controls = [...projectViewer.querySelectorAll('a[href],button:not([disabled]),select:not([disabled]),summary,[tabindex]:not([tabindex="-1"])')]
         .filter(element => element.getClientRects().length && !element.closest('[hidden]'));
       const first = controls[0], last = controls[controls.length - 1];
       if ((event.shiftKey && document.activeElement === first) || (!event.shiftKey && document.activeElement === last)) {
@@ -307,11 +338,12 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
   // Touch navigation is only active at fit size; original-size images keep native panning.
   let touchStart = null;
   viewerFrame.addEventListener('touchstart', event => {
-    if (projectViewer.classList.contains('is-zoomed') || event.touches.length !== 1) { touchStart = null; return; }
+    if (event.touches.length !== 1) { suppressImageClick = true; touchStart = null; return; }
+    if (projectViewer.classList.contains('is-zoomed')) { touchStart = null; return; }
     const touch = event.touches[0];
     touchStart = { x: touch.clientX, y: touch.clientY, id: touch.identifier, time: Date.now() };
   }, { passive: true });
-  viewerFrame.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
+  viewerFrame.addEventListener('touchcancel', () => { touchStart = null; suppressImageClick = true; }, { passive: true });
   viewerFrame.addEventListener('touchend', event => {
     const start = touchStart;
     touchStart = null;
@@ -319,25 +351,69 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
     const touch = [...event.changedTouches].find(point => point.identifier === start.id);
     if (!touch || Date.now() - start.time > 900) return;
     const dx = touch.clientX - start.x, dy = touch.clientY - start.y;
+    if (Math.hypot(dx, dy) > 8) suppressImageClick = true;
     if (Math.abs(dx) < 64 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
     showItem(activeIndex + (dx < 0 ? 1 : -1));
   }, { passive: true });
-  viewerZoom.addEventListener('click', () => {
+  function toggleImageZoom(x = 0.5, y = 0.5) {
     if (projectViewer.dataset.viewerState !== 'ready') return;
     const zoomed = projectViewer.classList.toggle('is-zoomed');
     viewerZoom.setAttribute('aria-pressed', String(zoomed));
     viewerZoom.textContent = zoomed ? '适应窗口' : '原尺寸';
     if (viewerHint) viewerHint.textContent = zoomed
-      ? '原尺寸显示，可滑动或使用方向键查看超出部分'
-      : '左右滑动或聚焦图片后按方向键切换；可切换到原尺寸查看细节';
+      ? '拖动、滑动或用方向键查看细节；点图返回全图。'
+      : fitHint;
     viewerFrame.setAttribute('aria-label', zoomed
       ? `${items[activeIndex].title} 实屏，可用方向键滚动查看原尺寸图片`
       : `${items[activeIndex].title} 实屏，聚焦后可用左右方向键切换图片`);
-    viewerFrame.scrollTop = 0;
-    viewerFrame.scrollLeft = 0;
-    if (zoomed) viewerFrame.focus({ preventScroll: true });
+    if (zoomed) {
+      // Account for frame borders and the scrollbars that appear at natural size.
+      const image = viewerImage.getBoundingClientRect();
+      const frame = viewerFrame.getBoundingClientRect();
+      viewerFrame.scrollLeft += image.left + x * image.width - frame.left - viewerFrame.clientLeft - viewerFrame.clientWidth / 2;
+      viewerFrame.scrollTop += image.top + y * image.height - frame.top - viewerFrame.clientTop - viewerFrame.clientHeight / 2;
+      viewerFrame.focus({ preventScroll: true });
+    } else viewerFrame.scrollTo(0, 0);
+  }
+  viewerZoom.addEventListener('click', () => toggleImageZoom());
+  viewerFrame.addEventListener('click', event => {
+    if (suppressImageClick || event.target !== viewerImage || event.button !== 0 || event.defaultPrevented
+      || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const image = viewerImage.getBoundingClientRect();
+    toggleImageZoom((event.clientX - image.left) / image.width, (event.clientY - image.top) / image.height);
   });
+
+  function stopMousePan() {
+    if (!mousePan) return;
+    const { target, id } = mousePan;
+    mousePan = null;
+    projectViewer.classList.remove('is-panning');
+    if (target.hasPointerCapture(id)) target.releasePointerCapture(id);
+  }
+  viewerFrame.addEventListener('dragstart', event => {
+    if (event.target === viewerImage && mousePan) event.preventDefault();
+  });
+  viewerFrame.addEventListener('pointerdown', event => {
+    suppressImageClick = !event.isPrimary;
+    if (event.pointerType !== 'mouse' || event.button !== 0 || event.target !== viewerImage
+      || !projectViewer.classList.contains('is-zoomed') || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    mousePan = { id:event.pointerId, target:viewerImage, x:event.clientX, y:event.clientY,
+      left:viewerFrame.scrollLeft, top:viewerFrame.scrollTop };
+    viewerImage.setPointerCapture(event.pointerId);
+  });
+  viewerFrame.addEventListener('pointermove', event => {
+    if (!mousePan || event.pointerId !== mousePan.id) return;
+    const dx = event.clientX - mousePan.x, dy = event.clientY - mousePan.y;
+    if (!suppressImageClick && Math.hypot(dx, dy) < 5) return;
+    suppressImageClick = true;
+    projectViewer.classList.add('is-panning');
+    viewerFrame.scrollTo(mousePan.left - dx, mousePan.top - dy);
+  });
+  for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+    viewerFrame.addEventListener(type, event => { if (event.pointerId === mousePan?.id) stopMousePan(); });
+  }
   projectViewer.addEventListener('close', () => {
+    if (projectViewer.open) return;
     loadRequest += 1;
     viewerImage.onload = viewerImage.onerror = null;
     viewerImage.hidden = true;
