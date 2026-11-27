@@ -67,3 +67,15 @@
 | [Microsoft Playwright CLI skill](https://github.com/microsoft/playwright/blob/80290e838ba588b841e49c0945dc5ac2f2dbc82f/packages/playwright-core/src/tools/skills/playwright-cli/SKILL.md) | 4 | 5 | 5 | 3 | 17/20 | 借鉴导航后读取页面状态的步骤，用现有 Playwright 接口重放往返、刷新和新标签访问。 |
 
 键盘回归从归档目录进入 AIMEGApro，按后退检查焦点是否回到原目录项，再按前进检查项目标题。分享回归在独立新标签打开案例链接，核对筛选与项目。运行时沿用本站的 HTML 与 JavaScript，回归使用现有开发依赖。[目录回归脚本](../scripts/check-catalog.mjs) · [仓库审查技能](../.agents/skills/portfolio-ui-review/SKILL.md)
+
+## FDE 参考库的筛选与对照分享
+
+访客可以分享一次搜索得到的案例列表，也可以把按特定次序摆放的两个案例分享给别人。选型考察打开链接后的内容是否准确，以及访客在查询条件太窄时能否找回案例。
+
+| GitHub 项目 | 场景匹配 | 可验证性 | 接入成本 | 互补性 | 总分 | 在参考库的用法 |
+|---|---:|---:|---:|---:|---:|---|
+| [Algolia · InstantSearch UI skill](https://github.com/algolia/skills/blob/476d5c32dd249940ab7a7ded3330d9cfb0199ac3/skills/algolia-instantsearch-ui/SKILL.md#L46-L60) | 5 | 5 | 4 | 5 | 19/20 | 采用其成套检验搜索、筛选、空结果与网址恢复的方法。以本地案例重算各主题的命中数，在独立标签核对分享结果。 |
+| [nuqs · 参数解析测试](https://github.com/47ng/nuqs/blob/3fb340529b6da70402e8bb93610f1a6d399506d9/packages/nuqs/src/parsers.test.ts#L187-L217) | 5 | 5 | 4 | 4 | 18/20 | 借鉴已知值校验和编码、解析往返的测试。本站以实际案例 ID 为允许集合，两个不同 ID 的排列决定对照顺序，并单测无效组合。 |
+| [Impeccable · Clarify](https://github.com/pbakaus/impeccable/blob/2fc5e1459efbbf06d92c7306517c286bf12490cf/skill/reference/clarify.md#L55-L61) | 4 | 3 | 5 | 4 | 16/20 | 采用其针对空结果给出下一步操作的方法。在选定场景为零、其他场景有匹配时，优先保留关键词并放宽场景。 |
+
+本站沿用原生 JavaScript 筛选本地案例。查询回归使用全角英文与中文连写，验证输入、浏览器往返及空结果恢复。对照回归另查接收方看到的左右两列是否保持分享时的顺序。[参考库回归](../scripts/check-reference-discovery.mjs) · [项目 skill](../.agents/skills/portfolio-ui-review/SKILL.md)

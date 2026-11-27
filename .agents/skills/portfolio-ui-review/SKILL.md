@@ -1,6 +1,6 @@
 ---
 name: portfolio-ui-review
-description: Review the Erick Zhang portfolio’s project filters, share links and browser history, contact and clipboard flows, WeChat QR card, quick search, inquiry form, screenshot viewer and FDE comparison. Replay visitor workflows after changes.
+description: Review the Erick Zhang portfolio’s project directory, reference library search and comparison links, browser history, contact and clipboard flows, WeChat QR card, quick search, inquiry form and screenshot viewer. Replay visitor workflows after changes.
 ---
 
 # 作品站交互验收
@@ -14,6 +14,7 @@ description: Review the Erick Zhang portfolio’s project filters, share links a
 | 快速前往 | 输入框持有焦点，活动选项可见且与 ARIA 状态一致。验证混合中英文、无结果、模糊搜索不可用、输入法确认和普通回车。 | `dist/main.js`、`dist/v70-overlays.css` |
 | 整理咨询需求 | 空白提交后逐项纠错。比对实际填写内容、来信与邮件草稿，检查编辑后旧预览是否失效。 | `dist/index.html`、`dist/main.js`、`dist/v70-sections.css` |
 | 查看作品实屏 | 适应模式应显示完整长图，原尺寸可平移；横屏能切换，关闭后回到原入口。 | `dist/v70-overlays.css`、`dist/main.js` |
+| 查找与分享 FDE 参考 | 对照关键词、主题计数和可见案例，在新标签打开筛选链接或一组案例，检查结果及对照顺序。 | `dist/reference-library.js`、`dist/reference-compare.js`、`scripts/check-reference-discovery.mjs` |
 | 对照公开案例 | 键盘选满两项后进入对照。检查移除选项后的焦点和章节标题与固定栏的位置。 | `dist/reference-compare.js`、`dist/v70-reference.css`、`scripts/build-references.mjs` |
 
 安装开发依赖后执行 `npm run build`。在一个终端运行 `python -m http.server 8000 --bind 127.0.0.1 --directory dist`，在另一个终端运行 `npm run check:interactions`。复用已有本地预览时可传地址。默认启动本机 Chrome，`PORTFOLIO_BROWSER_CHANNEL=msedge` 可选择已安装的 Edge。
@@ -36,3 +37,10 @@ description: Review the Erick Zhang portfolio’s project filters, share links a
 2. 带一个跟踪参数打开目录，进入某个具体案例后复制该案例链接。核对链接的片段是案例 ID，查询只保留该目录视图需要的参数。复制链接本身应保留当前阅读位置。
 3. 在独立新标签粘贴链接，检查对应卡片和选中的目录视图。分别覆盖默认应用、归档实践以及从「全部」分享的案例。这样能发现依赖上一页内存或滚动状态的链接。
 4. 打开 `/?view=archive#work`，在目录用键盘进入 AIMEGApro。后退应回到启动导航的目录项，前进应回到项目标题。再折叠实践列表后切换分类并后退，检查恢复的展开状态。
+
+## 查找与分享公开参考案例
+
+1. 在全部案例中输入 `ＡＷＳ维修`，核对 Cox 案例和每个场景的可用数量。再选择场景，核对结果卡片和总数。换成没有匹配的词，在手机上通过空结果区恢复浏览。
+2. 在同一次输入中连续修改关键词，按一次后退应回到输入前的筛选，前进应恢复最终输入。中文输入法组词时检查候选阶段的结果和地址，确认上屏后再更新。模拟输入事件及实机输入法应分别记录。
+3. 从带跟踪参数的页面分享当前筛选，在新标签核对主题、关键词和可见案例。结果链接只保留有效的 `topic`、`q` 和 `#cases`。
+4. 按 B、A 的顺序选择两个不同案例并分享对照，在新标签直接打开，核对两列的名称及顺序。再分别打开含重复 ID、未知 ID 或仅一个 ID 的 `compare` 参数，确认页面仍可浏览，并且不会显示错误的案例组合。

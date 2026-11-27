@@ -191,16 +191,69 @@
     selected.clear(); update();
     origin?.focus();
   });
-  openButton.addEventListener('click', () => {
+  const shareButton = document.querySelector('#ref-compare-share');
+  const shareStatus = document.querySelector('#ref-share-status');
+  const shareField = document.querySelector('#ref-share-url');
+  const canonicalUrl = document.querySelector('link[rel="canonical"]').href;
+  let shareAttempt = 0;
+  let openedFromUrl = false;
+  function comparisonUrl() {
+    const url = new URL(canonicalUrl);
+    url.searchParams.set('compare', [...selected].join(','));
+    url.hash = 'cases';
+    return url.href;
+  }
+  function showComparison() {
     if (selected.size !== 2) return;
+    shareAttempt++;
+    shareField.hidden = true;
+    shareStatus.textContent = '';
     renderComparison();
     downloadStatus.textContent = '';
-    dialog.showModal();
+    if (!dialog.open) dialog.showModal();
     document.body.classList.add('ref-dialog-open');
     syncHeadingHeight();
     document.querySelector('#ref-compare-close').focus({preventScroll:true});
     dialog.scrollTop = 0;
+  }
+  openButton.addEventListener('click', showComparison);
+  shareButton.addEventListener('click', async () => {
+    const attempt = ++shareAttempt;
+    const href = comparisonUrl();
+    try {
+      await navigator.clipboard.writeText(href);
+      if (!dialog.open || attempt !== shareAttempt) return;
+      shareField.hidden = true;
+      shareStatus.textContent = '对照链接已复制。';
+    } catch {
+      if (!dialog.open || attempt !== shareAttempt) return;
+      shareStatus.textContent = '链接已选中，可直接复制。';
+      shareField.value = href;
+      shareField.hidden = false;
+      shareField.focus();
+      shareField.select();
+    }
   });
+  function restoreSharedComparison() {
+    const url = new URL(location.href);
+    const values = url.searchParams.getAll('compare');
+    const pair = values.length === 1 ? values[0].split(',') : [];
+    if (pair.length === 2 && pair[0] !== pair[1] && pair.every(id => records.has(id))) {
+      selected.clear();
+      pair.forEach(id => selected.add(id));
+      update();
+      openedFromUrl = true;
+      showComparison();
+    } else {
+      if (values.length) {
+        url.searchParams.delete('compare');
+        history.replaceState(history.state, '', url);
+      }
+      if (openedFromUrl && dialog.open) dialog.close();
+    }
+  }
+  window.addEventListener('popstate', restoreSharedComparison);
+  restoreSharedComparison();
   dialog.addEventListener('click', event => {
     if (!dialog.open || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || !(event.target instanceof Element)) return;
     const link = event.target.closest('.ref-compare-chapters a, .ref-compare-footer a');
@@ -215,16 +268,31 @@
     target.scrollIntoView({block:'start', behavior:'instant'});
     target.focus({preventScroll:true});
   });
-  document.querySelector('#ref-compare-close').addEventListener('click', () => dialog.close());
+  function clearSharedUrl() {
+    if (openedFromUrl) {
+      const url = new URL(location.href);
+      url.searchParams.delete('compare');
+      if (url.href !== location.href) history.replaceState(history.state, '', url);
+      openedFromUrl = false;
+    }
+  }
+  dialog.addEventListener('cancel', clearSharedUrl);
+  document.querySelector('#ref-compare-close').addEventListener('click', () => {
+    clearSharedUrl();
+    dialog.close();
+  });
   dialog.addEventListener('close', () => {
+    if (dialog.open) return;
+    shareAttempt++;
+    clearSharedUrl();
     document.body.classList.remove('ref-dialog-open');
     openButton.focus();
   });
   document.querySelector('#ref-compare-download').addEventListener('click', () => {
     const notes = ['FDE 案例对照笔记 / Erick 张建华', '外部公开资料摘要与本站借鉴建议，不代表本人项目或合作背书。', ...[...selected].map(id => {
       const item = records.get(id);
-      return [item.provider, item.title, item.type, item.description, ...item.facts.map(([label, text]) => label + '：' + text), item.note, '来源核验：' + item.reviewedAt, ...item.links.map(link => link.url), '案例链接：https://erick-huazi.github.io/references.html#' + encodeURIComponent(id)].filter(Boolean).join('\n');
-    }), '我的项目讨论提纲\n当前业务问题：\n可以借鉴的做法：\n需要验证的数据、权限与系统：\n最小验证范围与验收依据：\n人工确认或回退方式：', '参考库：https://erick-huazi.github.io/references.html'].join('\n\n');
+      return [item.provider, item.title, item.type, item.description, ...item.facts.map(([label, text]) => label + '：' + text), item.note, '来源核验：' + item.reviewedAt, ...item.links.map(link => link.url), '案例链接：' + canonicalUrl + '#' + encodeURIComponent(id)].filter(Boolean).join('\n');
+    }), '我的项目讨论提纲\n当前业务问题：\n可以借鉴的做法：\n需要验证的数据、权限与系统：\n最小验证范围与验收依据：\n人工确认或回退方式：', '打开这组对照：' + comparisonUrl(), '参考库：' + canonicalUrl].join('\n\n');
     try {
       const url = URL.createObjectURL(new Blob(['\ufeff', notes], {type:'text/plain;charset=utf-8'}));
       const link = element('a'); link.href = url; link.download = 'FDE-案例对照笔记.txt';

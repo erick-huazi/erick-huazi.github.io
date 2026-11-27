@@ -5,6 +5,7 @@ import { chromium } from 'playwright-core';
 import { checkInquiry } from './check-inquiry.mjs';
 import { checkWechatCard, checkContactCopy } from './check-contact.mjs';
 import { checkCatalogNavigation, checkCaseSharing } from './check-catalog.mjs';
+import { checkDiscovery, checkSharedComparison } from './check-reference-discovery.mjs';
 
 const origin = new URL(process.argv[2] || 'http://127.0.0.1:8000/');
 const axePath = createRequire(import.meta.url).resolve('axe-core/axe.min.js');
@@ -158,7 +159,9 @@ for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1280, 800]])
     ['WeChat contact card', page => checkWechatCard(page, auditRegion, origin)],
     ['clipboard recovery', page => checkContactCopy(page, auditRegion, origin)],
     ['catalog navigation', page => checkCatalogNavigation(page, origin, auditRegion)],
-    ['case sharing', page => checkCaseSharing(page, origin)]
+    ['case sharing', page => checkCaseSharing(page, origin)],
+    ['reference discovery', page => checkDiscovery(page, origin, auditRegion)],
+    ['shared comparison', page => checkSharedComparison(page, origin)]
   ];
   for (const [name, check] of workflows) {
     test(name + ' at ' + width + 'x' + height, async () => {
