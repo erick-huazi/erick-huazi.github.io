@@ -55,3 +55,15 @@
 - **先后顺序。** 连续复制时让后一次请求先失败，再使前一次失败；最终显示的内容应属于后一次请求。另从联系方式发起复制并立即打开微信卡片，随后才返回的旧结果应保留微信卡片当时的界面与焦点。
 
 同一套 24 组 Chrome 交互测试在上一版 `3f90e7e` 通过 16 组，更新后通过 24 组。四种视口的微信卡片截图均解码到原图的同一联系人。另在 320×568 视口触发真实文件下载，校验下载字节与最初提供的名片一致。
+
+## 作品目录与单个案例分享
+
+2026-11-27 沿用四项各 5 分的本站适配量表。访客可能从「全部」选中一个应用，也可能从「过往实践」分享一个案例，收件人应能从独立标签直接看到发送者选中的项目与目录视图。
+
+| GitHub 项目 | 场景匹配 | 可验证性 | 接入成本 | 互补性 | 总分 | 本站采用 |
+|---|---:|---:|---:|---:|---:|---|
+| [Platform Design Skills · Web](https://github.com/ehmo/platform-design-skills/blob/eeb5d15e610f1ddb8ed9f54a5a935ee5dd852442/skills/web/SKILL.md#8-navigation-and-state-medium) | 5 | 4 | 5 | 5 | 19/20 | 采用其“URL 表达可分享视图”的原则，以项目片段和有效筛选生成分享链接。在本站另加白名单，排除跟踪参数。 |
+| [Microsoft CAT Agent Skills · 目录历史测试](https://github.com/microsoft/cat-agent-skills/blob/181cf68702014d05b69ed502e01e76030e98a308/scripts/gallery-history.test.ts#L28-L65) | 5 | 5 | 4 | 4 | 18/20 | 参考其分别核对离开与返回两条历史记录的方法。本站沿用原生 History API，用目录与可见卡片核对恢复的视图。 |
+| [Microsoft Playwright CLI skill](https://github.com/microsoft/playwright/blob/80290e838ba588b841e49c0945dc5ac2f2dbc82f/packages/playwright-core/src/tools/skills/playwright-cli/SKILL.md) | 4 | 5 | 5 | 3 | 17/20 | 借鉴导航后读取页面状态的步骤，用现有 Playwright 接口重放往返、刷新和新标签访问。 |
+
+键盘回归从归档目录进入 AIMEGApro，按后退检查焦点是否回到原目录项，再按前进检查项目标题。分享回归在独立新标签打开案例链接，核对筛选与项目。运行时沿用本站的 HTML 与 JavaScript，回归使用现有开发依赖。[目录回归脚本](../scripts/check-catalog.mjs) · [仓库审查技能](../.agents/skills/portfolio-ui-review/SKILL.md)

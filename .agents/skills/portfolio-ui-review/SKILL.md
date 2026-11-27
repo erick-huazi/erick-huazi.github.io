@@ -1,6 +1,6 @@
 ---
 name: portfolio-ui-review
-description: Review the Erick Zhang portfolio’s contact and clipboard flows, WeChat QR card, quick search, inquiry form, project screenshot viewer and FDE comparison. Replay keyboard, layout and data-integrity regressions after changes to these visitor flows.
+description: Review the Erick Zhang portfolio’s project filters, share links and browser history, contact and clipboard flows, WeChat QR card, quick search, inquiry form, screenshot viewer and FDE comparison. Replay visitor workflows after changes.
 ---
 
 # 作品站交互验收
@@ -9,6 +9,7 @@ description: Review the Erick Zhang portfolio’s contact and clipboard flows, W
 
 | 操作 | 审查重点 | 维护位置 |
 |---|---|---|
+| 浏览与分享作品 | 对照筛选、目录和可见作品。在新标签打开分享地址，检查项目、视图和浏览器往返。 | `dist/main.js`、`scripts/check-catalog.mjs` |
 | 联系张建华 | 手机可直接复制微信号；二维码显示完整、能解码、能保存原图。复制被拒后检查选区和键盘返回路径。 | `dist/index.html`、`dist/main.js`、`scripts/check-contact.mjs` |
 | 快速前往 | 输入框持有焦点，活动选项可见且与 ARIA 状态一致。验证混合中英文、无结果、模糊搜索不可用、输入法确认和普通回车。 | `dist/main.js`、`dist/v70-overlays.css` |
 | 整理咨询需求 | 空白提交后逐项纠错。比对实际填写内容、来信与邮件草稿，检查编辑后旧预览是否失效。 | `dist/index.html`、`dist/main.js`、`dist/v70-sections.css` |
@@ -28,3 +29,10 @@ description: Review the Erick Zhang portfolio’s contact and clipboard flows, W
 3. 用可控的剪贴板 Promise 连续触发两次复制，先拒绝后发请求，再拒绝先发请求。确认选区内容、可见弹窗和焦点仍属于最后一次操作。另测从电话或邮箱发起复制，在结果返回前打开微信卡片；旧请求结束后，微信卡片和焦点应保持在当前步骤。
 
 将评分、上游版本及方法边界记录在[项目选型](../../../docs/portfolio-ui-skills.md)。截图解码覆盖该次浏览器渲染；手机微信的相机识别和系统长按菜单需在实体设备验证。
+
+## 作品目录、分享与返回
+
+1. 从「作品」依次浏览应用、过往实践和全部。逐次核对选中控件、目录和可见卡片，预期分别为 5、3、8 项。用浏览器后退、前进，检查对应历史项的视图；刷新后核对 URL 对应的筛选。
+2. 带一个跟踪参数打开目录，进入某个具体案例后复制该案例链接。核对链接的片段是案例 ID，查询只保留该目录视图需要的参数。复制链接本身应保留当前阅读位置。
+3. 在独立新标签粘贴链接，检查对应卡片和选中的目录视图。分别覆盖默认应用、归档实践以及从「全部」分享的案例。这样能发现依赖上一页内存或滚动状态的链接。
+4. 打开 `/?view=archive#work`，在目录用键盘进入 AIMEGApro。后退应回到启动导航的目录项，前进应回到项目标题。再折叠实践列表后切换分类并后退，检查恢复的展开状态。

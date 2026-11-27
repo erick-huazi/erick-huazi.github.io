@@ -358,6 +358,17 @@ wechatDialog.addEventListener('click', event => { if (event.target === wechatDia
 })();
 $('#share-page').addEventListener('click', event => copyText(siteUrl, event.currentTarget));
 $('#share-page').hidden = false;
+for (const button of $$('.project-share')) {
+  button.hidden = false;
+  button.addEventListener('click', () => {
+    const url = new URL(siteUrl);
+    const view = $('[data-project-filter][aria-pressed="true"]')?.dataset.projectFilter;
+    if (view === 'all' || view === 'archive') url.searchParams.set('view', view);
+    url.hash = button.closest('article').id;
+    const from = location.href;
+    copyText(url.href, button, () => location.href === from && button.getClientRects().length > 0);
+  });
+}
 const form = $('#inquiry-form');
 const inquiryDetails = $('#inquiry-details');
 const output = $('#summary-output');
@@ -514,14 +525,16 @@ const workReadingIndex = (() => {
   const layout = $('#work-layout');
   const index = $('#work-index');
   const scroller = index?.querySelector('.work-index-links');
+  const toggle = index?.querySelector('#work-index-toggle');
+  const currentName = toggle?.querySelector('[data-work-current]');
   const position = index?.querySelector('[data-work-position]');
   const fixedNav = $('.nav');
   const records = [...(index?.querySelectorAll('a[data-work-link]') || [])].map(link => {
     const card = document.getElementById(link.hash.slice(1));
     return card ? { link, card, archive: archivedProjects.contains(card) } : null;
   }).filter(Boolean);
-  if (!layout || !index || !scroller || !records.length) {
-    return { syncFilter() {}, prepareNavigation() {}, refresh() {} };
+  if (!layout || !index || !scroller || !toggle || !currentName || !records.length) {
+    return { syncFilter() {}, prepareNavigation() {}, refresh() {}, restoreLinkFocus(link) { link.focus(); } };
   }
 
   const compactLayout = matchMedia('(max-width: 1279px)');
@@ -535,6 +548,42 @@ const workReadingIndex = (() => {
   const setVariable = (name, value) => {
     if (layout.style.getPropertyValue(name) !== value) layout.style.setProperty(name, value);
   };
+
+  const menuOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+  const closeIndex = () => toggle.setAttribute('aria-expanded', 'false');
+  const mobileBar = $('.mobile-contact');
+  function menuRoom() {
+    const bar = mobileBar?.getBoundingClientRect();
+    const bottom = bar?.height ? Math.min(innerHeight, bar.top) : innerHeight;
+    return Math.floor(bottom - toggle.getBoundingClientRect().bottom - 8);
+  }
+  function openIndex() {
+    toggle.setAttribute('aria-expanded', 'true');
+    if (menuRoom() < scroller.scrollHeight + 2) {
+      index.scrollIntoView({ block: 'start', behavior: 'instant' });
+    }
+    setVariable('--work-menu-room', Math.max(48, menuRoom()) + 'px');
+    if (activeLink) revealCurrentLink(activeLink);
+  }
+  toggle.hidden = false;
+  toggle.addEventListener('click', () => { if (menuOpen()) closeIndex(); else openIndex(); });
+  index.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !menuOpen()) return;
+    event.preventDefault();
+    closeIndex();
+    toggle.focus();
+  });
+  index.addEventListener('click', event => {
+    if (event.target.closest('[data-work-link]') && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) closeIndex();
+  }, true);
+  const dismissOutside = event => { if (menuOpen() && !index.contains(event.target)) closeIndex(); };
+  document.addEventListener('click', dismissOutside);
+  document.addEventListener('focusin', dismissOutside);
+  compactLayout.addEventListener('change', () => {
+    closeIndex();
+    if (compactLayout.matches && scroller.contains(document.activeElement)) toggle.focus({ preventScroll: true });
+    else if (!compactLayout.matches && document.activeElement === toggle) activeLink?.focus({ preventScroll: true });
+  });
 
   function readOffsets() {
     const navHeight = Math.ceil(fixedNav?.getBoundingClientRect().height || 0);
@@ -555,25 +604,17 @@ const workReadingIndex = (() => {
   function clearPosition() {
     records.forEach(record => record.link.removeAttribute('aria-current'));
     activeLink = null;
+    currentName.textContent = '';
     if (position) position.textContent = `— / ${number(listed.length)}`;
     setVariable('--work-progress', '0');
   }
 
   function revealCurrentLink(link) {
-    if (!compactLayout.matches) {
-      if (scroller.scrollHeight > scroller.clientHeight) {
-        const visible = scroller.getBoundingClientRect();
-        const current = link.getBoundingClientRect();
-        if (current.top < visible.top) scroller.scrollTop += current.top - visible.top;
-        else if (current.bottom > visible.bottom) scroller.scrollTop += current.bottom - visible.bottom;
-      }
-      return;
-    }
-    if (scroller.scrollWidth <= scroller.clientWidth) return;
+    if (!scroller.clientHeight || scroller.scrollHeight <= scroller.clientHeight) return;
     const visible = scroller.getBoundingClientRect();
     const current = link.getBoundingClientRect();
-    if (current.left < visible.left + 4) scroller.scrollLeft += current.left - visible.left - 4;
-    else if (current.right > visible.right - 4) scroller.scrollLeft += current.right - visible.right + 4;
+    if (current.top < visible.top) scroller.scrollTop += current.top - visible.top;
+    else if (current.bottom > visible.bottom) scroller.scrollTop += current.bottom - visible.bottom;
   }
 
   function measure() {
@@ -601,13 +642,15 @@ const workReadingIndex = (() => {
       activeLink?.removeAttribute('aria-current');
       activeLink = current.record.link;
       activeLink.setAttribute('aria-current', 'location');
+      currentName.textContent = activeLink.querySelector('strong').textContent;
       if (position) position.textContent = `${number(current.recordIndex + 1)} / ${number(listed.length)}`;
     }
     const start = measured[0].rect.top;
     const span = measured[measured.length - 1].rect.bottom - start;
     const progress = span > 0 ? Math.max(0, Math.min(1, (offsets.anchor - start) / span)) : 0;
     setVariable('--work-progress', progress.toFixed(4));
-    if (changed || ensureVisible) revealCurrentLink(current.record.link);
+    if (menuOpen()) setVariable('--work-menu-room', Math.max(48, menuRoom()) + 'px');
+    if ((changed || ensureVisible) && !scroller.contains(document.activeElement)) revealCurrentLink(current.record.link);
   }
 
   function refresh(force = true) {
@@ -649,6 +692,7 @@ const workReadingIndex = (() => {
 
   return {
     syncFilter(value) {
+      closeIndex();
       listed = records.filter(record => value === 'all' || record.archive === (value === 'archive'));
       records.forEach(record => { record.link.hidden = !listed.includes(record); });
       index.querySelector('[data-work-index-title]').textContent = {
@@ -658,18 +702,26 @@ const workReadingIndex = (() => {
       refresh();
     },
     prepareNavigation() { writeOffsets(readOffsets()); },
+    restoreLinkFocus(link) {
+      if (compactLayout.matches) openIndex();
+      revealCurrentLink(link);
+      link.focus({ preventScroll: true });
+    },
     refresh
   };
 })();
-function pushProjectLocation(url, departureY) {
+function projectDeparture(origin) {
+  return { y: scrollY, width: innerWidth, archiveOpen: archivedProjects.open, focusId: origin?.id || null };
+}
+function pushProjectLocation(url, departure, arrival) {
   if (url.href === location.href) return;
   // A fragment entry created with pushState can restore its anchor instead of
   // the reading position. Record it only when leaving via a portfolio control.
-  history.replaceState({ ...history.state, workReturn: { y: departureY, width: innerWidth } }, '');
-  history.pushState(null, '', url);
+  history.replaceState({ ...history.state, workReturn: departure }, '');
+  history.pushState(arrival, '', url);
 }
-function setProjectFilter(value, writeHistory = false) {
-  const departureY = window.scrollY;
+function setProjectFilter(value, origin) {
+  const departure = origin && projectDeparture(origin);
   if (!['live', 'archive', 'all'].includes(value)) value = 'live';
   projectFilters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.projectFilter === value)));
   liveProjects.forEach(project => { project.hidden = value === 'archive'; });
@@ -679,14 +731,17 @@ function setProjectFilter(value, writeHistory = false) {
   if (value !== 'live') archivedProjects.open = true;
   workReadingIndex.syncFilter(value);
   $('#project-count').textContent = value === 'live' ? `${projectCounts.live} 个作品条目` : value === 'archive' ? `${projectCounts.archive} 个过往项目实践` : `共 ${projectCounts.all} 个作品条目`;
-  if (writeHistory) {
+  if (origin) {
     const url = new URL(location.href);
     if (value === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', value);
     url.hash = 'work';
-    pushProjectLocation(url, departureY);
+    pushProjectLocation(url, departure, { workFocus: origin.id });
   }
 }
-projectFilters.forEach(button => button.addEventListener('click', () => setProjectFilter(button.dataset.projectFilter, true)));
+projectFilters.forEach(button => {
+  button.id ||= 'work-filter-' + button.dataset.projectFilter;
+  button.addEventListener('click', () => setProjectFilter(button.dataset.projectFilter, button));
+});
 $('.project-filter').hidden = false;
 setProjectFilter(new URLSearchParams(location.search).get('view') || 'live');
 function revealProject(id) {
@@ -696,8 +751,13 @@ function revealProject(id) {
   else if (target.matches('.case-row') && target.hidden) setProjectFilter('live');
   return target;
 }
-function navigateToSection(id, moveFocus = false) {
-  const departureY = window.scrollY;
+function focusProjectTarget(target) {
+  const heading = target.matches('details') ? target.querySelector('summary') : target.querySelector('h2,h3') || target;
+  if (!heading.matches('summary')) heading.tabIndex = -1;
+  heading.focus({ preventScroll: true });
+}
+function navigateToSection(id, moveFocus = false, origin = document.activeElement) {
+  const departure = projectDeparture(origin);
   const target = revealProject(id);
   if (!target) return;
   workReadingIndex.prepareNavigation();
@@ -705,20 +765,20 @@ function navigateToSection(id, moveFocus = false) {
   const filter = projectFilters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.projectFilter || 'live';
   if (filter === 'live') url.searchParams.delete('view'); else url.searchParams.set('view', filter);
   url.hash = id;
-  pushProjectLocation(url, departureY);
+  pushProjectLocation(url, departure, moveFocus ? { workTarget: id } : null);
   target.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
   workReadingIndex.refresh();
-  if (moveFocus) {
-    const heading = target.querySelector('h2,h3') || target;
-    heading.setAttribute('tabindex', '-1');
-    heading.focus({ preventScroll: true });
-  }
+  if (moveFocus) focusProjectTarget(target);
 }
-$$('a[href^="#project-"]').forEach(link => link.addEventListener('click', event => {
-  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
-  event.preventDefault();
-  navigateToSection(link.hash.slice(1), event.detail === 0 || !link.closest('#work-index'));
-}));
+$$('a[href^="#project-"]').forEach((link, index) => {
+  link.id ||= 'work-source-' + index;
+  link.addEventListener('click', event => {
+    if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    const moveFocus = event.detail === 0 || !link.closest('#work-index') || matchMedia('(max-width:1279px)').matches;
+    navigateToSection(link.hash.slice(1), moveFocus, link);
+  });
+});
 function restoreProjectHash(initial = false) {
   if (!location.hash.startsWith('#project-')) return;
   const target = document.getElementById(location.hash.slice(1));
@@ -741,23 +801,35 @@ function restoreProjectHash(initial = false) {
   workReadingIndex.refresh();
 }
 restoreProjectHash(true);
-window.addEventListener('hashchange', () => restoreProjectHash());
+window.addEventListener('hashchange', () => {
+  // Traversal has already restored this entry, including a deliberately collapsed archive.
+  if (!history.state?.workReturn) restoreProjectHash();
+});
 window.addEventListener('popstate', event => {
   setProjectFilter(new URLSearchParams(location.search).get('view') || 'live');
   restoreProjectHash();
   const saved = event.state?.workReturn;
-  if (saved?.width === innerWidth && Number.isFinite(saved.y)) {
-    const href = location.href;
-    requestAnimationFrame(() => {
-      if (location.href === href && Math.abs(window.scrollY - saved.y) > 1) {
-        window.scrollTo({ top: saved.y, behavior: 'instant' });
-      }
-    });
-  }
+  if (typeof saved?.archiveOpen === 'boolean') archivedProjects.open = saved.archiveOpen;
+  const entry = event.state;
+  if (!entry) return;
+  const href = location.href;
+  requestAnimationFrame(() => {
+    if (location.href !== href) return;
+    const source = document.getElementById(saved?.focusId || entry.workFocus || '');
+    const target = entry.workTarget && document.getElementById(entry.workTarget);
+    if (source?.matches('[data-work-link]')) workReadingIndex.restoreLinkFocus(source);
+    else if (source?.getClientRects().length) source.focus({ preventScroll: true });
+    else if (target?.getClientRects().length) focusProjectTarget(target);
+    if (saved?.width === innerWidth && Number.isFinite(saved.y) && Math.abs(scrollY - saved.y) > 1) {
+      window.scrollTo({ top: saved.y, behavior: 'instant' });
+    }
+  });
 });
 
 // Native combobox keeps typing focus while the active result follows keyboard selection.
 const quickDialog = $('#quick-dialog');
+const quickTrigger = $('.quick-trigger');
+quickTrigger.id ||= 'quick-trigger';
 const quickInput = $('#quick-query');
 const quickItems = $$('.quick-item');
 const quickRecords = quickItems.map((item, index) => {
@@ -836,7 +908,7 @@ $('#close-quick').addEventListener('click', () => quickDialog.close());
 quickDialog.addEventListener('close', () => {
   quickComposing = false;
   quickInput.setAttribute('aria-expanded', 'false'); quickInput.removeAttribute('aria-activedescendant');
-  if (restoreQuickFocus) (quickOrigin?.getClientRects().length ? quickOrigin : $('.quick-trigger')).focus();
+  if (restoreQuickFocus) (quickOrigin?.getClientRects().length ? quickOrigin : quickTrigger).focus();
 });
 function isQuickImeKey(event) {
   // Some IMEs end composition before the keydown that confirms the candidate.
@@ -868,15 +940,15 @@ quickItems.forEach(item => item.addEventListener('click', () => {
   if (href) location.assign(href);
   else {
     if (id === 'inquiry-details') inquiryDetails.open = true;
-    navigateToSection(id, true);
+    navigateToSection(id, true, quickOrigin?.id ? quickOrigin : quickTrigger);
   }
 }));
 document.addEventListener('keydown', event => {
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k' && !isQuickImeKey(event)) { event.preventDefault(); if (quickDialog.open) quickDialog.close(); else openQuick(); }
 });
-const shortcutLabel = $('.quick-trigger kbd');
+const shortcutLabel = quickTrigger.querySelector('kbd');
 shortcutLabel.textContent = /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘ K' : 'Ctrl K';
-$('.quick-trigger').setAttribute('aria-label', `快速前往 ${shortcutLabel.textContent}`);
+quickTrigger.setAttribute('aria-label', `快速前往 ${shortcutLabel.textContent}`);
 // Treat all native overlays consistently; returning focus stays with the original control.
 [quickDialog, $('#copy-dialog')].forEach(dialog => dialog.addEventListener('click', event => {
   if (event.target !== dialog) return;
